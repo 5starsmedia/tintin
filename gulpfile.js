@@ -89,7 +89,7 @@ gulp.task('less', function () {
 });
 
 gulp.task('compileTemplates', ['build-persistent'], function () {
-  return gulp.src(config.views)
+  return gulp.src([config.views, './app/**/*.html'])
     .pipe(htmlify())
     .pipe(templateCache({
       root: 'views/',
