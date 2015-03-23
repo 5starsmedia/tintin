@@ -64,7 +64,7 @@ gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'optimizeImages'
 });
 
 gulp.task('optimizeImages', ['clean'], function () {
-  return gulp.src(config.assetsDir + '**/*.{gif,jpg,png,svg}')
+  return gulp.src(config.assetsDir + '**/*.{gif,jpg,png}')
     .pipe(imagemin({
       progressive: true
     }))
@@ -88,8 +88,8 @@ gulp.task('less', function () {
     .pipe(gulp.dest(config.assetsDir + 'styles'));
 });
 
-gulp.task('compileTemplates', ['build-persistent'], function () {
-  return gulp.src([config.views, './app/**/*.html'])
+gulp.task('compileTemplates', ['compileAppTemplates'], function () {
+  return gulp.src([config.views])
     .pipe(htmlify())
     .pipe(templateCache({
       root: 'views/',
@@ -99,8 +99,20 @@ gulp.task('compileTemplates', ['build-persistent'], function () {
     .pipe(gulp.dest(config.outputDir));
 });
 
+gulp.task('compileAppTemplates', ['build-persistent'], function () {
+  return gulp.src(['./app/**/*.html'])
+    .pipe(htmlify())
+    .pipe(templateCache({
+      root: 'app/',
+      filename: 'templates-app.js',
+      standalone: false,
+      module: 'app'
+    }))
+    .pipe(gulp.dest(config.outputDir));
+});
+
 gulp.task('concat', ['build-persistent', 'compileTemplates'], function() {
-  return gulp.src([config.outputDir + 'app.js', config.outputDir + 'templates.js'])
+  return gulp.src([config.outputDir + 'app.js', config.outputDir + 'templates.js', config.outputDir + 'templates-app.js'])
     .pipe(concat('app.js'))
     .pipe(gulp.dest(config.outputDir));
 });
