@@ -18,7 +18,8 @@ export default
     },
     templateUrl: 'app/theme/directives/stForm/stForm.html',
     controller: /*@ngInject*/ ($scope) => {
-      this.splitField = function (field) {
+      var controller = this;
+      controller.splitField = function (field) {
         var res = {};
         var lastDot = field.lastIndexOf('.');
         if (lastDot !== -1) {
@@ -30,10 +31,10 @@ export default
         }
         return res;
       };
-      this.getModelState = function () {
+      controller.getModelState = function () {
         return $scope.modelState;
       };
-      this.getModel = function (field) {
+      controller.getModel = function (field) {
         if (field.length === 0) {
           return $scope.model;
         } else {
