@@ -1,0 +1,52 @@
+<div>
+
+    <div flow-init="getSettings()"
+         flow-files-submitted="$flow.upload()"
+         flow-file-added="fileAdded(event, $flow, $file)"
+         flow-file-error="fileError(event, $flow, $file, $message)"
+         flow-file-success="fileSuccess(event, $flow, $file)">
+
+        <div flow-drop flow-btn class="fu-uploader"
+             flow-drag-enter="style={'background-color': 'rgba(0, 174, 239, 0.05)'}"
+             flow-drag-leave="style={}"
+             ng-style="style">
+            <div class="fu-uploader__title hidden-mobile">Drag photo here</div>
+            <div class="fu-uploader__text hidden-mobile">or, if you prefer...</div>
+            <div class="fu-uploader__button">Select photo from your
+                <span class="hidden-mobile">c
+                    omputer</span><span class="hidden-desktop">device</span>
+            </div>
+        </div>
+
+        <div class="fu-progress" ng-repeat="file in $flow.files">
+            <div class="fu-progress__wrap">
+                <div class="fu-progress__text">Loading {{(file.progress() * 100)|number:0}}%</div>
+                <div class="fu-progress__name" ng-bind="file.name"></div>
+                <span class="fu-progress__line"
+                      ng-style="{'width':(((file.progress()*100)|number:0)+'%')}">&nbsp;</span>
+
+                <div class="fu-progress__cancel"></div>
+            </div>
+        </div>
+
+        <ul class="fu-list row">
+            <li class="fu-item col-sm-3 col-xs-6" ng-repeat="file in files"
+                ng-class="{'fu-item_selected':coverFile._id === file._id}">
+                <img ng-if="!hasFileSelect" class="fu-item__image"
+                     ng-src="/api/files/{{file._id}}?width=100&height=100"/>
+                <img ng-if="hasFileSelect" class="fu-item__image fu-item__image_select" title="Insert image"
+                     ng-src="/api/files/{{file._id}}?width=100&height=100"
+                     ng-click="onFileSelect({$file:file})"/>
+
+                <div class="fu-item__actions">
+                    <a title="Remove file" class="fa fa-trash fu-item__delete" ng-click="fileRemove($event, file._id)"></a>
+                    <span class="fu-item__select fa fa-save" ng-show="hasFileSelect"
+                          ng-click="onFileSelect({$file:file})"></span>
+                    <a title="Set as cover" class="fu-item__set-cover"
+                       ng-show="hasCoverSelect && coverFile._id !== file._id" ng-click="setAsCover($event, file)">Set as
+                        cover</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

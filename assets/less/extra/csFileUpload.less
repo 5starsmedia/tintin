@@ -1,0 +1,254 @@
+@max480: ~"(max-width: 480px)"; // только для мобильных 480px максимум
+@xs-only: ~"(max-width: 767px)"; // только для мобильных
+@sm: ~"(min-width: 768px)"; // для tablets и выше
+@sm-only: ~"(min-width: 768px) and (max-width: 991px)"; // только для tablets
+@md: ~"(min-width: 992px)"; // desktop и выше
+@md-only: ~"(min-width: 992px) and (max-width: 1199px)"; // только desktop
+@lg: ~"(min-width: 1200px)"; // large screen
+
+.fu-uploader {
+  padding: 18px;
+  border: 2px dashed #00aeef;
+  text-align: center;
+  cursor: pointer;
+
+  &__title {
+    color: #9a9a9a;
+    font-size: 24px;
+  }
+
+  &__text {
+    color: #9a9a9a;
+    font-size: 14px;
+  }
+
+  &__button {
+    color: #31afca;
+    font-weight: 200;
+    font-style: italic;
+    font-size: 18px;
+  }
+}
+
+.fu-progress {
+  margin: 8px 0;
+  text-align: center;
+
+  &__wrap {
+    position: relative;
+    display: inline-block;
+    margin: 20px 40px 0 160px;
+    max-width: 100%;
+    width: 250px;
+    height: 12px;
+    border-radius: 5px;
+    background-color: #818181;
+    text-align: left;
+
+    @media @xs-only {
+      width: 220px;
+      margin: 20px 30px 0 0;
+    }
+  }
+
+  &__text {
+    position: absolute;
+    top: -20px;
+    right: 0;
+    left: 0;
+    color: #434343;
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  &__line {
+    display: inline-block;
+    width: 0;
+    background-color: #8dc63f;
+    vertical-align: top;
+    line-height: 12px;
+  }
+
+  &__name {
+    position: absolute;
+    top: -4px;
+    left: -160px;
+    display: inline-block;
+    overflow: hidden;
+    padding-right: 12px;
+    width: 160px;
+    color: #818181;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 18px;
+
+    @media @xs-only {
+      display: none;
+    }
+  }
+
+  &__cancel {
+    position: absolute;
+    top: -1px;
+    right: -25px;
+    display: inline-block;
+    margin-left: 12px;
+    width: 13px;
+    height: 13px;
+    text-align: left;
+    cursor: pointer;
+    &:extend(.icon-review-cross-red);
+  }
+}
+
+.fu-list {
+  margin-top: 8px;
+  padding: 0;
+  list-style-type: none;
+}
+
+.fu-item {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-bottom: 36px;
+
+  @media @md{
+    margin-bottom: 0;
+  }
+
+  &__image {
+    display: inline-block;
+    max-width: 100px;
+    max-height: 100px;
+    vertical-align: top;
+
+    &_select {
+      cursor: pointer;
+    }
+
+    .fu-item_selected & {
+      outline: 2px solid #31afca;
+    }
+  }
+
+  &__actions {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    width: 100%;
+    height: 100%;
+    max-width: 100px;
+    max-height: 100px;
+
+    @media @md{
+      opacity: 0;
+      transition: opacity .1s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__delete, &__select, &__set-cover {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    vertical-align: top;
+    cursor: pointer;
+    margin-bottom: 8px;
+  }
+
+  &__delete {
+    &:extend(.icon-review-cross-red);
+    &:extend(.icon);
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    opacity: .6;
+
+    @media @md{
+      &:hover {
+        opacity: .9;
+      }
+    }
+  }
+
+  &__select {
+
+  }
+
+  &__set-cover {
+    display: block;
+    position: absolute;
+    bottom: -36px;
+    left: 0;
+    width: 100%;
+    height: 32px;
+    margin: 0;
+    background: rgba(134, 136, 139, 0.9);
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    line-height: 32px;
+    transition: background .1s;
+
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    @media @md{
+      bottom: 0;
+      background: rgba(134, 136, 139, 0.7);
+
+      &:hover {
+        background: rgba(134, 136, 139, 1);
+      }
+    }
+  }
+}
+
+.fu-single {
+  display: block;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  text-align: center;
+  padding: 15px 0;
+  max-width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  &__image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &__btn {
+    width: 100px;
+    position: absolute;
+    left: 50%;
+    margin-left: -50px;
+    top: 50%;
+    margin-top: -20px;
+    z-index: 10;
+  }
+
+  &_group {
+    &_small {
+      width: 200px;
+      height: 200px;
+    }
+
+    &_large {
+      width: 100%;
+      height: 250px;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Administrator",
+    "username": "admin",
+    "password": "1",
+    "dateOfBirth": "23.06.1988",
+    "gender": "Male",
+    "roles": [
+      {
+        "name": "admin",
+        "title": "Administrator"
+      }
+    ]
+  }
+]

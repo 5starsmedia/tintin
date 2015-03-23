@@ -1,0 +1,58 @@
+{
+  "mongodb": "mongodb://localhost:27017/5stars?auto_reconnect=true",
+  "http": {
+    "port": 8080
+  },
+  "url": "http://localhost:8080",
+  "auth": {
+    "tokenSecret": "secret",
+    "maxTokensCount": 5,
+    "tokenDuration": 1800000,
+    "persistTokenDuration": 2592000000,
+    "guestRoleName": "guest"
+  },
+  "mail": {
+    "noReply": "cannasos.com <not-reply-dev@cannasos.com>",
+    "transport": {
+      "service": "cannasos.com",
+      "host": "mail1.cannasos.com",
+      "port": 25,
+      "auth": {
+        "user": "not-reply@cannasos.com",
+        "pass": "XmA4n1"
+      },
+      "debug": false
+    },
+    "imagesPath": "https://dev.cannasos.com/static/mail"
+  },
+  "twitter": {
+    "consumerKey": "gVhPQ7k9o2e19eCefnaZPhF6s",
+    "consumerSecret": "Wt6KWpuHU6Zwix1MTqfjGTg3OQ5PPdAXreK2KhJL9V0VkZZGwZ"
+  },
+  "facebook": {
+    "clientId": "418197618334612",
+    "clientSecret": "ff90c091a37ce84855a6e350d15458f1"
+  },
+  "statd": {
+    "host": "127.0.0.1",
+    "port": "8125"
+  },
+  "log": {
+    "stdout": {
+      "level": "debug",
+      "enabled": true
+    },
+    "syslog": {
+      "enabled": false
+    },
+    "file": {
+      "level": "info",
+      "path": "tintin.com.log",
+      "enabled": true
+    },
+    "mongodb": {
+      "level": "info",
+      "enabled": true
+    }
+  }
+}

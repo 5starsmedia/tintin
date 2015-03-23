@@ -1,0 +1,20 @@
+<div class="st-checklist-item" ng-class="{'success': success}">
+
+    <div class="st-checklist-item__icon">
+        <span class="pull-left fa-stack fa-lg" ng-class="{'text-danger': !success && !warning, 'text-warning': warning && !success, 'text-success': success}">
+              <i class="fa fa-circle-thin fa-stack-2x"></i>
+              <i class="fa fa-check fa-stack-1x" ng-if="success"></i>
+              <i class="fa fa-exclamation fa-stack-1x" ng-if="warning && !success"></i>
+              <i class="fa fa-times fa-stack-1x" ng-if="!success && !warning"></i>
+        </span>
+    </div>
+
+    <div class="st-checklist-item__text">
+        <strong ng-class="{'text-danger': !success && !warning, 'text-warning': warning && !success, 'text-success': success}">
+            {{label}}
+        </strong><br/>
+        <small ng-if="description && !success && !warning">{{description}}</small>
+        <small ng-if="warningDescription && warning && !success">{{warningDescription}}</small>
+    </div>
+
+</div>

@@ -1,0 +1,8 @@
+<div>
+    <cs-image disable-safe-mode="true" files="files" file="file" width="50" height="50"
+              ng-repeat="file in files"></cs-image>
+    <div ng-if="files.length > 0" style="display: inline-block; width: 50px; height: 50px; text-align: center; line-height: 50px; font-size: 40px; border: 1px solid #ccc"
+         cs-file-upload files="files" compact-mode="true">
+        <i class="icon icon-photos-gray" style="display: inline-block; width: 26px; height: 26px"></i>
+    </div>
+</div>

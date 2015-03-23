@@ -1,0 +1,27 @@
+[
+  {
+    "name": "admin",
+    "title": "Administrator",
+    "inherits": ["user", "guest"]
+  },
+  {
+    "name": "doctor",
+    "title": "Doctor",
+    "inherits": ["user", "guest"]
+  },
+  {
+    "name": "producer",
+    "title": "Producer",
+    "inherits": ["user", "guest"]
+  },
+  {
+    "name": "user",
+    "title": "User",
+    "inherits": ["guest"]
+
+  },
+  {
+    "name": "guest",
+    "title": "Guest"
+  }
+]

@@ -1,0 +1,8 @@
+<div class="form-group" ng-class="{'has-error':hasErrors(field)}">
+    <div id="error-list" ng-if="hasErrors(field)"></div>
+    <label class="control-label" ng-if="label && label.length > 0" ng-bind="label" for="cs-form-element-{{field}}"></label>
+    <ng-transclude></ng-transclude>
+    <div class="help-block" ng-if="hasErrors(field)">
+        <div class="errors-list__error" ng-repeat="err in fieldErrors(field)" ng-bind="err.msg"></div>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+{
+  "resource": "accounts",
+  "model": "account",
+  "options": {
+    "db.safe": 2,
+    "searchFields": [
+      {
+        "role": "admin",
+        "value": [
+          "title", "email", "username", "tickets.value", "accountType", "profile.interests", "profile.zodiac.title",
+          "profile.country.title", "profile.city", "profile.primaryLanguage.title", "profile.secondaryLanguage.title"
+        ]
+      },
+      {
+        "role": "*",
+        "value": [
+          "title", "profile.interests", "profile.zodiac.title", "profile.country.title", "profile.state.title",
+          "profile.city", "profile.primaryLanguage.title", "profile.secondaryLanguage.title"
+        ]
+      }
+    ],
+    "maxPerPage": [
+      {
+        "role": "*:owner",
+        "value": 300
+      },
+      {
+        "role": "admin",
+        "value": 200
+      },
+      {
+        "role": "*",
+        "value": 100
+      }
+    ]
+  },
+  "acl": {
+    "salt": false,
+    "username": {
+      "get?activated": ["admin"],
+      "get?_id": ["admin", "*:owner"],
+      "get": ["admin", "*:owner"],
+      "put?_id": ["admin"],
+      "post": "admin"
+    },
+    "tokens": false,
+    "files": false,
+    "activationToken": false,
+    "likedResources": {
+      "get?_id": ["admin", "*:owner"]
+    },
+    "tokens.createDate": {
+      "get": ["admin", "*:owner"]
+    },
+    "pwd": {
+      "put?_id": "*:owner, admin",
+      "post": "admin"
+    },
+    "notifications": {
+      "get?_id": ["*:owner", "admin"],
+      "put?_id": ["*:owner", "admin"],
+      "post": "admin"
+    },
+    "privacySettings": {
+      "get?_id": ["*:owner", "admin"],
+      "put?_id": ["*:owner", "admin"],
+      "post": "admin"
+    },
+    "followersCount": {
+      "get": ["*"],
+      "get?_id": ["*"]
+    },
+    "title": {
+      "get": ["*"],
+      "get?_id": ["*"],
+      "get?activated": ["admin"],
+      "put?_id": ["admin", "*:owner"],
+      "post": "admin"
+    },
+    "*": {
+      "get": ["admin", "*:owner", "user"],
+      "get?activated": ["admin"],
+      "get?_id": ["admin", "*:owner", "user"],
+      "put?_id": ["admin", "*:owner"],
+      "post": "admin",
+      "delete?_id": "admin"
+    }
+  }
+}

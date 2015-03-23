@@ -1,0 +1,17 @@
+<!-- This is content container for nested view in UI-Router-->
+<!-- You can put here any constant element in app content for example: Page title or breadcrum -->
+
+<!-- Header -->
+<div id="header" ng-include="'views/common/header.html'"></div>
+
+<!-- Navigation -->
+<aside id="menu" ng-include="'views/common/navigation.html'"></aside>
+
+<!-- Main Wrapper -->
+<div id="wrapper">
+
+    <div>
+        <div ui-view></div>
+    </div>
+
+</div>

@@ -1,0 +1,25 @@
+{
+  "resource": "logRecords",
+  "model": "logRecord",
+  "options": {
+    "searchFields": [
+      {
+        "role": "admin",
+        "value": ["msg", "hostname", "req.remoteAddress", "req.userAgent.browser", "req.userAgent.os"]
+      }
+    ],
+    "maxPerPage": [
+      {
+        "role": "admin",
+        "value": 200
+      }
+    ]
+  },
+  "acl": {
+    "*": {
+      "get": "admin",
+      "get?refs.resourceId&refs.collectionName": "admin",
+      "get?account._id": "admin"
+    }
+  }
+}

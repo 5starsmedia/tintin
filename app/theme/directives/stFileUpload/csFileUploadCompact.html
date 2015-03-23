@@ -1,0 +1,15 @@
+<div>
+    <div style="position: relative; overflow: hidden"
+         flow-btn
+         flow-init="getSettings()"
+         flow-files-submitted="$flow.upload()"
+         flow-file-added="fileAdded(event, $flow, $file)"
+         flow-file-error="fileError(event, $flow, $file, $message)"
+         flow-file-success="fileSuccess(event, $flow, $file)">
+        <ng-transclude></ng-transclude>
+    </div>
+
+    <!--<button type="button" class="fu-btn__button">
+        <i class="icon icon-photos-gray"></i>
+    </button>-->
+</div>

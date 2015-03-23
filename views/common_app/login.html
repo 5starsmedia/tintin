@@ -1,0 +1,99 @@
+<div class="color-line"></div>
+
+<div class="login-container">
+    <div class="row">
+        <div class="col-md-12">
+            <!--div class="text-center m-b-md">
+                <h3>PLEASE LOGIN TO APP</h3>
+                <small>This is the best app ever!</small>
+            </div-->
+            <div class="hpanel hviolet">
+                <div class="alert alert-danger" ng-if="error.summaryErrors.length">
+                    <div ng-repeat="err in error.summaryErrors" ng-bind="err.msg"></div>
+                </div>
+                <div class="panel-body" bz-loading-container="loading">
+
+                    <form ng-submit="submitAuth(user)" name="loginForm">
+
+                        <div class="form-group" ng-class="{'has-error': error.fieldErrors[0].field == 'username'}">
+                            <label class="control-label" for="username">Username</label>
+                            <input type="text" ng-model="user.email" title="Please enter you username" required="" value="" autofocus name="username" id="username" class="form-control">
+                            <span ng-if="error.fieldErrors[0].field == 'username'" class="help-block small">
+                                {{error.fieldErrors[0].msg}}
+                            </span>
+                        </div>
+                        <div class="form-group" ng-class="{'has-error': error.fieldErrors[0].field == 'password'}">
+                            <label class="control-label" for="password">Password</label>
+                            <input type="password" title="Please enter your password" ng-model="user.password" required="" value="" name="password" id="password" class="form-control">
+                            <span ng-if="error.fieldErrors[0].field == 'password'" class="help-block small">
+                                {{error.fieldErrors[0].msg}}
+                            </span>
+                        </div>
+
+                        <div class="pull-right">
+                            <a href="#">Forgot your password?</a>
+                        </div>
+
+                        <div class="checkbox">
+                            <input icheck type="checkbox" ng-model="user.rememberMe" /> Remember login
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button ng-disabled="loginForm.$invalid" class="btn btn-success btn-block" type="submit">Login</button>
+                            </div>
+                            <div class="col-xs-6">
+                                <a class="btn btn-default btn-block" href="/#/signup">Sign up</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!--div class="panel-footer">
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-block btn-facebook" ng-click="authenticate('facebook')">
+                                <i class="fa fa-facebook"></i> Sign in with Facebook
+                            </button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-block btn-vk" ng-click="authenticate('vk')">
+                                <i class="fa fa-vk"></i> Sign in with VK
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--button class="btn btn-block btn-google-plus" ng-click="authenticate('google')">
+                        <span class="ion-social-googleplus"></span>Sign in with Google
+                    </button>
+                    <button class="btn btn-block btn-linkedin" ng-click="authenticate('linkedin')">
+                        <i class="ion-social-linkedin"></i> Sign in with LinkedIn
+                    </button>
+                    <button class="btn btn-block btn-twitter" ng-click="authenticate('twitter')">
+                        <i class="ion-social-twitter"></i> Sign in with Twitter
+                    </button>
+                    <button class="btn btn-block btn-foursquare" ng-click="authenticate('foursquare')">
+                        <i class="fa fa-foursquare"></i> Sign in with Foursquare
+                    </button>
+                    <button class="btn btn-block btn-github" ng-click="authenticate('github')">
+                        <i class="ion-social-github"></i> Sign in with GitHub
+                    </button>
+                    <button class="btn btn-block btn-yahoo" ng-click="authenticate('yahoo')">
+                        <i class="ion-social-yahoo"></i> Sign in with Yahoo
+                    </button>
+                    <button class="btn btn-block btn-live" ng-click="authenticate('live')">
+                        <i class="ion-social-windows"></i> Sign in with Windows Live
+                    </button>
+
+                </div-->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <strong>News Admin</strong> <br/> 2015 5StarsMedia
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<div bz-loading-container="loading">
+
+    <table class="table" ng-table="tableParams">
+    <tr ng-repeat="item in logs">
+        <td width="150" data-title="'Date of creation'" sortable="'createDate'">
+            <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">
+                {{item.createDate|stTimeAgo}}
+            </span>
+        </td>
+        <td data-title="'Message'" sortable="'msg'">
+            <span ng-class="{'text-danger': item.level == 3}">
+                <span class="fa fa-times-circle" ng-if="item.level == 3"></span>
+                <span class="fa fa-warning" ng-if="item.level == 2"></span>
+                {{item.msg}}
+            </span>
+        </td>
+        <td width="24" data-title="'BR'" sortable="'req.userAgent.browser'">
+            <span tooltip-placement="top" tooltip="{{item.req.userAgent.browser}} {{item.req.userAgent.version}}">
+                <img width="24" ng-src="{{item.req.userAgent.browser|stUserAgentIcon}}" />
+            </span>
+        </td>
+        <td width="24" data-title="'OS'" sortable="'req.userAgent.os'">
+            <span tooltip-placement="top" tooltip="{{item.req.userAgent.os}}">
+                <img width="24" ng-src="{{item.req.userAgent.os|stUserAgentIcon}}" />
+            </span>
+        </td>
+    </tr>
+    </table>
+
+</div>

@@ -1,0 +1,16 @@
+<div class="fu-single">
+    <div flow-init="getSettings()"
+         flow-files-submitted="$flow.upload()"
+         flow-file-added="fileAdded(event, $flow, $file)"
+         flow-file-error="fileError(event, $flow, $file, $message)"
+         flow-file-success="fileSuccess(event, $flow, $file)">
+
+        <img class="fu-single__image" ng-src="{{url.imageUrl(file._id,{width:bestWidth,height:bestHeight})}}"/>
+
+        <button type="button" class="fu-single__btn btn" flow-btn>
+            <span ng-bind="file && file._id ? 'Change Photo' : 'Upload Photo'"></span>
+            <br>
+            <span ng-bind="getStr()"></span>
+        </button>
+    </div>
+</div>

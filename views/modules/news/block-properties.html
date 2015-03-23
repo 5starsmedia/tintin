@@ -1,0 +1,10 @@
+<div ng-controller="NewsPropertiesBlockCtrl" bz-loading-container="loading">
+
+    <div class="form-group checkbox" ng-repeat="item in properties">
+        <label>
+            <input type="checkbox" ng-model="propertiesData['' + item.id]"/>
+            {{item.label}}
+        </label>
+    </div>
+
+</div>

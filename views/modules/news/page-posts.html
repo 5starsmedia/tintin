@@ -1,0 +1,89 @@
+<div class="content">
+
+    <div class="row">
+
+        <div class="col-md-9">
+
+            <div class="pull-right">
+                <a class="btn btn-success btn-outline" ui-sref="news.create">
+                    <i class="fa fa-plus"></i> {{'New article'|translate}}
+                </a>
+            </div>
+            <h2 class="font-light m-b-xs ng-binding">
+                {{'News'|translate}}
+            </h2>
+
+            <div class="hpanel">
+                <div class="panel-body" bz-loading-container="loading">
+
+
+                    <table ng-table="tableParams" show-filter="true" class="table">
+                        <tbody ng-repeat="group in $groups">
+                        <tr class="ng-table-group">
+                            <td class="text-left" colspan="{{$columns.length}}">
+                                <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                                    <strong>{{ group.value }}</strong>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr ng-hide="group.$hideRows" ng-repeat="item in group.data">
+                            <td style="width: 15%" class="table-preview" data-title="'Title'|translate" filter="{ 'title': 'text' }" sortable="'title'">
+                                <a class="text-info" ui-sref="news.edit({ id: item._id })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
+                                    <span ng-if="item.isTop" class="fa fa-star"></span>
+
+                                    {{item.title}}
+                                </a>
+                            </td>
+                            <td style="width: 10%" data-title="'Author'|translate" filter="{ 'user_id': 'select' }" sortable="'name'" filter-data="users($column)">
+                                {{item.user.name}}
+                            </td>
+                            <td style="width: 10%" data-title="'Date of publication'|translate" sortable="'createDate'" class="text-center">
+                                <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">
+
+                                <span class="label label-success" ng-if="item.status == 4">
+                                    {{item.createDate|date:'HH:mm'}}
+                                </span>
+                                <span class="label label-info" ng-if="item.status == 6">
+                                    Відкладено на
+                                    {{item.createDate|date:'HH:mm'}}
+                                </span>
+                                <span class="label label-danger" ng-if="item.status == 2">На модерації</span>
+                                <span class="label label-warning" ng-if="item.status == 1">Чернетка</span>
+
+                                </span>
+                            </td>
+                            <td style="width: 5%" data-title="'Views'|translate" sortable="'viewsCount'" class="text-center">
+                                <span class="fa fa-eye"></span> {{item.viewsCount}}
+                            </td>
+                            <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">
+
+                                <a ui-sref="news.edit({ id: item._id })"
+                                   title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span>
+                                </a>
+                                <a href="" st-confirm="remove(item)" title="{{'Delete article'|translate}}"
+                                   message-title="'Delete'|translate" message="'Are you realy want to delete this article?'|translate">
+                                    <span class="fa fa-times text-danger"></span>
+                                </a>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-3">
+
+
+            asd
+
+        </div>
+
+
+    </div>
+
+
+</div>

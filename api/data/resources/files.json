@@ -1,0 +1,25 @@
+{
+  "resource": "files",
+  "model": "files",
+  "options": {
+    "searchFields": [
+      {
+        "role": "*",
+        "value": []
+      }
+    ]
+  },
+  "acl": {
+    "account.title": {
+      "get": "admin"
+    },
+    "*": {
+      "get?isImage": "*",
+      "get?refs.collectionName&refs.resourceId": "*",
+      "get?collectionName&resourceId": "*",
+      "post?account._id&collectionName&resourceId": "*:owner",
+      "delete?_id": "admin",
+      "delete?account._id&collectionName&resourceId": "*:owner"
+    }
+  }
+}
