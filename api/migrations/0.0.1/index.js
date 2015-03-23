@@ -46,6 +46,7 @@ function createAccount(app, username, password, title, rolesToAdd, dateOfBirth, 
         salt: res.password.salt,
         title: title,
         roles: rolesToAdd,
+        activated: true,
         profile: {
           dateOfBirth: moment.utc(dateOfBirth, 'DD.MM.YYYY'),
           gender: res.gender.toObject()
