@@ -17,7 +17,7 @@ export default
       'submit': '&'
     },
     templateUrl: 'app/theme/directives/stForm/stForm.html',
-    controller: /*@ngInject*/ ($scope) => {
+    controller: ($scope) => {
       var controller = this;
       controller.splitField = function (field) {
         var res = {};
