@@ -78,6 +78,7 @@ var statsdMiddleware = lynxExpress(metrics);
 
 // Tell Express to use your statsD middleware
 app.server.use(statsdMiddleware({timeByUrl: true}));
+app.server.use(express.logger());
 
 app.errors = require('./errors');
 
