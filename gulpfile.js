@@ -72,7 +72,7 @@ gulp.task('optimizeImages', ['clean'], function () {
 });
 
 gulp.task('copyAssets', ['copyCkeditor'], function () {
-  return gulp.src(config.assetsDir + '**/*.{eot,ttf,woff,woff2}')
+  return gulp.src(config.assetsDir + '**/*.{eot,ttf,woff,woff2,svg}')
     .pipe(copy(config.outputDir));
 });
 gulp.task('copyCkeditor', ['clean'], function () {
@@ -123,8 +123,16 @@ gulp.task('usemin', ['build-persistent', 'concat'], function () {
       css: [minifyCss(), 'concat'],
       css1: [minifyCss(), 'concat'],
       html: [minifyHtml({empty: true})],
-      js: [uglify()],
-      js1: [uglify(), rev()]
+      js: [uglify({
+        output: {
+          beautify: true
+        }
+      })],
+      js1: [uglify({
+        output: {
+          beautify: true
+        }
+      }), rev()]
     }))
     .pipe(gulp.dest('build/'));
 });

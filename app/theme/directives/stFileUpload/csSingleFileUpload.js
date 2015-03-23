@@ -13,7 +13,7 @@ export default
         bestWidth: '@',
         bestHeight: '@'
       },
-      controller: function ($scope, $timeout, $log) {
+      controller: /*@ngInject*/ ($scope, $timeout, $log) => {
         $scope.file = $scope.file || {};
         $scope.getStr = function(){
           return '(' + $scope.bestWidth + 'px x ' + $scope.bestHeight + 'px)';

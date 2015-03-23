@@ -12,7 +12,7 @@ export default
       'warning': '='
     },
     templateUrl: 'app/theme/directives/stChecklistItem/stChecklistItem.html',
-    controller: function ($scope) {
+    controller: () => {
     }
   };
 }

@@ -17,7 +17,7 @@ export default
       'submit': '&'
     },
     templateUrl: 'app/theme/directives/stForm/stForm.html',
-    controller: function ($scope) {
+    controller: /*@ngInject*/ ($scope) => {
       this.splitField = function (field) {
         var res = {};
         var lastDot = field.lastIndexOf('.');
