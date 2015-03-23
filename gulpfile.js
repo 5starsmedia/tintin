@@ -72,8 +72,12 @@ gulp.task('optimizeImages', ['clean'], function () {
     .pipe(gulp.dest(config.outputDir + 'assets'));
 });
 
-gulp.task('copyAssets', ['clean'], function () {
+gulp.task('copyAssets', ['copyCkeditor'], function () {
   return gulp.src(config.assetsDir + '**/*.{eot,ttf,woff,woff2}')
+    .pipe(copy(config.outputDir));
+});
+gulp.task('copyCkeditor', ['clean'], function () {
+  return gulp.src(config.assetsDir + 'ckeditor/**')
     .pipe(copy(config.outputDir));
 });
 
