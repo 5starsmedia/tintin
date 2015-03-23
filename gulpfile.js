@@ -123,16 +123,8 @@ gulp.task('usemin', ['build-persistent', 'concat'], function () {
       css: [minifyCss(), 'concat'],
       css1: [minifyCss(), 'concat'],
       html: [minifyHtml({empty: true})],
-      js: [uglify({
-        output: {
-          beautify: true
-        }
-      })],
-      js1: [uglify({
-        output: {
-          beautify: true
-        }
-      }), rev()]
+      js: [uglify()],
+      js1: [uglify(), rev()]
     }))
     .pipe(gulp.dest('build/'));
 });
