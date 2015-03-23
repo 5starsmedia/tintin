@@ -66,8 +66,7 @@ gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'optimizeImages'
 gulp.task('optimizeImages', ['clean'], function () {
   return gulp.src(config.assetsDir + '**/*.{gif,jpg,png,svg}')
     .pipe(imagemin({
-      progressive: true,
-      svgoPlugins: [{removeViewBox: false}]
+      progressive: true
     }))
     .pipe(gulp.dest(config.outputDir + 'assets'));
 });
