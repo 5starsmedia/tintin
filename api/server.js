@@ -13,7 +13,6 @@ var express = require('express'),
   mongoose = require('mongoose'),
   async = require('async'),
   lynx = require('lynx'),
-  morgan = require('morgan'),
   lynxExpress = require('lynx-express'),
   useragent = require('express-useragent'),
 //compression = require('compression'),
@@ -79,7 +78,6 @@ var statsdMiddleware = lynxExpress(metrics);
 
 // Tell Express to use your statsD middleware
 app.server.use(statsdMiddleware({timeByUrl: true}));
-app.server.use(morgan('combined'));
 
 app.errors = require('./errors');
 
