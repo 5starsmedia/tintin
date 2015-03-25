@@ -60,7 +60,7 @@ router.get('/', function (req, res, next) {
         }
       });
     },
-    'secondPage': ['firstPage', function(err, data) {
+    'secondPage': ['firstPage', function(next, data) {
 
       request.post({ url: host + path, form: data }, function(err,httpResponse,body){
         var $ = cheerio.load(body),
@@ -76,7 +76,7 @@ router.get('/', function (req, res, next) {
         next(undefined, data);
       });
     }],
-    'thirdPage': ['secondPage', function(err, data) {
+    'thirdPage': ['secondPage', function(next, data) {
 
       var res = url.resolve(host + path, action);
       console.info(res);
@@ -96,7 +96,7 @@ router.get('/', function (req, res, next) {
         next(undefined, data);
       });
     }],
-    'fourPage': ['thirdPage', function(err, data) {
+    'fourPage': ['thirdPage', function(next, data) {
       var res = url.resolve(host + path, 'AppSchedulingGetInfo.aspx?p=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA%3d');
       console.info(res);
       request.post({ url: res, form: data, headers: { 'Referer': res } }, function(err,httpResponse,body){
