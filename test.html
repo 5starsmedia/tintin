@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+<body>
+
+<div id="res"></div>
+
+<button type="button" id="btn">Update</button>
+
+<script>
+$(function() {
+    $.getJSON('/api/visa', function( data ) {
+        $('#res').text(data);
+    });
+    $('#btn').click(function() {
+
+        $.getJSON('/api/visa', function( data ) {
+            $('#res').text(data);
+        });
+    });
+});
+</script>
+
+</body>
+</html>
