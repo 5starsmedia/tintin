@@ -12,6 +12,10 @@
 @import 'extra/page-login';
 @import 'extra/page-profile';
 
+body > [ui-view] { // horizontal scrolling
+  overflow: hidden;
+}
+
 .sticky-enabled .content { // for sticky
   padding-top: 90px;
 }
