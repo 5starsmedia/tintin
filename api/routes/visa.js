@@ -62,7 +62,7 @@ router.get('/', function (req, res, next) {
     },
     'secondPage': ['firstPage', function(next, data) {
 
-      request.post({ url: host + path, form: data }, function(err,httpResponse,body){
+      request.post({ url: host + path, form: data.firstPage }, function(err,httpResponse,body){
         var $ = cheerio.load(body),
           forms = $('form'),
           fields = $(forms[0]).serializeArray();
@@ -80,7 +80,7 @@ router.get('/', function (req, res, next) {
 
       var res = url.resolve(host + path, action);
       console.info(res);
-      request.post({ url: res, form: data, headers: { 'Referer': host + path } }, function(err,httpResponse,body){
+      request.post({ url: res, form: data.secondPage, headers: { 'Referer': host + path } }, function(err,httpResponse,body){
 
         var $ = cheerio.load(body),
           forms = $('form'),
@@ -99,7 +99,7 @@ router.get('/', function (req, res, next) {
     'fourPage': ['thirdPage', function(next, data) {
       var res = url.resolve(host + path, 'AppSchedulingGetInfo.aspx?p=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA%3d');
       console.info(res);
-      request.post({ url: res, form: data, headers: { 'Referer': res } }, function(err,httpResponse,body){
+      request.post({ url: res, form: data.thirdPage, headers: { 'Referer': res } }, function(err,httpResponse,body){
         var $ = cheerio.load(body),
           text = $('#ctl00_plhMain_lblMsg').text();
 
