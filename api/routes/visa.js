@@ -55,18 +55,19 @@ router.get('/', function (req, res, next) {
             '__EVENTARGUMENT':''
           };
           action = getForm(body, data);
-          //console.info(host + path);
           next(undefined, data);
         }
       });
     },
-    'secondPage': ['firstPage', function(next, data) {
+    'secondPage': ['firstPage', function(next, resData) {
 
-      request.post({ url: host + path, form: data.firstPage }, function(err,httpResponse,body){
+      request.post({ url: host + path, form: resData.firstPage }, function(err,httpResponse,body){
         var $ = cheerio.load(body),
           forms = $('form'),
           fields = $(forms[0]).serializeArray();
         action = $(forms[0]).attr('action');
+
+        var data = {};
         _.forEach(fields, function(item) {
           data[item.name] = item.value;
         });
@@ -76,16 +77,19 @@ router.get('/', function (req, res, next) {
         next(undefined, data);
       });
     }],
-    'thirdPage': ['secondPage', function(next, data) {
+    'thirdPage': ['secondPage', function(next, resData) {
 
       var res = url.resolve(host + path, action);
       console.info(res);
-      request.post({ url: res, form: data.secondPage, headers: { 'Referer': host + path } }, function(err,httpResponse,body){
+      request.post({ url: res, form: resData.secondPage, headers: { 'Referer': host + path } }, function(err,response,body){
+
+        path = response.request.uri.path;
 
         var $ = cheerio.load(body),
           forms = $('form'),
           fields = $(forms[0]).serializeArray();
         action = $(forms[0]).attr('action');
+        var data = {};
         _.forEach(fields, function(item) {
           data[item.name] = item.value;
         });
@@ -96,10 +100,9 @@ router.get('/', function (req, res, next) {
         next(undefined, data);
       });
     }],
-    'fourPage': ['thirdPage', function(next, data) {
+    'fourPage': ['thirdPage', function(next, resData) {
       var res = url.resolve(host + path, 'AppSchedulingGetInfo.aspx?p=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA%3d');
-      console.info(res);
-      request.post({ url: res, form: data.thirdPage, headers: { 'Referer': res } }, function(err,httpResponse,body){
+      request.post({ url: res, form: resData.thirdPage, headers: { 'Referer': res } }, function(err,httpResponse,body){
         var $ = cheerio.load(body),
           text = $('#ctl00_plhMain_lblMsg').text();
 
@@ -109,7 +112,7 @@ router.get('/', function (req, res, next) {
   }, function(err, data) {
     if (err) { return next(err); }
 
-    res.status(200).json(data);
+    res.status(200).json(data.fourPage);
   });
 });
 
