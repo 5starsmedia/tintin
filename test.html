@@ -13,11 +13,13 @@
 
 <script>
 $(function() {
+    $('#res').text('Loading...');
     $.getJSON('/api/visa', function( data ) {
         $('#res').text(data);
     });
     $('#btn').click(function() {
 
+        $('#res').text('Loading...');
         $.getJSON('/api/visa', function( data ) {
             $('#res').text(data);
         });
