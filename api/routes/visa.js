@@ -3,8 +3,7 @@
  */
 'use strict';
 
-var server = require('./server.js'),
-  _ = require('lodash'),
+var _ = require('lodash'),
   url = require('url'),
   cheerio = require('cheerio'),
   express = require('express'),
@@ -117,7 +116,7 @@ router.get('/', function (req, res, next) {
 });
 
 
-
+module.exports = router;
 
 
 //
