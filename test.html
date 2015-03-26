@@ -12,19 +12,53 @@
 <button type="button" id="btn">Update</button>
 
 <script>
-$(function() {
-    $('#res').text('Loading...');
-    $.getJSON('/api/visa', function( data ) {
-        $('#res').text(data.res);
-    });
-    $('#btn').click(function() {
+    $(function () {
+        var visas = {
+            5: 'Івано-Франківськ',
+            7: 'Львів',
+            8: 'Тернопіль',
+            9: 'Рівне',
+            10: 'Луцьк',
+            11: 'Дніпропетровськ',
+            12: 'Харків',
+            13: 'Київ',
+            14: 'Одеса',
+            15: 'Хмельницький',
+            16: 'Житомир',
+            17: 'Вінниця',
+            19: 'Донецьк',
+            20: 'Ужгород',
+            21: 'Чернівці',
+            22: 'Луганськ'
+        }, data = {};
 
-        $('#res').text('Loading...');
-        $.getJSON('/api/visa', function( data ) {
-            $('#res').text(data.res);
+        function render() {
+            var html = '';
+            for (i in visas) {
+                if (visas.hasOwnProperty(i)) {
+                    var text = (data[i]) ? data[i] : 'Loading...';
+                    html += '<div>' + visas[i] + ': ' + text + '</div>';
+                }
+            }
+            $('#res').html(html);
+        }
+
+        function update() {
+            for (i in visas) {
+                if (visas.hasOwnProperty(i)) {
+                    $.getJSON('/api/visa/' + i, function (res) {
+                        data[res.num] = res.msg;
+                    });
+                }
+            }
+        }
+
+        render();
+        update();
+        $('#btn').click(function () {
+            update();
         });
     });
-});
 </script>
 
 </body>

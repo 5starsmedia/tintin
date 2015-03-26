@@ -26,7 +26,9 @@ var getForm = function(html, data) {
   return action;
 };
 
-router.get('/', function (req, res, next) {
+router.get('/:id', function (req, res, next) {
+
+  var num = req.params.id;
 
   var host = 'https://www.vfsvisaonline.com';
   var baseUrl = host + '/poland-ukraine-appointment/AppScheduling/';
@@ -71,7 +73,7 @@ router.get('/', function (req, res, next) {
         _.forEach(fields, function(item) {
           data[item.name] = item.value;
         });
-        data['ctl00$plhMain$cboVAC'] = 17;
+        data['ctl00$plhMain$cboVAC'] = num;
         data['ctl00$plhMain$cboPurpose'] = 1;
         data['ctl00$plhMain$btnSubmit'] = 'Підтвердити';
         next(undefined, data);
@@ -106,7 +108,7 @@ router.get('/', function (req, res, next) {
         var $ = cheerio.load(body),
           text = $('#ctl00_plhMain_lblMsg').text();
 
-        next(undefined, {res: text});
+        next(undefined, {num: num, msg: text});
       });
     }]
   }, function(err, data) {
