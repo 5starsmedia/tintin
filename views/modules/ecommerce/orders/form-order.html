@@ -1,0 +1,97 @@
+<form name="edit" bz-loading-container="loading">
+
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+        <h4 class="modal-title">{{'Заказ #'|translate}}{{item.id}}</h4>
+    </div>
+    <div class="modal-body">
+
+
+        <div class="form-group" ng-class="{'has-error': edit.title.$invalid && edit.title.$dirty}">
+            <div style="border-bottom: 1px solid #eeeeee; margin-bottom: 5px">
+                <label class="control-label">{{'Данные о клиенте'|translate}}</label>
+            </div>
+            <address>
+                <p><strong>{{'Имя:'|translate}}</strong> {{item.name}}</p>
+                <p><strong>{{'Номер телефона:'|translate}}</strong> {{item.phone}}</p>
+                <p><strong>{{'Адрес:'|translate}}</strong> {{item.address}}</p>
+                <p><strong>{{'Коментарий:'|translate}}</strong> {{item.comment}}</p>
+            </address>
+        </div>
+
+        <div class="form-group">
+            <div style="border-bottom: 1px solid #eeeeee; margin-bottom: 5px">
+                <label class="control-label">{{'Корзина'|translate}}</label>
+            </div>
+            <div bz-loading-container="cart_loading">
+
+                <table class="table">
+                <tr>
+                    <th>{{'Продукт'|translate}}</th>
+                    <th>{{'Цена'|translate}}</th>
+                    <th>{{'К-ство'|translate}}</th>
+                    <th>{{'Сумма'|translate}}</th>
+                </tr>
+                <tr ng-repeat="product in products">
+                    <td>#{{product.id}} {{product.title|language}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.count}}</td>
+                    <td>{{product.sum}}</td>
+                </tr>
+                <tbody ng-repeat="(key,group) in groups">
+                    <tr class="active">
+                        <td colspan="4" class="text-left">{{'Группа №'|translate}}{{key}}</td>
+                    </tr>
+                    <tr ng-repeat="product in group">
+                        <td>#{{product.id}} {{product.title|language}}</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.count}}</td>
+                        <td>{{product.sum}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3" class="text-right">{{'Итого:'|translate}}</th>
+                        <th class="text-right">{{item.price}}</th>
+                    </tr>
+                </tfoot>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div style="border-bottom: 1px solid #eeeeee; margin-bottom: 5px">
+                <label class="control-label">{{'Статус'|translate}}</label>
+            </div>
+
+            <div>
+
+                <div class="btn-group btn-group-sm">
+                    <button ng-repeat="status in orderStatuses" ng-click="changeStatus(status)"
+                            type="button" class="btn btn-{{status.class}}"
+                            ng-if="status.id < 5"
+                            ng-class="{'active': item.status == status.id}">{{status.title}}
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="pull-left">
+        <button type="button" class="btn btn-danger" ng-click="cancel()" data-dismiss="modal">
+            {{'Отменить заказ'|translate}}
+        </button>
+        <button type="button" class="btn btn-success" ng-click="complete()" data-dismiss="modal">
+            {{'Заказ доставлен'|translate}}
+        </button>
+        </div>
+        <button type="button" class="btn btn-primary" ng-click="close()" data-dismiss="modal">
+            {{'Закрыть'|translate}}
+        </button>
+    </div>
+
+</form>

@@ -1,0 +1,106 @@
+<form name="field" bz-loading-container="loading">
+
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" ng-if="!item.id">{{'Добавление поля'|translate}}</h4>
+        <h4 class="modal-title" ng-if="item.id">{{'Редактирование поля'|translate}}</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+
+            <label>{{'Название'|translate}}</label>
+            <input class="form-control" type="text"
+                   bz-localizable="item.title" ng-model="item.title[$contentLanguageId]"/>
+
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+
+
+                <div class="form-group checkbox">
+
+                    <label>
+                        <input type="checkbox" value="1" ng-checked="item.require == 1" ng-model="item.require" />
+                        {{'Обязательное поле'|translate}}
+                    </label>
+
+                </div>
+
+                <div class="form-group checkbox">
+
+                    <label>
+                        <input type="checkbox" value="1" ng-checked="item.is_filter == 1" ng-model="item.is_filter" />
+                        {{'Поле для фильтра'|translate}}
+                    </label>
+
+                </div>
+
+                <div class="form-group checkbox">
+
+                    <label>
+                        <input type="checkbox" value="1" ng-checked="item.is_published == 1" ng-model="item.is_published" />
+                        {{'Опубликовано'|translate}}
+                    </label>
+
+                </div>
+            </div>
+            <div class="col-xs-6">
+
+                <div class="form-group">
+
+                    <label>{{'Порядок'|translate}}</label>
+                    <input class="form-control" type="text" ng-model="item.order"/>
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label>{{'Тип'|translate}}</label>
+            <select class="form-control" ng-model="item.type">
+                <option ng-repeat="itm in fieldTypes" value="{{itm.id}}" ng-selected="itm.id == item.type">
+                    {{itm.title}}
+                </option>
+            </select>
+
+        </div>
+
+        <div class="form-group" ng-if="item.type == 4 || item.type == 5">
+
+            <table class="table">
+            <tr ng-repeat="(i,field) in item.data">
+                <td>
+                    <div class="input-group">
+                        <input class="form-control" type="text"
+                               bz-localizable="field" ng-model="field[$contentLanguageId]"/>
+
+                          <span class="input-group-btn">
+                            <button class="btn btn-danger" ng-click="removeVariant(item, i)" type="button">
+                                <span class="fa fa-trash"></span>
+                            </button>
+                          </span>
+                    </div>
+                </td>
+            </tr>
+            </table>
+
+            <a href="" class="btn btn-success" ng-click="addVariant(item)">Добавить</a>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <!--div class="pull-left">
+            <button type="submit" class="btn btn-danger" ng-click="saveItem()" ng-disabled="edit.$invalid">
+                {{'Удалить'|translate}}
+            </button>
+        </div-->
+        <button type="submit" class="btn btn-primary" ng-click="saveItem()" ng-disabled="edit.$invalid">{{'Сохранить'|translate}}</button>
+        <button type="button" class="btn btn-default" ng-click="close()" data-dismiss="modal">{{'Отмена'|translate}}</button>
+    </div>
+</form>

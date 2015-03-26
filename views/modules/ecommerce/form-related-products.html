@@ -1,0 +1,55 @@
+<form name="related">
+
+    <div class="alert alert-warning" ng-if="!item.id">
+        <span class="fa fa-warning"></span>&nbsp;
+        {{'Для добавления сопутствующих товаров нужно сохранить товар'|translate}}
+    </div>
+    <div class="row" ng-if="item.id">
+
+        <div class="col-xs-6">
+
+            <h3>{{'Сопутствующие товары'|translate}}</h3>
+
+            <table ng-table="relatedParams" show-filter="true" class="table">
+                <tr ng-repeat="item in $data">
+                    <td data-title="'Заголовок'|translate" sortable="'title'" filter="{'title': 'text'}">
+                        <a target="_blank" href="ecommerce/edit/{{item.id}}">{{item.title}}</a>
+                    </td>
+                    <td data-title="'Действия'|translate">
+
+                        <a href="" ng-click="removeRelatedProduct(item)" class="text-danger"><span class="fa fa-times"></span></a>
+
+                    </td>
+                </tr>
+                <tr ng-if="!$data.length">
+                    <td colspan="{{$columns.length}}" class="text-center">{{'Нет данных'|translate}}</td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="col-xs-6">
+
+            <h3>{{'Все'|translate}}</h3>
+
+            <table ng-table="tableParams" show-filter="true" class="table">
+                <tr ng-repeat="item in $data">
+                    <td data-title="'Действия'|translate">
+
+                        <a href="" ng-click="addRelatedProduct(item)" class="btn btn-success"><span class="fa fa-arrow-left"></span></a>
+
+                    </td>
+                    <td data-title="'Заголовок'|translate" sortable="'title'" filter="{'title': 'text'}">
+                        <a target="_blank" href="ecommerce/edit/{{item.id}}">{{item.title}}</a>
+                    </td>
+                </tr>
+                <tr ng-if="!$data.length">
+                    <td colspan="{{$columns.length}}" class="text-center">{{'Нет данных'|translate}}</td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+
+
+</form>

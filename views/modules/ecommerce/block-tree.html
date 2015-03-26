@@ -1,0 +1,26 @@
+<div ng-controller="EcommerceTreeCtrl">
+
+    <ol class="nav nav-nested" bz-loading-container="loading">
+        <li tree-view="child in category.items at ol"
+            ng-class="{expanded:child.$expanded, 'active':child.id == activeCategory.id}">
+            <div>
+                <a href="" ng-click="child.$expanded = !child.$expanded" ng-switch on="child.$expanded">
+                    <span ng-show="child.items.length" ng-switch-when="true"><span class="fa fa-minus"></span></span>
+                    <span ng-show="child.items.length" ng-switch-default><span class="fa fa-plus"></span></span>
+                </a>
+                <a class="leaf" href="" ng-click="filterByCategory(child)"
+                   ng-class="{'active': child.id == category_id}">
+                    {{child.title}}
+                </a>
+            </div>
+            <ol class="nav nav-nested"></ol>
+        </li>
+    </ol>
+    <div ng-if="!category.items.length && !loading" class="text-center">
+        <a href="ecommerce/categories" class="btn btn-large btn-primary">
+            <span class="fa fa-plus"></span>
+            {{'Добавить категорию'|translate}}
+        </a>
+    </div>
+
+</div>

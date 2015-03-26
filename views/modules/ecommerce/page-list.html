@@ -1,0 +1,89 @@
+<div class="content" animate-panel effect="zoomIn">
+
+    <div class="row">
+
+        <div class="col-md-9">
+
+            <div class="pull-right">
+                <a class="btn btn-success btn-outline" ui-sref="ecommerce.create">
+                    <i class="fa fa-plus"></i> {{'New product'|translate}}
+                </a>
+            </div>
+            <h2 class="font-light m-b-xs ng-binding">
+                {{'Products'|translate}}
+            </h2>
+
+            <div class="hpanel">
+                <div class="panel-body" bz-loading-container="loading">
+
+
+                    <table ng-table="tableParams" ng-table-filters-manager show-filter="true" class="table">
+                        <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
+                            <td data-title="'Заголовок'|translate" sortable="'title'" filter="{'title': 'text'}">
+                                <a ui-sref="ecommerce.edit({id: item.id})">{{item.title}}</a>
+                            </td>
+                            <td data-title="'Цена'|translate" sortable="'price'">
+                                <div bz-loading-container="item.$loading">
+                                    <input type="number" ng-model="item.price" ng-blur="updatePrice(item)" class="form-control" />
+                                </div>
+                            </td>
+                            <td data-title="'Наличие'|translate" sortable="'count'">
+
+                                <span class="label label-default" ng-if="!item.isInStock">{{'Нет в наличии'|translate}}</span>
+                            <span class="label label-success" ng-if="item.isInStock">
+                                {{'В наличии:'|translate}}
+                                {{item.count}}
+                            </span>
+
+                            </td>
+                            <td data-title="'Дата добавления'|translate" sortable="'created_at'">
+
+                                {{item.createDate|date:'yyyy-MM-dd'}}<br/>
+                                {{item.createDate|date:'HH:mm:ss'}}
+
+                            </td>
+                            <td width="50" data-title="'Порядок'|translate" sortable="'order'">
+                                <div bz-loading-container="item.$loading">
+                                    <input type="number" ng-model="item.order" ng-blur="updateOrder(item)" class="form-control" />
+                                </div>
+                            </td>
+                            <td data-title="'Действия'|translate" class="actions">
+
+                                <div class="btn-group">
+
+                                    <a href="" data-ng-click="changePublish(item)"><span
+                                            ng-if="!item.publish" title="{{'Снять с публикации'|translate}}"><i class="fa fa-lock"></i></span><span
+                                            ng-if="item.publish" title="{{'Опубликовано'|translate}}"><i class="fa fa-unlock"></i></span></a>
+
+                                    <a ui-sref="ecommerce.edit({id: item.id})" title="{{'Редактировать'|translate}}"><span class="fa fa-pencil"></span></a>
+
+                                    <a href="" st-confirm="remove(item)" title="{{'Delete product'|translate}}"
+                                       message-title="'Delete'|translate" message="'Are you realy want to delete this product?'|translate">
+                                        <span class="fa fa-times text-danger"></span>
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr ng-if="!$data.length">
+                            <td colspan="{{$columns.length}}" class="text-center">{{'Нет данных'|translate}}</td>
+                        </tr>
+                    </table>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-3">
+
+            <div ng-include="'views/modules/ecommerce/block-tree.html'"></div>
+
+        </div>
+
+
+    </div>
+
+
+</div>

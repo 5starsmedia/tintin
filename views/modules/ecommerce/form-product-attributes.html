@@ -1,0 +1,82 @@
+<form name="attributes">
+
+    <div class="form-group">
+
+        <label>{{'Тип'|translate}}</label>
+
+        <select class="form-control" ng-model="item.type_id">
+            <option ng-repeat="type in types" value="{{type.id}}" ng-selected="item.type_id == type.id" ng-bind-html="type.$title"></option>
+        </select>
+
+    </div>
+
+    <div ng-if="!item.type_id" class="alert alert-info">
+        <span class="fa fa-arrow-up"></span> {{'Для редактирования атрибутов продукта сначала выберите его тип'|translate}}
+    </div>
+
+    <div bz-loading-container="loading" class="form-group row" ng-repeat="(id, field) in fields">
+
+        <h3 class="col-xs-12" ng-if="field.type == 6">{{field.title}}</h3>
+
+        <div ng-if="field.type != 6">
+            <div class="control-label col-xs-3 checkbox">
+                <label>
+                    <input type="checkbox" ng-model="field.is_custom"/>
+                    {{field.title}}
+                    <span class="star" ng-if="field.require">*</span>
+                </label>
+            </div>
+
+            <div ng-if="!field.is_custom" class="control-group col-xs-9">
+
+                <span class="text-muted">{{'Not set'|translate}}</span>
+
+            </div>
+            <div ng-if="field.is_custom" class="control-group col-xs-9" ng-switch="field.type">
+
+                <!-- Bool -->
+                <div ng-switch-when="1">
+                    <label class="radio"><input name="field{{field.id}}" ng-model="field.value" type="radio" value="1"/>
+                        {{'Yes'|translate}}</label>
+                    <label class="radio"><input name="field{{field.id}}" ng-model="field.value" type="radio" value="0"/>
+                        {{'No'|translate}}</label>
+                </div>
+
+                <!-- String -->
+                <div ng-switch-when="2">
+                    <input type="text" class="form-control" ng-model="field.value"/>
+                </div>
+
+                <!-- Number -->
+                <div ng-switch-when="3">
+                    <input type="number" class="form-control" ng-model="field.value"/>
+                </div>
+
+                <!-- Set -->
+                <div ng-switch-when="4">
+                    <select class="form-control" ng-model="field.value">
+                        <option value="">-</option>
+                        <option value="{{id}}" ng-selected="field.value == id" ng-repeat="(id, variant) in field.data">{{variant.ru}}</option>
+                    </select>
+                </div>
+
+                <!-- Bool set -->
+                <div ng-switch-when="5">
+
+                    <div ng-repeat="(id, variant) in field.data" class="checkbox">
+
+                        <label>
+                            <input type="checkbox" value="{{id}}" bz-permission-list="field.value" />
+                            {{variant.ru}}
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</form>

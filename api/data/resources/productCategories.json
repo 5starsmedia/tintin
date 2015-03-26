@@ -1,0 +1,10 @@
+{
+  "resource": "productCategories",
+  "model": "ProductCategory",
+  "options": {},
+  "acl": {
+    "title": {
+      "get": "*"
+    }
+  }
+}

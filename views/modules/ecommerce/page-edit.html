@@ -1,0 +1,49 @@
+<div bz-loading-container="loading">
+
+
+    <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
+        <div class="hpanel" bz-loading-container="loading">
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-lg-9">
+
+                        <a ui-sref="ecommerce.products" class="back-btn">
+                            <span class="pe-7s-angle-left"></span>
+                        </a>
+
+                        <h2 class="font-light m-b-xs">
+                            <span ng-if="!item.id" style="line-height: 30px;">{{'Добавление продукта'|translate}}</span>
+                            <span ng-if="item.id">{{'Редактирование продукта'|translate}}</span>
+                        </h2>
+
+                        <small ng-if="item.id">
+                            {{'Product created:'|translate}}
+                            {{post.createDate|date:'dd.MM.yyyy'}}
+                            {{'at'|translate}}
+                            {{post.createDate|date:'HH:mm'}}
+                        </small>
+
+                    </div>
+                    <div class="col-lg-3">
+
+                        <div class="form-actions">
+                            <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+                                {{'Save'|translate}}
+                            </button>
+                            <a ui-sref="ecommerce.products" class="btn btn-default">
+                                {{'Cancel'|translate}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content" animate-panel effect="zoomIn">
+
+        <div ng-include="'views/modules/ecommerce/form-product.html'"></div>
+
+    </div>
+</div>

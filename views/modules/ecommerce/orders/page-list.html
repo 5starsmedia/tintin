@@ -1,0 +1,46 @@
+<breadcrumbs>
+    <crumb href="''" title="'Мой кабинет'|translate"/>
+    <crumb href="'ecommerce'" title="'И-магазин'|translate"/>
+    <crumb title="'Заказы'|translate"/>
+</breadcrumbs>
+
+<div class="padded" bz-loading-container="loading">
+
+    <div class="page-header">
+        <h1>{{'Заказы'|translate}}</h1>
+    </div>
+
+    <div class="main-content">
+
+        <table ng-table="tableParams" show-filter="true" class="table">
+            <tr ng-repeat="item in $data">
+                <td data-title="'Имя'|translate" sortable="'title'" filter="{'title': 'text'}">
+                    <a href="" ng-click="showDetails(item)">#{{item.id}}. {{item.name}}</a>
+                </td>
+                <td width="150" data-title="'Телефон'|translate">
+                    {{item.phone}}
+                </td>
+                <td width="150" data-title="'Статус'|translate" sortable="'status'" filter="{'status': 'select'}" filter-data="getStatuses()">
+                    <span ng-if="item.status == 0" class="label label-default">{{'новый'|translate}}</span>
+                    <span ng-if="item.status == 1" class="label label-info">{{'оплачен'|translate}}</span>
+                    <span ng-if="item.status == 2" class="label label-info">{{'товар ожидает клиента'|translate}}</span>
+                    <span ng-if="item.status == 3" class="label label-info">{{'заказ доставляется'|translate}}</span>
+                    <span ng-if="item.status == 4" class="label label-warning">{{'ожидание товара'|translate}}</span>
+                    <span ng-if="item.status == 5" class="label label-danger">{{'отменен'|translate}}</span>
+                    <span ng-if="item.status == 6" class="label label-success">{{'доставлен'|translate}}</span>
+                </td>
+                <td data-title="'Действия'|translate" class="actions">
+
+                    <div class="btn-group">
+                        <a href="" bz-confirm="remove(item)" message="'Отменить заказ?'|translate" title="{{'Отмена заказа'|translate}}"><span class="text-danger fa fa-times"></span></a>
+                    </div>
+
+                </td>
+            </tr>
+            <tr ng-if="!$data.length">
+                <td colspan="{{$columns.length}}" class="text-center">{{'Нет данных'|translate}}</td>
+            </tr>
+        </table>
+
+    </div>
+</div>
