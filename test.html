@@ -26,10 +26,10 @@
             15: 'Хмельницький',
             16: 'Житомир',
             17: 'Вінниця',
-            19: 'Донецьк',
+            //19: 'Донецьк',
             20: 'Ужгород',
             21: 'Чернівці',
-            22: 'Луганськ'
+            //22: 'Луганськ'
         }, data = {};
 
         function render() {
@@ -48,6 +48,7 @@
                 if (visas.hasOwnProperty(i)) {
                     $.getJSON('/api/visa/' + i, function (res) {
                         data[parseInt(res.num)] = res.msg;
+                        render();
                     });
                 }
             }
