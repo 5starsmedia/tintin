@@ -3217,6 +3217,9 @@ fieldset[disabled] .btn-vk.active {
 .page-profile .b-profile__block {
   margin: 0 0 10px;
 }
+body > [ui-view] {
+  overflow: hidden;
+}
 .sticky-enabled .content {
   padding-top: 90px;
 }
@@ -3266,6 +3269,13 @@ fieldset[disabled] .btn-vk.active {
     border-radius: 5px;
   }
 }*/
+.input-group-addon .icheckbox_square-green {
+  margin-top: -5px;
+}
+.input-group-addon.h-bg-green {
+  background: #62cb31;
+  color: #fff;
+}
 .projects .project-label {
   font-weight: 600;
 }

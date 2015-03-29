@@ -12,6 +12,7 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
   async = require('async'),
+  cors = require('cors'),
   lynx = require('lynx'),
   lynxExpress = require('lynx-express'),
   useragent = require('express-useragent'),
@@ -138,6 +139,15 @@ app.log_level = {
 
 
 app.server.use(sites());
+var corsOptionsDelegate = function(req, callback){
+  var site = req.site;
+  var corsOptions = { origin: false };
+  if(site && site.isCorsEnabled){
+    corsOptions.origin = true;
+  }
+  callback(null, corsOptions);
+};
+app.server.use(cors(corsOptionsDelegate));
 
 var routes = require('./routes');
 routes.init(app);
