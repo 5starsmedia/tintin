@@ -76,8 +76,6 @@ router.get('/import', function (req, res, next) {
       });
     });
     post.save(function (err, data) {
-      if (err) { return next(err); }
-      res.json(data);
     });
   });
 });
