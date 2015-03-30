@@ -144,6 +144,7 @@ var corsOptionsDelegate = function(req, callback){
   var corsOptions = { origin: false };
   if(site && site.isCorsEnabled){
     corsOptions.origin = true;
+    corsOptions.credentials = true;
   }
   callback(null, corsOptions);
 };
