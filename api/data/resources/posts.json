@@ -47,14 +47,6 @@
       "get": ["*"],
       "get?_id": ["*"]
     },
-    "title": {
-      "get": ["*"],
-      "get?_id": ["*"],
-      "get?category._id": "*",
-      "get?activated": ["admin"],
-      "put?_id": ["admin", "*:owner"],
-      "post": "admin"
-    },
     "*": {
       "get": ["admin", "*:owner", "user"],
       "get?activated": ["admin"],
