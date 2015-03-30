@@ -54,5 +54,8 @@
       "level": "info",
       "enabled": true
     }
+  },
+  "sms": {
+
   }
 }

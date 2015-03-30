@@ -16,6 +16,7 @@ exports['post.posts'] = function (req, data, cb) {
   data['account._id'] = req.auth.account._id;
   data['account.title'] = req.auth.account.title;
   data['account.coverFile'] = req.auth.account.coverFile;
+
   if (req.auth.account.imageUrl) {
     data['account.imageUrl'] = req.auth.account.imageUrl;
   }
