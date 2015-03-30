@@ -50,6 +50,7 @@
     "title": {
       "get": ["*"],
       "get?_id": ["*"],
+      "get?category._id": "*",
       "get?activated": ["admin"],
       "put?_id": ["admin", "*:owner"],
       "post": "admin"
@@ -57,7 +58,8 @@
     "*": {
       "get": ["admin", "*:owner", "user"],
       "get?activated": ["admin"],
-      "get?_id": ["admin", "*:owner", "user"],
+      "get?_id": "*",
+      "get?category._id": "*",
       "put?_id": ["admin", "*:owner"],
       "post": "admin",
       "delete?_id": "admin"
