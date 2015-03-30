@@ -48,7 +48,7 @@
       "get?_id": ["*"]
     },
     "*": {
-      "get": ["admin", "*:owner", "user"],
+      "get": "*",
       "get?activated": ["admin"],
       "get?_id": "*",
       "get?tags": "*",
