@@ -65,6 +65,7 @@ router.get('/import', function (req, res, next) {
   _.forEach(data, function(item) {
     var post = new req.app.models.posts();
     post.title = item.text;
+    post.body = item.text;
     post.tags = [];
     post.site = req.site;
     var tags = item.tags.split(',');
