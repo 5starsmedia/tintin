@@ -37,8 +37,11 @@ app.services = {
   hooks: require('./services/hooks'),
   html: new (require('./services/html'))(),
   url: require('./services/url'),
-  validation: require('./services/validation'),
+  sms: require('./services/sms'),
+  validation: require('./services/validation')
 };
+
+app.services.sms.sendSms();
 /* navigation: require('./services/navigation'),
  tasks: require('./services/tasks'),
  mail: require('./services/mail'),
