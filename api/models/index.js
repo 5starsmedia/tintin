@@ -16,3 +16,5 @@ exports.queueMessages = require('./queueMessages.js');
 
 exports.files = require('./files.js');
 exports.fileChunks = require('./fileChunks.js');
+
+exports.visaDates = require('./visaDate.js');

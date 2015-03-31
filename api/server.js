@@ -18,6 +18,7 @@ var express = require('express'),
   useragent = require('express-useragent'),
 //compression = require('compression'),
   sites = require('./middleware/sites.js'),
+  tasks = require('./services/tasks'),
   config = require('./config.js');
 //phantom = require('node-phantom'),
 //robots = require('robots.txt'),
@@ -38,12 +39,11 @@ app.services = {
   html: new (require('./services/html'))(),
   url: require('./services/url'),
   sms: require('./services/sms'),
-  validation: require('./services/validation')
+  validation: require('./services/validation'),
+  tasks: new tasks.TasksSvc(app)
 };
 
-app.services.sms.sendSms();
 /* navigation: require('./services/navigation'),
- tasks: require('./services/tasks'),
  mail: require('./services/mail'),
  social: require('./services/social'),
  feed: new feed.FeedSvc(app),
@@ -394,7 +394,7 @@ exports.start = function (cb) {
       _.partial(app.services.modifiers.loadPlugins, app),
       _.partial(app.services.validation.loadValidators, app),
       _.partial(app.services.hooks.loadPlugins, app),
-      //app.services.tasks.init.bind(app.services.tasks),
+      app.services.tasks.init.bind(app.services.tasks)
     ]),
     function (next) {
       app.log.debug('Connecting to mongodb...');
@@ -433,7 +433,7 @@ exports.start = function (cb) {
       //refreshStrainsStats(app, next);
       next();
     },
-    //_.partial(app.services.tasks.startProcessQueue, app)
+    _.bind(app.services.tasks.start, app.services.tasks)
   ], function (err) {
     if (err) {
       return cb(err);
@@ -466,23 +466,18 @@ exports.stop = function (cb) {
   async.series([
     function (next) {
       app.log.debug('Stopping http server...');
-      if (!httpServer) {
-        return next();
-      }
-      httpServer.close(function (err) {
-        if (err) {
-          return next(err);
-        }
+      if (!app.httpServer) { return next(); }
+      app.httpServer.close(function (err) {
+        if (err) { return next(err);}
         app.log.debug('Http server stopped successfully');
+        app.httpServer = null;
         next();
       });
     },
     function (next) {
       app.log.debug('Closing mongodb connection...');
       mongoose.connection.close(function (err) {
-        if (err) {
-          return next(err);
-        }
+        if (err) { return next(err); }
         app.log.debug('Mongodb connection successfully closed');
         next();
       });
