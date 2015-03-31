@@ -41,7 +41,7 @@
     "enabled": true,
     "stomp": {
       "destination": "/queue/tasks",
-      "host": "10.100.200.2",
+      "host": "127.0.0.1",
       "port": 61613,
       "login": "root",
       "password": "123456"
