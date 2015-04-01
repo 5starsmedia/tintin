@@ -119,6 +119,9 @@ function checkVisa(model, callback) {
     model.isSuccess = !data.fourPage.hasError;
     if (data.fourPage.hasError) {
       model.response = data.fourPage.response;
+      app.log.info(
+        'Visa for ' + model.title + ' is errored'
+      );
     } else if ((data.fourPage.msg || '').match(/No date/i) == null) {
       var date = data.fourPage.msg;
       date = date.replace('Січ', 'Jan')
@@ -134,11 +137,17 @@ function checkVisa(model, callback) {
         .replace('Лис', 'Nov')
         .replace('Гру', 'Dec');
 
-        console.info(data.fourPage.msg, moment(date, 'DD.MMM.YYYY').format('DD.MM.YYYY'));
+      app.log.info(
+        'Visa for ' + model.title + ' is free for ' + moment(date, 'DD.MMM.YYYY').format('DD.MM.YYYY') +
+        '(msg: ' + data.fourPage.msg + ')'
+      );
       model.lastResultDate = model.freeDate;
       model.freeDate = moment(date, 'DD.MMM.YYYY').toDate();
       model.isFree = true;
     } else {
+      app.log.info(
+        'Visa for ' + model.title + ' haven\'t free dates (msg: ' + data.fourPage.msg + ')'
+      );
       model.isFree = false;
       model.lastResultDate = null;
     }
