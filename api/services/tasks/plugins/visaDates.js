@@ -115,6 +115,7 @@ function checkVisa(app, model, callback) {
   }, function(err, data) {
     if (err) { return callback(err); }
 
+    var isChanged = false;
     model.response = '';
     model.isSuccess = !data.fourPage.hasError;
     if (data.fourPage.hasError) {
@@ -143,6 +144,9 @@ function checkVisa(app, model, callback) {
       );
       model.lastResultDate = model.freeDate;
       model.freeDate = moment(date, 'DD.MMM.YYYY').toDate();
+      if (!model.isFree) {
+        isChanged = true;
+      }
       model.isFree = true;
     } else {
       app.log.info(
@@ -151,17 +155,29 @@ function checkVisa(app, model, callback) {
       model.isFree = false;
       model.lastResultDate = null;
     }
-    model.save(callback);
+    model.save(function() {
+      callback({ model: model, isChanged: isChanged });
+    });
   });
 }
 
 exports['visaDates.check'] = function (app, msg, cb) {
-  console.info('visaDates.check');
-
   app.models.visaDates.find({ isEnabled: true }, function(err, visas) {
     if (err) { return cb(err); }
     async.map(visas, _.partial(checkVisa, app), function(err, results){
-      console.info('visaDates.check - complete', results);
+      var changed = _.filter(results, { isChanged: true });
+      var message = 'Звільнились дати:\n',
+        sendSms = false;
+      _.forEach(changed, function(item) {
+        var model = item.model;
+        if (model.isSMSSend) {
+          sendSms = true;
+        }
+        message += model.title + ':' + moment(model.freeDate).format('DD.MM.YYYY') + '\n';
+      });
+      if (sendSms) {
+        app.services.sms.sendSms(app, message);
+      }
       cb();
     });
   });

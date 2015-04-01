@@ -28,23 +28,27 @@ exports.sendSms = function (app, text, options, cb) {
       args = {
         'MessageId': 'c62957c6-5519-fef5-8364-2e829ece3435'
       };
-      client.GetMessageStatus(args, function(err, result){
-        if(err){
-          throw err;
-        }
-        console.log(result);
-      });
-      /*args = {
-        'sender': 'HellVin',
-        'destination': '+380933636569',
-        'text': 'Тернопіль - доступна вільна дата: 05.Чер.2015'
-      };
-      client.SendSMS(args, function(err, result){
+      /*client.GetMessageStatus(args, function(err, result){
         if(err){
           throw err;
         }
         console.log(result);
       });*/
+
+      app.log.info(
+        'Sms send: ' + text
+      );
+      args = {
+        'sender': 'HellVin',
+        'destination': '+380933636569',
+        'text': text
+      };
+      client.SendSMS(args, function(err, result){
+        if(err){
+          throw err;
+        }
+        app.log.info('SMS Result: ' + result);
+      });
     });
   });
 
