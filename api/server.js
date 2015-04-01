@@ -441,6 +441,11 @@ exports.start = function (cb) {
     app.log.info('Configuration "' + config.get('env') + '" successfully loaded in', Date.now() - startDate, 'ms');
 
 
+    setInterval(function () {
+      app.services.mq.push(app, 'events', {name: 'visaDates.check'});
+    }, 60 * 1000);
+    app.services.mq.push(app, 'events', {name: 'visaDates.check'});
+
     /*setInterval(function () {
      app.services.mq.push(app, 'events', {name: 'content.unfresh'});
      }, 10*60 * 60 * 1000);
@@ -450,17 +455,6 @@ exports.start = function (cb) {
     cb();
   });
 };
-
-
-// close application
-process.on('SIGINT', function () {
-  exports.stop(function (err) {
-    if (err) {
-      return app.log.error(err);
-    }
-    app.log.debug('Application closed successfully');
-  });
-});
 
 exports.stop = function (cb) {
   async.series([

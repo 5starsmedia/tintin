@@ -3,12 +3,20 @@
  */
 'use strict';
 
-var server = require('./server.js');
+var log = require('./log.js');
 
-server.start(function (err) {
-  if (err) { return console.error(err); }
+process.on('uncaughtException', function (err) {
+  log.error({err: err}, 'Caught exception: ' + err.toString());
+  setTimeout(function () {
+    process.exit(1);
+  }, 500);
 });
-/**
- * @callback callbackFunction
- * @param [err] Error or null
- */
+
+var startWorker = function () {
+  var server = require('./server.js');
+  server.start(function (err) {
+    if (err) { return log.error(err); }
+  });
+};
+
+startWorker();
