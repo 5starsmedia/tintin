@@ -11,6 +11,8 @@ var schema = new mongoose.Schema({
   freeDate: {type: Date},
   lastResultDate: {type: Date},
 
+  response: String,
+
   isEnabled: {type: Boolean, required: true, default: true},
   isFree: Boolean,
   isSuccess: Boolean,

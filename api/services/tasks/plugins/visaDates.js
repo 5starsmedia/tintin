@@ -104,20 +104,24 @@ function checkVisa(model, callback) {
         var $ = cheerio.load(body),
           text = $('#ctl00_plhMain_lblMsg').text();
 
-        if (num == 14) {
-          console.info(body);
+        if (text == '') {
+          next(undefined, {hasError: true, response: body});
+          return;
         }
-        next(undefined, {num: num, msg: text});
+        next(undefined, {hasError: false, msg: text});
       });
     }]
   }, function(err, data) {
     if (err) { return callback(err); }
 
-    model.isSuccess = data.fourPage != '';
-    if ((data.fourPage || '').match(/No date/i) != null) {
-      console.info(moment(data.fourPage));
+    model.response = '';
+    model.isSuccess = !data.fourPage.hasError;
+    if (data.fourPage.hasError) {
+      model.response = data.fourPage.response;
+    } else if ((data.fourPage.msg || '').match(/No date/i) != null) {
+      console.info(moment(data.fourPage.msg));
       model.lastResultDate = model.freeDate;
-      model.freeDate = moment(data.fourPage);
+      model.freeDate = moment(data.fourPage.msg);
       model.isFree = true;
     } else {
       model.isFree = false;
