@@ -9,8 +9,11 @@ var schema = new mongoose.Schema({
 
   createDate: {type: Date, required: true, default: Date.now},
   freeDate: {type: Date},
+  lastResultDate: {type: Date},
 
-  isFree: Boolean
+  isEnabled: {type: Boolean, required: true, default: true},
+  isFree: Boolean,
+  isSMSSend: Boolean
 }, {
   strict: true,
   safe: true,

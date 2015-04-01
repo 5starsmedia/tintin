@@ -10,7 +10,7 @@
  * @param {object} app Application instance
  * @param {string} queue Queue name
  * @param {object} body Message body
- * @param {function} cb Callback
+ * @param {function} next Callback
  */
 
 exports.push = function (app, queue, body, next) {
