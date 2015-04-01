@@ -12,14 +12,14 @@
     "guestRoleName": "guest"
   },
   "mail": {
-    "noReply": "cannasos.com <not-reply-dev@cannasos.com>",
+    "noReply": "RegSpy <support@5starsmedia.com.ua>",
     "transport": {
-      "service": "cannasos.com",
-      "host": "mail1.cannasos.com",
-      "port": 25,
+      "service": "5starsmedia.com.ua",
+      "host": "smtp.yandex.ua",
+      "port": 465,
       "auth": {
-        "user": "not-reply@cannasos.com",
-        "pass": "XmA4n1"
+        "user": "support@5starsmedia.com.ua",
+        "pass": "gfhjkm666"
       },
       "debug": false
     },
