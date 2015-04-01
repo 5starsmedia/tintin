@@ -6,6 +6,7 @@ var async = require('async'),
 
 function checkVisa(model, callback) {
   console.info(model);
+  callback(null, true);
 }
 
 exports['visaDates.check'] = function (app, msg, cb) {
@@ -13,8 +14,8 @@ exports['visaDates.check'] = function (app, msg, cb) {
 
   app.models.visaDates.find({ isEnabled: true }, function(err, visas) {
     if (err) { return cb(err); }
-    console.info(visas);
     async.map(visas, checkVisa, function(err, results){
+      console.info('visaDates.check - complete', results);
       cb();
     });
   });
