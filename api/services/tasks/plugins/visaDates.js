@@ -163,6 +163,7 @@ function checkVisa(app, model, callback) {
 exports['visaDates.check'] = function (app, msg, cb) {
   app.models.visaDates.find({ isEnabled: true }, function(err, visas) {
     if (err) { return cb(err); }
+
     async.map(visas, _.partial(checkVisa, app), function(err, results){
       var changed = _.filter(results, { isChanged: true });
       var message = 'Звільнились дати:\n',
@@ -179,8 +180,7 @@ exports['visaDates.check'] = function (app, msg, cb) {
       }
       app.services.mail.sendTemplate('activated','support@5starsmedia.com.ua', {
         message: message
-      });
-      cb();
+      }, cb);
     });
   });
 };
