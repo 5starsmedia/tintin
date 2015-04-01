@@ -166,6 +166,7 @@ exports['visaDates.check'] = function (app, msg, cb) {
     if (err) { return cb(err); }
     async.map(visas, _.partial(checkVisa, app), function(err, results){
       var changed = _.filter(results, { isChanged: true });
+      console.info(changed, results);
       var message = 'Звільнились дати:\n',
         sendSms = false;
       _.forEach(changed, function(item) {
