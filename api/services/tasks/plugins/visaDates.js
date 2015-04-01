@@ -115,6 +115,7 @@ function checkVisa(model, callback) {
   }, function(err, data) {
     if (err) { return callback(err); }
 
+    moment.locale('uk');
     model.response = '';
     model.isSuccess = !data.fourPage.hasError;
     if (data.fourPage.hasError) {
@@ -122,7 +123,7 @@ function checkVisa(model, callback) {
     } else if ((data.fourPage.msg || '').match(/No date/i) == null) {
       console.info(moment(data.fourPage.msg, 'DD.MMM.YYYY'));
       model.lastResultDate = model.freeDate;
-      model.freeDate = moment(data.fourPage.msg, 'DD.MMM.YYYY');
+      model.freeDate = moment(data.fourPage.msg, 'DD.MMM.YYYY').toDate();
       model.isFree = true;
     } else {
       model.isFree = false;
