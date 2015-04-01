@@ -144,7 +144,7 @@ function checkVisa(app, model, callback) {
       );
       model.lastResultDate = model.freeDate;
       model.freeDate = moment(date, 'DD.MMM.YYYY').toDate();
-      if (!model.isFree) {
+      if (!model.isFree || moment(model.lastResultDate).format('DD.MM.YYYY') != moment(model.freeDate).format('DD.MM.YYYY')) {
         isChanged = true;
       }
       model.isFree = true;
