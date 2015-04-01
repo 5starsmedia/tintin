@@ -115,15 +115,28 @@ function checkVisa(model, callback) {
   }, function(err, data) {
     if (err) { return callback(err); }
 
-    moment.locale('uk');
     model.response = '';
     model.isSuccess = !data.fourPage.hasError;
     if (data.fourPage.hasError) {
       model.response = data.fourPage.response;
     } else if ((data.fourPage.msg || '').match(/No date/i) == null) {
-      console.info(moment(data.fourPage.msg, 'DD.MMM.YYYY'));
+      var date = data.fourPage.msg;
+      date = date.replace('Січ', 'Jan')
+        .replace('Лют', 'Feb')
+        .replace('Бер', 'Mar')
+        .replace('Кві', 'Apr')
+        .replace('Тра', 'May')
+        .replace('Чер', 'Jun')
+        .replace('Лип', 'Jul')
+        .replace('Сер', 'Aug')
+        .replace('Вер', 'Sep')
+        .replace('Жов', 'Oct')
+        .replace('Лис', 'Nov')
+        .replace('Гру', 'Dec');
+
+        console.info(moment(date, 'DD.MMM.YYYY'));
       model.lastResultDate = model.freeDate;
-      model.freeDate = moment(data.fourPage.msg, 'DD.MMM.YYYY').toDate();
+      model.freeDate = moment(date, 'DD.MMM.YYYY').toDate();
       model.isFree = true;
     } else {
       model.isFree = false;
