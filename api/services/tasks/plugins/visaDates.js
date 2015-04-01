@@ -119,7 +119,7 @@ function checkVisa(model, callback) {
     model.isSuccess = !data.fourPage.hasError;
     if (data.fourPage.hasError) {
       model.response = data.fourPage.response;
-    } else if ((data.fourPage.msg || '').match(/No date/i) != null) {
+    } else if ((data.fourPage.msg || '').match(/No date/i) == null) {
       console.info(moment(data.fourPage.msg));
       model.lastResultDate = model.freeDate;
       model.freeDate = moment(data.fourPage.msg);
