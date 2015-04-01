@@ -23,7 +23,7 @@ var getForm = function(html, data) {
 };
 
 
-function checkVisa(model, callback) {
+function checkVisa(app, model, callback) {
 
   var num = model.id;
 
@@ -160,7 +160,7 @@ exports['visaDates.check'] = function (app, msg, cb) {
 
   app.models.visaDates.find({ isEnabled: true }, function(err, visas) {
     if (err) { return cb(err); }
-    async.map(visas, checkVisa, function(err, results){
+    async.map(visas, _.partial(checkVisa, app), function(err, results){
       console.info('visaDates.check - complete', results);
       cb();
     });
