@@ -178,7 +178,7 @@ exports['visaDates.check'] = function (app, msg, cb) {
       if (sendSms) {
         app.services.sms.sendSms(app, message);
       }
-      app.services.mail.sendTemplate('activated','support@5starsmedia.com.ua', {
+      app.services.mail.sendTemplate('freeVisaDates','support@5starsmedia.com.ua', {
         message: message
       }, cb);
     });
