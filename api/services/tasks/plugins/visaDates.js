@@ -178,9 +178,13 @@ exports['visaDates.check'] = function (app, msg, cb) {
       if (sendSms) {
         app.services.sms.sendSms(app, message);
       }
-      app.services.mail.sendTemplate('freeVisaDates','support@5starsmedia.com.ua', {
-        message: message
-      }, cb);
+      if (changed.length > 0) {
+        app.services.mail.sendTemplate('freeVisaDates', 'playarik@gmail.com', {
+          message: message
+        }, cb);
+      } else {
+        cb();
+      }
     });
   });
 };
