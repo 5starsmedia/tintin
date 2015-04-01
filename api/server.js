@@ -443,7 +443,7 @@ exports.start = function (cb) {
 
     setInterval(function () {
       app.services.mq.push(app, 'events', {name: 'visaDates.check'});
-    }, 60 * 1000);
+    }, 10 * 60 * 1000);
     app.services.mq.push(app, 'events', {name: 'visaDates.check'});
 
     /*setInterval(function () {
