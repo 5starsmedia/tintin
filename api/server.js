@@ -39,6 +39,7 @@ app.services = {
   html: new (require('./services/html'))(),
   url: require('./services/url'),
   sms: require('./services/sms'),
+  mail: require('./services/mail'),
   validation: require('./services/validation'),
   tasks: new tasks.TasksSvc(app)
 };
@@ -390,6 +391,7 @@ exports.start = function (cb) {
 
   async.series([
     _.partial(async.parallel, [
+      _.partial(app.services.mail.init, app),
       _.partial(app.services.data.loadResources, app),
       _.partial(app.services.modifiers.loadPlugins, app),
       _.partial(app.services.validation.loadValidators, app),
