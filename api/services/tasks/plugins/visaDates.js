@@ -2,6 +2,7 @@
 
 var async = require('async'),
   mongoose = require('mongoose'),
+  url = require('url'),
   cheerio = require('cheerio'),
   request = require('request'),
   _ = require('lodash');
