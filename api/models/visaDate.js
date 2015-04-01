@@ -17,7 +17,7 @@ var schema = new mongoose.Schema({
 }, {
   strict: true,
   safe: true,
-  collection: 'posts'
+  collection: 'visaDates'
 });
 
 schema.index({id: 1}, {unique: true});
