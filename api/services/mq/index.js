@@ -12,9 +12,10 @@
  * @param {object} body Message body
  * @param {function} cb Callback
  */
-exports.push = function (app, queue, body, cb) {
+
+exports.push = function (app, queue, body, next) {
+  app.models.queueMessages.create({queue: queue, body: body});
   app.services.tasks.push(body, next);
-//  app.models.queueMessages.create({queue: queue, body: body}, cb);
 };
 
 
