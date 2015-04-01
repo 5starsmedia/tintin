@@ -134,7 +134,7 @@ function checkVisa(model, callback) {
         .replace('Лис', 'Nov')
         .replace('Гру', 'Dec');
 
-        console.info(moment(date, 'DD.MMM.YYYY'));
+        console.info(data.fourPage.msg, moment(date, 'DD.MMM.YYYY').format('DD.MM.YYYY'));
       model.lastResultDate = model.freeDate;
       model.freeDate = moment(date, 'DD.MMM.YYYY').toDate();
       model.isFree = true;
