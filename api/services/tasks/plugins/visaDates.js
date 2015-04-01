@@ -3,7 +3,7 @@
 var async = require('async'),
   mongoose = require('mongoose'),
   cheerio = require('cheerio'),
-  request = require('request')
+  request = require('request'),
   _ = require('lodash');
 
 var getForm = function(html, data) {
