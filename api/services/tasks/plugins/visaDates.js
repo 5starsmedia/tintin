@@ -47,7 +47,6 @@ function checkVisa(app, model, callback) {
         if (!error && response.statusCode == 200) {
 
           path = response.request.uri.path;
-          console.info(path);
 
           var data = {
             '__EVENTTARGET': 'ctl00$plhMain$lnkSchApp',
@@ -79,7 +78,6 @@ function checkVisa(app, model, callback) {
     'thirdPage': ['secondPage', function(next, resData) {
 
       var res = url.resolve(host + path, action);
-      console.info(res);
       request.post({ url: res, form: resData.secondPage, headers: { 'Referer': host + path } }, function(err,response,body){
 
         path = response.request.uri.path;
@@ -155,8 +153,9 @@ function checkVisa(app, model, callback) {
       model.isFree = false;
       model.lastResultDate = null;
     }
-    model.save(function() {
-      callback({ model: model, isChanged: isChanged });
+    model.save(function(err) {
+      if (err) { return callback(err); }
+      callback(null, { model: model, isChanged: isChanged });
     });
   });
 }
