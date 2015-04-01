@@ -11,12 +11,20 @@
 
 <div class="container">
 
-    <a class="btn btn-success pull-right" href="http://www.polandvisa-ukraine.com/scheduleappointment_2.html" target="_blank">Перейти до реєстрації</a>
-    <h1>Візи</h1>
+    <div class="row">
+        <div class="col-xs-6">
+            <h1>Візи</h1>
+        </div>
+        <div class="col-xs-6">
+            <br/>
+            <input type="text" value="http://www.polandvisa-ukraine.com/scheduleappointment_2.html" readonly class="form-control" />
+        </div>
+    </div>
 
-    <table class="table table-hover">
+    <table class="table table-hover table-condensed">
     <tr ng-repeat="item in data" ng-class="{'danger': !item.isSuccess, 'success': item.isFree}">
         <td width="20%">
+            <span class="glyphicon glyphicon-envelope" ng-if="item.isSMSSend" title="Про зміну дат буде надіслано смс"></span>
             {{item.title}}
         </td>
         <td width="80%">
@@ -31,7 +39,11 @@
 <script>
     var app = angular.module('app', []);
     app.controller('main', function($scope, $http) {
-        $http.get('http://vandroide.5stars.link/api/visaDates?page=1&perPage=20').success(function(res){
+        $http.get('http://vandroide.5stars.link/api/visaDates', { params: {
+            page: 1,
+            perPage: 20,
+            fields: 'title,freeDate,isSuccess,isFree,isSMSSend'
+        } }).success(function(res){
             $scope.data = res;
         })
     });
