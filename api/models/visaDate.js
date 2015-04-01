@@ -13,6 +13,7 @@ var schema = new mongoose.Schema({
 
   isEnabled: {type: Boolean, required: true, default: true},
   isFree: Boolean,
+  isSuccess: Boolean,
   isSMSSend: Boolean
 }, {
   strict: true,

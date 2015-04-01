@@ -113,7 +113,17 @@ function checkVisa(model, callback) {
   }, function(err, data) {
     if (err) { return callback(err); }
 
-    callback(null, data.fourPage);
+    model.isSuccess = data.fourPage != '';
+    if ((data.fourPage || '').match(/No date/i) != null) {
+      console.info(moment(data.fourPage));
+      model.lastResultDate = model.freeDate;
+      model.freeDate = moment(data.fourPage);
+      model.isFree = true;
+    } else {
+      model.isFree = false;
+      model.lastResultDate = null;
+    }
+    model.save(callback);
   });
 }
 
