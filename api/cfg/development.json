@@ -11,6 +11,9 @@
     "persistTokenDuration": 2592000000,
     "guestRoleName": "guest"
   },
+  "urls": {
+    "support": "https://support.dev.cannasos.com"
+  },
   "mail": {
     "noReply": "RegSpy <support@5starsmedia.com.ua>",
     "transport": {
