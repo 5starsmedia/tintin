@@ -165,7 +165,6 @@ exports['visaDates.check'] = function (app, msg, cb) {
     if (err) { return cb(err); }
     async.map(visas, _.partial(checkVisa, app), function(err, results){
       var changed = _.filter(results, { isChanged: true });
-      console.info(changed, results);
       var message = 'Звільнились дати:\n',
         sendSms = false;
       _.forEach(changed, function(item) {
@@ -178,6 +177,9 @@ exports['visaDates.check'] = function (app, msg, cb) {
       if (sendSms) {
         app.services.sms.sendSms(app, message);
       }
+      app.services.mail.sendTemplate('activated','support@5starsmedia.com.ua', {
+        message: message
+      });
       cb();
     });
   });

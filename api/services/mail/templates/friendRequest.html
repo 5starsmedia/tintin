@@ -1,0 +1,159 @@
+{{> header.html}}
+
+<table class="row">
+    <tr>
+        <td class="wrapper">
+
+            <table class="twelve columns">
+                <tr>
+                    <td class="content-wrap sub-grid">
+
+                        <p class="content__title_medium">Hi, {{account.title}}</p>
+
+                        <p>You have a new friend request on CannaSOS!</p>
+
+                        <table class="margin-bottom-12 margin-top-12">
+                            <tr>
+                                <td class="center">
+                                    <a href="{{config.url}}/find-friends/{{senderAccount._id}}" target="_blank">
+                                        {{#if senderAccount.coverFile._id}}
+                                        <img src="{{config.url}}/api/files/{{senderAccount.coverFile._id}}?width=128&height=128"
+                                             alt="{{senderAccount.title}}'s photo"
+                                             width="64" height="64" class="center margin-top-12">
+                                        {{else}}
+                                        {{#if senderAccount.imageUrl}}
+                                        <img src="{{senderAccount.imageUrl}}" alt="{{senderAccount.title}}'s photo"
+                                             width="64" height="64" class="center margin-top-12">
+                                        {{else}}
+                                        <img src="{{config.images}}/avatar-128.jpg" width="64" height="64"
+                                             class="center margin-top-12" alt="{{senderAccount.title}}'s photo">
+                                        {{/if}}
+                                        {{/if}}
+                                    </a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <p class="center margin-0">
+                                        <a href="{{config.url}}/find-friends/{{senderAccount._id}}" target="_blank">
+                                            {{senderAccount.title}}
+                                        </a>
+                                    </p>
+
+                                    <p class="light-font center margin-0">
+                                        {{senderAddress}}
+                                    </p>
+
+                                    <p class="center">Contribution: {{senderAccount.totalContributionPoints}}
+                                    </p>
+
+                                    <p class="center margin-0">
+                                        <span><strong>{{relations.length}}</strong></span>
+                                        <span class="light-font text-pad-right">Mutual Friends</span>
+
+                                        <span><strong>{{senderAccount.followersCount}}</strong></span>
+                                        <span class="light-font text-pad-right">Followers</span>
+
+                                        <span><strong>{{senderAccount.followingCount}}</strong></span>
+                                        <span class="light-font">Following</span></p>
+
+                                    <p class="center">{{senderInterests}}</p>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <table>
+                            <tr>
+                                <td class="six sub-columns">
+
+                                    <table class="medium-button radius center">
+                                        <tr>
+                                            <td>
+
+                                                <a href="{{config.url}}/find-friends/{{senderAccount._id}}"
+                                                   target="_blank">View profile</a>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                                <td class="six sub-columns last">
+
+                                    <table class="medium-button radius center">
+                                        <tr>
+                                            <td>
+
+                                                <a href="{{config.url}}/find-friends/{{senderAccount._id}}"
+                                                   target="_blank">Confirm request</a>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                        <p class="center margin-top-24"><strong>Build your audience to get better content in your
+                            feed</strong></p>
+
+                        <table class="margin-bottom-12">
+                            <tr>
+                                <td class="three sub-columns"></td>
+                                {{#each randomAccounts}}
+                                <td class="one sub-columns">
+                                    <a title="{{this.title}}" href="{{../config.url}}/find-friends/{{this._id}}">
+                                        {{#if this.coverFile._id}}
+                                        <img src="{{../config.url}}/api/files/{{this.coverFile._id}}?width=68&height=68"
+                                             alt="" width="34" height="34">
+                                        {{else}}
+                                        <img src="{{this.imageUrl}}" alt="" width="34" height="34">
+                                        {{/if}}
+                                    </a>
+
+                                </td>
+                                {{/each}}
+                                <td class="three sub-columns"></td>
+                                <td class="expander"></td>
+                            </tr>
+                        </table>
+
+                        <table class="margin-bottom-12">
+                            <tr>
+                                <td class="four sub-columns"></td>
+                                <td class="four sub-columns">
+
+                                    <table class="small-button radius center">
+                                        <tr>
+                                            <td>
+
+                                                <a href="{{config.url}}/find-friends"
+                                                   target="_blank">Find friends</a>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="four sub-columns"></td>
+                            </tr>
+                        </table>
+
+                        <p class="margin-top-24">Thank you, <br>CannaSOS Team</p>
+
+                        <p>P.S. Award your friend with 15 bonus Perk$coins for registering via your referral invite. You
+                            will also get 5 Perk$coins as a bonus :)</p>
+
+                    </td>
+
+                    <td class="expander"></td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+{{> footer.html}}

@@ -1,0 +1,8 @@
+Dear {{userName}},
+
+You have recently registered an account with {{config.url}}.
+To complete this registration, click on the link below to activate your account:
+{{config.url}}/api/auth/activate/{{activationToken}}
+
+Thank you for joining our hub!
+The Staff at CannaSOS.com
