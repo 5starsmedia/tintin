@@ -20,6 +20,7 @@
       "service": "5starsmedia.com.ua",
       "host": "smtp.yandex.ua",
       "port": 465,
+      "secure": true,
       "auth": {
         "user": "support@5starsmedia.com.ua",
         "pass": "gfhjkm666"
