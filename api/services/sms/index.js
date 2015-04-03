@@ -40,7 +40,7 @@ exports.sendSms = function (app, text, options, cb) {
       );
       args = {
         'sender': 'HellVin',
-        'destination': '+380933636569',
+        'destination': '+380680458292',
         'text': text
       };
       client.SendSMS(args, function(err, result){

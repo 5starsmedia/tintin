@@ -17,6 +17,7 @@ function TasksSvc(app) {
   self.plugins = {};
   self.client = null;
   self.messagesInProcess = 0;
+  self.isEnabled = app.config.get('tasks.enabled');
   self.subscriptionHandler = function (body) {
     var m = JSON.parse(body);
     self.log.debug('Tasks message "%s"', m.body.name);
@@ -46,7 +47,7 @@ TasksSvc.prototype.registerPlugin = function (filePath, next) {
 
 TasksSvc.prototype.init = function (next) {
   var self = this;
-  if (!self.app.config.get('tasks.enabled')) {
+  if (!self.isEnabled) {
     self.app.log.info('Tasks processing disabled, skipping loading plugins and queue connection');
     return next();
   }
@@ -116,7 +117,7 @@ TasksSvc.prototype.processMessage = function (message, next) {
 
 TasksSvc.prototype.start = function (next) {
   var self = this;
-  if (!self.app.config.get('tasks.enabled')) {
+  if (!self.isEnabled) {
     self.app.log.info('Tasks processing disabled, skipping queue subscribing');
   } else {
     self.log.info('Subscribing to tasks queue "%s"', self.app.config.get('tasks.stomp.destination'));
@@ -127,7 +128,7 @@ TasksSvc.prototype.start = function (next) {
 
 TasksSvc.prototype.stop = function (next) {
   var self = this;
-  if (!self.app.config.get('tasks.enabled')) {
+  if (!self.isEnabled) {
     self.app.log.info('Tasks processing disabled, skipping queue unsubscribing');
   } else {
     self.log.info('Unsubscribing from tasks queue "%s"', self.app.config.get('tasks.stomp.destination'));
@@ -138,12 +139,20 @@ TasksSvc.prototype.stop = function (next) {
 
 
 TasksSvc.prototype.push = function (body, next) {
+  if (!this.isEnabled) {
+    if (next) { next(); }
+    return;
+  }
   var self = this;
   self.client.publish(self.app.config.get('tasks.stomp.destination'), JSON.stringify({body: body}));
   if (next) { next(); }
 };
 
 TasksSvc.prototype.publish = function (taskName, body, next) {
+  if (!this.isEnabled) {
+    if (next) { next(); }
+    return;
+  }
   var self = this;
   body.name = taskName;
   self.client.publish(self.app.config.get('tasks.stomp.destination'), JSON.stringify({body: body}));

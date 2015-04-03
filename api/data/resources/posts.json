@@ -14,8 +14,7 @@
       {
         "role": "*",
         "value": [
-          "title", "profile.interests", "profile.zodiac.title", "profile.country.title", "profile.state.title",
-          "profile.city", "profile.primaryLanguage.title", "profile.secondaryLanguage.title"
+          "title"
         ]
       }
     ],

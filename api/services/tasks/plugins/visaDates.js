@@ -179,8 +179,15 @@ exports['visaDates.check'] = function (app, msg, cb) {
         app.services.sms.sendSms(app, message);
       }
       if (changed.length > 0) {
-        app.services.mail.sendTemplate('freeVisaDates', 'playarik@gmail.com', {
-          message: message
+        var emails = [
+          'inna_manager_work@mail.ru',
+          'playarik@gmail.com'
+        ];
+
+        async.map(emails, function(email, cb) {
+          app.services.mail.sendTemplate('freeVisaDates', email, {
+            message: message
+          }, cb);
         }, cb);
       } else {
         cb();
