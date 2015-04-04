@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('lodash');
-var acl = require('../acl-js');
 
 module.exports = function () {
   return function (req, res, next) {
@@ -11,9 +10,7 @@ module.exports = function () {
       return
     }
 
-    var offset = host[0] === '['
-      ? host.indexOf(']') + 1
-      : 0
+    var offset = host[0] === '[' ? host.indexOf(']') + 1 : 0;
     var index = host.indexOf(':', offset)
 
     host = (index !== -1) ? host.substring(0, index) : host;

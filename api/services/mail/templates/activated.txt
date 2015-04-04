@@ -1,0 +1,7 @@
+Hi, {{userName}}
+
+Welcome to CannaSOS!
+
+CannaSOS team would like to thank you for becoming a member of the finest cannabis resource online.
+
+Use CannaSOS to explore strains, browse statistics, write reviews, post blogs, invite friends and connect to thousands of like-minded people with interest in cannabis.

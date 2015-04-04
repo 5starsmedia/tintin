@@ -1,0 +1,28 @@
+{
+  "resource": "sites",
+  "model": "Site",
+  "options": {
+    "searchFields": [
+      {
+        "role": "admin",
+        "value": ["msg", "hostname", "req.remoteAddress", "req.userAgent.browser", "req.userAgent.os"]
+      }
+    ],
+    "maxPerPage": [
+      {
+        "role": "admin",
+        "value": 200
+      }
+    ]
+  },
+  "acl": {
+    "*": {
+      "get": "admin",
+      "get?refs.resourceId&refs.collectionName": "admin",
+      "get?_id": ["admin", "*:owner"],
+      "put?_id": ["admin", "*:owner"],
+      "post": ["admin", "*:owner"],
+      "delete?_id": ["admin", "*:owner"]
+    }
+  }
+}

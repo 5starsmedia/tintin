@@ -17,6 +17,8 @@ exports.queueMessages = require('./queueMessages.js');
 exports.files = require('./files.js');
 exports.fileChunks = require('./fileChunks.js');
 
+exports.visaDates = require('./visaDate.js');
+
 exports.products = require('./product/product.js');
 exports.productBrands = require('./product/productBrand.js');
 exports.productCategories = require('./product/productCategory.js');

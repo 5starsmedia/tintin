@@ -5,6 +5,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <base href="/cabinet/"/>
+
     <title>TinTin CMS</title>
 
     <meta name="mobile-web-app-capable" content="yes">
@@ -22,6 +24,7 @@
     <link rel="stylesheet" href="bower_components/ng-grid/ng-grid.min.css" />
     <link rel="stylesheet" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css" />
     <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.min.css" />
+    <link rel="stylesheet" href="bower_components/ngprogress/ngProgress.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -40,7 +43,16 @@
     <div class="splash-title">
         <h1>TinTin CMS</h1>
         <p class="ng-cloak">{{globalCtrl.quote[0]}}</p>
-    <img src="assets/images/loading-bars.svg" width="64" height="64" /> </div>
+
+           <div class="sk-spinner sk-spinner-wave">
+             <div class="sk-rect1"></div>
+             <div class="sk-rect2"></div>
+             <div class="sk-rect3"></div>
+             <div class="sk-rect4"></div>
+             <div class="sk-rect5"></div>
+           </div>
+
+    </div>
 </div>
 
 <!--[if lt IE 7]>
@@ -97,11 +109,15 @@
 <script src="bower_components/flow.js/dist/flow.js"></script>
 <script src="bower_components/ng-flow/dist/ng-flow.js"></script>
 <script src="bower_components/ngSticky/dist/sticky.min.js"></script>
+<script src="bower_components/ngprogress/build/ngProgress.js"></script>
 <!-- endbuild -->
 
 <script src="assets/ckeditor/ckeditor.js"></script>
 
 <!-- build:js1 scripts/app.js -->
+<script>
+angular.module('views', []);
+</script>
 <script src="build/app.js"></script>
 <!-- endbuild -->
 

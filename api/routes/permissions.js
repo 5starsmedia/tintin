@@ -21,7 +21,6 @@ var router = express.Router();
 
 router.get('/', function (req, res, next) {
   res.json(['issues.has_access']);
-  next();
 });
 
 

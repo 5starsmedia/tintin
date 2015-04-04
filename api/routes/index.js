@@ -14,8 +14,6 @@ exports.init = function (app) {
   app.server.use('/api/upload', require('./upload.js'));
   app.server.use('/api/files', require('./files.js'));
 
-  app.server.use('/api/visa', require('./visa.js'));
-
   app.server.get('/api/:resource', access(), resourceRoute);
   app.server.get('/api/:resource/:_id', access(), resourceRoute);
   app.server.post('/api/:resource', access(), resourceRoute);

@@ -1,16 +1,12 @@
-/**
- * Copyright 2015 5starsmedia.com.ua
- */
 'use strict';
 
-var _ = require('lodash'),
+var async = require('async'),
+  mongoose = require('mongoose'),
   url = require('url'),
   cheerio = require('cheerio'),
-  express = require('express'),
+  moment = require('moment'),
   request = require('request'),
-  async = require('async');
-
-var router = express.Router();
+  _ = require('lodash');
 
 var getForm = function(html, data) {
   var $ = cheerio.load(html),
@@ -26,7 +22,10 @@ var getForm = function(html, data) {
   return action;
 };
 
-router.get('/', function (req, res, next) {
+
+function checkVisa(app, model, callback) {
+
+  var num = model.id;
 
   var host = 'https://www.vfsvisaonline.com';
   var baseUrl = host + '/poland-ukraine-appointment/AppScheduling/';
@@ -48,7 +47,6 @@ router.get('/', function (req, res, next) {
         if (!error && response.statusCode == 200) {
 
           path = response.request.uri.path;
-          console.info(path);
 
           var data = {
             '__EVENTTARGET': 'ctl00$plhMain$lnkSchApp',
@@ -71,7 +69,7 @@ router.get('/', function (req, res, next) {
         _.forEach(fields, function(item) {
           data[item.name] = item.value;
         });
-        data['ctl00$plhMain$cboVAC'] = 17;
+        data['ctl00$plhMain$cboVAC'] = num;
         data['ctl00$plhMain$cboPurpose'] = 1;
         data['ctl00$plhMain$btnSubmit'] = 'Підтвердити';
         next(undefined, data);
@@ -80,7 +78,6 @@ router.get('/', function (req, res, next) {
     'thirdPage': ['secondPage', function(next, resData) {
 
       var res = url.resolve(host + path, action);
-      console.info(res);
       request.post({ url: res, form: resData.secondPage, headers: { 'Referer': host + path } }, function(err,response,body){
 
         path = response.request.uri.path;
@@ -106,78 +103,95 @@ router.get('/', function (req, res, next) {
         var $ = cheerio.load(body),
           text = $('#ctl00_plhMain_lblMsg').text();
 
-        next(undefined, {res: text});
+        if (text == '') {
+          next(undefined, {hasError: true, response: body});
+          return;
+        }
+        next(undefined, {hasError: false, msg: text});
       });
     }]
   }, function(err, data) {
-    if (err) { return next(err); }
+    if (err) { return callback(err); }
 
-    res.status(200).json(data.fourPage);
+    var isChanged = false;
+    model.response = '';
+    model.isSuccess = !data.fourPage.hasError;
+    if (data.fourPage.hasError) {
+      model.response = data.fourPage.response;
+      app.log.info(
+        'Visa for ' + model.title + ' is errored'
+      );
+    } else if ((data.fourPage.msg || '').match(/No date/i) == null) {
+      var date = data.fourPage.msg;
+      date = date.replace('Січ', 'Jan')
+        .replace('Лют', 'Feb')
+        .replace('Бер', 'Mar')
+        .replace('Кві', 'Apr')
+        .replace('Тра', 'May')
+        .replace('Чер', 'Jun')
+        .replace('Лип', 'Jul')
+        .replace('Сер', 'Aug')
+        .replace('Вер', 'Sep')
+        .replace('Жов', 'Oct')
+        .replace('Лис', 'Nov')
+        .replace('Гру', 'Dec');
+
+      app.log.info(
+        'Visa for ' + model.title + ' is free for ' + moment(date, 'DD.MMM.YYYY').format('DD.MM.YYYY') +
+        '(msg: ' + data.fourPage.msg + ')'
+      );
+      model.lastResultDate = model.freeDate;
+      model.freeDate = moment(date, 'DD.MMM.YYYY').toDate();
+      if (!model.isFree || moment(model.lastResultDate).format('DD.MM.YYYY') != moment(model.freeDate).format('DD.MM.YYYY')) {
+        isChanged = true;
+      }
+      model.isFree = true;
+    } else {
+      app.log.info(
+        'Visa for ' + model.title + ' haven\'t free dates (msg: ' + data.fourPage.msg + ')'
+      );
+      model.isFree = false;
+      model.lastResultDate = null;
+    }
+    model.save(function(err) {
+      if (err) { return callback(err); }
+      callback(null, { model: model, isChanged: isChanged });
+    });
   });
-});
+}
 
+exports['visaDates.check'] = function (app, msg, cb) {
+  app.models.visaDates.find({ isEnabled: true }, function(err, visas) {
+    if (err) { return cb(err); }
 
-module.exports = router;
+    async.map(visas, _.partial(checkVisa, app), function(err, results){
+      var changed = _.filter(results, { isChanged: true });
+      var message = 'Звільнились дати:\n',
+        sendSms = false;
+      _.forEach(changed, function(item) {
+        var model = item.model;
+        if (model.isSMSSend) {
+          sendSms = true;
+        }
+        message += model.title + ':' + moment(model.freeDate).format('DD.MM.YYYY') + '\n';
+      });
+      if (sendSms) {
+        app.services.sms.sendSms(app, message);
+      }
+      if (changed.length > 0) {
+        var emails = [
+          'inna_manager_work@mail.ru',
+          'playarik@gmail.com'
+        ];
 
-
-//
-//request.get({ url: urlMain }, function (error, response, body) {
-//  if (!error && response.statusCode == 200) {
-//
-//    var path = response.request.uri.path;
-//    console.info(path)
-//
-//    var $ = cheerio.load(body),
-//      fields = {};
-//    var forms = $('form'), action;
-//
-//    fields = $(forms[0]).serializeArray();
-//    action = $(forms[0]).attr('action');
-//    var data = {
-//      '__EVENTTARGET': 'ctl00$plhMain$lnkSchApp',
-//      '__EVENTARGUMENT':''
-//    };
-//    _.forEach(fields, function(item) {
-//      data[item.name] = item.value;
-//    });
-//    console.info(host + path);
-//    request.post({ url: host + path, form: data }, function(err,httpResponse,body){
-//      $ = cheerio.load(body);
-//      forms = $('form');
-//      fields = $(forms[0]).serializeArray();
-//      action = $(forms[0]).attr('action');
-//      _.forEach(fields, function(item) {
-//        data[item.name] = item.value;
-//      });
-//      data['ctl00$plhMain$cboVAC'] = 17;
-//      data['ctl00$plhMain$cboPurpose'] = 1;
-//      data['ctl00$plhMain$btnSubmit'] = 'Підтвердити';
-//
-//      var res = url.resolve(host + path, action);
-//      console.info(res);
-//      request.post({ url: res, form: data, headers: { 'Referer': host + path } }, function(err,httpResponse,body){
-//
-//        $ = cheerio.load(body);
-//        forms = $('form');
-//        fields = $(forms[0]).serializeArray();
-//        action = $(forms[0]).attr('action');
-//        _.forEach(fields, function(item) {
-//          data[item.name] = item.value;
-//        });
-//        data['ctl00$plhMain$tbxNumOfApplicants'] = 1;
-//        data['ctl00$plhMain$txtChildren'] = 0;
-//        data['ctl00$plhMain$cboVisaCategory'] = 235;
-//
-//        res = url.resolve(host + path, 'AppSchedulingGetInfo.aspx?p=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA%3d');
-//        console.info(res);
-//        request.post({ url: res, form: data, headers: { 'Referer': res } }, function(err,httpResponse,body){
-//
-//          $ = cheerio.load(body);
-//          var text = $('#ctl00_plhMain_lblMsg').text();
-//          console.info(text);
-//        });
-//
-//      });
-//    });
-//  }
-//});
+        async.map(emails, function(email, cb) {
+          app.services.mail.sendTemplate('freeVisaDates', email, {
+            message: message
+          }, cb);
+        }, cb);
+      } else {
+        cb();
+      }
+    });
+  });
+};

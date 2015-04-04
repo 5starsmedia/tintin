@@ -1,0 +1,75 @@
+{{> header.html}}
+
+<table class="row">
+    <tr>
+        <td class="wrapper">
+
+            <table class="twelve columns">
+                <tr>
+                    <td class="content-wrap sub-grid">
+
+                        <p class="content__title_medium">Hi, {{userName}}</p>
+
+                        <p>You have a new post on your feed from {{postedUsername}}:</p>
+
+                        <table class="margin-top-24 margin-bottom-24">
+                            <tr>
+                                <td class="panel">
+
+                                    <p>"{{post}} - Lorem ipsum dolor sit amet, consectetur
+                                        adipisicing elit. Aliquid esse excepturi omnis
+                                        voluptates..."</p>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table>
+                            <tr>
+                                <td class="six sub-columns">
+
+                                    <table class="medium-button radius center">
+                                        <tr>
+                                            <td>
+
+                                                <a href="{{config.url}}/api/auth/activate/{{activationToken}}"
+                                                   target="_blank">View more</a>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                                <td class="six sub-columns last">
+
+                                    <table class="medium-button radius center">
+                                        <tr>
+                                            <td>
+
+                                                <a href="{{config.url}}/api/auth/activate/{{activationToken}}"
+                                                   target="_blank">Reply</a>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                        <p class="margin-top-24">Thank you, <br>CannaSOS Team</p>
+
+                        <p>P.S. <a href="#" target="_blank">Follow top contributors</a> to
+                            generate the most interesting content in your feed :)</p>
+
+                    </td>
+
+                    <td class="expander"></td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+{{> footer.html}}

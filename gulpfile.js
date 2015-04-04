@@ -93,8 +93,8 @@ gulp.task('compileTemplates', ['compileAppTemplates'], function () {
     .pipe(htmlify())
     .pipe(templateCache({
       root: 'views/',
-      standalone: false,
-      module: 'app'
+      standalone: true,
+      module: 'views'
     }))
     .pipe(gulp.dest(config.outputDir));
 });
@@ -106,7 +106,7 @@ gulp.task('compileAppTemplates', ['build-persistent'], function () {
       root: 'app/',
       filename: 'templates-app.js',
       standalone: false,
-      module: 'app'
+      module: 'views'
     }))
     .pipe(gulp.dest(config.outputDir));
 });

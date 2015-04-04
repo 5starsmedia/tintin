@@ -1,0 +1,24 @@
+{
+  "resource": "visaDates",
+  "model": "VisaDate",
+  "options": {
+    "searchFields": [
+      {
+        "role": "admin",
+        "value": ["msg", "hostname", "req.remoteAddress", "req.userAgent.browser", "req.userAgent.os"]
+      }
+    ],
+    "maxPerPage": [
+      {
+        "role": "admin",
+        "value": 200
+      }
+    ]
+  },
+  "acl": {
+    "*": {
+      "get": "*",
+      "get?_id": "*"
+    }
+  }
+}

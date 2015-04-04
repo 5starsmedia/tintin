@@ -12,11 +12,13 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
   async = require('async'),
+  cors = require('cors'),
   lynx = require('lynx'),
   lynxExpress = require('lynx-express'),
   useragent = require('express-useragent'),
 //compression = require('compression'),
   sites = require('./middleware/sites.js'),
+  tasks = require('./services/tasks'),
   config = require('./config.js');
 //phantom = require('node-phantom'),
 //robots = require('robots.txt'),
@@ -36,10 +38,13 @@ app.services = {
   hooks: require('./services/hooks'),
   html: new (require('./services/html'))(),
   url: require('./services/url'),
+  sms: require('./services/sms'),
+  mail: require('./services/mail'),
   validation: require('./services/validation'),
+  tasks: new tasks.TasksSvc(app)
 };
+
 /* navigation: require('./services/navigation'),
- tasks: require('./services/tasks'),
  mail: require('./services/mail'),
  social: require('./services/social'),
  feed: new feed.FeedSvc(app),
@@ -138,6 +143,16 @@ app.log_level = {
 
 
 app.server.use(sites());
+var corsOptionsDelegate = function(req, callback){
+  var site = req.site;
+  var corsOptions = { origin: false };
+  if(site && site.isCorsEnabled){
+    corsOptions.origin = true;
+    corsOptions.credentials = true;
+  }
+  callback(null, corsOptions);
+};
+app.server.use(cors(corsOptionsDelegate));
 
 var routes = require('./routes');
 routes.init(app);
@@ -376,11 +391,12 @@ exports.start = function (cb) {
 
   async.series([
     _.partial(async.parallel, [
+      _.partial(app.services.mail.init, app),
       _.partial(app.services.data.loadResources, app),
       _.partial(app.services.modifiers.loadPlugins, app),
       _.partial(app.services.validation.loadValidators, app),
       _.partial(app.services.hooks.loadPlugins, app),
-      //app.services.tasks.init.bind(app.services.tasks),
+      app.services.tasks.init.bind(app.services.tasks)
     ]),
     function (next) {
       app.log.debug('Connecting to mongodb...');
@@ -419,13 +435,18 @@ exports.start = function (cb) {
       //refreshStrainsStats(app, next);
       next();
     },
-    //_.partial(app.services.tasks.startProcessQueue, app)
+    _.bind(app.services.tasks.start, app.services.tasks)
   ], function (err) {
     if (err) {
       return cb(err);
     }
     app.log.info('Configuration "' + config.get('env') + '" successfully loaded in', Date.now() - startDate, 'ms');
 
+
+    setInterval(function () {
+      app.services.mq.push(app, 'events', {name: 'visaDates.check'});
+    }, 10 * 60 * 1000);
+    app.services.mq.push(app, 'events', {name: 'visaDates.check'});
 
     /*setInterval(function () {
      app.services.mq.push(app, 'events', {name: 'content.unfresh'});
@@ -437,38 +458,22 @@ exports.start = function (cb) {
   });
 };
 
-
-// close application
-process.on('SIGINT', function () {
-  exports.stop(function (err) {
-    if (err) {
-      return app.log.error(err);
-    }
-    app.log.debug('Application closed successfully');
-  });
-});
-
 exports.stop = function (cb) {
   async.series([
     function (next) {
       app.log.debug('Stopping http server...');
-      if (!httpServer) {
-        return next();
-      }
-      httpServer.close(function (err) {
-        if (err) {
-          return next(err);
-        }
+      if (!app.httpServer) { return next(); }
+      app.httpServer.close(function (err) {
+        if (err) { return next(err);}
         app.log.debug('Http server stopped successfully');
+        app.httpServer = null;
         next();
       });
     },
     function (next) {
       app.log.debug('Closing mongodb connection...');
       mongoose.connection.close(function (err) {
-        if (err) {
-          return next(err);
-        }
+        if (err) { return next(err); }
         app.log.debug('Mongodb connection successfully closed');
         next();
       });
