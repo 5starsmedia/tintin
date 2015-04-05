@@ -1,50 +1,54 @@
-define([
-    'modules/ecommerce/types/module'
-], function (module) {
-    'use strict';
+export default
+class EcommerceEditFieldCtrl {
+  /*@ngInject*/
+  constructor($scope, item, $modalInstance, $filter) {
 
-    module.controller('EcommerceEditFieldCtrl', ['$scope', 'item', '$modalInstance', '$filter',
-        function ($scope, item, $modalInstance, $filter) {
+    $scope.item = item;
 
-            $scope.item = item;
+    $scope.fieldTypes = [
+      {id: 'checkbox', title: $filter('translate')('Чекбокс (Да/Нет)')},
+      {id: 'text', title: $filter('translate')('Текст')},
+      {id: 'number', title: $filter('translate')('Число')},
+      {id: 'list', title: $filter('translate')('Выпадающий список')},
+      {id: 'checkbox-list', title: $filter('translate')('Список чекбоксов')},
+      {id: 'separator', title: $filter('translate')('Разделитель')}
+    ];
 
-            $scope.fieldTypes = [
-                { id: 1, title: $filter('translate')('Чекбокс (Да/Нет)')      },
-                { id: 2, title: $filter('translate')('Текст')    },
-                { id: 3, title: $filter('translate')('Число')    },
-                { id: 4, title: $filter('translate')('Выпадающий список')       },
-                { id: 5, title: $filter('translate')('Список чекбоксов')   },
-                { id: 6, title: $filter('translate')('Разделитель') }
-            ];
+    $scope.sortableConfig = {
+      group: 'fields',
+      handle: '.drag-handle',
+      animation: 150,
+      onSort: (event) => {
+        _.forEach(event.models, (model, n) => {
+          model.ordinal = n;
+        });
+      }
+    };
 
-            $scope.saveItem = function () {
-                $scope.loading = true;
-                item.$save(function () {
-                    $scope.loading = false;
-                    $modalInstance.close(item);
-                });
-            };
+    $scope.saveItem = function () {
+      $scope.loading = true;
 
-            $scope.close = function () {
-                $modalInstance.dismiss('cancel');
-            };
+      let save = item._id ? item.$save : item.$create;
+      //delete item.files;
+      save.call(item, (data) => {
+        $scope.loading = false;
+        $modalInstance.close(item);
+      });
+    };
 
-            $scope.addVariant = function(item) {
-                var max = 0;
-                if (!angular.isObject(item.data)) {
-                    item.data = {};
-                }
-                angular.forEach(item.data, function(itm, n) {
-                    n = parseInt(n);
-                    if (angular.isNumber(n) && n > max) {
-                        max = n;
-                    }
-                });
-                item.data[max + 1] = {};
-            }
-            $scope.removeVariant = function(item, i) {
-                delete item.data[i];
-            }
-        }]);
+    $scope.close = function () {
+      $modalInstance.dismiss('cancel');
+    };
 
-});
+    $scope.addVariant = function (item) {
+      item.fieldData = item.fieldData || [];
+      item.fieldData.push({
+        value: '',
+        ordinal: item.fieldData.length + 1
+      });
+    };
+    $scope.removeVariant = function (item, i) {
+      delete item.data[i];
+    }
+  }
+}

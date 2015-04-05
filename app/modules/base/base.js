@@ -66,6 +66,9 @@ angular.module(appName, [
     });
     $rootScope.$on('$stateChangeSuccess', function() {
       ngProgress.complete();
+      setTimeout(function () {
+        fixWrapperHeight();
+      }, 30);
     });
     $rootScope.$on('$stateChangeError', function() {
       ngProgress.reset();

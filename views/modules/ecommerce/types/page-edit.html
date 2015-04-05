@@ -1,0 +1,64 @@
+<div>
+
+    <st-form model="item" state="error" submit="saveItem(item)">
+    <h2 class="font-light m-b-xs">
+        {{'Edit'|translate}}
+    </h2>
+
+
+    <div class="hpanel" bz-loading-container="loading">
+        <div class="panel-body no-bottom-border">
+
+            <st-form-element label="{{'Title'|translate}}" field="title">
+
+                <input id="title" class="form-control input-lg" name="title" type="text" required
+                       ng-model="item.title"/>
+
+            </st-form-element>
+
+            <a href="" class="btn btn-success" ng-click="editField()">
+                <span class="fa fa-plus"></span>
+                {{'Add new field'|translate}}
+            </a>
+
+        </div>
+
+        <div class="panel-body no-padding" bz-loading-container="fieldsLoading">
+        <ul ng-sortable="sortableConfig" class="list-group sortable">
+            <li class="list-group-item" ng-repeat="item in fields" ng-class="{'success': item.isPublished}">
+                <span class="drag-handle"><span></span></span>
+
+                <a class="" href="" st-confirm="remove(item)" message="'Удалить?'|translate"
+                   message-title="'Удалить'|translate"><span class="fa fa-times text-danger pull-right"></span></a>
+
+                <span class="badge badge-primary">16</span>
+
+                <a href="" ng-click="editField(item)">
+                    <span ng-if="item.is_filter" class="fa fa-filter"></span>
+                    <span ng-if="!item.require">{{item.title}}</span>
+                    <strong ng-if="item.require">{{item.title}}</strong>
+                </a>
+            </li>
+        </ul>
+        </div>
+        <div class="panel-footer">
+
+            <a href="" class="btn btn-danger btn-outline pull-right" st-confirm="remove(child)"
+               message-title="'Удаление...'"
+               message="'Вы действительно хотите удалить?'">
+                {{'Delete'| translate}}
+            </a>
+
+            <button class="btn btn-primary" type="submit">
+                {{'Save'| translate}}
+            </button>
+
+            <a href="" class="btn btn-default" ng-click="cancel()">
+                {{'Cancel'| translate}}
+            </a>
+
+        </div>
+    </div>
+
+    </st-form>
+</div>

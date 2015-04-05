@@ -1,6 +1,6 @@
 {
-  "resource": "productCategories",
-  "model": "ProductCategory",
+  "resource": "productTypes",
+  "model": "ProductType",
   "options": {},
   "acl": {
     "*": {

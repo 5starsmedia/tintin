@@ -4,6 +4,7 @@ var appName = 'module.ecommerce.products';
 
 var module = angular.module(appName, [
   'ngTable',
+  'ui.utils.masks.global.money',
   models
 ]);
 
@@ -51,7 +52,7 @@ module.config(function ($stateProvider) {
         product: ($stateParams, $q, EcommerceProductModel) => {
           var defer = $q.defer();
           defer.resolve(new EcommerceProductModel({
-
+            price: 1
           }));
           return defer.promise;
         }

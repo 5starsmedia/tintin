@@ -1,6 +1,6 @@
 {
-  "resource": "productCategories",
-  "model": "ProductCategory",
+  "resource": "productFields",
+  "model": "ProductField",
   "options": {},
   "acl": {
     "*": {
@@ -10,12 +10,11 @@
       "get?tags": "*",
       "get?tags.title": "*",
       "get?category._id": "*",
+      "get?productType._id": "*",
       "put?_id": ["admin", "*:owner"],
       "put?_id&position": ["admin", "*:owner"],
       "post": "admin",
       "delete?_id": "admin"
-    },
-    "_w": false,
-    "path": false
+    }
   }
 }

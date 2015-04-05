@@ -1,7 +1,8 @@
 var appName = 'module.ecommerce.models';
 
 var module = angular.module(appName, [
-  'ngResource'
+  'ngResource',
+  'ngEditableTree'
 ]);
 
 // models
@@ -9,14 +10,14 @@ import EcommerceProductModel from './EcommerceProductModel.js';
 import EcommerceCategoryModel from './EcommerceCategoryModel.js';
 import EcommerceBrandModel from './EcommerceBrandModel.js';
 import EcommerceTypeModel from './EcommerceTypeModel.js';
-import EcommerceTypeFieldModel from './EcommerceTypeFieldModel.js';
+import EcommerceFieldModel from './EcommerceFieldModel.js';
 import EcommerceReviewModel from './EcommerceReviewModel.js';
 import EcommerceProductFieldModel from './EcommerceProductFieldModel.js';
 
 module.factory('EcommerceProductModel', EcommerceProductModel)
   .factory('EcommerceBrandModel', EcommerceBrandModel)
   .factory('EcommerceTypeModel', EcommerceTypeModel)
-  .factory('EcommerceTypeFieldModel', EcommerceTypeFieldModel)
+  .factory('EcommerceFieldModel', EcommerceFieldModel)
   .factory('EcommerceReviewModel', EcommerceReviewModel)
   .factory('EcommerceProductFieldModel', EcommerceProductFieldModel)
   .factory('EcommerceCategoryModel', EcommerceCategoryModel);

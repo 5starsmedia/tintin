@@ -1,5 +1,5 @@
 export default
-class EcommerceEditTypeCtrl {
+class EcommerceEditCategoryCtrl {
   /*@ngInject*/
   constructor($scope, item, $state, EcommerceTypeModel, EcommerceFieldModel, $modal, notify, $filter, $q) {
     $scope.item = item;

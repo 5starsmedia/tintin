@@ -1,0 +1,64 @@
+<div class="content" animate-panel effect="zoomIn">
+
+    <div class="main-content" bz-loading-container="loading" style="overflow: visible">
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="pull-right">
+                    <a href="" class="btn btn-success btn-outline" ng-click="addItem(tree)">
+                        <i class="fa fa-plus"></i> {{'New type'|translate}}
+                    </a>
+                </div>
+                <h2 class="font-light m-b-xs">
+                    {{'Product types'|translate}}
+                </h2>
+
+                <ol class="nav nav-nested editable" tree-view-sortable="tree" tree-view-move="move($item, $before, $index)">
+            <li tree-view="child in tree.children at ol" ng-class="{expanded:child.$expanded}">
+                <div>
+                    <a href="" ng-click="child.$expanded = !child.$expanded">
+                        <span ng-if="child.children.length" class="fa fa-2x" ng-class="{'fa-caret-down': child.$expanded, 'fa-caret-right': !child.$expanded}"></span>
+                    </a>
+
+                    <div class="panel"
+                         ng-class="{'panel-primary': editedItem._id == child._id, 'panel-default': editedItem._id != child._id}">
+
+                        <span class="btn-group pull-right">
+                            <!-- Add child menu item -->
+                            <a class="btn btn-sm btn-default"
+                               ng-click="addItem(child)"><span><i
+                                    class="fa fa-plus"></i></span></a>
+
+                            <!-- Delete menu item -->
+                            <a class="btn btn-sm btn-default"
+                               href="" st-confirm="remove(child)"
+                               message-title="'Удаление...'"
+                               message="'Вы действительно хотите удалить?'">
+                                <span><i class="fa fa-times"></i></span>
+                            </a>
+                        </span>
+
+                        <a class="panel-heading" href="" ui-sref="ecommerce.types.edit({id: child._id})">
+                            <span class="drag-handle">
+                                <span></span>
+                            </span>
+                            {{child.title}}
+                        </a>
+                    </div>
+                </div>
+                <ol></ol>
+            </li>
+        </ol>
+            </div>
+
+            <div class="col-md-6">
+
+                <div ui-view animate-panel autoscroll="true"></div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>

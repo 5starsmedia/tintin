@@ -5,7 +5,7 @@ export default
     //$locationProvider.html5Mode(true)
 
     // Optimize load start with remove binding information inside the DOM element
-    $compileProvider.debugInfoEnabled(false);
+    //$compileProvider.debugInfoEnabled(false);
 
     // Set default state
     $urlRouterProvider.otherwise("/dashboard");

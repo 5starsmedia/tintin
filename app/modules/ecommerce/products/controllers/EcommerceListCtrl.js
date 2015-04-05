@@ -42,7 +42,7 @@ class EcommerceList {
     };
 
     $scope.filterByCategory = function (category) {
-      $scope.tableParams.filter({category_id: category.id});
+      $scope.tableParams.filter({'category._id': category._id});
     };
 
     $scope.changePublish = function (item) {

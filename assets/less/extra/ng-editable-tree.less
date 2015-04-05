@@ -1,0 +1,192 @@
+@import (reference)'bower_components/bootstrap/less/bootstrap';
+
+.nav-nested {
+  margin: 4px 0 4px -6px;
+  border: 0 none transparent;
+  padding: 0;
+  background: transparent;
+
+  li {
+    border: 1px solid transparent;
+    list-style: none;
+    margin: 0px;
+
+    & > ol {
+      margin: 0 0 0 10px;
+      display: none;
+    }
+    &.expanded > ol {
+      display: block;
+    }
+
+    & > div > a {
+      display: block;
+      padding: 2px 0px;
+
+      &:first-child {
+        opacity: .5;
+        text-decoration: none;
+        float: left;
+        width: 20px;
+        color: #999;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    &.active {
+      & > div > a.leaf {
+        background: @btn-primary-bg;
+        display: inline;
+        border-radius: 3px;
+        padding: 3px 5px;
+        color: #fff;
+      }
+    }
+  }
+}
+
+@leftPadding: 10px;
+.nav-nested.editable {
+  border: 0 none transparent;
+  padding: 0;
+  background: transparent;
+  //float: left;
+  margin-left: -@leftPadding;
+
+  ol {
+    margin: 0;
+    border: none;
+  }
+  .panel {
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+
+  /* temporary turn off expanding
+  & li {
+      display: block !important;
+      & > div > a > span {
+          display: none !important;
+      }
+  }*/
+  li {
+    border: 0 none transparent;
+    list-style: none;
+    margin: 5px 0px;
+    // padding: 4px 0 0 @leftPadding;
+    background: transparent;
+
+    &.nav-placeholder {
+      background-color: @panel-warning-heading-bg;
+      border-color: @panel-warning-border;
+      border-style: dashed;
+      border-width: 1px;
+      border-radius: @border-radius-base;
+
+      margin-left: 20px;
+      margin-top: 4px;
+      margin-bottom: 10px;
+    }
+
+    .panel .btn-group {
+      z-index: 100;
+      margin-top: 4px;
+      margin-right: 3px;
+    }
+
+    .panel-heading {
+      position: relative;
+      padding-left: 46px;
+      display: block;
+    }
+
+    .drag-handle {
+      &, & span {
+        display: inline-block;
+        width: 20px;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        cursor: move;
+        line-height: 0;
+      }
+      & span {
+        display: block;
+        width: 20px;
+        margin: 2px 0;
+        height: 4px;
+      }
+      & {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        margin-top: -5px;
+      }
+    }
+
+    & > div {
+
+      & > a {
+        padding: 7px 0px;
+        vertical-align: top;
+        display: table-cell;
+      }
+
+      .item-content {
+        vertical-align: top;
+        display: table-cell;
+
+        .btn-group {
+          .title-item-menu {
+            cursor: move;
+            display: block;
+            min-width: 304px;
+            overflow: hidden;
+            position: relative;
+            text-align: left;
+            width: auto;
+
+            small {
+              font-size: 70%;
+              position: absolute;
+              right: 0px;
+              top: -2px;
+            }
+          }
+        }
+        &.expanded {
+          .btn-group {
+            .btn {
+              &:first-child {
+                border-bottom-left-radius: 0;
+              }
+              &:last-child {
+                border-bottom-right-radius: 0;
+              }
+            }
+          }
+        }
+        .details {
+          background: none repeat scroll 0 0 #FFFFFF;
+          border: 1px solid #D6D6D6;
+          border-top: none;
+          border-radius: 0px 0px 3px 3px;
+          margin-top: 0px;
+          padding: 5px;
+          width: 100%;
+        }
+      }
+    }
+  }
+  .toggle {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none transparent;
+    color: #AAAAAA;
+    left: 0;
+    position: absolute;
+    top: 7px;
+    width: 2em;
+  }
+}

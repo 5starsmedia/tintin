@@ -1302,7 +1302,8 @@ fieldset[disabled] .btn-link.active {
   background-color: transparent;
   transition: all .5s;
 }
-.btn-xs {
+.btn-xs,
+.btn-group-xs > .btn {
   border-radius: 3px;
   font-size: 11px;
   line-height: 1.5;
@@ -2814,12 +2815,12 @@ h6 {
 }
 @media only screen and (max-width: 800px) {
   .ng-table-responsive {
-    border-bottom: 1px solid #999999;
+    border-bottom: 1px solid #dddddd;
   }
   .ng-table-responsive tr {
-    border-top: 1px solid #999999;
-    border-left: 1px solid #999999;
-    border-right: 1px solid #999999;
+    border-top: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
   }
   .ng-table-responsive td:before {
     position: absolute;
@@ -3285,6 +3286,268 @@ fieldset[disabled] .btn-vk.active {
 .page-profile .b-profile__block {
   margin: 0 0 10px;
 }
+.thumbnail > img,
+.thumbnail a > img,
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.btn-group-lg > .btn {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}
+.btn-group-sm > .btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.btn-group-xs > .btn {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.dl-horizontal dd:before,
+.dl-horizontal dd:after,
+.container:before,
+.container:after,
+.container-fluid:before,
+.container-fluid:after,
+.row:before,
+.row:after,
+.form-horizontal .form-group:before,
+.form-horizontal .form-group:after,
+.btn-toolbar:before,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:before,
+.btn-group-vertical > .btn-group:after,
+.nav:before,
+.nav:after,
+.navbar:before,
+.navbar:after,
+.navbar-header:before,
+.navbar-header:after,
+.navbar-collapse:before,
+.navbar-collapse:after,
+.pager:before,
+.pager:after,
+.panel-body:before,
+.panel-body:after,
+.modal-footer:before,
+.modal-footer:after {
+  content: " ";
+  display: table;
+}
+.dl-horizontal dd:after,
+.container:after,
+.container-fluid:after,
+.row:after,
+.form-horizontal .form-group:after,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:after,
+.nav:after,
+.navbar:after,
+.navbar-header:after,
+.navbar-collapse:after,
+.pager:after,
+.panel-body:after,
+.modal-footer:after {
+  clear: both;
+}
+.nav-nested {
+  margin: 4px 0 4px -6px;
+  border: 0 none transparent;
+  padding: 0;
+  background: transparent;
+}
+.nav-nested li {
+  border: 1px solid transparent;
+  list-style: none;
+  margin: 0px;
+}
+.nav-nested li > ol {
+  margin: 0 0 0 10px;
+  display: none;
+}
+.nav-nested li.expanded > ol {
+  display: block;
+}
+.nav-nested li > div > a {
+  display: block;
+  padding: 2px 0px;
+}
+.nav-nested li > div > a:first-child {
+  opacity: .5;
+  text-decoration: none;
+  float: left;
+  width: 20px;
+  color: #999;
+}
+.nav-nested li > div > a:first-child:hover {
+  opacity: 1;
+}
+.nav-nested li.active > div > a.leaf {
+  background: #337ab7;
+  display: inline;
+  border-radius: 3px;
+  padding: 3px 5px;
+  color: #fff;
+}
+.nav-nested.editable {
+  border: 0 none transparent;
+  padding: 0;
+  background: transparent;
+  margin-left: -10px;
+  /* temporary turn off expanding
+  & li {
+      display: block !important;
+      & > div > a > span {
+          display: none !important;
+      }
+  }*/
+}
+.nav-nested.editable ol {
+  margin: 0;
+  border: none;
+}
+.nav-nested.editable .panel {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+.nav-nested.editable li {
+  border: 0 none transparent;
+  list-style: none;
+  margin: 5px 0px;
+  background: transparent;
+}
+.nav-nested.editable li.nav-placeholder {
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+  border-style: dashed;
+  border-width: 1px;
+  border-radius: 4px;
+  margin-left: 20px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+.nav-nested.editable li .panel .btn-group {
+  z-index: 100;
+  margin-top: 4px;
+  margin-right: 3px;
+}
+.nav-nested.editable li .panel-heading {
+  position: relative;
+  padding-left: 46px;
+  display: block;
+}
+.nav-nested.editable li .drag-handle {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  margin-top: -5px;
+}
+.nav-nested.editable li .drag-handle,
+.nav-nested.editable li .drag-handle span {
+  display: inline-block;
+  width: 20px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  cursor: move;
+  line-height: 0;
+}
+.nav-nested.editable li .drag-handle span {
+  display: block;
+  width: 20px;
+  margin: 2px 0;
+  height: 4px;
+}
+.nav-nested.editable li > div > a {
+  padding: 7px 0px;
+  vertical-align: top;
+  display: table-cell;
+}
+.nav-nested.editable li > div .item-content {
+  vertical-align: top;
+  display: table-cell;
+}
+.nav-nested.editable li > div .item-content .btn-group .title-item-menu {
+  cursor: move;
+  display: block;
+  min-width: 304px;
+  overflow: hidden;
+  position: relative;
+  text-align: left;
+  width: auto;
+}
+.nav-nested.editable li > div .item-content .btn-group .title-item-menu small {
+  font-size: 70%;
+  position: absolute;
+  right: 0px;
+  top: -2px;
+}
+.nav-nested.editable li > div .item-content.expanded .btn-group .btn:first-child {
+  border-bottom-left-radius: 0;
+}
+.nav-nested.editable li > div .item-content.expanded .btn-group .btn:last-child {
+  border-bottom-right-radius: 0;
+}
+.nav-nested.editable li > div .item-content .details {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border: 1px solid #D6D6D6;
+  border-top: none;
+  border-radius: 0px 0px 3px 3px;
+  margin-top: 0px;
+  padding: 5px;
+  width: 100%;
+}
+.nav-nested.editable .toggle {
+  background: none repeat scroll 0 0 transparent;
+  border: 0 none transparent;
+  color: #AAAAAA;
+  left: 0;
+  position: absolute;
+  top: 7px;
+  width: 2em;
+}
+.drag-handle {
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  margin-top: -5px;
+}
+.drag-handle,
+.drag-handle span {
+  display: block;
+  width: 20px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  cursor: move;
+  line-height: 0;
+}
+.drag-handle span {
+  display: block;
+  width: 20px;
+  margin: 2px 0;
+  height: 4px;
+}
+.list-group.sortable .list-group-item {
+  padding-left: 38px;
+}
+.list-group.sortable .list-group-item .drag-handle {
+  left: 10px;
+}
+.list-group.sortable .list-group-item.with-input {
+  border: 0 none;
+  padding: 5px 0 5px 30px;
+}
+.list-group.sortable .list-group-item.with-input .drag-handle {
+  left: 3px;
+}
 body > [ui-view] {
   overflow: hidden;
 }
@@ -3346,6 +3609,9 @@ body > [ui-view] {
 .input-group-addon.h-bg-green {
   background: #62cb31;
   color: #fff;
+}
+.panel-body.no-bottom-border {
+  border-bottom: 0 none;
 }
 .projects .project-label {
   font-weight: 600;

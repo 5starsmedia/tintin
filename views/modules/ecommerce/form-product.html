@@ -219,7 +219,7 @@
 
                 <div>
 
-                    <input type="text" name="price" required float-int class="form-control" ng-model="item.price"/>
+                    <input type="text" name="price" ui-money-mask="2" required float-int class="form-control" ng-model="item.price"/>
 
                     <span class="help-block" ng-show="form.price.$error.float">Неверное число</span>
                 </div>

@@ -1,8 +1,12 @@
 export default
   /*@ngInject*/
-  function EcommerceCategoryModel($resource) {
-    var resource = $resource('/api/productCategories/:id', { 'id': '@id' }, {
-      '$delete': { method: 'DELETE'}
+  function EcommerceCategoryModel(ngNestedResource) {
+    var resource = ngNestedResource('/api/productCategories/:_id/:method', { '_id': '@_id' }, {
+      'getAsTree': {method: 'GET', params: { method: 'tree' }},
+      'save': { method: 'PUT'},
+      'delete': { method: 'DELETE'}
+    }, {
+      'nestedField': 'children'
     });
     return resource;
   }

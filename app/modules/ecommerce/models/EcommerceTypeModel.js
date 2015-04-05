@@ -1,8 +1,12 @@
 export default
   /*@ngInject*/
-  function EcommerceTypeModel($resource) {
-    var resource = $resource('/api/product-types/:id', { 'id': '@id' }, {
-      '$delete': { method: 'DELETE'}
+  function EcommerceTypeModel(ngNestedResource) {
+    var resource = ngNestedResource('/api/productTypes/:_id/:method', {'_id': '@_id'}, {
+      'getAsTree': {method: 'GET', params: { method: 'tree' }},
+      'save': {method: 'PUT'},
+      'delete': {method: 'DELETE'}
+    }, {
+      'nestedField': 'children'
     });
     return resource;
   }

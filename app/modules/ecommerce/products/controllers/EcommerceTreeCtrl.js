@@ -3,14 +3,13 @@ class EcommerceTreeCtrl {
   /*@ngInject*/
   constructor($scope, $stateParams, EcommerceCategoryModel) {
 
-    return;
     $scope.loading = true;
     // get categories
     EcommerceCategoryModel.getTree(function (res) {
       $scope.loading = false;
 
       var parents = [];
-      $scope.category = res;
+      $scope.tree = res;
 
       // select active category
       $scope.activeCategory = EcommerceCategoryModel.find(res, function (item) {

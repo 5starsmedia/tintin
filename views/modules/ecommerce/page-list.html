@@ -17,7 +17,7 @@
                 <div class="panel-body" bz-loading-container="loading">
 
 
-                    <table ng-table="tableParams" ng-table-filters-manager show-filter="true" class="table">
+                    <table ng-table="tableParams" ng-table-filters-manager show-filter="false" class="table">
                         <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
                             <td data-title="'Заголовок'|translate" sortable="'title'" filter="{'title': 'text'}">
                                 <a ui-sref="ecommerce.edit({id: item.id})">{{item.title}}</a>

@@ -49,6 +49,7 @@
     "*": {
       "get": ["admin", "*:owner", "user"],
       "get?activated": ["admin"],
+      "get?category._id": "*",
       "get?_id": ["admin", "*:owner", "user"],
       "put?_id": ["admin", "*:owner"],
       "post": "admin",
