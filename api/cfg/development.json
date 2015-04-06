@@ -42,7 +42,7 @@
     "port": "8125"
   },
   "tasks": {
-    "enabled": false,
+    "enabled": true,
     "stomp": {
       "destination": "/queue/tasks",
       "host": "127.0.0.1",
