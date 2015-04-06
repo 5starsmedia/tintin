@@ -57,7 +57,7 @@
 
             <label>{{'Тип'|translate}}</label>
             <select class="form-control" ng-model="item.fieldType">
-                <option ng-repeat="itm in fieldTypes" value="{{itm.id}}" ng-selected="itm.id == item.type">
+                <option ng-repeat="itm in fieldTypes" value="{{itm.id}}" ng-selected="itm.id == item.fieldType">
                     {{itm.title}}
                 </option>
             </select>
