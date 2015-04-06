@@ -1,5 +1,6 @@
 <div bz-loading-container="loading">
 
+    <st-form model="post" state="error" submit="saveItem(item)">
 
     <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
         <div class="hpanel" bz-loading-container="loading">
@@ -41,9 +42,10 @@
         </div>
     </div>
 
-    <div class="content" animate-panel effect="zoomIn">
+    <div class="content" animate-panel effect="fadeIn" delay="0">
 
         <div ng-include="'views/modules/ecommerce/form-product.html'"></div>
 
     </div>
+    </st-form>
 </div>

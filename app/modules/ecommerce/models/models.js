@@ -12,14 +12,12 @@ import EcommerceBrandModel from './EcommerceBrandModel.js';
 import EcommerceTypeModel from './EcommerceTypeModel.js';
 import EcommerceFieldModel from './EcommerceFieldModel.js';
 import EcommerceReviewModel from './EcommerceReviewModel.js';
-import EcommerceProductFieldModel from './EcommerceProductFieldModel.js';
 
 module.factory('EcommerceProductModel', EcommerceProductModel)
   .factory('EcommerceBrandModel', EcommerceBrandModel)
   .factory('EcommerceTypeModel', EcommerceTypeModel)
   .factory('EcommerceFieldModel', EcommerceFieldModel)
   .factory('EcommerceReviewModel', EcommerceReviewModel)
-  .factory('EcommerceProductFieldModel', EcommerceProductFieldModel)
   .factory('EcommerceCategoryModel', EcommerceCategoryModel);
 
 export default appName;

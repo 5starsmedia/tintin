@@ -12,7 +12,8 @@ var schema = new mongoose.Schema({
 
   title: {type: String, required: true},
   alias: String,
-  body: {type: String, required: true},
+  body: String,
+  code: String,
 
   createDate: {type: Date, required: true, default: Date.now},
 
@@ -25,8 +26,11 @@ var schema = new mongoose.Schema({
   isDiscount: Boolean,
   isCanOrder: Boolean,
   isInStock: Boolean,
+  isHit: Boolean,
 
-  count: Number,
+  inStockCount: Number,
+  ordinal: Number,
+
   price: {type: Number, required: true, default: 0},
 
   status: {type: Number, required: true, default: 0},
@@ -37,6 +41,29 @@ var schema = new mongoose.Schema({
     vk: {type: Number, required: true, default: 0},
     twitter: {type: Number, required: true, default: 0}
   },
+
+
+  productFields: [
+    {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String,
+      value: mongoose.Schema.Types.Mixed,
+      values: [{
+        title: String,
+        ordinal: Number
+      }],
+      fieldType: String,
+      isFilled: Boolean,
+      ordinal: Number
+    }
+  ],
+
+  relatedProducts: [
+    {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String
+    }
+  ],
 
   category: {
     _id: mongoose.Schema.Types.ObjectId,
@@ -56,7 +83,7 @@ var schema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     title: String
   },
-  type: {
+  productType: {
     _id: mongoose.Schema.Types.ObjectId,
     title: String
   },

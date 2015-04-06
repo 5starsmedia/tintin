@@ -13,13 +13,9 @@ class EcommerceList {
 
         $scope.loading = true;
         EcommerceProductModel.query(BaseAPIParams({}, params), function (res, headers) {
-          var data = [];
-          angular.forEach(res.data, function (item) {
-            data.push(new EcommerceProductModel(item));
-          });
           $scope.loading = false;
           params.total(headers('x-total-count'));
-          $defer.resolve(data);
+          $defer.resolve(res);
         }, function () {
           $scope.loading = false;
         });
@@ -27,30 +23,21 @@ class EcommerceList {
       }
     });
 
-    $scope.updatePrice = function (item) {
+    $scope.updateItem = function (item) {
       item.$loading = true;
-      item.$updatePrice(function () {
-        item.$loading = false;
+      var updateItem = new EcommerceProductModel({
+        _id: item._id,
+        ordinal: item.ordinal,
+        isPublished: !!item.isPublished,
+        price: item.price
       });
-    };
-
-    $scope.updateOrder = function (item) {
-      item.$loading = true;
-      item.$updateOrder(function () {
+      updateItem.$save(function () {
         item.$loading = false;
       });
     };
 
     $scope.filterByCategory = function (category) {
       $scope.tableParams.filter({'category._id': category._id});
-    };
-
-    $scope.changePublish = function (item) {
-      item.publish = !item.publish;
-      $scope.loading = true;
-      item.$save(function () {
-        $scope.loading = false;
-      })
     };
 
     $scope.remove = function (item) {

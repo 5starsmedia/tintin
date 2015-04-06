@@ -1,49 +1,49 @@
 <form name="related">
 
-    <div class="alert alert-warning" ng-if="!item.id">
-        <span class="fa fa-warning"></span>&nbsp;
-        {{'Для добавления сопутствующих товаров нужно сохранить товар'|translate}}
-    </div>
-    <div class="row" ng-if="item.id">
+    <div class="row" bz-loading-container="loading">
 
         <div class="col-xs-6">
 
-            <h3>{{'Сопутствующие товары'|translate}}</h3>
+            <h3>{{'Related products'|translate}}</h3>
 
-            <table ng-table="relatedParams" show-filter="true" class="table">
-                <tr ng-repeat="item in $data">
-                    <td data-title="'Заголовок'|translate" sortable="'title'" filter="{'title': 'text'}">
-                        <a target="_blank" href="ecommerce/edit/{{item.id}}">{{item.title}}</a>
+            <table class="table">
+                <tr ng-repeat="product in item.relatedProducts">
+                    <td>
+                        <a target="_blank" ui-sref="ecommerce.edit({id: product._id})">
+                            {{product.title}}
+                        </a>
                     </td>
-                    <td data-title="'Действия'|translate">
+                    <td data-title="'Actions'|translate">
 
-                        <a href="" ng-click="removeRelatedProduct(item)" class="text-danger"><span class="fa fa-times"></span></a>
+                        <a href="" ng-click="removeRelatedProduct(product)" class="text-danger">
+                            <span class="fa fa-times"></span>
+                        </a>
 
                     </td>
                 </tr>
-                <tr ng-if="!$data.length">
-                    <td colspan="{{$columns.length}}" class="text-center">{{'Нет данных'|translate}}</td>
+                <tr ng-if="!item.relatedProducts.length">
+                    <td colspan="2" class="text-center">{{'No products'|translate}}</td>
                 </tr>
             </table>
 
         </div>
         <div class="col-xs-6">
 
-            <h3>{{'Все'|translate}}</h3>
+            <h3>{{'All products'|translate}}</h3>
 
             <table ng-table="tableParams" show-filter="true" class="table">
-                <tr ng-repeat="item in $data">
-                    <td data-title="'Действия'|translate">
+                <tr ng-repeat="product in $data">
+                    <td data-title="'Actions'|translate">
 
-                        <a href="" ng-click="addRelatedProduct(item)" class="btn btn-success"><span class="fa fa-arrow-left"></span></a>
+                        <a href="" ng-click="addRelatedProduct(product)" class="btn btn-success"><span class="fa fa-arrow-left"></span></a>
 
                     </td>
-                    <td data-title="'Заголовок'|translate" sortable="'title'" filter="{'title': 'text'}">
-                        <a target="_blank" href="ecommerce/edit/{{item.id}}">{{item.title}}</a>
+                    <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
+                        <a target="_blank" ui-sref="ecommerce.edit({id: product._id})">{{item.title}}</a>
                     </td>
                 </tr>
                 <tr ng-if="!$data.length">
-                    <td colspan="{{$columns.length}}" class="text-center">{{'Нет данных'|translate}}</td>
+                    <td colspan="{{$columns.length}}" class="text-center">{{'No products'|translate}}</td>
                 </tr>
             </table>
 

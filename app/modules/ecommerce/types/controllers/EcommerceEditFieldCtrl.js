@@ -43,7 +43,7 @@ class EcommerceEditFieldCtrl {
     $scope.addVariant = function (item) {
       item.fieldData = item.fieldData || [];
       item.fieldData.push({
-        value: '',
+        title: '',
         ordinal: item.fieldData.length + 1
       });
     };

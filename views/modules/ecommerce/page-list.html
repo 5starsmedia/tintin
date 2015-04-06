@@ -1,4 +1,4 @@
-<div class="content" animate-panel effect="zoomIn">
+<div class="content" animate-panel effect="zoomIn" delay="0">
 
     <div class="row">
 
@@ -20,11 +20,11 @@
                     <table ng-table="tableParams" ng-table-filters-manager show-filter="false" class="table">
                         <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
                             <td data-title="'Заголовок'|translate" sortable="'title'" filter="{'title': 'text'}">
-                                <a ui-sref="ecommerce.edit({id: item.id})">{{item.title}}</a>
+                                <a ui-sref="ecommerce.edit({id: item._id})">{{item.title}}</a>
                             </td>
                             <td data-title="'Цена'|translate" sortable="'price'">
                                 <div bz-loading-container="item.$loading">
-                                    <input type="number" ng-model="item.price" ng-blur="updatePrice(item)" class="form-control" />
+                                    <input type="number" ng-model="item.price" ng-blur="updateItem(item)" class="form-control" />
                                 </div>
                             </td>
                             <td data-title="'Наличие'|translate" sortable="'count'">
@@ -32,7 +32,7 @@
                                 <span class="label label-default" ng-if="!item.isInStock">{{'Нет в наличии'|translate}}</span>
                             <span class="label label-success" ng-if="item.isInStock">
                                 {{'В наличии:'|translate}}
-                                {{item.count}}
+                                {{item.inStockCount}}
                             </span>
 
                             </td>
@@ -44,16 +44,21 @@
                             </td>
                             <td width="50" data-title="'Порядок'|translate" sortable="'order'">
                                 <div bz-loading-container="item.$loading">
-                                    <input type="number" ng-model="item.order" ng-blur="updateOrder(item)" class="form-control" />
+                                    <input type="number" ng-model="item.ordinal" ng-blur="updateItem(item)" class="form-control" />
                                 </div>
                             </td>
-                            <td data-title="'Действия'|translate" class="actions">
+                            <td data-title="'Действия'|translate" class="actions text-right">
 
                                 <div class="btn-group">
 
-                                    <a href="" data-ng-click="changePublish(item)"><span
-                                            ng-if="!item.publish" title="{{'Снять с публикации'|translate}}"><i class="fa fa-lock"></i></span><span
-                                            ng-if="item.publish" title="{{'Опубликовано'|translate}}"><i class="fa fa-unlock"></i></span></a>
+                                    <a href="" data-ng-click="item.isPublished = !item.isPublished; updateItem(item)">
+                                        <span ng-if="!item.isPublished" title="{{'Снять с публикации'|translate}}">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                        <span ng-if="item.isPublished" title="{{'Опубликовано'|translate}}">
+                                            <i class="fa fa-unlock"></i>
+                                        </span>
+                                    </a>
 
                                     <a ui-sref="ecommerce.edit({id: item.id})" title="{{'Редактировать'|translate}}"><span class="fa fa-pencil"></span></a>
 

@@ -1,73 +1,47 @@
 export default
 class EcommerceRelatedProductsCtrl {
   /*@ngInject*/
-  constructor($scope, ngTableParams, EcommerceBrandModel, EcommerceProductModel) {
+  constructor($scope, ngTableParams, EcommerceBrandModel, EcommerceProductModel, BaseAPIParams) {
 
     $scope.addRelatedProduct = function (product) {
-      $scope.loading = true;
-      EcommerceProductModel.addRelatedProduct({'id': $scope.item.id}, {'id': product.id}, function () {
-        $scope.loading = false;
-        $scope.tableParams.reload();
-        $scope.relatedParams.reload();
+      $scope.item.relatedProducts.push({
+        _id: product._id,
+        title: product.title
       });
+      $scope.tableParams.reload();
     };
     $scope.removeRelatedProduct = function (product) {
-      $scope.loading = true;
-      EcommerceProductModel.removeRelatedProduct({'id': $scope.item.id, 'product_id': product.id}, function () {
-        $scope.loading = false;
-        $scope.tableParams.reload();
-        $scope.relatedParams.reload();
-      });
+      var index = _.indexOf($scope.item.relatedProducts, { _id: product._id });
+      $scope.item.relatedProducts.splice(index, 1);
+      $scope.tableParams.reload();
     };
 
     $scope.loading = true;
-    $scope.$watch('item.id', function (id) {
+    $scope.$watch('item._id', function (id) {
       if (angular.isUndefined(id)) {
         return;
       }
-
-      $scope.relatedParams = new ngTableParams({
-        page: 1,            // show first page
-        count: 10           // count per page
-      }, {
-        getData: function ($defer, params) {
-
-          $scope.loading = true;
-          var param = params.url();
-          param.id = id;
-          EcommerceProductModel.getRelatedProducts(param, function (res) {
-            var data = [];
-            angular.forEach(res.data, function (item) {
-              data.push(new EcommerceProductModel(item));
-            });
-            $scope.loading = false;
-            params.total(res.pager.total);
-            $defer.resolve(data);
-          }, function () {
-            $scope.loading = false;
-          });
-
-        }
-      });
-
+      $scope.item.relatedProducts = $scope.item.relatedProducts || [];
 
       $scope.loading = true;
       $scope.tableParams = new ngTableParams({
         page: 1,            // show first page
         count: 10           // count per page
       }, {
+        counts: [],
         getData: function ($defer, params) {
 
+          var relatedIds = _.pluck($scope.item.relatedProducts, '_id');
+          relatedIds.push(id);
+
           $scope.loading = true;
-          var param = params.url();
-          param.id = id;
-          EcommerceProductModel.getNotRelatedProducts(param, function (res) {
-            var data = [];
-            angular.forEach(res.data, function (item) {
-              data.push(new EcommerceProductModel(item));
-            });
+          EcommerceProductModel.query(BaseAPIParams({}, params), function (data) {
             $scope.loading = false;
-            params.total(res.pager.total);
+
+            data = _.filter(data, (item) => {
+              return _.indexOf(relatedIds, item._id) == -1;
+            });
+
             $defer.resolve(data);
           }, function () {
             $scope.loading = false;

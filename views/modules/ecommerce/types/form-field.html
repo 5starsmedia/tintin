@@ -70,7 +70,7 @@
                 <li class="list-group-item with-input" ng-repeat="(i,field) in item.fieldData | orderBy: 'ordinal'">
                     <span class="drag-handle"><span></span></span>
                     <div class="input-group">
-                        <input class="form-control" type="text" ng-model="field.value"/>
+                        <input class="form-control" type="text" ng-model="field.title"/>
 
                           <span class="input-group-btn">
                             <button class="btn btn-danger" ng-click="removeVariant(item, i)" type="button">

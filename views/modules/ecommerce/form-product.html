@@ -1,234 +1,170 @@
-<form name="form">
-
-
 <div class="row">
 <div class="col-xs-9">
 
     <tabset class="hpanel">
         <tab>
-            <tab-heading>{{'Описание'|translate}}</tab-heading>
+            <tab-heading>{{'Main information'|translate}}</tab-heading>
 
             <div class="panel-body">
 
-            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-9">
 
-                <label class="control-label">{{'Заголовок'|translate}}</label>
+                        <st-form-element label="{{'Title'|translate}}" field="title">
 
-                <div>
+                            <input id="title" class="form-control input-lg" name="title" type="text" required
+                                   ng-model="item.title"/>
 
-                    <input type="text" class="form-control" bz-localizable="item.title"
-                           ng-model="item.title[$contentLanguageId]"/>
+                        </st-form-element>
 
+                    </div>
+                    <div class="col-xs-3">
+
+                        <st-form-element label="{{'Price'|translate}}" field="code">
+
+                            <input type="text" name="price" ui-money-mask="2" required class="form-control input-lg" ng-model="item.price"/>
+
+                        </st-form-element>
+
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-6">
 
-                <label class="control-label">{{'Полное название'|translate}}</label>
 
-                <div>
+                        <st-form-element label="{{'Category'|translate}}" field="category._id">
 
-                    <input type="text" class="form-control" bz-localizable="item.full_title"
-                           ng-model="item.full_title[$contentLanguageId]"/>
+                            <select class="form-control" ng-model="item.category._id">
+                                <option ng-repeat="category in categories" value="{{category._id}}"
+                                        ng-selected="item.category._id == category._id" ng-bind-html="category.title"></option>
+                            </select>
 
+                        </st-form-element>
+
+                    </div>
+                    <div class="col-xs-6">
+
+                        <st-form-element label="{{'Brand'|translate}}" field="brand_id">
+
+                            <select class="form-control" ng-model="item.brand._id"
+                                    ng-options="item._id as item.title for item in brands"></select>
+
+                        </st-form-element>
+
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
+                <st-form-element label="{{'Description'|translate}}" field="body">
 
-                <label>{{'Категория'|translate}}</label>
+                    <textarea class="form-control" ckeditor="editorOptions" ng-model="item.body"></textarea>
 
-                <select class="form-control" ng-model="item.category_id">
-                    <option ng-repeat="category in categories" value="{{category.id}}"
-                            ng-selected="item.category_id == category.id" ng-bind-html="category.$title"></option>
-                </select>
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="control-label">{{'Описание'|translate}}</label>
-
-                <div>
-
-                    <textarea class="form-control" ckeditor="editorOptions" bz-localizable="item.description"
-                              ng-model="item.description[$contentLanguageId]"></textarea>
-
-                </div>
-            </div>
-
-
-            <div bz-uploader="$config.resource('/ecommerce/images')" text="{'choose': 'Вибрати файли'}"
-                 ng-model="item.images" editor-select-images autoupload="true" errors="errors">
-
-                <ul class="gallery clearfix">
-                    <li ng-repeat="(key,file) in item.images" class="item"
-                        ng-class="{'is_main': file.is_main}">
-                        <img ng-src="{{file.thumbnailUrl}}"/>
-
-                        <div class="details">
-                            <a href="" title="Зробити головним зображенням"
-                               data-ng-click="setMainImage(file)" class="action">
-                                <i class="fa fa-flag"></i>
-                            </a>
-                            <a href="" title="Видалити зображення" data-ng-click="item.images.splice(key,1)"
-                               class="action">
-                                <i class="fa fa-trash-o"></i>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+                </st-form-element>
 
             </div>
 
 
         </tab>
         <tab>
-            <tab-heading>{{'Атрибуты'|translate}}</tab-heading>
-
-            <div class="panel-body"
-                 ng-controller="EcommerceEditAttributesCtrl"
-                 ng-include="'views/modules/ecommerce/form-product-attributes.html'"></div>
-        </tab>
-        <tab>
-            <tab-heading>{{'Сопутствующие товары'|translate}}</tab-heading>
+            <tab-heading>
+                {{'Related products'|translate}}
+                <span class="label label-default" ng-if="item.relatedProducts.length">{{item.relatedProducts.length}}</span>
+            </tab-heading>
 
             <div class="panel-body"
                  ng-controller="EcommerceRelatedProductsCtrl"
                  ng-include="'views/modules/ecommerce/form-related-products.html'"></div>
         </tab>
-        <tab>
+        <!--tab>
             <tab-heading>{{'Отзывы'|translate}}<span ng-if="item.$reviews_count" class="label label-info arrowed arrow-left-in">{{item.$reviews_count}}</span></tab-heading>
 
             <div class="panel-body"
                  ng-controller="EcommerceProductReviewsCtrl"
                  ng-include="'views/modules/ecommerce/form-product-reviews.html'"></div>
-        </tab>
+        </tab-->
     </tabset>
 
 </div>
 <div class="col-xs-3">
 
-    <div class="panel panel-primary">
+    <div class="hpanel hblue">
         <div class="panel-heading">
-            {{'Атрибуты'|translate}}
+            {{'Attributes'|translate}}
         </div>
-        <div class="panel-body">
-
-            <div class="form-group">
-
-                <label class="control-label">{{'Артикул'|translate}}</label>
-
-                <div>
-
-                    <input type="text" class="form-control" ng-model="item.code"/>
-
-                </div>
-            </div>
-
-
-            <div class="form-group" bz-loading-container="loading_brands">
-
-                <label class="control-label">{{'Бренд'|translate}}</label>
-
-                <div>
-
-                    <select class="form-control" ng-model="item.brand_id"
-                            ng-options="item.id as item.title for item in brands"></select>
-
-                </div>
-            </div>
-
-            <div class="form-group checkbox">
-
-                <label class="control-label">
-
-                    <input type="checkbox" ng-model="item.can_order"/>
-                    {{'Товар доступен для заказата'|translate}}
-
-                </label>
-            </div>
-
-            <div class="form-group checkbox">
-
-                <label class="control-label">
-
-                    <input type="checkbox" ng-model="item.in_stock"/>
-                    {{'Есть в наличии'|translate}}
-
-                </label>
-
-                <div ng-if="item.in_stock">
-                    <input type="text" placeholder="{{'Количество'|translate}}" class="form-control"
-                           ng-model="item.count"/>
-                </div>
-            </div>
-
-
-            <div class="form-group checkbox">
-
-                <label class="control-label">
-
-                    <input type="checkbox" ng-model="item.hit"/>
-                    {{'Хит'|translate}}
-
-                </label>
-            </div>
-
-            <div class="form-group checkbox">
-
-                <label class="control-label">
-
-                    <input type="checkbox" ng-model="item.is_latest"/>
-                    {{'Новинка'|translate}}
-
-                </label>
-            </div>
-
-            <div class="form-group checkbox">
-
-                <label class="control-label">
-
-                    <input type="checkbox" ng-model="item.is_discount"/>
-                    {{'Акция'|translate}}
-
-                </label>
-            </div>
-
-            <div class="form-actions">
-
-                <div class="alert alert-danger" ng-if="form.$invalid">Не все поля заполнены верно</div>
-
-                <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="saveItem(item)">{{'Сохранить'|translate}}</button>
-
-            </div>
-        </div>
+        <div class="panel-body"
+             ng-controller="EcommerceEditAttributesCtrl"
+             ng-include="'views/modules/ecommerce/form-product-attributes.html'"></div>
     </div>
 
-
-    <div class="panel panel-primary">
+    <div class="hpanel">
         <div class="panel-heading">
-            {{'Цена'|translate}}
+            {{'Additional info'|translate}}
         </div>
         <div class="panel-body">
 
-            <div class="form-group" ng-class="{'has-error': form.price.$invalid}">
+            <st-form-element label="{{'Product code'|translate}}" field="code">
 
-                <label class="control-label">{{'Основная цена'|translate}}<span class="star">*</span></label>
+                <input class="form-control" name="code" type="text" ng-model="item.code"/>
 
-                <div>
+            </st-form-element>
 
-                    <input type="text" name="price" ui-money-mask="2" required float-int class="form-control" ng-model="item.price"/>
+            <div class="form-group checkbox">
 
-                    <span class="help-block" ng-show="form.price.$error.float">Неверное число</span>
+                <label class="control-label">
+
+                    <input type="checkbox" ng-model="item.isCanOrder"/>
+                    {{'Can order'|translate}}
+
+                </label>
+            </div>
+
+            <div class="form-group checkbox">
+
+                <label class="control-label">
+
+                    <input type="checkbox" ng-model="item.isInStock"/>
+                    {{'In stock'|translate}}
+
+                </label>
+
+                <div ng-if="item.isInStock">
+                    <input type="number" placeholder="{{'Count'|translate}}" class="form-control"
+                           ng-model="item.inStockCount"/>
                 </div>
             </div>
 
+
+            <div class="form-group checkbox">
+
+                <label class="control-label">
+
+                    <input type="checkbox" ng-model="item.isHit"/>
+                    {{'Hit'|translate}}
+
+                </label>
+            </div>
+
+            <div class="form-group checkbox">
+
+                <label class="control-label">
+
+                    <input type="checkbox" ng-model="item.isLatest"/>
+                    {{'Latest'|translate}}
+
+                </label>
+            </div>
+
+            <div class="form-group checkbox">
+
+                <label class="control-label">
+
+                    <input type="checkbox" ng-model="item.isDiscount"/>
+                    {{'Discount'|translate}}
+
+                </label>
+            </div>
         </div>
     </div>
 
 </div>
 </div>
-
-</form>

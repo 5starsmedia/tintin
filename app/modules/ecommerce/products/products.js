@@ -5,6 +5,7 @@ var appName = 'module.ecommerce.products';
 var module = angular.module(appName, [
   'ngTable',
   'ui.utils.masks.global.money',
+  'checklist-model',
   models
 ]);
 
@@ -52,7 +53,8 @@ module.config(function ($stateProvider) {
         product: ($stateParams, $q, EcommerceProductModel) => {
           var defer = $q.defer();
           defer.resolve(new EcommerceProductModel({
-            price: 1
+            price: 1,
+            inStockCount: 1
           }));
           return defer.promise;
         }
@@ -68,7 +70,7 @@ module.config(function ($stateProvider) {
         hideTitle: true
       },
       resolve: {
-        post: function($stateParams, EcommerceProductModel) {
+        product: function($stateParams, EcommerceProductModel) {
           return EcommerceProductModel.get({ _id: $stateParams.id }).$promise;
         }
       }

@@ -17,7 +17,7 @@ var schema = new mongoose.Schema({
   fieldType: {type: String, default: 'checkbox', enum: ['checkbox', 'text', 'number', 'list', 'checkbox-list', 'separator']},
   fieldData: [
     {
-      value: String,
+      title: String,
       ordinal: Number
     }
   ],
