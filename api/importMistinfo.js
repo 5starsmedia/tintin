@@ -160,7 +160,7 @@ var saveFile = function(site, product, image, next) {
 }
 
 var siteId = 849,
-  siteDomain = 'localhost';
+  siteDomain = 'seasons.5stars.link';
 async.auto({
   'mongoConnection': function(next) {
     app.log.debug('Connecting to mongodb...');
@@ -209,8 +209,7 @@ async.auto({
   }],
   'getProducts': ['connection', 'mongoConnection', 'getCategories', 'getBrands', function(next, data) {
     data.connection.query('SELECT * FROM com_ecommerce_products AS p LEFT JOIN com_ecommerce_products_locale AS pl ON '+
-                          ' p.id = pl.id WHERE site_id = ' + siteId +
-                          ' LIMIT 10', function (err, rows, fields) {
+                          ' p.id = pl.id WHERE site_id = ' + siteId, function (err, rows, fields) {
       if (err) throw err;
       async.each(rows, _.partial(saveItem, data.site, data.connection), next);
     });
