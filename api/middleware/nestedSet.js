@@ -92,6 +92,13 @@ function processPost(collectionName, req, res, next) {
       node._w = data.position;
       node.parentId = data.parent._id;
       node.title = 'New node';
+
+      if (req.app.models[collectionName].schema.paths['site._id']) {
+        node.site = {
+          _id: req.site._id,
+          domain: req.site.domain
+        };
+      }
       node.save(next);
     }]
   }, function(err, data){
