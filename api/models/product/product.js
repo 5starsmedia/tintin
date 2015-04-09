@@ -68,7 +68,8 @@ var schema = new mongoose.Schema({
 
   category: {
     _id: mongoose.Schema.Types.ObjectId,
-    title: String
+    title: String,
+    alias: String
   },
   coverFile: {
     _id: mongoose.Schema.Types.ObjectId,
