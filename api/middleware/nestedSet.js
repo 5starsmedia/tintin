@@ -144,6 +144,13 @@ function processPut(collectionName, req, res, next) {
       if (req.query.position) {
         data.element._w = parseInt(req.query.position);
       }
+
+      if (req.app.models[collectionName].schema.paths['site._id']) {
+        data.element.site = {
+          _id: req.site._id,
+          domain: req.site.domain
+        };
+      }
       data.element.save(next);
     }]
   }, next);
