@@ -35,7 +35,7 @@ var schema = new mongoose.Schema({
   createDate: {type: Date, required: true, default: Date.now},
   removed: {type: Date},
   site: {
-    _id: mongoose.Schema.Types.ObjectId,
+    _id: {type: mongoose.Schema.Types.ObjectId, required: true},
     domain: String
   }
 }, {
