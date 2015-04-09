@@ -20,7 +20,10 @@
                     <table ng-table="tableParams" ng-table-filters-manager show-filter="false" class="table">
                         <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
                             <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
-                                <a ui-sref="ecommerce.edit({id: item._id})">{{item.title}}</a>
+                                <a ui-sref="ecommerce.edit({id: item._id})">
+                                    <span ng-if="item.code" class="font-bold">{{item.code}}</span>
+                                    {{item.title}}
+                                </a>
                             </td>
                             <td data-title="'Price'|translate" sortable="'price'">
                                 <div bz-loading-container="item.$loading">
