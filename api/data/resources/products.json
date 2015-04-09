@@ -39,7 +39,7 @@
       "get": ["admin", "*:owner", "user"],
       "get?activated": ["admin"],
       "get?category._id": "*",
-      "get?_id": ["admin", "*:owner", "user"],
+      "get?_id": "*",
       "put?_id": ["admin", "*:owner"],
       "post": "admin",
       "delete?_id": "admin"
