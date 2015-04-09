@@ -48,7 +48,7 @@ class EcommerceEditFieldCtrl {
       });
     };
     $scope.removeVariant = function (item, i) {
-      delete item.fieldData[i];
+      item.fieldData.splice(i, 1);
     }
   }
 }
