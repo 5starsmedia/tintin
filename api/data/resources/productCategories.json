@@ -16,6 +16,7 @@
       "post": "admin",
       "delete?_id": "admin"
     },
+    "site": false,
     "_w": false,
     "path": false
   }

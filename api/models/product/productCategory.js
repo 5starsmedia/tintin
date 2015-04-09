@@ -11,6 +11,7 @@ var mongoose = require('mongoose'),
 
 var schema = new mongoose.Schema({
 
+  id: Number,
   title: {type: String, required: true},
   alias: String,
   body: String,
