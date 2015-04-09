@@ -8,7 +8,7 @@ export default
       scope: {
         files: '='
       },
-      controller: function ($scope) {
+      controller: /*@ngInject*/ ($scope) => {
         $scope.files = $scope.files || [];
       }
     };

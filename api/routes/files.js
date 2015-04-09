@@ -83,9 +83,9 @@ function resize(req, buf, width, height, cb) {
           fs.readFile(destPath, function (err, res) {
             cleanSrcTmp();
             cleanDestTmp();
-            fs.close(srcFd);
-            fs.close(destFd);
             cb(null, res);
+            fs.close(srcFd, function() {});
+            fs.close(destFd, function() {});
           });
         });
       });

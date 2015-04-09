@@ -6,6 +6,26 @@ var express = require('express'),
   async = require('async'),
   router = express.Router();
 
+router.get('/import', function (req, res, next) {
+  return;
+  _.forEach(data, function(item) {
+    var post = new req.app.models.posts();
+    post.title = item.text;
+    post.body = item.text;
+    post.tags = [];
+    post.site = req.site;
+    var tags = item.tags.split(',');
+    _.forEach(tags, function(tag) {
+      tag = _.trim(tag);
+      post.tags.push({
+        title: tag
+      });
+    });
+    post.save(function (err, data) {
+    });
+  });
+});
+
 router.get('/tags-complete', function (req, res, next) {
   if (req.auth.isGuest) {
     res.status(401).end();

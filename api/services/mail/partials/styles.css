@@ -1,0 +1,276 @@
+body, table.body {
+    background: #f1f1f3;
+}
+
+body, table.body, h1, h2, h3, h4, h5, h6, p, td {
+    line-height: 22px;
+    font-size: 16px;
+}
+
+.cannasos-logo-link {
+    color: #80be25;
+    display: inline-block
+}
+
+.cannasos-logo {
+    display: block;
+    margin: 0 auto;
+    width: 80px;
+    height: 80px;
+}
+
+td.wrapper {
+    padding: 10px 10px 0;
+}
+
+table.columns td.content-wrap, table.column td.content-wrap {
+    border: 1px solid #ccc;
+    color: #333;
+    margin-bottom: 12px;
+    border-radius: 2px;
+    border-collapse: separate;
+    background: #fff;
+    padding: 12px 24px;
+}
+
+p {
+    margin: 12px 0;
+    font-size: 16px;
+}
+
+.margin-top-24 {
+    margin-top: 24px;
+}
+
+p.center {
+    text-align: center;
+}
+
+.content__title_medium {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.content__title_large {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.content__title_large.center {
+    text-align: center;
+}
+
+a {
+    color: #80be25;
+}
+
+a:hover {
+    color: #79b322 !important;
+}
+
+a:active {
+    color: #70a61f !important;
+}
+
+a:visited {
+    color: #70a61f !important;
+}
+
+table.button:hover td,
+table.button:visited td,
+table.button:active td {
+    background: #79b322 !important;
+}
+
+table.button:hover td,
+table.tiny-button:hover td,
+table.small-button:hover td,
+table.medium-button:hover td,
+table.large-button:hover td {
+    background: #79b322 !important;
+}
+
+table.button td,
+table.tiny-button td,
+table.small-button td,
+table.medium-button td,
+table.large-button td {
+    background: #80be25;
+    border: none;
+    -webkit-transition: background .1s;
+    -moz-transition: background .1s;
+    transition: background .1s;
+}
+
+table.tiny-button td {
+    padding: 0;
+}
+
+table.small-button td {
+    padding: 0;
+}
+
+table.medium-button td {
+    padding: 0;
+}
+
+table.large-button td {
+    padding: 0;
+}
+
+table.tiny-button td a,
+table.small-button td a,
+table.medium-button td a,
+table.large-button td a {
+    display: block;
+}
+
+table.tiny-button td a{
+    padding: 5px 5px;
+}
+
+table.small-button td a{
+    padding: 8px 5px;
+}
+
+table.medium-button td a{
+    padding: 12px 5px;
+}
+
+table.large-button td a{
+    padding: 21px 5px;
+}
+
+.footer p {
+    font-size: 12px;
+    color: #999;
+    line-height: 16px;
+}
+
+.footer_just {
+    text-align: justify;
+}
+
+.footer__social {
+    width: 80%;
+    margin-left: 10%;
+}
+
+.footer .footer__social td {
+    padding: 0 5px;
+}
+
+.footer__social img.social-icon-img{
+    float: none;
+    margin: auto;
+    width: 32px;
+    height: 32px;
+}
+
+.margin-top-24 {
+    margin-top: 24px !important;
+}
+
+.margin-top-12 {
+    margin-top: 12px !important;
+}
+
+.margin-bottom-24 {
+    margin-bottom: 24px !important;
+}
+
+.margin-bottom-12 {
+    margin-bottom: 12px !important;
+}
+
+.bordered{
+    border: 1px solid #cccccc;
+}
+
+.bordered td{
+    padding: 10px!important;
+}
+
+.bordered td table.tiny-button td,
+.bordered td table.small-button td,
+.bordered td table.medium-button td,
+.bordered td table.large-button td{
+    padding: 0!important;
+}
+
+table.userlist td{
+    vertical-align: middle;
+}
+
+.margin-0 {
+    margin: 0 !important;
+}
+
+.margin-top-0 {
+    margin-top: 0 !important;
+}
+
+.margin-bottom-0 {
+    margin-bottom: 0 !important;
+}
+
+.panel{
+    background: #f1f1f3;
+}
+
+.subgrid-title{
+    font-size: 18px;
+    font-weight: 700;
+    color: #555;
+}
+
+table.avatar-with-text {
+    border: 1px solid #ccc;
+    margin: 12px 0;
+    border-radius: 2px;
+}
+
+table.avatar-with-text td {
+    padding: 10px;
+}
+
+table.avatar-with-text img {
+    display: block;
+    border-radius: 2px;
+    width: 50px;
+    height: 50px;
+}
+
+table.avatar-with-text td.avatar {
+    width: 50px;
+}
+
+.bor-bottom {
+    border-bottom: 1px dashed #dddddd;
+    padding-bottom: 12px;
+}
+
+.light-font {
+    color: #999;
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 600px) {
+    table[class="body"] .wrapper {
+        padding-left: 0 !important;
+    }
+
+    table[class="body"] table.avatar-with-text td.avatar {
+        width: 50px !important;
+    }
+
+    table[class="body"] table.avatar-with-text img {
+        width: 50px !important;
+        height: 50px !important;
+        max-width: none !important;
+    }
+
+    table[class="body"] table.footer__social td {
+        width: auto !important;
+    }
+}

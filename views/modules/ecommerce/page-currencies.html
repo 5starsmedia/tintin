@@ -1,0 +1,46 @@
+<breadcrumbs>
+    <crumb href="''" title="'Мой кабинет'|translate"/>
+    <crumb title="'И-магазин'|translate"/>
+    <crumb title="'Валюты'|translate"/>
+</breadcrumbs>
+
+<div class="padded" bz-loading-container="loading">
+
+    <div class="page-header">
+        <div class="table-actions btn-group btn-group-instruments">
+            <a href="" ng-click="editItem()" class="btn btn-success">
+                <i class="fa fa-plus"></i>
+                {{'Добавить'|translate}}
+            </a>
+        </div>
+
+        <h1>{{'Валюты'|translate}}</h1>
+    </div>
+    <div class="main-content" bz-loading-container="loading">
+
+        <table ng-table="tableParams" show-filter="false" class="table">
+            <tr ng-repeat="item in $data">
+                <!--td data-title="'Основная'">
+                    <input type="radio" value="1" name="is_main" ng-click="setMain(item)" ng-model="item.is_main" />
+                </td-->
+                <td data-title="'Название валюты'|translate" filter="{ 'title': 'text' }" sortable="title">
+                    <a href="" ng-click="editItem(item)">{{item.title}} ({{item.slug}}, {{item.symbol}})</a>
+                </td>
+                <td data-title="'Курс'|translate" class="text-center">
+                    {{item.factor}}
+                </td>
+                <td data-title="'Действия'|translate" width="50" class="text-right">
+                    <div class="btn-group">
+                        <a href="" ng-click="editItem(item)"><i class="fa fa-pencil"></i></a>
+
+                        <a ng-click="deleteItem(item)" href="" title="Удалить" class="text-danger">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>

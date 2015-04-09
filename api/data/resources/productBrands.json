@@ -1,0 +1,10 @@
+{
+  "resource": "productBrands",
+  "model": "ProductBrand",
+  "options": {},
+  "acl": {
+    "title": {
+      "get": "*"
+    }
+  }
+}

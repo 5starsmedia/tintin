@@ -11,23 +11,23 @@ function getDataOptions(req, next) {
   var opts = {};
 
   if (req.resource.options.maxPerPage) {
-    if (!(req.param('perPage') && req.param('perPage') <= req.resource.options.maxPerPage)) {
+    if (!(req.query['perPage'] && req.query['perPage'] <= req.resource.options.maxPerPage)) {
       return next(new req.app.errors.OperationError('Missing "perPage" query param'));
     }
-    opts.limit = req.param('perPage');
+    opts.limit = req.query['perPage'];
 
-    if (!req.param('page')) {
+    if (!req.query['page']) {
       return next(new req.app.errors.OperationError('Missing "page" query param'));
     }
-    opts.skip = req.param('page') ? (req.param('page') - 1) * opts.limit : 0;
+    opts.skip = req.query['page'] ? (req.query['page'] - 1) * opts.limit : 0;
 
-  } else if (req.param('perPage')) {
-    opts.skip = req.param('page') ? (req.param('page') - 1) * req.param('perPage') : 0;
-    opts.limit = req.param('perPage');
+  } else if (req.query['perPage']) {
+    opts.skip = req.query['page'] ? (req.query['page'] - 1) * req.query['perPage'] : 0;
+    opts.limit = req.query['perPage'];
   }
 
   // Parse request sorting parameters
-  var sort = req.param('sort');
+  var sort = req.query['sort'];
   if (sort) {
     var sortArr = _.without(_.isArray(sort) ? sort : sort.replace(/ /g, '').split(','), '');
     if (sortArr.length > 0) {
@@ -50,13 +50,21 @@ function getFilter(req, schemaFields, next) {
     $and: [_.mapValues(_.pick(req.query, schemaFields), function (val) {
       if (_.isArray(val)) {
         return {$in: val};
+      } else if (val === 'null') {
+        return null;
       } else {
         return val;
       }
     })]
   };
+  if (_.indexOf(schemaFields, 'site._id') != -1) {
+    var site = {
+      'site._id': req.site._id
+    };
+    filter.$and.push(site);
+  }
   filter.$and.push({removed: {$exists: false}});
-  var search = req.param('search');
+  var search = req.query['search'];
   if (search && req.resource && req.resource.options && req.resource.options.searchFields) {
     filter.$and.push({
       $or: _.map(req.resource.options.searchFields, function (field) {
@@ -320,8 +328,8 @@ module.exports = function processRequest(req, res, next) {
       return next(req.app.errors.NotFoundError('Resource "' + req.params.resource + '" not found.'));
     }
 
-    var paramFields = _.isArray(req.param('fields'))
-      ? req.param('fields') : _.without((req.param('fields') || '').split(','), '');
+    var paramFields = _.isArray(req.query['fields'])
+      ? req.query['fields'] : _.without((req.query['fields']|| '').split(','), '');
     var bodyFields = _.keys(req.body);
     var reqFieldsArr = _.union(paramFields, bodyFields);
     var schemaFields = acl.util.mongoose.getFields(model.schema);

@@ -1,0 +1,80 @@
+<form name="edit" bz-loading-container="loading">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+        <h4 class="modal-title" ng-if="item.id">{{'Редактирование валюты'|translate}}</h4>
+        <h4 class="modal-title" ng-if="!item.id">{{'Добавление валюты'|translate}}</h4>
+    </div>
+    <div class="modal-body">
+
+
+        <div class="form-group" ng-class="{'has-error': edit.title.$invalid && edit.title.$dirty}">
+
+            <label class="control-label">
+                {{'Название'|translate}}
+                <span class="star">*</span>
+            </label>
+
+            <div>
+
+                <input type="text" name="title" class="form-control" required ng-model="item.title" />
+
+                <span class="help-block" ng-show="edit.title.$invalid && edit.title.$dirty">{{'Это поле нужно обязательно заполнить'|translate}}</span>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': edit.slug.$invalid && edit.slug.$dirty}">
+
+            <label class="control-label">
+                {{'Буквенный код валюты'|translate}}
+                <span class="star">*</span>
+            </label>
+
+            <div>
+
+                <input type="text" name="slug" class="form-control" required ng-model="item.slug" />
+
+                <span class="help-block" ng-show="edit.slug.$invalid && edit.slug.$dirty">{{'Это поле нужно обязательно заполнить'|translate}}</span>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': edit.symbol.$invalid && edit.symbol.$dirty}">
+
+            <label class="control-label">
+                {{'Короткое обозначение на сайте'|translate}}
+                <span class="star">*</span>
+            </label>
+
+            <div>
+
+                <input type="text" name="symbol" class="form-control" required ng-model="item.symbol" />
+
+                <span class="help-block" ng-show="edit.symbol.$invalid && edit.symbol.$dirty">{{'Это поле нужно обязательно заполнить'|translate}}</span>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': edit.factor.$invalid && edit.factor.$dirty}">
+
+            <label class="control-label">
+                {{'Коэффициент'|translate}}
+                <span class="star">*</span>
+            </label>
+
+            <div>
+
+                <input type="text" float-int name="factor" class="form-control" required ng-model="item.factor" />
+
+                <span class="help-block" ng-show="edit.factor.$invalid && edit.factor.$dirty">{{'Неверное число'|translate}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" ng-click="saveItem()" class="btn btn-primary" ng-disabled="edit.$invalid">
+            {{'Сохранить'|translate}}
+        </button>
+        <button type="button" class="btn btn-default" ng-click="cancel()" data-dismiss="modal">
+            {{'Отмена'|translate}}
+        </button>
+    </div>
+
+</form>

@@ -9,6 +9,10 @@ export default
       return item.replace(/\+/, '');
     });
     obj.sort = orderBy;
+    var filter = params.filter();
+    _.map(filter, (value, name) => {
+      obj[name] = value;
+    });
 
     return obj;
   };

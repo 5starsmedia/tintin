@@ -1,0 +1,46 @@
+<div class="form-group">
+    <label>{{'Название'|translate}}</label>
+    <input class="form-control" type="text" focus-me="child.focus"
+           bz-localizable="child.title" ng-model="child.title[$contentLanguageId]"/>
+</div>
+<div class="form-group">
+    <label>{{'URL'|translate}}</label>
+    <input class="form-control" type="text" ng-model="child.alias"/>
+</div>
+
+
+<div ng-if="child.image">
+    <img ng-src="{{child.image.thumb}}" />
+
+    <a ng-click="child.image = null" class="btn btn-default" href="">{{'Удалить изображение'|translate}}</a>
+</div>
+<div bz-uploader="$config.resource('/ecommerce/categories?action=upload')" limit="1" text="{'choose': 'Загрузить изображение'}"
+     ng-model="child.image" autoupload="true" data-ng-hide="child.image" errors="errors">
+
+    <div class="alert alert-danger" ng-repeat="error in errors" ng-switch on="error.code">
+                            <span ng-switch-when="8">
+                                {{'Неверный формат файла. Разрешенные форматы:'|translate}}
+                                <span ng-repeat="ext in error.allowed_extensions">{{ext}}<span ng-if="!$last">,</span> </span>
+                            </span>
+        <span ng-switch-when="1">{{'Перевышен лимит рамера файла'|translate}}</span>
+        <div ng-switch-default>{{'Ошибка загрузки'}}</div>
+    </div>
+    <div ng-repeat="file in files" class="bz-uploaded-file">
+    </div>
+</div>
+
+        
+<div class="form-group">
+    <label>{{'Meta keywords'|translate}}</label>
+    <textarea class="form-control" bz-localizable="child.meta_keywords" ng-model="child.meta_keywords[$contentLanguageId]"></textarea>
+</div>
+<div class="form-group">
+    <label>{{'Meta description'|translate}}</label>
+    <textarea class="form-control" bz-localizable="child.meta_description" ng-model="child.meta_description[$contentLanguageId]"></textarea>
+</div>
+
+<div class="form-actions text-center">
+    <button class="btn btn-primary" ng-click="saveCategory(child)">
+        {{'Сохранить'| translate}}
+    </button>
+</div>

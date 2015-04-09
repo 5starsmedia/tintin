@@ -1,0 +1,56 @@
+<div class="padded">
+
+    <div class="page-header">
+        <div class="table-actions btn-group btn-group-instruments">
+            <a href="" class="btn btn-success" ng-click="addCategory(category)">
+                <i class="fa fa-plus"></i>
+                {{'Добавить категорию'|translate}}
+            </a>
+        </div>
+
+        <h1>{{'Категории'|translate}}</h1>
+    </div>
+    <div class="main-content" bz-loading-container="loading" style="overflow: visible">
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <div hierarchy-editor="category" template-url="$config.templateUrl('/modules/ecommerce/form-category.html')()">
+
+                    <div class="btn-group">
+
+                        <!-- Publish button -->
+                        <a class="btn text-primary" href=""
+                           ng-click="child.is_published = !child.is_published; saveItem(child)">
+                            <span class="fa fa-eye-open"
+                                ng-class="{'fa-toggle-on': child.is_published, 'fa-toggle-off': !child.is_published}">
+                            </span>
+                        </a>
+
+                        <!-- Add child menu item -->
+                        <a class="btn btn-default" href="" ng-click="addChild(child)">
+                            <span class="fa fa-plus"></span>
+                        </a>
+
+                        <!-- Delete menu item -->
+                        <a class="btn btn-default" href="" bz-confirm="remove(child)"
+                           data-title="'Удаление...'"
+                           message="'Вы действительно хотите удалить?'">
+                            <span><i class="fa fa-times"></i></span>
+                        </a>
+
+                        <!-- Settings -->
+                        <a class="btn btn-default"
+                           ng-class="{'active': child.$settings}"
+                           ng-click="child.$settings = !child.$settings; child.focus = child.$settings">
+                            <span><i class="fa fa-pencil"></i></span>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

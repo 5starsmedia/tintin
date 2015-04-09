@@ -3,8 +3,9 @@
   "model": "Category",
   "options": {},
   "acl": {
-    "title": {
-      "get": "*"
+    "*": {
+      "get": "*",
+      "get?_id": "*"
     }
   }
 }

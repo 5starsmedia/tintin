@@ -27,6 +27,8 @@ var postSchema = new mongoose.Schema({
   // Дата публікації
   publishedDate: {type: Date},
 
+  published: Boolean,
+
   source: String,
   photoSource: String,
 

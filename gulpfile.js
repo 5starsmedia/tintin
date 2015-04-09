@@ -64,16 +64,15 @@ gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'optimizeImages'
 });
 
 gulp.task('optimizeImages', ['clean'], function () {
-  return gulp.src(config.assetsDir + '**/*.{gif,jpg,png,svg}')
+  return gulp.src(config.assetsDir + '**/*.{gif,jpg,png}')
     .pipe(imagemin({
-      progressive: true,
-      svgoPlugins: [{removeViewBox: false}]
+      progressive: true
     }))
     .pipe(gulp.dest(config.outputDir + 'assets'));
 });
 
 gulp.task('copyAssets', ['copyCkeditor'], function () {
-  return gulp.src(config.assetsDir + '**/*.{eot,ttf,woff,woff2}')
+  return gulp.src(config.assetsDir + '**/*.{eot,ttf,woff,woff2,svg}')
     .pipe(copy(config.outputDir));
 });
 gulp.task('copyCkeditor', ['clean'], function () {
@@ -89,19 +88,31 @@ gulp.task('less', function () {
     .pipe(gulp.dest(config.assetsDir + 'styles'));
 });
 
-gulp.task('compileTemplates', ['build-persistent'], function () {
-  return gulp.src(config.views)
+gulp.task('compileTemplates', ['compileAppTemplates'], function () {
+  return gulp.src([config.views])
     .pipe(htmlify())
     .pipe(templateCache({
       root: 'views/',
+      standalone: true,
+      module: 'views'
+    }))
+    .pipe(gulp.dest(config.outputDir));
+});
+
+gulp.task('compileAppTemplates', ['build-persistent'], function () {
+  return gulp.src(['./app/**/*.html'])
+    .pipe(htmlify())
+    .pipe(templateCache({
+      root: 'app/',
+      filename: 'templates-app.js',
       standalone: false,
-      module: 'app'
+      module: 'views'
     }))
     .pipe(gulp.dest(config.outputDir));
 });
 
 gulp.task('concat', ['build-persistent', 'compileTemplates'], function() {
-  return gulp.src([config.outputDir + 'app.js', config.outputDir + 'templates.js'])
+  return gulp.src([config.outputDir + 'app.js', config.outputDir + 'templates.js', config.outputDir + 'templates-app.js'])
     .pipe(concat('app.js'))
     .pipe(gulp.dest(config.outputDir));
 });

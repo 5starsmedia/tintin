@@ -1,0 +1,43 @@
+<breadcrumbs>
+    <crumb href="''" title="'Мой кабинет'|translate"/>
+    <crumb title="'И-магазин'|translate"/>
+</breadcrumbs>
+
+<div class="padded" bz-loading-container="loading">
+
+    <div class="page-header">
+        <div class="table-actions btn-group btn-group-instruments">
+            <a ng-href="ecommerce/brands/new" class="btn btn-success btn-sm">
+                <i class="fa fa-plus"></i>
+                {{'Добавить'|translate}}
+            </a>
+        </div>
+
+        <h1>{{'Бренды'|translate}}</h1>
+    </div>
+
+    <div class="main-content">
+
+
+        <table ng-table="tableParams" show-filter="true" class="table">
+            <tr ng-repeat="item in $data">
+                <td data-title="'Название'|translate" sortable="'title'" filter="{'title': 'text'}">
+                    <a href="ecommerce/brands/edit/{{item.id}}">{{item.title}}</a>
+                </td>
+                <td data-title="'Действия'|translate" class="actions">
+
+                    <div class="btn-group">
+                        <a href="ecommerce/brands/edit/{{item.id}}" title="{{'Редактировать'|translate}}"><span class="fa fa-pencil"></span></a>
+                        <a href="" bz-confirm="remove(item)" message="'Удалить?'|translate" title="{{'Удалить'|translate}}"><span class="text-danger fa fa-times"></span></a>
+                    </div>
+
+                </td>
+            </tr>
+            <tr ng-if="!$data.length">
+                <td colspan="{{$columns.length}}" class="text-center">{{'Нет данных'|translate}}</td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>

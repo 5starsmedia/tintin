@@ -1,0 +1,63 @@
+<div class="content" animate-panel effect="zoomIn">
+
+    <div class="row">
+
+        <div class="col-md-9">
+
+            <div class="pull-right">
+                <a class="btn btn-success btn-outline" ui-sref="sites.create">
+                    <i class="fa fa-plus"></i> {{'New domain'|translate}}
+                </a>
+            </div>
+            <h2 class="font-light m-b-xs ng-binding">
+                {{'Domains'|translate}}
+            </h2>
+
+            <div class="hpanel">
+                <div class="panel-body" bz-loading-container="loading">
+
+
+                    <table ng-table="tableParams" show-filter="true" class="table">
+                        <tr ng-repeat="item in domains">
+                            <td style="width: 15%" class="table-preview" data-title="'Title'|translate" filter="{ 'title': 'text' }" sortable="'title'">
+                                <a class="text-info" ui-sref="sites.edit({ id: item._id })">
+                                    {{item.title}}<br/>
+                                    <span ng-class="{'text-success': item.isHttps, 'text-muted': !item.isHttps}">
+                                        <span ng-if="!item.isHttps">http://</span><span ng-if="item.isHttps">https://</span>{{item.domain}}
+                                    </span>
+                                </a>
+                            </td>
+                            <td style="width: 10%" data-title="'Date of creation'|translate" sortable="'createDate'" class="text-center">
+                                <span>{{item.createDate|stDialogDate}}</span>
+                            </td>
+                            <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">
+
+                                <a ui-sref="sites.edit({ id: item._id })"
+                                   title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span>
+                                </a>
+                                <a href="" st-confirm="remove(item)" title="{{'Delete article'|translate}}"
+                                   message-title="'Delete'|translate" message="'Are you realy want to delete this article?'|translate">
+                                    <span class="fa fa-times text-danger"></span>
+                                </a>
+
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-3">
+
+
+            asd
+
+        </div>
+
+
+    </div>
+
+
+</div>

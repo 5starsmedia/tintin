@@ -1,0 +1,84 @@
+{{> header.html}}
+
+<table class="row">
+    <tr>
+        <td class="wrapper">
+
+            <table class="twelve columns">
+                <tr>
+                    <td class="content-wrap sub-grid">
+
+                        <p class="content__title_large center">
+                            Hi, {{userName}}
+                        </p>
+
+                        <p class="center">
+                            You have recently registered an account with
+                            <a href="{{config.url}}" target="_blank">CannaSOS</a>
+                        </p>
+
+                        <p class="center">
+                            To complete your registration, <br>
+                            click on the button below to activate your account and<br>
+                            receive 10 bonus Perk$coins as a gift from us!
+                        </p>
+
+                        <table>
+                            <tr>
+                                <td class="three sub-columns"></td>
+                                <td class="six sub-columns">
+                                    <table class="medium-button radius center">
+                                        <tr>
+                                            <td>
+                                                <a href="{{config.url}}/api/auth/activate/{{activationToken}}"
+                                                   target="_blank">Get 10 Perk$coins :)</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="three sub-columns"></td>
+                                <td class="expander"></td>
+                            </tr>
+                        </table>
+
+                    </td>
+
+                    <td class="expander"></td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+<table class="row">
+    <tr>
+        <td class="wrapper">
+
+            <table class="twelve columns">
+                <tr>
+                    <td class="content-wrap">
+
+                        <p>
+                            Button not working? Try pasting this link into your browser:
+                        </p>
+
+                        <a href="{{config.url}}/api/auth/activate/{{activationToken}}"
+                           target="_blank"
+                           style="word-break: break-all; word-wrap: break-word; color: #80be25;">
+                            {{config.url}}/api/auth/activate/{{{brokenToken}}}
+                        </a>
+
+                        <p class="margin-top-24">Thank you for joining us! <br>CannaSOS Team</p>
+
+                    </td>
+
+                    <td class="expander"></td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+{{> footer.html}}

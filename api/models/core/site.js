@@ -9,7 +9,18 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
-  domain: {type: String, required: true}
+  domain: {type: String, required: true},
+  title: String,
+
+  isHttps: Boolean,
+  isCorsEnabled: Boolean,
+
+  removed: {type: Date},
+  createDate: {type: Date, required: true, default: Date.now},
+  site: {
+    _id: mongoose.Schema.Types.ObjectId,
+    domain: String
+  }
 }, {
   strict: true,
   safe: true,

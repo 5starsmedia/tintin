@@ -1,0 +1,39 @@
+.drag-handle {
+  &, & span {
+    display: block;
+    width: 20px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    cursor: move;
+    line-height: 0;
+  }
+  & span {
+    display: block;
+    width: 20px;
+    margin: 2px 0;
+    height: 4px;
+  }
+  & {
+    position: absolute;
+    left: 3px;
+    top: 50%;
+    margin-top: -5px;
+  }
+}
+
+.list-group.sortable {
+  .list-group-item {
+    padding-left: 38px;
+    .drag-handle {
+      left: 10px;
+    }
+  }
+  .list-group-item.with-input {
+    border: 0 none;
+    padding: 5px 0 5px 30px;
+
+    .drag-handle {
+      left: 3px;
+    }
+  }
+}

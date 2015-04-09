@@ -1,0 +1,28 @@
+<breadcrumbs>
+    <crumb href="''" title="'Мой кабинет'|translate"/>
+    <crumb title="'И-магазин'|translate"/>
+</breadcrumbs>
+
+<div class="padded">
+
+    <div class="page-header">
+        <div class="table-actions btn-group btn-group-instruments">
+            <a class="btn btn-default" ng-href="ecommerce/brands">
+                <span class="fa fa-arrow-left"></span> {{'К списку'|translate}}
+            </a>
+            <a ng-href="ecommerce/brands/new" class="btn btn-success">
+                <i class="fa fa-plus"></i>
+                {{'Добавить'|translate}}
+            </a>
+        </div>
+
+        <h1 ng-if="!item.id">{{'Добавление бренда'|translate}}</h1>
+
+        <h1 ng-if="item.id">{{'Редактирование бренда'|translate}}</h1>
+    </div>
+    <div class="main-content" bz-loading-container="loading">
+
+        <div ng-include="$config.templateUrl('/modules/ecommerce/brands/form-brand.html')()"></div>
+
+    </div>
+</div>

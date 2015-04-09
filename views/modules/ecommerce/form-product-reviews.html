@@ -1,0 +1,32 @@
+<div bz-loading-container="loading">
+    <h3>{{'Отзывы'|translate}}</h3>
+
+    <table ng-table="tableParams" show-filter="true" class="table">
+        <tr ng-repeat="item in $data" ng-class="{'success': item.is_published}">
+            <td data-title="'Имя'|translate" sortable="'title'" filter="{'title': 'text'}" class="table-preview">
+                <a href="">
+                    <strong>{{item.name}}</strong><br/>
+                    {{item.email}}
+                </a>
+            </td>
+            <td data-title="'Действия'|translate" class="actions">
+
+                <div class="btn-group">
+                    <a href="" data-ng-click="changePublish(item)"><span
+                            ng-if="!item.is_published" title="{{'Снять с публикации'|translate}}"><i class="fa fa-lock"></i></span><span
+                            ng-if="item.is_published" title="{{'Опубликовано'|translate}}"><i class="fa fa-unlock"></i></span></a>
+
+                    <a href="" title="{{'Редактировать'|translate}}"><span
+                            class="fa fa-pencil"></span></a>
+                    <a href="" bz-confirm="remove(item)" message="'Удалить?'|translate" title="{{'Удалить'|translate}}"><span
+                            class="text-danger fa fa-times"></span></a>
+                </div>
+
+            </td>
+        </tr>
+        <tr ng-if="!$data.length">
+            <td colspan="{{$columns.length}}" class="text-center">{{'Нет данных'|translate}}</td>
+        </tr>
+    </table>
+
+</div>

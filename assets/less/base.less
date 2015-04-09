@@ -11,6 +11,16 @@
 @import 'extra/b-breadcrumb';
 @import 'extra/page-login';
 @import 'extra/page-profile';
+@import 'extra/ng-editable-tree';
+@import 'extra/sortable';
+
+body > [ui-view] { // horizontal scrolling
+  overflow: hidden;
+}
+
+#header {
+  height: 56px !important;
+}
 
 .sticky-enabled .content { // for sticky
   padding-top: 90px;
@@ -64,3 +74,17 @@
     border-radius: 5px;
   }
 }*/
+
+.input-group-addon {
+  .icheckbox_square-green {
+    margin-top: -5px;
+  }
+}
+.input-group-addon.h-bg-green {
+  background: @color-green;
+  color: #fff;
+}
+
+.panel-body.no-bottom-border {
+  border-bottom: 0 none;
+}

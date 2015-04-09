@@ -21,7 +21,7 @@ export default
         'files': '=',
         'coverFile': '='
       },
-      controller: function ($scope, $timeout, $log, $auth) {
+      controller: /*@ngInject*/ ($scope, $timeout, $log, $auth) => {
         $scope.getSettings = function () {
           var headers = {
             'Authorization': 'Bearer ' + $auth.getToken()

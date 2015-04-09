@@ -33,6 +33,7 @@ angular.module(appName, [
   'summernote',               // Summernote plugin
   'ngGrid',                   // Angular ng Grid
   'ui.tree',                  // Angular ui Tree
+  'ngProgress',
   permissions
 ])
   .config(config)
@@ -54,7 +55,25 @@ angular.module(appName, [
   .directive('smallHeader', smallHeader)
   .directive('animatePanel', animatePanel)
   .directive('landingScrollspy', landingScrollspy)
-  .directive('bzLoadingContainer', bzLoadingContainer);
+  .directive('bzLoadingContainer', bzLoadingContainer)
+
+  .run(function($rootScope, ngProgress) {
+    $('.splash').css('display', 'none')
+
+    ngProgress.color('#62cb31');
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {
+      ngProgress.start();
+    });
+    $rootScope.$on('$stateChangeSuccess', function() {
+      ngProgress.complete();
+      setTimeout(function () {
+        fixWrapperHeight();
+      }, 30);
+    });
+    $rootScope.$on('$stateChangeError', function() {
+      ngProgress.reset();
+    });
+  });
 
 export default appName;
 
@@ -71,12 +90,6 @@ $(document).ready(function () {
 
 });
 
-$(window).bind("load", function () {
-
-  // Remove splash screen after load
-  $('.splash').css('display', 'none')
-})
-
 $(window).bind("resize click", function () {
 
   // Add special class to minimalize page elements when screen is less than 768px
@@ -85,7 +98,7 @@ $(window).bind("resize click", function () {
   // Waint until metsiMenu, collapse and other effect finish and set wrapper height
   setTimeout(function () {
     fixWrapperHeight();
-  }, 300);
+  }, 30);
 })
 
 function fixWrapperHeight() {
