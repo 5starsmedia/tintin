@@ -39,10 +39,13 @@ var saveItem = function(site, connection, item, next) {
     product.inStockCount = item.count;
     product.ordinal = item.order;
     product.category = {
-      _id: categoriesId2_Id[item.category_id]
+      _id: categoriesId2_Id[item.category_id]._id,
+      title: categoriesId2_Id[item.category_id].title,
+      alias: categoriesId2_Id[item.category_id].alias
     };
     product.brand = {
-      _id: brandsId2_Id[item.brand_id]
+      _id: brandsId2_Id[item.brand_id]._id,
+      title: brandsId2_Id[item.brand_id].title
     };
 
     product.save(function (err){
@@ -70,7 +73,7 @@ var saveCategoryItem = function(site, connection, item, next) {
 
     category.save(function (err){
       if (err) return next(err);
-      categoriesId2_Id[id] = category._id;
+      categoriesId2_Id[id] = category;
       next();
     });
   });
@@ -87,7 +90,7 @@ var saveBrandItem = function(site, connection, item, next) {
 
     brand.save(function (err){
       if (err) return next(err);
-      brandsId2_Id[id] = brand._id;
+      brandsId2_Id[id] = brand;
       next();
     });
   });
@@ -192,7 +195,13 @@ async.auto({
       });
     });
   }],
-  'getCategories': ['connection', 'mongoConnection', function(next, data) {
+  'deleteCategories': ['site', 'connection', 'mongoConnection', function(next, data) {
+    app.models.productCategories.remove({ 'site._id': data.site._id }, next);
+  }],
+  'deleteBrands': ['site', 'connection', 'mongoConnection', function(next, data) {
+    app.models.productBrands.remove({ 'site._id': data.site._id }, next);
+  }],
+  'getCategories': ['deleteCategories', 'connection', 'mongoConnection', function(next, data) {
     data.connection.query('SELECT * FROM com_ecommerce_categories AS p LEFT JOIN com_ecommerce_categories_locale AS pl ON '+
                           ' p.id = pl.id WHERE lft > 1 AND pl.lang_id = 1 AND site_id = ' + siteId +
                           ' ORDER BY p.lft', function (err, rows, fields) {
@@ -200,7 +209,7 @@ async.auto({
       async.each(rows, _.partial(saveCategoryItem, data.site, data.connection), next);
     });
   }],
-  'getBrands': ['connection', 'mongoConnection', function(next, data) {
+  'getBrands': ['deleteBrands', 'connection', 'mongoConnection', function(next, data) {
     data.connection.query('SELECT * FROM com_ecommerce_brands '+
                           'WHERE site_id = ' + siteId, function (err, rows, fields) {
       if (err) throw err;
