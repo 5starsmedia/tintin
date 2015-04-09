@@ -7,7 +7,10 @@ class EcommerceList {
 
     $scope.tableParams = new ngTableParams({
       page: 1,            // show first page
-      count: 10           // count per page
+      count: 10,          // count per page
+      sorting: {
+        'createDate': 'desc'
+      }
     }, {
       getData: function ($defer, params) {
 
