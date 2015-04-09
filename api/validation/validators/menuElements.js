@@ -1,22 +1,20 @@
 /**
- * @module common.validators.strainEffects
- * @copyright 2014 Cannasos.com. All rights reserved.
+ * @copyright 2015 5starsmedia.com.ua. All rights reserved.
  */
-
 (function () {
   'use strict';
 
   var validators = {
-    'strainEffects.put': function (modelState, next) {
+    'menuElements.put': function (modelState, next) {
       modelState
-        .field('title').ifPresent().required().maxLength(50)
+        .field('title').required().notNull().maxLength(500)
       ;
       next();
     },
-    'strainEffects.post': function (modelState, next) {
-      modelState
-        .field('title').required().maxLength(50)
-      ;
+    'menuElements.post': function (modelState, next) {
+       modelState
+         .field('title').required().notNull().maxLength(500)
+       ;
       next();
     }
   };
@@ -31,7 +29,7 @@
 
   // @ifdef BROWSER
   if (typeof window !== 'undefined' && window.angular) {
-    window.angular.module('common.validators.strainEffects', ['services.validationSvc']).run(['validationSvc', function (validationSvc) {
+    window.angular.module('common.validators.menuElements', ['services.validationSvc']).run(['validationSvc', function (validationSvc) {
       validationSvc.registerValidator(validators);
     }]);
   }

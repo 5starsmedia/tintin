@@ -6,13 +6,14 @@
  */
 'use strict';
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+  materializedPlugin = require('mongoose-materialized');
 
 var schema = new mongoose.Schema({
 
   title: {type: String, required: true},
   alias: String,
-  body: String,
+  url: String,
 
   createDate: {type: Date, required: true, default: Date.now},
 
@@ -20,26 +21,18 @@ var schema = new mongoose.Schema({
 
   isPublished: Boolean,
 
-  coverFile: {
-    _id: mongoose.Schema.Types.ObjectId,
-    title: String
-  },
-  files: [
-    {
-      _id: mongoose.Schema.Types.ObjectId,
-      title: String
-    }
-  ],
   site: {
     _id: mongoose.Schema.Types.ObjectId,
     domain: String
-  }
+  },
+  tags: [{title: String}]
 }, {
   strict: true,
   safe: true,
-  collection: 'productBrands'
+  collection: 'menuElements'
 });
 
 schema.index({createDate: 1});
+schema.plugin(materializedPlugin);
 
-module.exports = mongoose.model('ProductBrand', schema);
+module.exports = mongoose.model('MenuElement', schema);

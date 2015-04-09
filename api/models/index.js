@@ -24,3 +24,5 @@ exports.productTypes = require('./product/productType.js');
 exports.productFields = require('./product/productField.js');
 exports.productBrands = require('./product/productBrand.js');
 exports.productCategories = require('./product/productCategory.js');
+
+exports.menuElements = require('./menu/menuElements.js');

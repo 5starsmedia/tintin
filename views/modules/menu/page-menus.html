@@ -1,0 +1,37 @@
+<div class="content" animate-panel effect="zoomIn">
+
+    <div class="main-content" bz-loading-container="loading" style="overflow: visible">
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="pull-right">
+                    <a href="" class="btn btn-success btn-outline" ng-click="addItem(tree)">
+                        <i class="fa fa-plus"></i> {{'New type'|translate}}
+                    </a>
+                </div>
+                <h2 class="font-light m-b-xs">
+                    {{'Menus'|translate}}
+                </h2>
+
+                <div class="list-group">
+
+                    <div class="list-group-item" ng-repeat="item in menus">
+                        <a ui-sref="menu.menus.edit({id: item._id})">
+                            {{item.title}}
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+                <div ui-view animate-panel autoscroll="true"></div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>

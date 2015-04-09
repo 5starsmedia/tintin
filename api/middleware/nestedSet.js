@@ -42,7 +42,13 @@ function sortChildren(node) {
 function processGet(collectionName, req, res, next) {
 
   async.auto({
-    'root': _.partial(getRoot, req, collectionName),
+    'root': function(next) {
+      if (req.params.id) {
+        req.app.models[collectionName].findById(new mongoose.Types.ObjectId(req.params.id), next);
+      } else {
+        getRoot(req, collectionName, next);
+      }
+    },
     'tree': ['root', function(next, data) {
       data.root.getArrayTree(function(err, tree) {
         if (err) return next(err);
@@ -141,6 +147,7 @@ module.exports = function (collectionName) {
   var router = express.Router();
 
   router.get('/tree', _.partial(processGet, collectionName));
+  router.get('/:id/tree', _.partial(processGet, collectionName));
   router.post('/:id', _.partial(processPost, collectionName));
   router.put('/:id', _.partial(processPut, collectionName));
 

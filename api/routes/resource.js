@@ -50,11 +50,19 @@ function getFilter(req, schemaFields, next) {
     $and: [_.mapValues(_.pick(req.query, schemaFields), function (val) {
       if (_.isArray(val)) {
         return {$in: val};
+      } else if (val === 'null') {
+        return null;
       } else {
         return val;
       }
     })]
   };
+  if (_.indexOf(schemaFields, 'site._id') != -1) {
+    var site = {
+      'site._id': req.site._id
+    };
+    filter.$and.push(site);
+  }
   filter.$and.push({removed: {$exists: false}});
   var search = req.query['search'];
   if (search && req.resource && req.resource.options && req.resource.options.searchFields) {

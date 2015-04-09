@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
 
+  id: Number,
   title: {type: String, required: true},
   alias: String,
   body: String,
@@ -88,7 +89,7 @@ var schema = new mongoose.Schema({
     title: String
   },
   site: {
-    _id: mongoose.Schema.Types.ObjectId,
+    _id: {type: mongoose.Schema.Types.ObjectId, required: true},
     domain: String
   },
   tags: [{title: String}]
@@ -98,6 +99,7 @@ var schema = new mongoose.Schema({
   collection: 'products'
 });
 
+schema.index({id: 1});
 schema.index({createDate: 1});
 
 module.exports = mongoose.model('Product', schema);

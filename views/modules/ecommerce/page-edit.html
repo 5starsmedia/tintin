@@ -1,6 +1,6 @@
 <div bz-loading-container="loading">
 
-    <st-form model="post" state="error" submit="saveItem(item)">
+    <st-form model="item" state="error" submit="saveItem(item)">
 
     <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
         <div class="hpanel" bz-loading-container="loading">
@@ -20,9 +20,9 @@
 
                         <small ng-if="item.id">
                             {{'Product created:'|translate}}
-                            {{post.createDate|date:'dd.MM.yyyy'}}
+                            {{item.createDate|date:'dd.MM.yyyy'}}
                             {{'at'|translate}}
-                            {{post.createDate|date:'HH:mm'}}
+                            {{item.createDate|date:'HH:mm'}}
                         </small>
 
                     </div>

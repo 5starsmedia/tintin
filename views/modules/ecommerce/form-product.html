@@ -64,6 +64,20 @@
             </div>
 
 
+            <div class="hpanel"
+                 ng-class="{'hred': !item.files.length, 'hyellow': item.files.length && !item.coverFile}">
+                <div class="panel-heading">
+                    {{'Attached images'|translate}}
+                </div>
+                <div class="panel-body clearfix" editor-select-images="post.files">
+
+                    <cs-file-upload resource-id="{{item._id}}" collection-name="products" files="item.files"
+                                    cover-file="item.coverFile" has-cover-select="true">
+                    </cs-file-upload>
+
+                </div>
+            </div>
+
         </tab>
         <tab>
             <tab-heading>

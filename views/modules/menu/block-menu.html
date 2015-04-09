@@ -1,0 +1,62 @@
+
+<div class="pull-right">
+    <a href="" class="btn btn-success btn-outline" ng-click="addItem(tree)">
+        <i class="fa fa-plus"></i> {{'New type'|translate}}
+    </a>
+</div>
+
+<h2 class="font-light m-b-xs">
+    {{menu.title}}
+</h2>
+
+<ol class="nav nav-nested editable" tree-view-sortable="tree" tree-view-move="move($item, $before, $index)">
+    <li tree-view="child in tree.children at ol" ng-class="{expanded:child.$expanded}">
+        <div>
+            <a href="" ng-click="child.$expanded = !child.$expanded">
+                <span ng-if="child.children.length" class="fa fa-2x" ng-class="{'fa-caret-down': child.$expanded, 'fa-caret-right': !child.$expanded}"></span>
+            </a>
+
+            <div class="panel"
+                 ng-class="{'panel-primary': editedItem._id == child._id, 'panel-default': editedItem._id != child._id}">
+
+                        <span class="btn-group pull-right">
+                            <!-- Add child menu item -->
+                            <a class="btn btn-sm btn-default"
+                               ng-click="addItem(child)"><span><i
+                                    class="fa fa-plus"></i></span></a>
+
+                            <!-- Delete menu item -->
+                            <a class="btn btn-sm btn-default"
+                               href="" st-confirm="remove(child)"
+                               message-title="'Удаление...'"
+                               message="'Вы действительно хотите удалить?'">
+                                <span><i class="fa fa-times"></i></span>
+                            </a>
+                        </span>
+
+                <a class="panel-heading" href="">
+                            <span class="drag-handle">
+                                <span></span>
+                            </span>
+                    {{child.title}}
+                </a>
+                <div class="panel-body" bz-loading-container="child.$loading">
+
+                    <form ng-submit="saveItem(child)">
+                        <div class="form-group">
+                            Title:
+                            <input type="text" class="form-control" ng-model="child.title" required />
+                        </div>
+                        <div class="form-group">
+                            Url:
+                            <input type="text" class="form-control" ng-model="child.url" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <ol></ol>
+    </li>
+</ol>

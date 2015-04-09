@@ -1,7 +1,3 @@
-const SCOPE = new WeakMap();
-const TIMEOUT = new WeakMap();
-const HTTP = new WeakMap();
-
 const quotes = [
   ['Никогда не следует хорошо говорить о себе. Следует это печатать.', 'Жюль Валлес'],
   ['Газета приучает читателя размышлять о том, чего он не знает, и знать то, что не понимает.', 'Василий Ключевский'],
@@ -34,10 +30,6 @@ export default class appCtrl
   /*@ngInject*/
   constructor($http, $scope, $timeout, appTitle)
   {
-    TIMEOUT.set(this, $timeout);
-    HTTP.set(this, $http);
-    SCOPE.set(this, $scope);
-
     this.appTitle = appTitle;
 
     // For iCheck purpose only
