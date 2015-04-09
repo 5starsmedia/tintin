@@ -195,8 +195,12 @@ function processPost(model, fieldsObj, req, res, next) {
         }
         body._id = mongoose.Types.ObjectId();
         if (model.schema.paths['site._id']) {
-          body.site = req.site;
+          body.site = {
+            _id: req.site._id,
+            domain: req.site.domain
+          };
         }
+        console.info(body);
         model.create(body, function (err, obj) {
           if (err) {
             return next(err);
