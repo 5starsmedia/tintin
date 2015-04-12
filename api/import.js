@@ -244,6 +244,8 @@ var saveCategory = function(site, connection, item, next) {
     'save': ['category', 'rootCategory', 'term', function(next, data) {
       var category = data.category,
         parent = parseInt(item.parent);
+
+      console.info('Import category', parent);
       category.title = data.term.name;
       category.alias = data.term.slug;
       category.description = item.description;
