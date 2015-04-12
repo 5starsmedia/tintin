@@ -251,7 +251,8 @@ var saveCategory = function(site, connection, item, next) {
       category.description = item.description;
       category.parentId = !parent ? data.rootCategory._id : categoryRefId[parent]._id;
       category.markModified('parentId');
-      category.save(function() {
+      category.save(function(err, category) {
+        if (err) return next(err);
         categoryRefId[id] = category;
         next();
       });
