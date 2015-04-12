@@ -296,7 +296,7 @@ async.auto({
     });
   }],
   'getPosts': ['categories', 'connection', function(next, data) {
-    data.connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_status = "publish" AND post_type = "post" OR  post_type = "page" LIMIT 10', function (err, rows, fields) {
+    data.connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_status = "publish" AND post_type = "post" OR  post_type = "page"', function (err, rows, fields) {
       if (err) throw err;
 
       async.each(rows, _.partial(saveItem, data.site, data.connection), next);
