@@ -19,6 +19,8 @@ exports.init = function (app) {
   app.server.use('/api/productCategories', nestedSet('productCategories'));
   app.server.use('/api/menuElements', nestedSet('menuElements'));
 
+  app.server.use('/api/categories', nestedSet('categories'));
+
   app.server.get('/api/:resource', access(), resourceRoute);
   app.server.get('/api/:resource/:_id', access(), resourceRoute);
   app.server.post('/api/:resource', access(), resourceRoute);
