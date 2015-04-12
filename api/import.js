@@ -115,8 +115,6 @@ var saveItem = function(site, connection, item, next) {
         data.post.save(next);
       });
     }],
-    'updateBody': ['post', function(next, data) {
-    }],
     'post': function(next) {
       app.models.posts.findOne({ id: id }, function(err, post) {
         if (err) {return next(err);}
