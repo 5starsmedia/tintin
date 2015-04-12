@@ -324,7 +324,7 @@ async.auto({
       });
     });
   }],
-  'categories': ['connection', function(next, data) {=
+  'categories': ['connection', function(next, data) {
     data.connection.query('SELECT * FROM ' + tablePrefix + 'term_taxonomy WHERE taxonomy = "category" ORDER BY parent', function (err, rows, fields) {
       if (err) throw err;
 
