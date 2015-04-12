@@ -91,6 +91,9 @@ var saveItem = function(site, connection, item, next) {
       connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_type = "attachment" AND post_parent = ' + id, function (err, rows) {
         if (err) {return next(err);}
         data.post.files = [];
+        if (rows.length) {
+          rows[0].is_main = true;
+        }
         async.eachSeries(rows, _.partial(saveFile, site, data.post), function(err) {
           if (err) return next(err);
           data.post.save(next);
@@ -163,6 +166,10 @@ var saveFile = function(site, post, image, next) {
     }
     file.save(function(err, file) {
       if (err) return next(err);
+
+      if (image.is_main) {
+        post.coverFile = file;
+      }
       async.auto({
         'downloadImage': function(next) {
           console.info('Download: ', fileName)
