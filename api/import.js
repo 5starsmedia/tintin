@@ -171,6 +171,7 @@ var saveItem = function(site, connection, item, next) {
 
 var saveFile = function(site, post, image, next) {
   var fileName = image.guid;
+  post.files = [];
   app.models.files.findOne({ originalName: fileName }, function(err, file) {
     if (!file) {
       file = new app.models.files({
