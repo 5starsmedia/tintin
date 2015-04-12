@@ -77,7 +77,7 @@ var saveItem = function(site, connection, item, next) {
       var meta = {};
       connection.query('SELECT * FROM ' + tablePrefix + 'comments WHERE comment_post_ID = ' + id + ' ORDER BY comment_parent', function (err, rows) {
         if (err) {return next(err);}
-        async.each(rows, _.partial(saveComment, site, connection, data.post), next);
+        async.eachSeries(rows, _.partial(saveComment, site, connection, data.post), next);
       });
     }],
     'categoryId': function(next) {
@@ -91,7 +91,7 @@ var saveItem = function(site, connection, item, next) {
       connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_type = "attachment" AND post_parent = ' + id, function (err, rows) {
         if (err) {return next(err);}
         data.post.files = [];
-        async.each(rows, _.partial(saveFile, site, data.post), function(err) {
+        async.eachSeries(rows, _.partial(saveFile, site, data.post), function(err) {
           if (err) return next(err);
           data.post.save(next);
         });
@@ -295,14 +295,14 @@ async.auto({
     data.connection.query('SELECT * FROM ' + tablePrefix + 'term_taxonomy WHERE taxonomy = "category" ORDER BY parent', function (err, rows, fields) {
       if (err) throw err;
 
-      async.each(rows, _.partial(saveCategory, data.site, data.connection), next);
+      async.eachSeries(rows, _.partial(saveCategory, data.site, data.connection), next);
     });
   }],
   'getPosts': ['categories', 'connection', function(next, data) {
     data.connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_status = "publish" AND post_type = "post" OR  post_type = "page"', function (err, rows, fields) {
       if (err) throw err;
 
-      async.each(rows, _.partial(saveItem, data.site, data.connection), next);
+      async.eachSeries(rows, _.partial(saveItem, data.site, data.connection), next);
     });
   }]
 }, function (err, data) {
