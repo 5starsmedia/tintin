@@ -88,7 +88,7 @@ var saveItem = function(site, connection, item, next) {
       });
     },
     'images': ['post', function(next, data) {
-      connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_type = "attachment" AND post_parent = ' + id, function (err, rows) {
+      /*connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_type = "attachment" AND post_parent = ' + id, function (err, rows) {
         if (err) {return next(err);}
         data.post.files = [];
         if (rows.length) {
@@ -98,7 +98,24 @@ var saveItem = function(site, connection, item, next) {
           if (err) return next(err);
           data.post.save(next);
         });
+      });*/
+
+      var m, urls = [], isFirst = true,
+        rex = /<img[^>]+src="(http:\/\/[^">]+)"/g;
+
+      while ( m = rex.exec( data.post.body ) ) {
+        urls.push( {
+          guid: m[1],
+          is_main: isFirst
+        } );
+        isFirst = false;
+      }
+      async.eachSeries(urls, _.partial(saveFile, site, data.post), function(err) {
+        if (err) return next(err);
+        data.post.save(next);
       });
+    }],
+    'updateBody': ['post', function(next, data) {
     }],
     'post': function(next) {
       app.models.posts.findOne({ id: id }, function(err, post) {
@@ -106,6 +123,10 @@ var saveItem = function(site, connection, item, next) {
         if (!post) {
           post = new app.models.posts({id: id, site: {_id: site._id, domain: site.domain}});
         }
+
+        var rex = /\[([^\] ]+)([^>]*)\](.*)\[\/([^\] ]+)\]/gim;
+
+        post.body = post.body.replace(rex, "<figure$2 data-$1>$3</figure>");
         next(null, post);
       });
     },
@@ -303,7 +324,7 @@ async.auto({
       });
     });
   }],
-  'categories': ['connection', function(next, data) {
+  'categories': ['connection', function(next, data) {=
     data.connection.query('SELECT * FROM ' + tablePrefix + 'term_taxonomy WHERE taxonomy = "category" ORDER BY parent', function (err, rows, fields) {
       if (err) throw err;
 
@@ -311,7 +332,7 @@ async.auto({
     });
   }],
   'getPosts': ['categories', 'connection', function(next, data) {
-    data.connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_status = "publish" AND post_type = "post" OR  post_type = "page"', function (err, rows, fields) {
+    data.connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_status = "publish" AND post_type = "post" OR post_type = "page"', function (err, rows, fields) {
       if (err) throw err;
 
       async.eachSeries(rows, _.partial(saveItem, data.site, data.connection), next);
