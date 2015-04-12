@@ -245,11 +245,11 @@ var saveCategory = function(site, connection, item, next) {
       var category = data.category,
         parent = parseInt(item.parent);
 
-      console.info('Import category', parent);
+      console.info('Import category', id, 'parent', parent);
       category.title = data.term.name;
       category.alias = data.term.slug;
       category.description = item.description;
-      category.parentId = !parent ? data.rootCategory._id : categoryRefId[item.parent]._id;
+      category.parentId = !parent ? data.rootCategory._id : categoryRefId[parent]._id;
       category.markModified('parentId');
       category.save(function() {
         categoryRefId[id] = category;
