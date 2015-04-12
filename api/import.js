@@ -81,7 +81,7 @@ var saveItem = function(site, connection, item, next) {
       });
     }],
     'categoryId': function(next) {
-      connection.query('SELECT * FROM ' + tablePrefix + 'term_relationships WHERE object_id = ' + id, function (err, rows) {
+      connection.query('SELECT * FROM ' + tablePrefix + 'term_relationships AS r LEFT JOIN ' + tablePrefix + 'term_taxonomy AS t ON r.term_taxonomy_id = t.term_taxonomy_id WHERE taxonomy = "category" AND object_id = ' + id, function (err, rows) {
         if (err) {return next(err);}
         if (!rows.length) { return next(); }
         next(null, rows[0].term_taxonomy_id);
@@ -130,11 +130,16 @@ var saveItem = function(site, connection, item, next) {
     }],
     'updateCategory': ['post', 'meta', 'categoryId', function(next, data) {
       if (!data.categoryId) { return next(); }
-      data.post.category = {
-        _id: categoryRefId[data.categoryId]._id,
-        title: categoryRefId[data.categoryId].title,
-        alias: categoryRefId[data.categoryId].alias
-      };
+
+      if (categoryRefId[data.categoryId] ) {
+        data.post.category = {
+          _id: categoryRefId[data.categoryId]._id,
+          title: categoryRefId[data.categoryId].title,
+          alias: categoryRefId[data.categoryId].alias
+        };
+      } else {
+        console.error('No category', data.categoryId);
+      }
       data.post.save(next);
     }]
   }, next);
