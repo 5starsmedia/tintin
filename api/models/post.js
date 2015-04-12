@@ -10,8 +10,10 @@ var mongoose = require('mongoose'),
   autoIncrement = require("./plugin/autoincrement.js");
 
 var postSchema = new mongoose.Schema({
+  id: Number,
+
   // тип публікації
-  postType: {type: String, default: 'news', enum: ['news', 'blog', 'page', 'announce']},
+  postType: {type: String, default: 'news', enum: ['news', 'post', 'page', 'announce']},
   // Назва
   title: {type: String, required: true},
   alias: String,
@@ -32,6 +34,12 @@ var postSchema = new mongoose.Schema({
   source: String,
   photoSource: String,
 
+  meta: {
+    title: String,
+    keywords: String,
+    description: String
+  },
+
   status: {type: Number, required: true, default: 0},
 
   viewsCount: {type: Number, required: true, default: 0},
@@ -50,7 +58,8 @@ var postSchema = new mongoose.Schema({
 
   category: {
     _id: mongoose.Schema.Types.ObjectId,
-    title: String
+    title: String,
+    alias: String
   },
   coverFile: {
     _id: mongoose.Schema.Types.ObjectId,
@@ -76,6 +85,6 @@ var postSchema = new mongoose.Schema({
 postSchema.index({id: 1}, {unique: true});
 postSchema.index({createDate: 1});
 
-postSchema.plugin(autoIncrement.mongoosePlugin, {field: 'id'});
+//postSchema.plugin(autoIncrement.mongoosePlugin, {field: 'id'});
 
 module.exports = mongoose.model('Post', postSchema);
