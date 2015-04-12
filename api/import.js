@@ -110,6 +110,7 @@ var saveItem = function(site, connection, item, next) {
         } );
         isFirst = false;
       }
+      data.post.files = [];
       async.eachSeries(urls, _.partial(saveFile, site, data.post), function(err) {
         if (err) return next(err);
         data.post.save(next);
@@ -171,7 +172,6 @@ var saveItem = function(site, connection, item, next) {
 
 var saveFile = function(site, post, image, next) {
   var fileName = image.guid;
-  post.files = [];
   app.models.files.findOne({ originalName: fileName }, function(err, file) {
     if (!file) {
       file = new app.models.files({
