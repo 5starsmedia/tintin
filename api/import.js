@@ -123,14 +123,15 @@ var saveItem = function(site, connection, item, next) {
           post = new app.models.posts({id: id, site: {_id: site._id, domain: site.domain}});
         }
 
+        var rex = /\[([^\] ]+)([^>]*)\](.*)\[\/([^\] ]+)\]/gim;
+
+        post.body = post.body.replace(rex, "<figure$2 data-$1>$3</figure>");
         next(null, post);
       });
     },
     'updateFields': ['post', function(next, data) {
-      var rex = /\[([^\] ]+)([^>]*)\](.*)\[\/([^\] ]+)\]/gim;
-
       var post = data.post;
-      post.body = item.post_content.replace(rex, "<figure$2 data-$1>$3</figure>");
+      post.body = item.post_content;
       post.createDate = item.post_date;
       post.title = item.post_title;
       post.alias = item.post_name;
