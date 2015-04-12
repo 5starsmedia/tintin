@@ -19,9 +19,49 @@ app.models = require('./models');
 var tablePrefix = 'ander_',
   siteDomain = 'vandroide.5stars.link';
 
+var commentsRef = {};
+
+var saveComment = function(site, connection, post, item, next) {
+  async.auto({
+    'comment': function(next) {
+      var params = {
+        collectionName: 'posts',
+        resourceId: post._id,
+        cid: item.comment_ID
+      };
+      app.models.comments.findOne(params, function(err, comment) {
+        if (err) {return next(err);}
+        if (!comment) {
+          comment = new app.models.comments(params);
+          comment.site = {_id: site._id, domain: site.domain};
+        }
+        var parent = parseInt(item.comment_parent);
+        comment.realAccount ={
+          title: item.comment_author,
+          email: item.comment_author_email
+        };
+        comment.text = item.comment_content;
+        if (parent) {
+          comment.parentComment = commentsRef[parent];
+          comment.parentComment.isAnonymous = true;
+          comment.indent = 1;
+        }
+        comment.createDate = item.comment_date;
+        comment.isAnonymous = true;
+        if (item.comment_approved == 'spam' || item.comment_approved == 'trash') {
+          comment.removed = Date.now();
+        }
+        comment.save(function(err) {
+          if (err) { return next(err); }
+          commentsRef[parseInt(item.comment_ID)] = comment;
+          next();
+        })
+      });
+    }
+  }, next);
+};
 var saveItem = function(site, connection, item, next) {
   var id = parseInt(item.ID);
-console.info(item)
   async.auto({
     'meta': function(next) {
       var meta = {};
@@ -33,6 +73,13 @@ console.info(item)
         next(null, meta);
       });
     },
+    'comments': ['post', function(next, data) {
+      var meta = {};
+      connection.query('SELECT * FROM ' + tablePrefix + 'comments WHERE comment_post_ID = ' + id + ' ORDER BY comment_parent', function (err, rows) {
+        if (err) {return next(err);}
+        async.each(rows, _.partial(saveComment, site, connection, data.post), next);
+      });
+    }],
     'categoryId': function(next) {
       connection.query('SELECT * FROM ' + tablePrefix + 'term_relationships WHERE object_id = ' + id, function (err, rows) {
         if (err) {return next(err);}
@@ -249,7 +296,7 @@ async.auto({
     });
   }],
   'getPosts': ['categories', 'connection', function(next, data) {
-    data.connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_status = "publish" AND post_type = "post" OR  post_type = "page"', function (err, rows, fields) {
+    data.connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_status = "publish" AND post_type = "post" OR  post_type = "page" LIMIT 10', function (err, rows, fields) {
       if (err) throw err;
 
       async.each(rows, _.partial(saveItem, data.site, data.connection), next);

@@ -1,0 +1,29 @@
+{
+  "resource": "comments",
+  "model": "comments",
+  "options": {
+    "maxPerPage": [
+      {
+        "role": "*",
+        "value": false
+      }
+    ],
+    "searchFields": [
+      {
+        "role": "*",
+        "value": ["text"]
+      }
+    ]
+  },
+  "acl": {
+    "realAccount":false,
+    "*": {
+      "get": "*",
+      "get?isAnonymous": "*",
+      "get?collectionName&resourceId": "*",
+      "put?_id": "admin,*:owner",
+      "post": "*",
+      "delete?_id": "admin,*:owner"
+    }
+  }
+}

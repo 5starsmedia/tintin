@@ -12,6 +12,8 @@ exports.genders = require('./user/gender.js');
 
 exports.posts = require('./post.js');
 exports.categories = require('./category.js');
+exports.comments = require('./comments.js');
+
 exports.queueMessages = require('./queueMessages.js');
 
 exports.files = require('./files.js');
