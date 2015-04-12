@@ -19,6 +19,17 @@ var schema = new mongoose.Schema({
 
   createDate: {type: Date, required: true, default: Date.now},
 
+  coverFile: {
+    _id: mongoose.Schema.Types.ObjectId,
+    title: String
+  },
+  files: [
+    {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String
+    }
+  ],
+
   removed: {type: Date},
   site: {
     _id: mongoose.Schema.Types.ObjectId,
