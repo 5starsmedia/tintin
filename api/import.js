@@ -92,7 +92,7 @@ var saveItem = function(site, connection, item, next) {
         if (err) {return next(err);}
         data.post.files = [];
         if (rows.length) {
-          rows[0].is_main = true;
+          rows[rows.length - 1].is_main = true;
         }
         async.eachSeries(rows, _.partial(saveFile, site, data.post), function(err) {
           if (err) return next(err);
