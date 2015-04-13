@@ -320,7 +320,8 @@ var saveFile = function (site, post, image, next) {
   });
 }
 
-var categoryRefId = {};
+var categoryRefId = {},
+  wCategories = {};
 var saveCategory = function (site, connection, item, next) {
   var id = parseInt(item.term_taxonomy_id),
     termId = parseInt(item.term_id);
@@ -371,6 +372,12 @@ var saveCategory = function (site, connection, item, next) {
       category.description = item.description;
       category.parentId = !parent ? data.rootCategory._id : categoryRefId[parent]._id;
       category.markModified('parentId');
+
+      if (wCategories[category.parentId]) {
+        category._w = ++wCategories[category.parentId];
+      } else {
+        category._w = wCategories[category.parentId] = 0;
+      }
       category.save(function (err, category) {
         if (err) return next(err);
         categoryRefId[id] = category;
