@@ -373,10 +373,10 @@ var saveCategory = function (site, connection, item, next) {
       category.parentId = !parent ? data.rootCategory._id : categoryRefId[parent]._id;
       category.markModified('parentId');
 
-      if (wCategories[category.parentId]) {
-        category._w = ++wCategories[category.parentId];
+      if (wCategories[parent]) {
+        category._w = ++wCategories[parent];
       } else {
-        category._w = wCategories[category.parentId] = 0;
+        category._w = wCategories[parent] = 0;
       }
       category.save(function (err, category) {
         if (err) return next(err);
