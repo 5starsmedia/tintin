@@ -5,7 +5,19 @@
   "acl": {
     "*": {
       "get": "*",
-      "get?_id": "*"
-    }
+      "get?activated": ["admin"],
+      "get?_id": "*",
+      "get?tags": "*",
+      "get?alias": "*",
+      "get?tags.title": "*",
+      "get?category._id": "*",
+      "put?_id": ["admin", "*:owner"],
+      "put?_id&position": ["admin", "*:owner"],
+      "post": "admin",
+      "delete?_id": "admin"
+    },
+    "site": false,
+    "_w": false,
+    "path": false
   }
 }
