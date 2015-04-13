@@ -21,6 +21,12 @@ var schema = new mongoose.Schema({
 
   createDate: {type: Date, required: true, default: Date.now},
 
+  meta: {
+    title: String,
+    keywords: String,
+    description: String
+  },
+
   coverFile: {
     _id: mongoose.Schema.Types.ObjectId,
     title: String
