@@ -369,7 +369,7 @@ var saveCategory = function (site, connection, item, next) {
           return next(err);
         }
         if (!rows.length) {
-          return;
+          return next();
         }
         var meta = PHPUnserialize.unserialize( rows[0].option_value);
         data.category.meta = {
