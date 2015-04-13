@@ -51,6 +51,7 @@
       "get?activated": ["admin"],
       "get?_id": "*",
       "get?tags": "*",
+      "get?alias&category._id": "*",
       "get?tags.title": "*",
       "get?category._id": "*",
       "put?_id": ["admin", "*:owner"],
