@@ -1,11 +1,12 @@
 export default
   /*@ngInject*/
-  function NewsCategoryModel($resource) {
-    return $resource('/api/categories/:_id', {
-      '_id': '@_id'
+  function NewsCategoryModel(ngNestedResource) {
+    var resource = ngNestedResource('/api/categories/:_id/:method', { '_id': '@_id' }, {
+      'getAsTree': {method: 'GET', params: { method: 'tree' }},
+      'save': { method: 'PUT'},
+      'delete': { method: 'DELETE'}
     }, {
-      'get': {method: 'GET', params: { fields: 'title' }},
-      'save': {method: 'PUT'},
-      'create': {method: 'POST'}
+      'nestedField': 'children'
     });
+    return resource;
   }

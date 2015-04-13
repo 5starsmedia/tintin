@@ -1,9 +1,11 @@
 import posts from './posts/posts';
+import categories from './categories/categories';
 
 var appName = 'module.news';
 
 var module = angular.module(appName, [
-  posts
+  posts,
+  categories
 ]);
 
 import editorSelectImages from './ckeditor_plugins/select-images.js';

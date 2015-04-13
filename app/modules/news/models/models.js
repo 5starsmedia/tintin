@@ -1,7 +1,8 @@
 var appName = 'module.news.models';
 
 var module = angular.module(appName, [
-  'ngResource'
+  'ngResource',
+  'ngEditableTree'
 ]);
 
 // models

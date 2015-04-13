@@ -17,6 +17,8 @@ var schema = new mongoose.Schema({
   alias: String,
   description: String,
 
+  cssClass: String,
+
   createDate: {type: Date, required: true, default: Date.now},
 
   coverFile: {

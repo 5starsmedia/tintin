@@ -39,8 +39,13 @@
         <!--li ui-sref-active="active">
             <a ui-sref="sites.domains"> <span class="nav-label">Sites</span></a>
         </li-->
-        <li ui-sref-active="active">
-            <a ui-sref="news.posts"> <span class="nav-label">News</span></a>
+        <li ng-class="{active: $state.includes('news')}">
+            <a href=""> <span class="nav-label">News</span> <span class="fa arrow"></span></a>
+
+            <ul class="nav nav-second-level" ng-class="{in: $state.includes('news')}">
+                <li ui-sref-active="active"><a ui-sref="news.posts">List of news</a></li>
+                <li ui-sref-active="active"><a ui-sref="news.categories">News categories</a></li>
+            </ul>
         </li>
         <li ui-sref-active="active">
             <a ui-sref="menu.menus"> <span class="nav-label">Menus</span></a>
