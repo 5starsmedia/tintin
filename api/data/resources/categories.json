@@ -9,6 +9,7 @@
       "get?_id": "*",
       "get?tags": "*",
       "get?alias": "*",
+      "get?alias&parentId": "*",
       "get?tags.title": "*",
       "get?category._id": "*",
       "put?_id": ["admin", "*:owner"],
