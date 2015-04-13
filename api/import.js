@@ -366,7 +366,6 @@ var saveCategory = function (site, connection, item, next) {
       var category = data.category,
         parent = parseInt(item.parent);
 
-      console.info('Import category', id, 'parent', parent);
       category.title = data.term.name;
       category.alias = data.term.slug;
       category.description = item.description;
@@ -378,6 +377,7 @@ var saveCategory = function (site, connection, item, next) {
       } else {
         category._w = wCategories[parent] = 0;
       }
+      console.info('Import category', id, 'parent', parent, 'w', category._w);
       category.save(function (err, category) {
         if (err) return next(err);
         categoryRefId[id] = category;
