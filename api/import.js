@@ -9,6 +9,7 @@ var mysql = require('mysql'),
   mime = require('mime');
 var url = require('url');
 var http = require('http');
+var PHPUnserialize = require('php-unserialize');
 var grid;
 
 var app = {};
@@ -362,6 +363,24 @@ var saveCategory = function (site, connection, item, next) {
         next(undefined, node);
       });
     },
+    'meta': ['category', function (next, data) {
+      connection.query('SELECT * FROM ' + tablePrefix + 'options WHERE option_name = "cat_meta_key_' + data.category.id + '"', function (err, rows) {
+        if (err) {
+          return next(err);
+        }
+        if (!rows.length) {
+          return;
+        }
+        var meta = PHPUnserialize.unserialize( rows[0].option_value);
+        data.category.meta = {
+          title: meta.page_title,
+          keywords: meta.metakey,
+          description: meta.description
+        };
+        data.category.save(next);
+        //next(null, rows[0]);
+      });
+    }],
     'save': ['category', 'rootCategory', 'term', function (next, data) {
       var category = data.category,
         parent = parseInt(item.parent);
