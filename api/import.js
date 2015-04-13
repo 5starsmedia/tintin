@@ -375,7 +375,7 @@ var saveCategory = function (site, connection, item, next) {
       if (wCategories[parent]) {
         category._w = ++wCategories[parent];
       } else {
-        category._w = wCategories[parent] = 0;
+        category._w = wCategories[parent] = 1;
       }
       console.info('Import category', id, 'parent', parent, 'w', category._w);
       category.save(function (err, category) {
