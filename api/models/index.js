@@ -15,6 +15,7 @@ exports.categories = require('./category.js');
 exports.comments = require('./comments.js');
 
 exports.queueMessages = require('./queueMessages.js');
+exports.sequences = require('./sequences.js');
 
 exports.files = require('./files.js');
 exports.fileChunks = require('./fileChunks.js');
