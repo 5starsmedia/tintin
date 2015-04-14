@@ -13,8 +13,8 @@ exports['post.comments'] = function (req, data, next) {
     if (req.auth.account) {
       data['realAccount._id'] = req.auth.account._id;
     } else {
-      data['realAccount.title'] = data.title;
-      data['realAccount.emial'] = data.emial;
+      data['account.title'] = data.title;
+      data['account.email'] = data.email;
     }
     data.isAnonymous = true;
     data.account = null;

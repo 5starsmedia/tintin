@@ -18,12 +18,11 @@ var schema = new mongoose.Schema({
     coverFile: {
       _id: mongoose.Schema.Types.ObjectId,
       title: String
-    }
+    },
+    email: String
   },
   realAccount: {
-    _id: mongoose.Schema.Types.ObjectId,
-    title: String,
-    email: String
+    _id: mongoose.Schema.Types.ObjectId
   },
   isAnonymous: {type: Boolean, required: true, default: false},
   collectionName: {type: String, required: true},
