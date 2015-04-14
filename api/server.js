@@ -19,6 +19,7 @@ var express = require('express'),
 //compression = require('compression'),
   sites = require('./middleware/sites.js'),
   tasks = require('./services/tasks'),
+  sequence = require('./services/sequence'),
   config = require('./config.js');
 //phantom = require('node-phantom'),
 //robots = require('robots.txt'),
@@ -41,6 +42,7 @@ app.services = {
   sms: require('./services/sms'),
   mail: require('./services/mail'),
   validation: require('./services/validation'),
+  sequence: new sequence.SequenceSvc(app),
   tasks: new tasks.TasksSvc(app)
 };
 
