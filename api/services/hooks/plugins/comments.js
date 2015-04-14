@@ -12,9 +12,6 @@ exports['post.comments'] = function (req, data, next) {
   if (data.isAnonymous) {
     if (req.auth.account) {
       data['realAccount._id'] = req.auth.account._id;
-    } else {
-      data['account.title'] = data.title;
-      data['account.email'] = data.email;
     }
     data.isAnonymous = true;
     data.account = null;
