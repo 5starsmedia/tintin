@@ -15,6 +15,7 @@ var schema = new mongoose.Schema({
   // Назва
   title: {type: String, required: true},
   alias: String,
+  parentAlias: String,
   description: String,
 
   cssClass: String,
