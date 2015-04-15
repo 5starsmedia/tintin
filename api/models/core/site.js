@@ -15,6 +15,17 @@ var schema = new mongoose.Schema({
   isHttps: Boolean,
   isCorsEnabled: Boolean,
 
+  meta: {
+    title: String,
+    keywords: String,
+    description: String
+  },
+
+  article: {
+    title: String,
+    body: String
+  },
+
   removed: {type: Date},
   createDate: {type: Date, required: true, default: Date.now},
   site: {

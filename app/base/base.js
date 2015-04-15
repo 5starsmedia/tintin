@@ -6,6 +6,9 @@ import BaseAPIParams from './factories/BaseAPIParams.js';
 
 import translate from './filters/translate.js';
 
+// directives
+import baseMetaEdit from './directives/baseMetaEdit.js';
+
 angular.module(appName, [])
   .constant('appTitle', 'TinTin CMS')
   .constant('appSite', '5starsmedia.com.ua')
@@ -17,6 +20,10 @@ angular.module(appName, [])
     $rootScope.appTitle = appTitle;
     $rootScope.appSite = appSite;
     $rootScope.appSiteLink = appSiteLink;
-  });
+  })
+
+
+  .directive('baseMetaEdit', baseMetaEdit);
+
 
 export default appName;

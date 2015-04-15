@@ -1,0 +1,137 @@
+<div>
+
+    <st-form model="site" state="error" submit="saveItem(site)">
+
+        <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
+            <div class="hpanel" bz-loading-container="loading">
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-lg-9">
+
+                            <a ui-sref="sites.domains" class="back-btn">
+                                <span class="pe-7s-angle-left"></span>
+                            </a>
+
+                            <h2 class="font-light m-b-xs">
+                                <span ng-if="!site._id" style="line-height: 30px;">{{'New domain'|translate}}</span>
+                                <span ng-if="site._id">{{'Editing of domain'|translate}}</span>
+                            </h2>
+
+                            <small ng-if="site._id">
+                                {{'Domain created:'|translate}}
+                                {{site.createDate|date:'dd.MM.yyyy'}}
+                                {{'at'|translate}}
+                                {{site.createDate|date:'HH:mm'}}
+                            </small>
+
+                        </div>
+                        <div class="col-lg-3">
+
+                            <div class="form-actions">
+                                <a ng-href="{{site.domain}}" ng-if="site._id"
+                                   class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left" tooltip="{{'Open on site'|translate}}" target="_blank">
+                                    <span class="fa fa-external-link"></span>
+                                </a>
+
+                                <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+                                    {{'Save'|translate}}
+                                </button>
+                                <a ui-sref="sites.domains" class="btn btn-default">
+                                    {{'Cancel'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" animate-panel effect="zoomIn">
+
+            <div class="row">
+                <div class="col-lg-9">
+
+                    <st-form-element label="{{'Title'|translate}}" field="title">
+
+                        <input id="title" class="form-control input-lg" name="title" type="text" required
+                               ng-model="site.title"/>
+
+                    </st-form-element>
+
+                    <st-form-element label="{{'Domain'|translate}}" field="title">
+
+
+                        <div class="input-group">
+                            <span ng-class="{'h-bg-green': site.isHttps}" class="input-group-addon">
+                                <span ng-if="!site.isHttps">http://</span>
+                                <span ng-if="site.isHttps"><span class="pe-7s-lock"></span> https://</span>
+                            </span>
+
+                            <input id="domain" disabled class="form-control" name="title" type="text" ng-model="site.domain"/>
+                        </div>
+
+                    </st-form-element>
+
+
+                    <div class="hpanel">
+                        <div class="panel-heading">
+                            {{'Meta tags'|translate}}
+                        </div>
+                        <div class="panel-body">
+
+                            <div base-meta-edit="site"></div>
+
+                        </div>
+                    </div>
+
+                    <div class="hpanel">
+                        <div class="panel-heading">
+                            {{'Article'|translate}}
+                        </div>
+                        <div class="panel-body">
+
+                            <st-form-element label="{{'Title'|translate}}" field="title">
+
+                                <input id="article_title" class="form-control input-lg" name="article_title" type="text" required
+                                       ng-model="site.article.title"/>
+
+                            </st-form-element>
+
+                            <st-form-element label="{{'Body'|translate}}" field="body">
+
+                                <textarea id="article_body" class="form-control" name="article_body" ckeditor="editorOptions"
+                                          ng-model="site.article.body"></textarea>
+
+                            </st-form-element>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-3">
+
+                    <div class="hpanel hblue">
+                        <div class="panel-heading">
+                            {{'Publication'|translate}}
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="checkbox">
+                                <label>
+                                    <input ng-model="site.isCorsEnabled" type="checkbox"/> {{'Enable CORS'|translate}}
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </st-form>
+</div>

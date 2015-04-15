@@ -14,6 +14,7 @@ exports.init = function (app) {
 
   app.server.use('/api/upload', require('./upload.js'));
   app.server.use('/api/files', require('./files.js'));
+  app.server.use('/api/sites', require('./sites.js'));
 
   app.server.use('/api/productTypes', nestedSet('productTypes'));
   app.server.use('/api/productCategories', nestedSet('productCategories'));

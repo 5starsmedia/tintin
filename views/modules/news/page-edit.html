@@ -15,11 +15,11 @@
                     </a>
 
                     <h2 class="font-light m-b-xs">
-                        <span ng-if="!post.id" style="line-height: 30px;">{{'New article'|translate}}</span>
-                        <span ng-if="post.id">{{'Editing of article'|translate}}</span>
+                        <span ng-if="!post._id" style="line-height: 30px;">{{'New article'|translate}}</span>
+                        <span ng-if="post._id">{{'Editing of article'|translate}}</span>
                     </h2>
 
-                    <small ng-if="post.id">
+                    <small ng-if="post._id">
                         {{'Article created:'|translate}}
                         {{post.createDate|date:'dd.MM.yyyy'}}
                         {{'at'|translate}}
@@ -87,15 +87,15 @@
                         <st-form-element label="{{'Status'|translate}}" field="status">
 
                             <select ng-model="post.status" class="form-control">
-                                <option value="4">Опубліковано</option>
-                                <option value="6">Відкладена публікація</option>
-                                <option value="2">На модерації</option>
-                                <option value="1">Чернетка</option>
+                                <option value="4">{{'Published'|translate}}</option>
+                                <!--option value="6">Відкладена публікація</option-->
+                                <option value="2">{{'On moderation'|translate}}</option>
+                                <option value="1">{{'Draft'|translate}}</option>
                             </select>
 
                         </st-form-element>
 
-                        <st-form-element label="{{'Date of publishing'|translate}}" field="category.id"
+                        <!--st-form-element label="{{'Date of publishing'|translate}}" field="category.id"
                                          ng-show="post.status == '6'">
 
                             <div class="input-group date" style="margin-bottom: 5px">
@@ -117,7 +117,7 @@
 
                             </div>
 
-                        </st-form-element>
+                        </st-form-element-->
 
 
                         <div class="form-group checkbox">
@@ -135,7 +135,7 @@
                             </label>
                         </div>
 
-                        <div ng-include="$config.templateUrl('views/modules/news/block-properties.html')()"></div>
+                        <!--div ng-include="$config.templateUrl('views/modules/news/block-properties.html')()"></div-->
                     </div>
                 </div>
 
@@ -264,6 +264,17 @@
                                 </select>
                             </div>
                         </div-->
+
+                    </div>
+                </div>
+
+                <div class="hpanel">
+                    <div class="panel-heading">
+                        {{'Meta tags'|translate}}
+                    </div>
+                    <div class="panel-body">
+
+                        <div base-meta-edit="post"></div>
 
                     </div>
                 </div>

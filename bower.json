@@ -60,7 +60,8 @@
     "ng-editable-tree": "*",
     "Sortable": "~1.1.1",
     "angular-input-masks": "~1.4.0",
-    "checklist-model": "~0.2.4"
+    "checklist-model": "~0.2.4",
+    "fastclick": "~1.0.6"
   },
   "resolutions": {
     "jquery": "~2.1.3",
