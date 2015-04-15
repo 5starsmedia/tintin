@@ -59,7 +59,8 @@ var postSchema = new mongoose.Schema({
   category: {
     _id: mongoose.Schema.Types.ObjectId,
     title: String,
-    alias: String
+    alias: String,
+    parentAlias: String
   },
   coverFile: {
     _id: mongoose.Schema.Types.ObjectId,

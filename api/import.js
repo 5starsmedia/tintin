@@ -174,7 +174,8 @@ var saveItem = function (site, connection, item, next) {
         data.post.category = {
           _id: categoryRefId[data.categoryId]._id,
           title: categoryRefId[data.categoryId].title,
-          alias: categoryRefId[data.categoryId].alias
+          alias: categoryRefId[data.categoryId].alias,
+          parentAlias: categoryRefId[data.categoryId].parentAlias
         };
       } else {
         console.error('No category', data.categoryId);
