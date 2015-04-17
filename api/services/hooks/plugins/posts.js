@@ -10,6 +10,9 @@ var mongoose = require('mongoose'),
 function dateToString(dateStr) {
   return moment.utc(dateStr).format('YYYY-MM-DD');
 }
+function stripTags(str){
+  return str.replace(/<[^>]+>/gi, ' ');
+};
 
 exports['post.posts'] = function (req, data, cb) {
   if (data.status == 4) {
@@ -57,17 +60,31 @@ exports['put.posts'] = function (req, data, cb) {
       });
     }],
     'aliasFor' : ['post', function(next, res) {
+      if (data.post.alias) {
+        return next();
+      }
       req.app.services.url.aliasFor(req.app, data.title, {}, function (err, alias) {
         if (err) { return next(err); }
         data.alias = alias;
         next();
       });
     }],
-    /*'generateKeywords': ['post', function(next, res) {
+    'generateKeywords': ['post', function(next, res) {
       var tfidf = new TfIdf();
-      tfidf.addDocument(res.post.title + ' ' + app.services.search.prepareString(data.advice.description).join(' '));
-      app.services.suggestions.saveSuggestionKeywords(data.advice._id, 'advices', tfidf.listTerms(0), next);
-    }],*/
+      tfidf.addDocument(res.post.title + ' ' + stripTags(data.post.body));
+
+      data.post.keywords = [];
+      tfidf.listTerms(0).forEach(function(item) {
+        if (data.post.keywords.length >= 10) {
+          return;
+        }
+        data.post.keywords.push({
+          word: item.term,
+          importance: item.tfidf
+        });
+      });
+      data.post.save(next);
+    }],
     'updateInfo': ['post', function(next, res) {
       if (data.status == 4) {
         data.published = true;
