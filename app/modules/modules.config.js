@@ -4,6 +4,7 @@ import news from './news/news';
 import menu from './menu/menu';
 import users from './users/users';
 import sites from './sites/sites';
+import ads from './ads/ads';
 import ecommerce from './ecommerce/ecommerce';
 
 export default [
@@ -13,5 +14,6 @@ export default [
   news,
   menu,
   users,
+  ads,
   ecommerce
 ];

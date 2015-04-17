@@ -2,6 +2,8 @@
 
 var mongoose = require('mongoose'),
   _ = require('lodash'),
+  natural = require('natural'),
+  TfIdf = natural.TfIdf,
   moment = require('moment');
 
 function dateToString(dateStr) {
@@ -42,27 +44,39 @@ exports['post.posts'] = function (req, data, cb) {
 };
 
 exports['put.posts'] = function (req, data, cb) {
-  if (data.status == 4) {
-    data.published = true;
-  }
-
-  req.app.models.posts.findById(data._id, 'publishDate', function (err, blog) {
-    if (err) { return cb(err); }
-    if (data.published) {
-      data.publishDate = blog.publishDate || new Date();
-      data.publishDateStr = dateToString(data.publishDate);
-    }
-    req.app.services.html.clearHtml(data.body, function (err, text) {
-      if (err) { return cb(err); }
-      data.body = text;
-      req.app.services.url.aliasFor(req.app, data.title, {}, function (err, alias) {
-        if (err) { return cb(err); }
-        data.alias = alias;
-        cb();
+  async.auto({
+    'post': function(next) {
+      req.app.models.posts.findById(data._id, 'publishDate', next);
+    },
+    'clearHtml' : ['post', function(next, res) {
+      req.app.services.html.clearHtml(data.body, function (err, text) {
+        if (err) { return next(err); }
+        data.body = text;
+        next();
       });
-    });
-  });
-  //cb();
+    }],
+    'aliasFor' : ['post', function(next, res) {
+      req.app.services.url.aliasFor(req.app, data.title, {}, function (err, alias) {
+        if (err) { return next(err); }
+        data.alias = alias;
+        next();
+      });
+    }],
+    'generateKeywords': ['post', function(next, res) {
+      var tfidf = new TfIdf();
+      tfidf.addDocument(res.post.title + ' ' + app.services.search.prepareString(data.advice.description).join(' '));
+      app.services.suggestions.saveSuggestionKeywords(data.advice._id, 'advices', tfidf.listTerms(0), next);
+    }],
+    'updateInfo': ['post', function(next, res) {
+      if (data.status == 4) {
+        data.published = true;
+      }
+      if (data.published) {
+        data.publishDate = res.post.publishDate || new Date();
+        data.publishDateStr = dateToString(data.publishDate);
+      }
+    }]
+  }, cb);
 };
 
 exports['put.posts.tags'] = function (req, data, next) {

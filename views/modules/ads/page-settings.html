@@ -1,0 +1,28 @@
+<div class="content">
+
+
+    <div class="hpanel">
+    <tabset>
+        <tab ng-repeat="code in codes">
+            <tab-heading>{{code.title}}&nbsp;</tab-heading>
+            <div class="panel-body">
+
+                <div ng-include="'views/modules/ads/form-edit.html'"></div>
+
+            </div>
+        </tab>
+        <tab>
+            <tab-heading>
+                <span class="fa fa-plus"></span> {{'Add new'|translate}}
+            </tab-heading>
+            <div class="panel-body">
+
+                <div ng-include="'views/modules/ads/form-edit.html'"></div>
+
+            </div>
+        </tab>
+    </tabset>
+
+    </div>
+
+</div>

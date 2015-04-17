@@ -22,6 +22,8 @@ exports.fileChunks = require('./fileChunks.js');
 
 exports.visaDates = require('./visaDate.js');
 
+exports.adsCodes = require('./adsCodes.js');
+
 exports.products = require('./product/product.js');
 exports.productTypes = require('./product/productType.js');
 exports.productFields = require('./product/productField.js');

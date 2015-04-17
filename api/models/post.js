@@ -56,6 +56,13 @@ var postSchema = new mongoose.Schema({
   ownPhoto: Boolean,
   isAllowComments: Boolean,
 
+  keywords: [
+    {
+      word: String,
+      importance: Number
+    }
+  ],
+
   category: {
     _id: mongoose.Schema.Types.ObjectId,
     title: String,
