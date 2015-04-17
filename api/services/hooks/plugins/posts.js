@@ -60,7 +60,7 @@ exports['put.posts'] = function (req, data, cb) {
       });
     }],
     'aliasFor' : ['post', function(next, res) {
-      if (data.post.alias) {
+      if (res.post.alias) {
         return next();
       }
       req.app.services.url.aliasFor(req.app, data.title, {}, function (err, alias) {
@@ -71,19 +71,19 @@ exports['put.posts'] = function (req, data, cb) {
     }],
     'generateKeywords': ['post', function(next, res) {
       var tfidf = new TfIdf();
-      tfidf.addDocument(res.post.title + ' ' + stripTags(data.post.body));
+      tfidf.addDocument(res.post.title + ' ' + stripTags(res.post.body));
 
-      data.post.keywords = [];
+      res.post.keywords = [];
       tfidf.listTerms(0).forEach(function(item) {
-        if (data.post.keywords.length >= 10) {
+        if (res.post.keywords.length >= 10) {
           return;
         }
-        data.post.keywords.push({
+        res.post.keywords.push({
           word: item.term,
           importance: item.tfidf
         });
       });
-      data.post.save(next);
+      res.post.save(next);
     }],
     'updateInfo': ['post', function(next, res) {
       if (data.status == 4) {
