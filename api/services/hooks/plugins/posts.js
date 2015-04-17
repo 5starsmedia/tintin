@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
   _ = require('lodash'),
+  async = require('async'),
   natural = require('natural'),
   TfIdf = natural.TfIdf,
   moment = require('moment');
@@ -62,11 +63,11 @@ exports['put.posts'] = function (req, data, cb) {
         next();
       });
     }],
-    'generateKeywords': ['post', function(next, res) {
+    /*'generateKeywords': ['post', function(next, res) {
       var tfidf = new TfIdf();
       tfidf.addDocument(res.post.title + ' ' + app.services.search.prepareString(data.advice.description).join(' '));
       app.services.suggestions.saveSuggestionKeywords(data.advice._id, 'advices', tfidf.listTerms(0), next);
-    }],
+    }],*/
     'updateInfo': ['post', function(next, res) {
       if (data.status == 4) {
         data.published = true;
