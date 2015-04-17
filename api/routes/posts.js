@@ -65,4 +65,33 @@ router.get('/source-complete', function (req, res, next) {
   }
 });
 
+router.get('/:id/suggest', function (req, res, next) {
+  async.auto({
+    'item': function(next) {
+      return req.app.models.posts.findById(req.params.id, next);
+    },
+    'suggest': ['item', function(next, data) {
+      var keys = _.map(data.item.keywords, function (item) {
+        return item.word;
+      });
+
+      req.app.models.posts.aggregate([
+        { '$match' : { _id: { $ne: data.item._id }, published: true, removed: {$exists: false}, keywords: {$elemMatch: { word: {$in: keys}}} } },
+        { '$unwind' : '$keywords'},
+        { '$match' : { 'keywords.word': {$in: keys}} },
+        { '$group' : { '_id' : '$_id', 'keywords' : { '$sum' : 1} }},
+        { '$sort' : { 'keywords' : -1}},
+        { '$limit' : 10}
+      ], next);
+    }],
+    'items': ['suggest', function(next, data) {
+      req.app.models.posts.find({ _id: { $in: _.pluck(data.suggest, '_id') } }, next);
+    }]
+  }, function (err, data) {
+    if (err) { return next(err); }
+
+    return res.json(data.items);
+  });
+});
+
 module.exports = router;
