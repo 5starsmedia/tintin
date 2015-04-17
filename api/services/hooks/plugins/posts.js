@@ -76,6 +76,7 @@ exports['put.posts'] = function (req, data, cb) {
         data.publishDate = res.post.publishDate || new Date();
         data.publishDateStr = dateToString(data.publishDate);
       }
+      next();
     }]
   }, cb);
 };
