@@ -7,6 +7,7 @@ class AdsSettingsCtrl {
 
     $scope.places = [
       { id: 'before-post', title: 'Перед текстом' },
+      { id: 'in-text', title: 'В тексте' },
       { id: 'after-post', title: 'После текста' }
     ];
 
