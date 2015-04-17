@@ -159,6 +159,20 @@
                     </div>
                 </div>
 
+
+                <div class="hpanel">
+                    <div class="panel-heading">
+                        {{'Auto keywords'|translate}}
+                    </div>
+                    <div class="panel-body">
+
+                        <div ng-repeat="keyword in post.keywords">
+                            <strong>{{keyword.word}}</strong> - {{keyword.importance}}
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
 

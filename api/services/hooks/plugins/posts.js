@@ -50,7 +50,7 @@ exports['post.posts'] = function (req, data, cb) {
 exports['put.posts'] = function (req, data, cb) {
   async.auto({
     'post': function(next) {
-      req.app.models.posts.findById(data._id, 'publishDate', next);
+      req.app.models.posts.findById(data._id, 'title body alias publishDate', next);
     },
     'clearHtml' : ['post', function(next, res) {
       req.app.services.html.clearHtml(data.body, function (err, text) {
@@ -71,6 +71,7 @@ exports['put.posts'] = function (req, data, cb) {
     }],
     'generateKeywords': ['post', function(next, res) {
       var tfidf = new TfIdf();
+      console.info(res.post)
       tfidf.addDocument(res.post.title + ' ' + stripTags(res.post.body));
 
       res.post.keywords = [];
