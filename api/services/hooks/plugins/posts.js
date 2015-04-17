@@ -52,13 +52,13 @@ exports['put.posts'] = function (req, data, cb) {
     'post': function(next) {
       req.app.models.posts.findById(data._id, 'title body alias publishDate', next);
     },
-    'clearHtml' : ['post', function(next, res) {
+    /*'clearHtml' : ['post', function(next, res) {
       req.app.services.html.clearHtml(data.body, function (err, text) {
         if (err) { return next(err); }
         data.body = text;
         next();
       });
-    }],
+    }],*/
     'aliasFor' : ['post', function(next, res) {
       if (res.post.alias) {
         return next();
