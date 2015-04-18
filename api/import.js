@@ -114,10 +114,12 @@ var saveItem = function (site, connection, item, next) {
         isFirst = false;
       }*/
       while (m = rexLink.exec(data.post.body)) {
-        urls.push({
-          guid: m[1],
-          isImage: false
-        });
+        if (m[1].substring(m[1].length - 4) != 'html') {
+          urls.push({
+            guid: m[1],
+            isImage: false
+          });
+        }
       }
       console.info(urls);
       data.post.files = [];
@@ -294,9 +296,11 @@ var saveFile = function (site, post, image, next) {
         },
         'saveToDB': ['downloadImage', function (next, data) {
           var buffer = data.downloadImage,
-            mimeType = mime.lookup(file.originalName);
+            mimeType = mime.lookup(file.originalName),
+            isImage = true;
 
-          if (mimeType != 'image/jpeg' && mimeType != 'image/png') {
+          if (mimeType != 'image/jpeg' && mimeType != 'image/png' && mimeType != 'image/gif') {
+            isImage = false;
             console.error('!!!!!!!!!!!!!!!!!!!!', mimeType);
           }
 
@@ -316,6 +320,7 @@ var saveFile = function (site, post, image, next) {
               height: resultDimensions.height,
               storage: 'gridfs',
               storageId: res._id.toString(),
+              isImage: isImage,
               isTemp: false
             };
             setExpr.collectionName = 'posts';
