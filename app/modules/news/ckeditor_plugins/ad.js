@@ -8,15 +8,15 @@ CKEDITOR.plugins.add('adInsert', {
   init: (editor) => {
     editor.widgets.add( 'adInsert', {
       button: 'Create a simple box',
-      template: '<figure class="ad-box">[reklama]</figure>',
+      template: '<figure class="b-ad-place">[reklama]</figure>',
 
       allowedContent:
-        'figure(!ad-box)',
+        'figure(!b-ad-place)',
 
-      requiredContent: 'figure(ad-box)',
+      requiredContent: 'figure(b-ad-place)',
 
       upcast: function( element ) {
-        return element.name == 'figure' && element.hasClass( 'ad-box' );
+        return element.name == 'figure' && element.hasClass( 'b-ad-place' );
       }
     } );
 

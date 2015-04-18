@@ -1,11 +1,11 @@
-.cke_contents .ad-box {
+.cke_contents .b-ad-place {
     background: #eee;
     text-indent: -100%;
     overflow: hidden;
     height: 50px;
     position: relative;
 }
-.cke_contents .ad-box:before {
+.cke_contents .b-ad-place:before {
     display: block;
     position: absolute;
     content: 'Banner';
