@@ -16,7 +16,7 @@ var express = require('express'),
   lynx = require('lynx'),
   lynxExpress = require('lynx-express'),
   useragent = require('express-useragent'),
-//compression = require('compression'),
+  compression = require('compression'),
   sites = require('./middleware/sites.js'),
   tasks = require('./services/tasks'),
   sequence = require('./services/sequence'),
@@ -56,7 +56,6 @@ app.services = {
  relation: new relation.RelationSvc(app)
  };
 
- app.server.use(compression());
 
  var botRegexp = /developers\.google\.com\/\+\/web\/snippet|google\.com\/webmasters\/tools\/richsnippets|linkedinbot|spider|tumblr|redditbot/i;
  app.server.use(function (req, res, next) {
@@ -69,6 +68,7 @@ app.services = {
  next();
  });
  */
+app.server.use(compression());
 app.server.use(useragent.express());
 //app.server.use(responseTime());
 function on_error(err) {

@@ -47,6 +47,9 @@ exports['put.posts'] = function (req, data, cb) {
     'post': function(next) {
       req.app.models.posts.findById(data._id, 'title body alias publishDate', next);
     },
+    'category': function(next) {
+      req.app.models.categories.findById(data.category._id, 'title alias parentAlias', next);
+    },
     /*'clearHtml' : ['post', function(next, res) {
       req.app.services.html.clearHtml(data.body, function (err, text) {
         if (err) { return next(err); }
@@ -64,10 +67,11 @@ exports['put.posts'] = function (req, data, cb) {
         next();
       });
     }],
-    'updateInfo': ['post', function(next, res) {
+    'updateInfo': ['post', 'category', function(next, res) {
       if (data.status == 4) {
         data.published = true;
       }
+      data.category = res.category;
       if (data.published) {
         data.publishDate = res.post.publishDate || new Date();
         data.publishDateStr = dateToString(data.publishDate);
