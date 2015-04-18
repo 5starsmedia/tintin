@@ -6,6 +6,10 @@ var async = require('async'),
   TfIdf = natural.TfIdf,
   _ = require('lodash');
 
+function stripTags(str){
+  return str.replace(/<[^>]+>/gi, ' ');
+};
+
 exports['posts.keywords'] = function (app, msg, cb) {
   async.auto({
     'posts': function(next) {

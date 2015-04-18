@@ -8,9 +8,6 @@ var mongoose = require('mongoose'),
 function dateToString(dateStr) {
   return moment.utc(dateStr).format('YYYY-MM-DD');
 }
-function stripTags(str){
-  return str.replace(/<[^>]+>/gi, ' ');
-};
 
 exports['post.posts'] = function (req, data, cb) {
   if (data.status == 4) {
