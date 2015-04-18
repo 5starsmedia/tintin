@@ -13,14 +13,11 @@ exports['posts.keywords'] = function (app, msg, cb) {
     },
     'generateKeywords': ['posts', function(next, res) {
       _.forEach(res.posts, function(item) {
-        app.services.mq.push(app, 'db.posts.update', {_id: item._id});
+        app.services.mq.push(app, 'events', {name: 'db.posts.update', _id: item._id});
       });
       next();
     }]
-  }, function (err, res) {
-    if (err) { return cb(err); }
-    res.post.save(cb);
-  });
+  }, cb);
 };
 
 exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb) {
