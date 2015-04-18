@@ -45,9 +45,7 @@ exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb
           importance: item.tfidf
         });
       });
+      res.post.save(next);
     }]
-  }, function (err, res) {
-    if (err) { return cb(err); }
-    res.post.save(cb);
-  });
+  }, cb);
 };
