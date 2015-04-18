@@ -4,7 +4,8 @@ var program = require('commander');
 var deasync = require('deasync');
 var mongoose = require('mongoose');
 var config = require('./config.js')
-var Stomp = require('stomp-client');
+var Stomp = require('stomp-client'),
+  models = require('./models');
 
 program
   .version('0.0.1')
@@ -37,11 +38,43 @@ var addTask = deasync(function (taskName, next) {
   });
 });
 
+var addDomain = deasync(function (domainName, next) {
+  console.log('Connecting to mongodb...');
+  mongoose.connection.on('error', function (err) {
+    console.log(err);
+  });
+  mongoose.set('debug', false);
+  mongoose.connect(config.get('mongodb'), function () {
+
+    console.log('Creating domain:', domainName);
+    var site = new models.sites({
+      domain: domainName
+    });
+    site.save(function(err) {
+      if (err) { return next(err); }
+
+      console.log('Closing mongodb connection...');
+      mongoose.connection.close(function (err) {
+        if (err) { return next(err); }
+        console.log('Mongodb connection successfully closed');
+        next();
+      });
+    });
+  });
+});
+
 program
   .command('push-task <taskname>')
   .description('Push specified task to task queue')
   .action(function (taskName, opts) {
     addTask(taskName);
+  });
+
+program
+  .command('add-domain <domainName>')
+  .description('Add specified domain')
+  .action(function (domainName, opts) {
+    addDomain(domainName);
   });
 
 program
