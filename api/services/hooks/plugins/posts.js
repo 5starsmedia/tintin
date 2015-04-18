@@ -47,9 +47,9 @@ exports['put.posts'] = function (req, data, cb) {
     'post': function(next) {
       req.app.models.posts.findById(data._id, 'title body alias publishDate', next);
     },
-    'category': function(next, res) {
+    'category': ['post', function(next, res) {
       req.app.models.categories.findById(res.post.category._id, 'title alias parentAlias', next);
-    },
+    }],
     /*'clearHtml' : ['post', function(next, res) {
       req.app.services.html.clearHtml(data.body, function (err, text) {
         if (err) { return next(err); }
