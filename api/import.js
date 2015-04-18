@@ -105,12 +105,8 @@ var saveItem = function (site, connection, item, next) {
         rex = /<img[^>]+src="(http:\/\/[^">]+)"/g,
         rexLink = /<a[^>]+href="(http:\/\/v\-a[^">]+)"/g;
 
-      while (m = data.post.body.match(/<a[^>]+href="(http:\/\/v\-a[^">]+)"[^>]*>[^<]?<img[^>]+src="(http:\/\/[^">]+)-(\d+)x(\d+)(\.[^">]+)"/)) {
-        if (m[1] == m[2] + m[5]) {
-          data.post.body = data.post.body.replace(m[2] + '-' + m[3] + 'x' +m[4] + m[5], m[1] + '" data-width="' + m[3] + '" data-height="'  + m[4]);
-        }
-      }
-
+      data.post.body = data.post.body.replace(/"(http:\/\/v\-a[^">]+)\-(\d+)x(\d+)(\.[^">]+)"/g, '"$1$4" data-width="$2" data-height="$3"');
+      
       while (m = rex.exec(data.post.body)) {
         urls.push({
           guid: m[1],
@@ -197,7 +193,9 @@ var saveItem = function (site, connection, item, next) {
 var saveCategoryFile = function (site, post, image, next) {
   var fileName = image.guid;
   app.models.files.findOne({originalName: fileName}, function (err, file) {
+    var isNew = false;
     if (!file) {
+      isNew = true;
       file = new app.models.files({
         originalName: fileName,
         collectionName: 'categories',
@@ -213,6 +211,9 @@ var saveCategoryFile = function (site, post, image, next) {
 
       if (image.is_main) {
         post.coverFile = file;
+      }
+      if (!isNew) {
+        return next();
       }
       async.auto({
         'downloadImage': function (next) {
@@ -499,6 +500,7 @@ async.auto({
     data.connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_status = "publish" AND post_type = "post" OR post_type = "page"', function (err, rows, fields) {
       if (err) throw err;
 
+      console.info('get posts:', rows.length)
       async.eachSeries(rows, _.partial(saveItem, data.site, data.connection), next);
     });
   }]
