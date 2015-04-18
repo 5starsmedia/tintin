@@ -33,6 +33,7 @@ exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb
       var tfidf = new TfIdf();
       tfidf.addDocument(res.post.title + ' ' + stripTags(res.post.body));
 
+      app.log.info('Generate keywords for ' + res.post._id)
       res.post.keywords = [];
       tfidf.listTerms(0).forEach(function(item) {
         if (res.post.keywords.length >= 10) {
