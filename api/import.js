@@ -105,14 +105,14 @@ var saveItem = function (site, connection, item, next) {
         rex = /<img[^>]+src="(http:\/\/[^">]+)"/g,
         rexLink = /<a[^>]+href="(http:\/\/v\-a[^">]+)"/g;
 
-      /*while (m = rex.exec(data.post.body)) {
+      while (m = rex.exec(data.post.body)) {
         urls.push({
           guid: m[1],
           isImage: true,
           is_main: isFirst
         });
         isFirst = false;
-      }*/
+      }
       while (m = rexLink.exec(data.post.body)) {
         if (m[1].substring(m[1].length - 4) != 'html') {
           urls.push({
@@ -278,7 +278,9 @@ var saveFile = function (site, post, image, next) {
       if (image.is_main) {
         post.coverFile = file;
       }
-      post.body = post.body.replace(fileName, '/api/files/' + file._id);
+      post.body = post.body.replace(fileName, '/api/files/' + file._id)
+                          .replace(fileName, '/api/files/' + file._id)
+                          .replace(fileName, '/api/files/' + file._id);
       async.auto({
         'downloadImage': function (next) {
           console.info('Download: ', fileName)
