@@ -71,7 +71,8 @@ exports['put.posts'] = function (req, data, cb) {
       if (data.status == 4) {
         data.published = true;
       }
-      data.category = res.category;
+      data['category.alias'] = res.category.alias;
+      data['category.parentAlias'] = res.category.parentAlias;
       if (data.published) {
         data.publishDate = res.post.publishDate || new Date();
         data.publishDateStr = dateToString(data.publishDate);
