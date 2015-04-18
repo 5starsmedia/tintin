@@ -299,19 +299,26 @@ var saveFile = function (site, post, image, next) {
         'saveToDB': ['downloadImage', function (next, data) {
           var buffer = data.downloadImage,
             mimeType = mime.lookup(file.originalName),
-            isImage = true;
+            isImage = true, resultDimensions, metadata = {};
 
           if (mimeType != 'image/jpeg' && mimeType != 'image/png' && mimeType != 'image/gif') {
             isImage = false;
             console.error('!!!!!!!!!!!!!!!!!!!!', mimeType);
           }
 
-          var resultDimensions = imageSize(buffer);
+          if (isImage) {
+            try {
+              resultDimensions = imageSize(buffer);
+              metadata = {width: resultDimensions.width, height: resultDimensions.height};
+            } catch (e) {
+              return next();
+            }
+          }
           post.files.push(file);
           grid.put(buffer, {
             'content_type': mimeType,
             'filename': file.originalName,
-            'metadata': {width: resultDimensions.width, height: resultDimensions.height}
+            'metadata': metadata
           }, function (err, res) {
             if (err) {
               return next(err);
