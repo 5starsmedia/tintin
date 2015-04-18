@@ -248,12 +248,6 @@ exports.start = function (cb) {
     }
     app.log.info('Configuration "' + config.get('env') + '" successfully loaded in', Date.now() - startDate, 'ms');
 
-
-    setInterval(function () {
-      app.services.mq.push(app, 'events', {name: 'visaDates.check'});
-    }, 10 * 60 * 1000);
-    app.services.mq.push(app, 'events', {name: 'visaDates.check'});
-
     /*setInterval(function () {
      app.services.mq.push(app, 'events', {name: 'content.unfresh'});
      }, 10*60 * 60 * 1000);
