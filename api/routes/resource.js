@@ -273,7 +273,7 @@ function processPut(model, fieldsObj, req, res, next) {
         }
       });
     }],
-    updateAlias: ['update', 'resource', function (next, data) {
+    /*updateAlias: ['update', 'resource', function (next, data) {
       if (model.schema.paths['title'] && model.schema.paths['alias']) {
         req.app.services.url.aliasFor(req.app, data.resource.title, {}, function (err, alias) {
           if (err) { return next(err); }
@@ -283,7 +283,7 @@ function processPut(model, fieldsObj, req, res, next) {
       } else {
         next();
       }
-    }],
+    }],*/
     eventPush: ['update', function (next) {
       req.app.services.mq.push(req.app, 'events', {
           name: 'db.' + req.params.resource + '.update',
