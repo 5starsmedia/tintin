@@ -105,6 +105,13 @@ var saveItem = function (site, connection, item, next) {
         rex = /<img[^>]+src="(http:\/\/[^">]+)"/g,
         rexLink = /<a[^>]+href="(http:\/\/v\-a[^">]+)"/g;
 
+      while (m = data.post.body.match(/<a[^>]+href="(http:\/\/v\-a[^">]+)"[^>]*>[^<]?<img[^>]+src="(http:\/\/[^">]+)-(\d+)x(\d+)(\.[^">]+)"/)) {
+        if (m[1] == m[2] + m[5]) {
+          data.post.body = data.post.body.replace(m[2] + '-' + m[3] + 'x' +m[4] + m[5], m[1] + '" data-width="' + m[3] + '" data-height="'  + m[4]);
+        }
+      }
+      return next();
+
       while (m = rex.exec(data.post.body)) {
         urls.push({
           guid: m[1],
@@ -121,7 +128,6 @@ var saveItem = function (site, connection, item, next) {
           });
         }
       }
-      console.info(urls);
       data.post.files = [];
       async.eachSeries(urls, _.partial(saveFile, site, data.post), function (err) {
         if (err) return next(err);
@@ -211,7 +217,7 @@ var saveCategoryFile = function (site, post, image, next) {
       }
       async.auto({
         'downloadImage': function (next) {
-          console.info('Download: ', fileName)
+          app.log.info('Download: ', fileName)
           var options = url.parse(fileName);
 
           http.get(options, function (response) {
@@ -238,7 +244,6 @@ var saveCategoryFile = function (site, post, image, next) {
             if (err) {
               return next(err);
             }
-            app.log.info('File uploaded');
             var setExpr = {
               width: resultDimensions.width,
               height: resultDimensions.height,
