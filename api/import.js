@@ -6,6 +6,7 @@ var mysql = require('mysql'),
   Grid = mongoose.mongo.Grid,
   request = require('request'),
   imageSize = require('image-size'),
+  tasks = require('./services/tasks'),
   mime = require('mime');
 var url = require('url');
 var http = require('http');
@@ -16,6 +17,11 @@ var app = {};
 app.log = require('./log.js');
 app.config = require('./config.js');
 app.models = require('./models');
+
+app.services = {
+  mq: require('./services/mq'),
+  tasks: new tasks.TasksSvc(app)
+};
 
 var tablePrefix = 'ander_',
   siteDomain = 'vandroide.5stars.link';
@@ -105,20 +111,21 @@ var saveItem = function (site, connection, item, next) {
         rex = /<img[^>]+src="(http:\/\/[^">]+)"/g,
         rexLink = /<a[^>]+href="(http:\/\/v\-a[^">]+)"/g;
 
-      while (m = rex.exec(data.post.body)) {
+      /*while (m = rex.exec(data.post.body)) {
         urls.push({
           guid: m[1],
           isImage: true,
           is_main: isFirst
         });
         isFirst = false;
-      }
+      }*/
       while (m = rexLink.exec(data.post.body)) {
         urls.push({
           guid: m[1],
           isImage: false
         });
       }
+      console.info(urls);
       data.post.files = [];
       async.eachSeries(urls, _.partial(saveFile, site, data.post), function (err) {
         if (err) return next(err);
@@ -141,7 +148,8 @@ var saveItem = function (site, connection, item, next) {
       var rex = /\[([^\] ]+)([^>]*)\](.*)\[\/([^\] ]+)\]/gim;
 
       var post = data.post;
-      post.body = item.post_content.replace(rex, "<figure$2 data-$1>$3</figure>").replace(/\[reklama\]/, '<figure class="b-ad-place"></figure>');
+      post.body = item.post_content.replace(rex, "<figure$2 data-$1>$3</figure>")
+                    .replace(/\[reklama\]/, '<figure class="b-ad-place"></figure>');
       post.createDate = item.post_date;
       post.title = item.post_title;
       post.alias = item.post_name;
@@ -178,7 +186,11 @@ var saveItem = function (site, connection, item, next) {
       }
       data.post.save(next);
     }]
-  }, next);
+  }, function(err, data) {
+    if (err) { return next(err);}
+    //app.services.mq.push(app, 'db.posts.update', {_id: data.post._id});
+    next();
+  });
 };
 
 
@@ -218,12 +230,13 @@ var saveCategoryFile = function (site, post, image, next) {
           });
         },
         'saveToDB': ['downloadImage', function (next, data) {
-          var buffer = data.downloadImage;
+          var buffer = data.downloadImage,
+            mimeType = mime.lookup(file.originalName);
 
           var resultDimensions = imageSize(buffer);
           post.files.push(file);
           grid.put(buffer, {
-            'content_type': mime.lookup(file.originalName),
+            'content_type': mimeType,
             'filename': file.originalName,
             'metadata': {width: resultDimensions.width, height: resultDimensions.height}
           }, function (err, res) {
@@ -287,12 +300,17 @@ var saveFile = function (site, post, image, next) {
           });
         },
         'saveToDB': ['downloadImage', function (next, data) {
-          var buffer = data.downloadImage;
+          var buffer = data.downloadImage,
+            mimeType = mime.lookup(file.originalName);
+
+          if (mimeType != 'image/jpeg' && mimeType != 'image/png') {
+            console.error('!!!!!!!!!!!!!!!!!!!!', mimeType);
+          }
 
           var resultDimensions = imageSize(buffer);
           post.files.push(file);
           grid.put(buffer, {
-            'content_type': mime.lookup(file.originalName),
+            'content_type': mimeType,
             'filename': file.originalName,
             'metadata': {width: resultDimensions.width, height: resultDimensions.height}
           }, function (err, res) {

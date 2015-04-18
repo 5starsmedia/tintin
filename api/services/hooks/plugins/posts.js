@@ -3,8 +3,6 @@
 var mongoose = require('mongoose'),
   _ = require('lodash'),
   async = require('async'),
-  natural = require('natural'),
-  TfIdf = natural.TfIdf,
   moment = require('moment');
 
 function dateToString(dateStr) {
@@ -68,23 +66,6 @@ exports['put.posts'] = function (req, data, cb) {
         data.alias = alias;
         next();
       });
-    }],
-    'generateKeywords': ['post', function(next, res) {
-      var tfidf = new TfIdf();
-      console.info(res.post)
-      tfidf.addDocument(res.post.title + ' ' + stripTags(res.post.body));
-
-      res.post.keywords = [];
-      tfidf.listTerms(0).forEach(function(item) {
-        if (res.post.keywords.length >= 10) {
-          return;
-        }
-        res.post.keywords.push({
-          word: item.term,
-          importance: item.tfidf
-        });
-      });
-      res.post.save(next);
     }],
     'updateInfo': ['post', function(next, res) {
       if (data.status == 4) {
