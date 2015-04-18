@@ -1,8 +1,7 @@
 # Logs
 logs
 *.log
-api/*.log
-api/*.log.*
+*.log*
 
 # Runtime data
 pids

@@ -101,18 +101,6 @@ var saveItem = function (site, connection, item, next) {
       });
     },
     'images': ['post', function (next, data) {
-      /*connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_type = "attachment" AND post_parent = ' + id, function (err, rows) {
-       if (err) {return next(err);}
-       data.post.files = [];
-       if (rows.length) {
-       rows[rows.length - 1].is_main = true;
-       }
-       async.eachSeries(rows, _.partial(saveFile, site, data.post), function(err) {
-       if (err) return next(err);
-       data.post.save(next);
-       });
-       });*/
-
       var m, urls = [], isFirst = true,
         rex = /<img[^>]+src="(http:\/\/[^">]+)"/g;
 
@@ -274,6 +262,7 @@ var saveFile = function (site, post, image, next) {
       if (image.is_main) {
         post.coverFile = file;
       }
+      post.body = post.body.replace(fileName, '/api/files/' + file._id);
       async.auto({
         'downloadImage': function (next) {
           console.info('Download: ', fileName)
