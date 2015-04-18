@@ -6,7 +6,6 @@ var mysql = require('mysql'),
   Grid = mongoose.mongo.Grid,
   request = require('request'),
   imageSize = require('image-size'),
-  tasks = require('./services/tasks'),
   mime = require('mime');
 var url = require('url');
 var http = require('http');
@@ -17,11 +16,6 @@ var app = {};
 app.log = require('./log.js');
 app.config = require('./config.js');
 app.models = require('./models');
-
-app.services = {
-  mq: require('./services/mq'),
-  tasks: new tasks.TasksSvc(app)
-};
 
 var tablePrefix = 'ander_',
   siteDomain = 'vandroide.5stars.link';
@@ -188,7 +182,6 @@ var saveItem = function (site, connection, item, next) {
     }]
   }, function(err, data) {
     if (err) { return next(err);}
-    app.services.mq.push(app, 'db.posts.update', {_id: data.post._id});
     next();
   });
 };
@@ -461,7 +454,6 @@ async.auto({
     connection.connect();
     next(null, connection);
   },
-  'initTasks': ['mongoConnection', app.services.tasks.init.bind(app.services.tasks)],
   'site': ['mongoConnection', function (next) {
     grid = new Grid(mongoose.connection.db, 'fs');
     app.models.sites.findOne({domain: siteDomain}, function (err, data) {
