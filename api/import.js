@@ -261,7 +261,9 @@ var saveCategoryFile = function (site, post, image, next) {
 var saveFile = function (site, post, image, next) {
   var fileName = image.guid;
   app.models.files.findOne({originalName: fileName}, function (err, file) {
+    var isNew = false;
     if (!file) {
+      isNew = true;
       file = new app.models.files({
         originalName: fileName,
         collectionName: 'posts',
@@ -281,6 +283,9 @@ var saveFile = function (site, post, image, next) {
       post.body = post.body.replace(fileName, '/api/files/' + file._id)
                           .replace(fileName, '/api/files/' + file._id)
                           .replace(fileName, '/api/files/' + file._id);
+      if (!isNew) {
+        return next();
+      }
       async.auto({
         'downloadImage': function (next) {
           console.info('Download: ', fileName)
