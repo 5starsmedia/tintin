@@ -110,7 +110,6 @@ var saveItem = function (site, connection, item, next) {
           data.post.body = data.post.body.replace(m[2] + '-' + m[3] + 'x' +m[4] + m[5], m[1] + '" data-width="' + m[3] + '" data-height="'  + m[4]);
         }
       }
-      return next();
 
       while (m = rex.exec(data.post.body)) {
         urls.push({
