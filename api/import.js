@@ -102,14 +102,22 @@ var saveItem = function (site, connection, item, next) {
     },
     'images': ['post', function (next, data) {
       var m, urls = [], isFirst = true,
-        rex = /<img[^>]+src="(http:\/\/[^">]+)"/g;
+        rex = /<img[^>]+src="(http:\/\/[^">]+)"/g,
+        rexLink = /<a[^>]+href="(http:\/\/v\-a[^">]+)"/g;
 
       while (m = rex.exec(data.post.body)) {
         urls.push({
           guid: m[1],
+          isImage: true,
           is_main: isFirst
         });
         isFirst = false;
+      }
+      while (m = rexLink.exec(data.post.body)) {
+        urls.push({
+          guid: m[1],
+          isImage: false
+        });
       }
       data.post.files = [];
       async.eachSeries(urls, _.partial(saveFile, site, data.post), function (err) {
@@ -133,7 +141,7 @@ var saveItem = function (site, connection, item, next) {
       var rex = /\[([^\] ]+)([^>]*)\](.*)\[\/([^\] ]+)\]/gim;
 
       var post = data.post;
-      post.body = item.post_content.replace(rex, "<figure$2 data-$1>$3</figure>");
+      post.body = item.post_content.replace(rex, "<figure$2 data-$1>$3</figure>").replace(/\[reklama\]/, '<figure class="b-ad-place"></figure>');
       post.createDate = item.post_date;
       post.title = item.post_title;
       post.alias = item.post_name;
@@ -252,7 +260,7 @@ var saveFile = function (site, post, image, next) {
         resourceId: post._id,
         title: '-',
         contentType: '-',
-        isImage: true,
+        isImage: image.isImage,
         size: 1
       });
     }
