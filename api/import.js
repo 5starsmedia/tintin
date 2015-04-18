@@ -461,6 +461,7 @@ async.auto({
     connection.connect();
     next(null, connection);
   },
+  'initTasks': ['mongoConnection', app.services.tasks.init.bind(app.services.tasks)],
   'site': ['mongoConnection', function (next) {
     grid = new Grid(mongoose.connection.db, 'fs');
     app.models.sites.findOne({domain: siteDomain}, function (err, data) {
