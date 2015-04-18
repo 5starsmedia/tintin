@@ -1,0 +1,25 @@
+<form name="field">
+    <div class="color-line"></div>
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">{{'Image insertion'|translate}}</h4>
+        <small>{{'Attached images'|translate}}</small>
+    </div>
+    <div class="modal-body">
+
+        <ul class="fu-list row">
+            <li class="fu-item col-sm-3 col-xs-6" ng-repeat="file in images"
+                ng-class="{'fu-item_selected':selectedFile._id === file._id}">
+
+                <img class="fu-item__image fu-item__image_select" title="{{'Insert image'|translate}}"
+                     ng-src="/api/files/{{file._id}}?width=100&height=100"
+                     ng-click="onFileSelect(file)"/>
+            </li>
+        </ul>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-click="ok()" ng-disabled="!selectedFile._id">{{'Choose'|translate}}</button>
+        <button type="button" class="btn btn-default" ng-click="close()" data-dismiss="modal">{{'Cancel'|translate}}</button>
+    </div>
+</form>

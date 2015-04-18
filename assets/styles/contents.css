@@ -1,0 +1,19 @@
+.cke_contents .ad-box {
+    background: #eee;
+    text-indent: -100%;
+    overflow: hidden;
+    height: 50px;
+    position: relative;
+}
+.cke_contents .ad-box:before {
+    display: block;
+    position: absolute;
+    content: 'Banner';
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    text-indent: 0;
+    margin: -25px 0 0 -50px;
+}

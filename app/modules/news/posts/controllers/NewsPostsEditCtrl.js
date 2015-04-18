@@ -70,7 +70,7 @@ class NewsPostsEditCtrl {
 
     $scope.editorOptions = {
       language: 'ru',
-      extraPlugins: 'SelectImages,image2,mediaembed',
+      extraPlugins: 'SelectImages,image2,mediaembed,adInsert',
       removePlugins: 'image,forms,youtube,autogrow',
       allowedContent: true,
       toolbar: [
@@ -78,7 +78,7 @@ class NewsPostsEditCtrl {
         { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord' ] },
         { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
         { name: 'editing', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-        { name: 'insert', items: [ 'Image', 'SelectImages', 'MediaEmbed', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
+        { name: 'insert', items: [ 'Image', 'SelectImages', 'MediaEmbed', 'adInsert', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
         { name: 'special', items: [ 'Maximize', 'Source' ] },
         '/',
         { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', 'Underline' ] },
