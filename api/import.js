@@ -188,7 +188,7 @@ var saveItem = function (site, connection, item, next) {
     }]
   }, function(err, data) {
     if (err) { return next(err);}
-    //app.services.mq.push(app, 'db.posts.update', {_id: data.post._id});
+    app.services.mq.push(app, 'db.posts.update', {_id: data.post._id});
     next();
   });
 };
