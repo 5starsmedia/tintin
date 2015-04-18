@@ -85,7 +85,7 @@ router.get('/:id/suggest', function (req, res, next) {
       ], next);
     }],
     'items': ['suggest', function(next, data) {
-      req.app.models.posts.find({ _id: { $in: _.pluck(data.suggest, '_id') } }, 'title alias category coverFile', next);
+      req.app.models.posts.find({ _id: { $in: _.pluck(data.suggest, '_id') } }, 'title alias category coverFile', { limit: 5 }, next);
     }]
   }, function (err, data) {
     if (err) { return next(err); }
