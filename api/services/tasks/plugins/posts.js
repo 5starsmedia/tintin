@@ -39,6 +39,7 @@ exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb
         if (res.post.keywords.length >= 10) {
           return;
         }
+        app.log.info(item.term)
         res.post.keywords.push({
           word: item.term,
           importance: item.tfidf
