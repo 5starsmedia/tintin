@@ -47,8 +47,8 @@ exports['put.posts'] = function (req, data, cb) {
     'post': function(next) {
       req.app.models.posts.findById(data._id, 'title body alias publishDate', next);
     },
-    'category': ['post', function(next, res) {
-      req.app.models.categories.findById(res.post.category._id, 'title alias parentAlias', next);
+    'category': ['post', function(next) {
+      req.app.models.categories.findById(data['category._id'], 'title alias parentAlias', next);
     }],
     /*'clearHtml' : ['post', function(next, res) {
       req.app.services.html.clearHtml(data.body, function (err, text) {
@@ -72,7 +72,9 @@ exports['put.posts'] = function (req, data, cb) {
         data.published = true;
       }
       data['category.alias'] = res.category.alias;
-      data['category.parentAlias'] = res.category.parentAlias;
+      if (res.category.parentAlias) {
+        data['category.parentAlias'] = res.category.parentAlias;
+      }
       if (data.published) {
         data.publishDate = res.post.publishDate || new Date();
         data.publishDateStr = dateToString(data.publishDate);
