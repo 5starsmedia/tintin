@@ -105,8 +105,8 @@ var saveItem = function (site, connection, item, next) {
         rex = /<img[^>]+src="(http:\/\/[^">]+)"/g,
         rexLink = /<a[^>]+href="(http:\/\/v\-a[^">]+)"/g;
 
-      data.post.body = data.post.body.replace(/"(http:\/\/v\-a[^">]+)\-(\d+)x(\d+)(\.[^">]+)"/g, '"$1$4" data-width="$2" data-height="$3"');
-      data.post.body = data.post.body.replace(/"(http:\/\/v\-a[^">]+)\-(\d+)x(\d+)(\.[^">]+)"/g, '"$1$4"');
+      /*data.post.body = data.post.body.replace(/"(http:\/\/v\-a[^">]+)\-(\d+)x(\d+)(\.[^">]+)"/g, '"$1$4" data-width="$2" data-height="$3"');
+      data.post.body = data.post.body.replace(/"(http:\/\/v\-a[^">]+)\-(\d+)x(\d+)(\.[^">]+)"/g, '"$1$4"');*/
 
       while (m = rex.exec(data.post.body)) {
         urls.push({
