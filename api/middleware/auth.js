@@ -72,7 +72,7 @@ module.exports = function () {
     var token = req.headers.authorization.split(' ')[1];
     if (token && token.length > 0) {
       var payload = jwt.decode(token, config.get('auth.tokenSecret'));
-      if (payload.exp <= moment().unix()) {
+      if (!payload || payload.exp <= moment().unix()) {
         authAsGuest(req, res, next);
         return;
       }
