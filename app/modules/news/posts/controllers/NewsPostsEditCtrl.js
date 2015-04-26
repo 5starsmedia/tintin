@@ -70,8 +70,8 @@ class NewsPostsEditCtrl {
 
     $scope.editorOptions = {
       language: 'ru',
-      extraPlugins: 'SelectImages,image2,mediaembed,adInsert',
-      removePlugins: 'image,forms,youtube,autogrow',
+      extraPlugins: 'SelectImages,mediaembed,adInsert,showblocks',
+      removePlugins: 'image,forms,youtube,autogrow,image2',
       allowedContent: true,
       toolbar: [
         { name: 'controls', items: [ 'Undo', 'Redo' ] },
@@ -85,7 +85,7 @@ class NewsPostsEditCtrl {
         { name: 'paragraph', items: [ 'BulletedList', 'NumberedList', 'Blockquote' ] },
         { name: 'styles', items: [ 'Format', 'FontSize', 'RemoveFormat' ] },
         { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-        { name: 'forms', items: [ 'Outdent', 'Indent' ] }
+        { name: 'forms', items: [ 'Outdent', 'Indent', 'ShowBlocks' ] }
       ],
       height: 450
     };

@@ -11,10 +11,10 @@
                     </a>
                 </div>
                 <h2 class="font-light m-b-xs">
-                    {{'News categories'|translate}}
+                    {{'Articles categories'|translate}}
                 </h2>
 
-                <ol class="nav nav-nested editable" tree-view-sortable="tree" tree-view-move="move($item, $before, $index)">
+                <ol class="nav nav-nested editable" tree-view-sortable="tree" max-levels="2" tree-view-move="move($item, $before, $index)">
             <li tree-view="child in tree.children at ol" ng-class="{expanded:child.$expanded}">
                 <div>
                     <a href="" ng-click="child.$expanded = !child.$expanded">

@@ -50,6 +50,12 @@ exports['put.posts'] = function (req, data, cb) {
     'category': ['post', function(next) {
       req.app.models.categories.findById(data['category._id'], 'title alias parentAlias', next);
     }],
+    'account': ['post', function(next, data) {
+      if (!data.post.account) {
+        data.post.account = req.auth.account;
+      }
+      req.app.models.accounts.findById(data.post.account._id, 'title coverFile imageUrl', next);
+    }],
     /*'clearHtml' : ['post', function(next, res) {
       req.app.services.html.clearHtml(data.body, function (err, text) {
         if (err) { return next(err); }
@@ -67,10 +73,20 @@ exports['put.posts'] = function (req, data, cb) {
         next();
       });
     }],
-    'updateInfo': ['post', 'category', function(next, res) {
+    'updateInfo': ['post', 'category', 'account', function(next, res) {
       if (data.status == 4) {
         data.published = true;
       }
+      if (res.account) {
+        data['account._id'] = res.account._id;
+        data['account.title'] = res.account.title;
+        data['account.coverFile'] = res.account.coverFile;
+
+        if (res.account.imageUrl) {
+          data['account.imageUrl'] = res.account.imageUrl;
+        }
+      }
+
       data['category.alias'] = res.category.alias;
       if (res.category.parentAlias) {
         data['category.parentAlias'] = res.category.parentAlias;

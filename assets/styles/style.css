@@ -3548,7 +3548,17 @@ fieldset[disabled] .btn-vk.active {
 .list-group.sortable .list-group-item.with-input .drag-handle {
   left: 3px;
 }
+html {
+  overflow-x: visible !important;
+}
+body {
+  height: auto;
+  min-height: 100%;
+}
 body > [ui-view] {
+  overflow: hidden;
+}
+body.modal-open .content {
   overflow: hidden;
 }
 #header {

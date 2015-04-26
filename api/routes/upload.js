@@ -20,6 +20,12 @@ var Grid = mongoose.mongo.Grid;
 
 var uploadsFolder = path.resolve(__dirname, '..', '..', 'uploads');
 
+function removeExtension(filename){
+  var lastDotPosition = filename.lastIndexOf(".");
+  if (lastDotPosition === -1) return filename;
+  else return filename.substr(0, lastDotPosition);
+}
+
 fs.exists(uploadsFolder, function (exists) {
   if (!exists) {
     fs.mkdir(uploadsFolder, function (err) {
@@ -223,10 +229,11 @@ function post(req, cb) {
     files[fileParameterName].size, collectionName, resourceId, isTemp);
   if (validation !== 'valid') { return cb(new Error(validation)); }
   var numberOfChunks = Math.max(Math.floor(totalSize / (chunkSize)), 1);
+
   req.app.models.files.collection.findAndModify({'account._id': req.auth.account._id, clientId: identifier}, [],
     {
       $set: {
-        title: filename,
+        title: removeExtension(filename),
         originalName: filename,
         size: totalSize,
         clientId: identifier,
@@ -266,10 +273,10 @@ function post(req, cb) {
                   }
                 ], function (err) {
                   if (err) { return cb(err); }
-                  cb(null, 'done', file._id);
+                  cb(null, 'done', file);
                 });
               } else {
-                cb(null, 'chunk', file._id);
+                cb(null, 'chunk', file);
               }
             });
           });
@@ -282,7 +289,8 @@ router.post('/', multipartMiddleware, function (req, res, next) {
   post(req, function (err, event, file) {
     if (err) { return next(err); }
     res.status(200).json({
-      'file._id': file
+      'file._id': file._id,
+      'file.title': file.title
     });
   });
 });

@@ -63,6 +63,16 @@ var postSchema = new mongoose.Schema({
     }
   ],
 
+  account: {
+    _id: mongoose.Schema.Types.ObjectId,
+    title: String,
+    imageUrl: String,
+    coverFile: {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String
+    }
+  },
+
   category: {
     _id: mongoose.Schema.Types.ObjectId,
     title: String,

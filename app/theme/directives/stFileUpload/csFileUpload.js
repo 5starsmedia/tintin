@@ -72,10 +72,13 @@ export default
         };
         $scope.fileSuccess = function (event, flow, file) {
           flow.removeFile(file);
-          var fileId = JSON.parse(_.first(file.chunks).xhr.response)['file._id'];
+          var file = JSON.parse(_.first(file.chunks).xhr.response);
           $scope.files = $scope.files || [];
-          $scope.files.push({_id: fileId});
-          $log.debug('File ' + fileId + ' uploaded');
+          $scope.files.push({
+            _id: file['file._id'],
+            title: file['file.title']
+          });
+          $log.debug('File ' + file['file._id'] + ' uploaded');
           //trackSvc.trackEvent('upload', 'success', 'upload.success');
         };
       }

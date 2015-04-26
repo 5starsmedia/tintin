@@ -14,7 +14,17 @@
 @import 'extra/ng-editable-tree';
 @import 'extra/sortable';
 
+html {
+  overflow-x: visible !important;
+}
+body {
+  height: auto;
+  min-height: 100%;
+}
 body > [ui-view] { // horizontal scrolling
+  overflow: hidden;
+}
+body.modal-open .content {
   overflow: hidden;
 }
 
