@@ -1,0 +1,11 @@
+<div class="fu-single">
+    <div flow-init="getSettings()"
+         flow-btn
+         flow-files-submitted="$flow.upload()"
+         flow-file-added="fileAdded(event, $flow, $file)"
+         flow-file-error="fileError(event, $flow, $file, $message)"
+         flow-file-success="fileSuccess(event, $flow, $file)">
+
+        <ng-transclude></ng-transclude>
+    </div>
+</div>

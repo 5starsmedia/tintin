@@ -31,3 +31,6 @@ exports.productBrands = require('./product/productBrand.js');
 exports.productCategories = require('./product/productCategory.js');
 
 exports.menuElements = require('./menu/menuElements.js');
+
+exports.keywordProjects = require('./keywords/keywordProject.js');
+exports.keywordGroups = require('./keywords/keywordGroup.js');

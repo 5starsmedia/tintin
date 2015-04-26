@@ -11,6 +11,7 @@ exports.init = function (app) {
   app.server.use('/api/auth', require('./auth.js'));
 
   app.server.use('/api/posts', require('./posts.js'));
+  app.server.use('/api/categories', nestedSet('categories'));
 
   app.server.use('/api/upload', require('./upload.js'));
   app.server.use('/api/files', require('./files.js'));
@@ -20,7 +21,7 @@ exports.init = function (app) {
   app.server.use('/api/productCategories', nestedSet('productCategories'));
   app.server.use('/api/menuElements', nestedSet('menuElements'));
 
-  app.server.use('/api/categories', nestedSet('categories'));
+  app.server.use('/api/keywordProjects', require('./keywordProjects.js'));
 
   app.server.get('/api/:resource', access(), resourceRoute);
   app.server.get('/api/:resource/:_id', access(), resourceRoute);
