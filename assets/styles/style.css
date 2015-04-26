@@ -3078,6 +3078,12 @@ h6 {
   width: 100%;
   height: 250px;
 }
+.file-title {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .st-checklist-item {
   position: relative;
   margin-bottom: 5px;
