@@ -1,6 +1,6 @@
 {
-  "resource": "productBrands",
-  "model": "ProductBrand",
+  "resource": "productCurrencies",
+  "model": "ProductCurrency",
   "options": {},
   "acl": {
     "*": {

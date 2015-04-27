@@ -1,21 +1,43 @@
-define([
-    'modules/ecommerce/brands/module'
-], function (module) {
-    'use strict';
+export default
+class EcommerceBrandsEditCtrl {
+  /*@ngInject*/
+  constructor($scope, brand, $state, notify) {
+    $scope.item = brand;
 
-    module.controller('EcommerceBrandsEditCtrl', ['$scope', 'item', '$location',
-        function ($scope, item, $location) {
-            $scope.item = item;
+    $scope.editorOptions = {
+      language: 'ru',
+      extraPlugins: 'SelectImages,mediaembed,adInsert,showblocks',
+      removePlugins: 'image,forms,youtube,autogrow,image2',
+      allowedContent: true,
+      toolbar: [
+        { name: 'controls', items: [ 'Undo', 'Redo' ] },
+        { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord' ] },
+        { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+        { name: 'editing', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+        { name: 'insert', items: [ 'Image', 'SelectImages', 'MediaEmbed', 'adInsert', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
+        { name: 'special', items: [ 'Maximize', 'Source' ] },
+        '/',
+        { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', 'Underline' ] },
+        { name: 'paragraph', items: [ 'BulletedList', 'NumberedList', 'Blockquote' ] },
+        { name: 'styles', items: [ 'Format', 'FontSize', 'RemoveFormat' ] },
+        { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+        { name: 'forms', items: [ 'Outdent', 'Indent', 'ShowBlocks' ] }
+      ],
+      height: 450
+    };
 
-            $scope.saveItem = function(item) {
-                $scope.loading = true;
-                item.$save(function() {
-                    $scope.loading = false;
+    $scope.saveItem = function(item) {
+      $scope.loading = true;
 
-                    $location.path('/ecommerce/brands');
-                });
-            };
+      let save = item._id ? item.$save : item.$create;
+      //delete item.files;
+      save.call(item, (data) => {
+        $scope.loading = false;
 
-        }]);
+        notify('Сохранено', 'success');
+        $state.go('ecommerce.brands');
+      });
+    };
 
-});
+  }
+}

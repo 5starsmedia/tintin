@@ -1,23 +1,21 @@
-define([
-    'modules/ecommerce/currencies/module'
-], function (module) {
-    'use strict';
+export default
+class EcommerceCurrencyEditCtrl {
+  /*@ngInject*/
+  constructor($scope, currency, $state, notify) {
+    $scope.item = currency;
 
-    module.controller('EcommerceCurrencyEditCtrl', ['$scope', '$modalInstance', 'item',
-        function ($scope, $modalInstance, item) {
-            $scope.item = item;
+    $scope.saveItem = function(item) {
+      $scope.loading = true;
 
-            $scope.saveItem = function () {
-                $scope.loading = true;
-                item.$save(function () {
-                    $scope.loading = false;
-                    $modalInstance.close(item);
-                });
-            };
+      let save = item._id ? item.$save : item.$create;
+      //delete item.files;
+      save.call(item, (data) => {
+        $scope.loading = false;
 
-            $scope.cancel = function () {
-                $modalInstance.dismiss('cancel');
-            };
-        }]);
+        notify('Сохранено', 'success');
+        $state.go('ecommerce.currencies');
+      });
+    };
 
-});
+  }
+}

@@ -10,17 +10,17 @@
             <div class="row">
                 <div class="col-lg-9">
 
-                    <a ui-sref="ecommerce.brands" class="back-btn">
+                    <a ui-sref="ecommerce.currencies" class="back-btn">
                         <span class="pe-7s-angle-left"></span>
                     </a>
 
                     <h2 class="font-light m-b-xs">
-                        <span ng-if="!item._id" style="line-height: 30px;">{{'New brand'|translate}}</span>
-                        <span ng-if="item._id">{{'Editing of the brand'|translate}}</span>
+                        <span ng-if="!item._id" style="line-height: 30px;">{{'New currency'|translate}}</span>
+                        <span ng-if="item._id">{{'Editing of the currency'|translate}}</span>
                     </h2>
 
                     <small ng-if="item._id">
-                        {{'Brand created:'|translate}}
+                        {{'Currency created:'|translate}}
                         {{item.createDate|date:'dd.MM.yyyy'}}
                         {{'at'|translate}}
                         {{item.createDate|date:'HH:mm'}}
@@ -37,7 +37,7 @@
                         <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
                             {{'Save'|translate}}
                         </button>
-                        <a ui-sref="ecommerce.brands" class="btn btn-default">
+                        <a ui-sref="ecommerce.currencies" class="btn btn-default">
                             {{'Cancel'|translate}}
                         </a>
                     </div>
@@ -49,7 +49,7 @@
 
 <div class="content" animate-panel effect="zoomIn">
 
-<div ng-include="'views/modules/ecommerce/brands/form-brand.html'"></div>
+<div ng-include="'views/modules/ecommerce/currencies/form-currency.html'"></div>
 
 </div>
 

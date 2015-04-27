@@ -34,7 +34,7 @@ fs.exists(uploadsFolder, function (exists) {
   }
 });
 
-var allowedCollections = ['strainReviews', 'posts', 'accounts', 'groups'];
+var allowedCollections = ['products', 'posts', 'accounts', 'groups', 'productBrands'];
 var maxFileSize = 10 * 1024 * 1024;
 
 function assignFile(req, file, collectionName, resourceId, cb) {
@@ -204,7 +204,7 @@ function validateRequest(req, chunkNumber, chunkSize, totalSize, identifier, fil
   }
   if (!isTemp && (!collectionName || !_.isString(collectionName) || collectionName.length === 0 || !_.contains(allowedCollections,
       collectionName))) {
-    return 'invalid_collection_name';
+    return 'invalid_collection_name' + collectionName;
   }
   if (!isTemp && (!resourceId || !_.isString(resourceId) || resourceId.length === 0)) {
     return 'invalid_resource_id';

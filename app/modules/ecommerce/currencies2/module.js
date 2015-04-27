@@ -7,7 +7,7 @@ define([
 ], function (angular) {
     'use strict';
 
-    return angular.module('module.ecommerce.brands', [
+    return angular.module('module.ecommerce.currencies', [
         'bz',
 
         'module.ecommerce.models',

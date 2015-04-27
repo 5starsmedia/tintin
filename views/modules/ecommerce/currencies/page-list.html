@@ -5,12 +5,12 @@
         <div class="col-md-12">
 
             <div class="pull-right">
-                <a class="btn btn-success btn-outline" ui-sref="ecommerce.brandCreate">
-                    <i class="fa fa-plus"></i> {{'New brand'|translate}}
+                <a class="btn btn-success btn-outline" ui-sref="ecommerce.currencyCreate">
+                    <i class="fa fa-plus"></i> {{'New currency'|translate}}
                 </a>
             </div>
             <h2 class="font-light m-b-xs ng-binding">
-                {{'Brands'|translate}}
+                {{'Currencies'|translate}}
             </h2>
 
             <div class="hpanel">
@@ -20,12 +20,11 @@
                     <table ng-table="tableParams" show-filter="true" class="table">
                         <tr ng-repeat="item in $data">
                             <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
-                                <img ng-if="item.coverFile" class="img-circle" ng-src="/api/files/{{item.coverFile._id}}?width=30&height=30" />
-                                <a ui-sref="ecommerce.brandEdit({_id: item._id})">{{item.title}}</a>
+                                <a ui-sref="ecommerce.currencyEdit({_id: item._id})">{{item.title}}</a>
                             </td>
                             <td data-title="'Actiond'|translate" class="actions text-right">
 
-                                <a ui-sref="ecommerce.brandEdit({_id: item._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
+                                <a ui-sref="ecommerce.currencyEdit({_id: item._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
 
                                 <a href="" st-confirm="remove(item)" title="{{'Delete brand'|translate}}"
                                    message-title="'Delete'|translate" message="'Are you realy want to delete this brand?'|translate">

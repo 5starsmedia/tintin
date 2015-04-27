@@ -1,7 +1,7 @@
 export default
-class EcommerceCurrenciesCtrl {
+class EcommerceBrandsCtrl {
   /*@ngInject*/
-  constructor($scope, EcommerceCurrencyModel, ngTableParams, BaseAPIParams) {
+  constructor($scope, EcommerceBrandModel, ngTableParams, BaseAPIParams) {
 
     $scope.loading = true;
 
@@ -15,7 +15,7 @@ class EcommerceCurrenciesCtrl {
       getData: function ($defer, params) {
 
         $scope.loading = true;
-        EcommerceCurrencyModel.query(BaseAPIParams({}, params), function (res, headers) {
+        EcommerceBrandModel.query(BaseAPIParams({}, params), function (res, headers) {
           $scope.loading = false;
           params.total(headers('x-total-count'));
           $defer.resolve(res);
