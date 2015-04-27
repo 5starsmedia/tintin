@@ -11,7 +11,7 @@
       modelState.field('title').ifPresent().required().maxLength(50);
       modelState.field('pwd').ifPresent().required().maxLength(50);
       //modelState.field('email').ifPresent().required().isEmail().maxLength(100);
-      var login = modelState.field('login').ifPresent().required().maxLength(50);
+      var login = modelState.field('username').ifPresent().required().maxLength(50);
 
       // @ifdef NODE
       var async = require('async');
@@ -33,7 +33,7 @@
       modelState.field('title').required().maxLength(50);
       modelState.field('pwd').required().maxLength(50);
       //modelState.field('email').required().isEmail().maxLength(100);
-      var login = modelState.field('login').required().maxLength(50);
+      var login = modelState.field('username').required().maxLength(50);
       login.unique('accounts', next);
 
     }

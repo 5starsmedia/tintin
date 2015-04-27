@@ -61,7 +61,7 @@ function auth(req, res, account, next) {
         req.log = req.log.child({account: _.pick(account, ['_id', 'username'])});
         req.log.info('Token generated');
 
-        req.logRecord('login', 'Successfully login by login and password', req.app.log_level.info, account, function (err) {
+        req.logRecord('login', 'Successfully login by username and password', req.app.log_level.info, account, function (err) {
           if (err) {
             return next(err);
           }
@@ -613,6 +613,10 @@ router.post('/register', function (req, res, next) {
           account.salt = salt;
           account.receiveNews = true;
           account.roles = [
+            {
+              'name': 'admin',
+              'title': 'Administrator'
+            },
             {
               'name': 'user',
               'title': 'User'

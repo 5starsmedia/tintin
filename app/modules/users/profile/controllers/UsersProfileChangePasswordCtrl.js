@@ -1,5 +1,5 @@
 export default
-class UsersProfileCtrl {
+class UsersProfileChangePasswordCtrl {
 
   /*@ngInject*/
   constructor($scope, user, UsersProfileSrv) {

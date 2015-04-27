@@ -9,6 +9,9 @@ export default
         params: {
           'fields': 'title,username,imageUrl'
         }
-      }
+      },
+      'save': { method: 'PUT'},
+      'create': { method: 'POST', url: '/api/auth/register' },
+      'delete': { method: 'DELETE'}
     });
   }

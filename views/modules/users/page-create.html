@@ -1,0 +1,77 @@
+<div bz-loading-container="loading">
+
+    <st-form model="item" state="error" submit="saveItem(item)">
+
+        <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
+            <div class="hpanel" bz-loading-container="loading">
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-lg-9">
+
+                            <a ui-sref="users.list" class="back-btn">
+                                <span class="pe-7s-angle-left"></span>
+                            </a>
+
+                            <h2 class="font-light m-b-xs">
+                                <span style="line-height: 30px;">{{'Register new user'|translate}}</span>
+                            </h2>
+
+                        </div>
+                        <div class="col-lg-3">
+
+                            <div class="form-actions">
+                                <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+                                    {{'Save'|translate}}
+                                </button>
+                                <a ui-sref="users.list" class="btn btn-default">
+                                    {{'Cancel'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" animate-panel effect="fadeIn" delay="0">
+
+            <div class="hpanel">
+
+                <div class="panel-body">
+
+                    <st-form-element label="{{'E-mail'|translate}}" field="username">
+
+                        <input class="form-control input-lg" name="username" type="text" required
+                               ng-model="item.username"/>
+
+                    </st-form-element>
+
+                    <st-form-element label="{{'Password'|translate}}" field="password">
+
+                        <input class="form-control" name="password" type="password" required
+                               ng-model="item.password"/>
+
+                    </st-form-element>
+
+                    <st-form-element label="{{'First name'|translate}}" field="username">
+
+                        <input class="form-control input-lg" name="firstname" type="text" required
+                               ng-model="item.firstName"/>
+
+                    </st-form-element>
+
+                    <st-form-element label="{{'Last name'|translate}}" field="username">
+
+                        <input class="form-control input-lg" name="lastname" type="text" required
+                               ng-model="item.lastName"/>
+
+                    </st-form-element>
+
+                </div>
+
+            </div>
+
+        </div>
+    </st-form>
+</div>

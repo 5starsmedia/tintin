@@ -1,4 +1,42 @@
-<div>
+<st-form model="user" state="error" submit="saveItem(user)">
+
+    <div class="content" animate-panel effect="fadeIn" delay="0">
+
+        <st-form-element label="{{'E-mail'|translate}}" field="username">
+
+            <input disabled class="form-control input-lg" name="username" type="text" required
+                   ng-model="user.username"/>
+
+        </st-form-element>
+
+        <st-form-element label="{{'Last name'|translate}}" field="username">
+
+            <input class="form-control input-lg" name="lastname" type="text" required
+                   ng-model="user.profile.lastName"/>
+
+        </st-form-element>
+
+        <st-form-element label="{{'First name'|translate}}" field="username">
+
+            <input class="form-control input-lg" name="firstname" type="text" required
+                   ng-model="user.profile.firstName"/>
+
+        </st-form-element>
+
+
+        <div class="form-actions">
+            <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+                {{'Save'|translate}}
+            </button>
+            <a ui-sref="users.list" class="btn btn-default">
+                {{'Cancel'|translate}}
+            </a>
+        </div>
+
+    </div>
+</st-form>
+
+<!--div>
     <strong>Lorem ipsum dolor sit amet, consectetuer adipiscing</strong>
 
     <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of
@@ -178,4 +216,4 @@
             </tbody>
         </table>
     </div>
-</div>
+</div-->
