@@ -3,63 +3,57 @@ export default
   function () {
 
     return {
-      templateUrl: 'app/theme/directives/stFileUpload/csSingleFileUpload.html',
+      templateUrl: function (elem, attrs) {
+        if (attrs.compactMode) {
+          return 'app/theme/directives/stFileUpload/csSingleFileUploadCompact.html';
+        }
+        return 'app/theme/directives/stFileUpload/csSingleFileUpload.html';
+      },
       restrict: 'E',
       replace: true,
+      transclude: true,
       scope: {
-        resourceId: '@',
-        collectionName: '@',
         file: '=',
-        bestWidth: '@',
-        bestHeight: '@'
+        loading: '='
       },
-      controller: /*@ngInject*/ ($scope, $timeout, $log) => {
+      controller: /*@ngInject*/ ($scope, $auth, $timeout, $log) => {
         $scope.file = $scope.file || {};
-        $scope.getStr = function(){
-          return '(' + $scope.bestWidth + 'px x ' + $scope.bestHeight + 'px)';
-        };
 
         $scope.getSettings = function () {
-          var headers = {};
-          headers[CS_AUTH_HEADER] = authSvc.getAuth().token;
+          var headers = {
+            'Authorization': 'Bearer ' + $auth.getToken()
+          };
           return {
+            target: '/api/keywordProjects',
             headers: headers,
+            simultaneousUploads: 1,
             singleFile: true,
-            query: (!$scope.resourceId || !$scope.collectionName)
-              ? {isTemp: true}
-              : {resourceId: $scope.resourceId, collectionName: $scope.collectionName}
+            query: { isTemp: true }
           };
         };
         $scope.fileError = function (event, $flow, flowFile, $message) {
           $log.error($message);
-          trackSvc.trackEvent('upload', 'error', 'upload.error.serverError', $message);
-          interactionSvc.warnAlert('Error', $message);
         };
         $scope.fileAdded = function (event, $flow, flowFile) {
-          var allowedExtensions = {png: 1, gif: 1, jpg: 1, jpeg: 1};
+          var allowedExtensions = {xmind: 1};
           var ext = flowFile.getExtension().toLowerCase();
           if (!allowedExtensions[ext]) {
-            var msgExt = 'Unsupported file extension ' + ext + ' (allowed png, gif, jpg, jpeg)';
+            var msgExt = 'Unsupported file extension ' + ext + ' (allowed xmind)';
             $log.error(msgExt);
-            interactionSvc.warnAlert('Error', msgExt);
-            trackSvc.trackEvent('upload', 'error', 'upload.error.invExt', ext);
             return false;
           }
           if (flowFile.size > 10 * 1024 * 1024) {
             var msgSize = 'File ' + flowFile.name + ' is too big - ' + flowFile.size + ' bytes (max allowed 10Mb)';
             $log.error(msgSize);
-            trackSvc.trackEvent('upload', 'error', 'upload.error.tooBig', flowFile.size);
-            interactionSvc.warnAlert('Error', msgSize);
             return false;
           }
+          $scope.loading = true;
           return true;
         };
         $scope.fileSuccess = function (event, flow, file) {
           flow.removeFile(file);
-          var fileId = JSON.parse(_.first(file.chunks).xhr.response)['file._id'];
-          $scope.file._id = fileId;
-          $log.debug('File ' + fileId + ' uploaded');
-          trackSvc.trackEvent('upload', 'success', 'upload.success');
+          $scope.loading = false;
+          $scope.file = JSON.parse(_.last(file.chunks).xhr.response);
         };
       }
     };

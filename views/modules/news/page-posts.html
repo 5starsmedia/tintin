@@ -10,7 +10,7 @@
                 </a>
             </div>
             <h2 class="font-light m-b-xs ng-binding">
-                {{'News'|translate}}
+                {{'Articles'|translate}}
             </h2>
 
             <div class="hpanel">
@@ -27,15 +27,15 @@
                             </td>
                         </tr>
                         <tr ng-hide="group.$hideRows" ng-repeat="item in group.data">
-                            <td style="width: 15%" class="table-preview" data-title="'Title'|translate" filter="{ 'title': 'text' }" sortable="'title'">
+                            <td style="width: 15%" class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
                                 <a class="text-info" ui-sref="news.edit({ id: item._id })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
                                     <span ng-if="item.isTop" class="fa fa-star"></span>
 
                                     {{item.title}}
                                 </a>
                             </td>
-                            <td style="width: 10%" data-title="'Author'|translate" filter="{ 'user_id': 'select' }" sortable="'name'" filter-data="users($column)">
-                                {{item.user.name}}
+                            <td style="width: 10%" data-title="'Author'|translate" sortable="'name'">
+                                {{item.account.title}}
                             </td>
                             <td style="width: 10%" data-title="'Date of publication'|translate" sortable="'createDate'" class="text-center">
                                 <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">

@@ -1,28 +1,57 @@
-<breadcrumbs>
-    <crumb href="''" title="'Мой кабинет'|translate"/>
-    <crumb title="'И-магазин'|translate"/>
-</breadcrumbs>
+<div>
 
-<div class="padded">
 
-    <div class="page-header">
-        <div class="table-actions btn-group btn-group-instruments">
-            <a class="btn btn-default" ng-href="ecommerce/brands">
-                <span class="fa fa-arrow-left"></span> {{'К списку'|translate}}
-            </a>
-            <a ng-href="ecommerce/brands/new" class="btn btn-success">
-                <i class="fa fa-plus"></i>
-                {{'Добавить'|translate}}
-            </a>
+<st-form model="item" state="error" submit="saveItem(item)">
+
+<div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
+    <div class="hpanel" bz-loading-container="loading">
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-lg-9">
+
+                    <a ui-sref="ecommerce.brands" class="back-btn">
+                        <span class="pe-7s-angle-left"></span>
+                    </a>
+
+                    <h2 class="font-light m-b-xs">
+                        <span ng-if="!item._id" style="line-height: 30px;">{{'New brand'|translate}}</span>
+                        <span ng-if="item._id">{{'Editing of the brand'|translate}}</span>
+                    </h2>
+
+                    <small ng-if="item._id">
+                        {{'Brand created:'|translate}}
+                        {{item.createDate|date:'dd.MM.yyyy'}}
+                        {{'at'|translate}}
+                        {{item.createDate|date:'HH:mm'}}
+                    </small>
+
+                </div>
+                <div class="col-lg-3">
+
+                    <div class="form-actions">
+                        <!--a ng-href="{{item.createDate|date:'/yyyy/MM/dd/'}}{{item.id}}" ng-if="item.id"
+                           class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left" tooltip="{{'Open on site'|translate}}" target="_blank">
+                            <span class="fa fa-external-link"></span>
+                        </a-->
+                        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+                            {{'Save'|translate}}
+                        </button>
+                        <a ui-sref="ecommerce.brands" class="btn btn-default">
+                            {{'Cancel'|translate}}
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <h1 ng-if="!item.id">{{'Добавление бренда'|translate}}</h1>
-
-        <h1 ng-if="item.id">{{'Редактирование бренда'|translate}}</h1>
     </div>
-    <div class="main-content" bz-loading-container="loading">
+</div>
 
-        <div ng-include="$config.templateUrl('/modules/ecommerce/brands/form-brand.html')()"></div>
+<div class="content" animate-panel effect="zoomIn">
 
-    </div>
+<div ng-include="'views/modules/ecommerce/brands/form-brand.html'"></div>
+
+</div>
+
+</st-form>
 </div>

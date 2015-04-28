@@ -1,43 +1,52 @@
-<breadcrumbs>
-    <crumb href="''" title="'Мой кабинет'|translate"/>
-    <crumb title="'И-магазин'|translate"/>
-</breadcrumbs>
+<div class="content" animate-panel effect="zoomIn" delay="0">
 
-<div class="padded" bz-loading-container="loading">
+    <div class="row">
 
-    <div class="page-header">
-        <div class="table-actions btn-group btn-group-instruments">
-            <a ng-href="ecommerce/brands/new" class="btn btn-success btn-sm">
-                <i class="fa fa-plus"></i>
-                {{'Добавить'|translate}}
-            </a>
+        <div class="col-md-12">
+
+            <div class="pull-right">
+                <a class="btn btn-success btn-outline" ui-sref="ecommerce.brandCreate">
+                    <i class="fa fa-plus"></i> {{'New brand'|translate}}
+                </a>
+            </div>
+            <h2 class="font-light m-b-xs ng-binding">
+                {{'Brands'|translate}}
+            </h2>
+
+            <div class="hpanel">
+                <div class="panel-body" bz-loading-container="loading">
+
+
+                    <table ng-table="tableParams" show-filter="true" class="table">
+                        <tr ng-repeat="item in $data">
+                            <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
+                                <img ng-if="item.coverFile" class="img-circle" ng-src="/api/files/{{item.coverFile._id}}?width=30&height=30" />
+                                <a ui-sref="ecommerce.brandEdit({_id: item._id})">{{item.title}}</a>
+                            </td>
+                            <td data-title="'Actiond'|translate" class="actions text-right">
+
+                                <a ui-sref="ecommerce.brandEdit({_id: item._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
+
+                                <a href="" st-confirm="remove(item)" title="{{'Delete brand'|translate}}"
+                                   message-title="'Delete'|translate" message="'Are you realy want to delete this brand?'|translate">
+                                    <span class="fa fa-times text-danger"></span>
+                                </a>
+
+                            </td>
+                        </tr>
+                        <tr ng-if="!$data.length">
+                            <td colspan="{{$columns.length}}" class="text-center">{{'No data'|translate}}</td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+
         </div>
 
-        <h1>{{'Бренды'|translate}}</h1>
-    </div>
-
-    <div class="main-content">
-
-
-        <table ng-table="tableParams" show-filter="true" class="table">
-            <tr ng-repeat="item in $data">
-                <td data-title="'Название'|translate" sortable="'title'" filter="{'title': 'text'}">
-                    <a href="ecommerce/brands/edit/{{item.id}}">{{item.title}}</a>
-                </td>
-                <td data-title="'Действия'|translate" class="actions">
-
-                    <div class="btn-group">
-                        <a href="ecommerce/brands/edit/{{item.id}}" title="{{'Редактировать'|translate}}"><span class="fa fa-pencil"></span></a>
-                        <a href="" bz-confirm="remove(item)" message="'Удалить?'|translate" title="{{'Удалить'|translate}}"><span class="text-danger fa fa-times"></span></a>
-                    </div>
-
-                </td>
-            </tr>
-            <tr ng-if="!$data.length">
-                <td colspan="{{$columns.length}}" class="text-center">{{'Нет данных'|translate}}</td>
-            </tr>
-        </table>
-
 
     </div>
+
+
 </div>

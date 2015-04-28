@@ -4,11 +4,8 @@ var async = require('async'),
   moment = require('moment'),
   natural = require('natural'),
   TfIdf = natural.TfIdf,
+  htmlToText = require('html-to-text'),
   _ = require('lodash');
-
-function stripTags(str){
-  return str.replace(/<[^>]+>/gi, ' ');
-};
 
 exports['posts.keywords'] = function (app, msg, cb) {
   async.auto({
@@ -31,7 +28,7 @@ exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb
     },
     'generateKeywords': ['post', function(next, res) {
       var tfidf = new TfIdf();
-      tfidf.addDocument(res.post.title + ' ' + stripTags(res.post.body));
+      tfidf.addDocument(res.post.title + ' ' + htmlToText.fromString(res.post.body, { wordwrap: false, ignoreHref: true, ignoreImage: true }));
 
       app.log.info('Generate keywords for ' + res.post._id)
       res.post.keywords = [];

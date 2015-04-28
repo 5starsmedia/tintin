@@ -596,7 +596,7 @@
                         handle: '.drag-handle',
                         placeholder: 'nav-placeholder',
                         forcePlaceholderSize: true,
-                        maxLevels: 5,
+                        maxLevels: attrs.maxLevels ? parseInt(attrs.maxLevels) : 5,
                         toleranceElement: '> div'
                     };
                     var nodeOptions = attrs.treeViewSortableOptions ? $parse(attrs.treeViewSortableOptions)() : {};

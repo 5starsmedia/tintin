@@ -5,6 +5,7 @@ import menu from './menu/menu';
 import users from './users/users';
 import sites from './sites/sites';
 import ads from './ads/ads';
+import keywords from './keywords/keywords';
 import ecommerce from './ecommerce/ecommerce';
 
 export default [
@@ -15,5 +16,6 @@ export default [
   menu,
   users,
   ads,
+  keywords,
   ecommerce
 ];

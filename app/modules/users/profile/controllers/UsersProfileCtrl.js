@@ -2,9 +2,11 @@ export default
 class UsersProfileCtrl {
 
   /*@ngInject*/
-  constructor($scope, UsersProfileSrv) {
+  constructor($scope, user, UsersProfileSrv) {
+    $scope.account = user;
+    /*
     UsersProfileSrv.getAccountInfo(function(info){
       $scope.account = info;
-    });
+    });*/
   }
 }

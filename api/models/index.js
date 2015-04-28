@@ -29,5 +29,9 @@ exports.productTypes = require('./product/productType.js');
 exports.productFields = require('./product/productField.js');
 exports.productBrands = require('./product/productBrand.js');
 exports.productCategories = require('./product/productCategory.js');
+exports.productCurrencies = require('./product/productCurrency.js');
 
 exports.menuElements = require('./menu/menuElements.js');
+
+exports.keywordProjects = require('./keywords/keywordProject.js');
+exports.keywordGroups = require('./keywords/keywordGroup.js');
