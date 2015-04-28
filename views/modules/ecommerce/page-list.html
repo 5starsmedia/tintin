@@ -19,9 +19,13 @@
 
                     <table ng-table="tableParams" ng-table-filters-manager show-filter="false" class="table">
                         <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
-                            <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
+                            <td data-title="'Code'|translate" sortable="'code'">
                                 <a ui-sref="ecommerce.edit({id: item._id})">
                                     <span ng-if="item.code" class="font-bold">{{item.code}}</span>
+                                </a>
+                            </td>
+                            <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
+                                <a ui-sref="ecommerce.edit({id: item._id})">
                                     {{item.title}}
                                 </a>
                             </td>
@@ -63,7 +67,7 @@
                                         </span>
                                     </a>
 
-                                    <a ui-sref="ecommerce.edit({_id: item._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
+                                    <a ui-sref="ecommerce.edit({id: item._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
 
                                     <a href="" st-confirm="remove(item)" title="{{'Delete product'|translate}}"
                                        message-title="'Delete'|translate" message="'Are you realy want to delete this product?'|translate">

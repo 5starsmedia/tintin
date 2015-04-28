@@ -35,6 +35,17 @@ export default
               : {resourceId: $scope.resourceId, collectionName: $scope.collectionName}
           };
         };
+
+        $scope.sortableConfig = {
+          group: 'fields',
+          animation: 150,
+          onSort: (event) => {
+            _.forEach(event.models, (model, n) => {
+              model.ordinal = n;
+            });
+          }
+        };
+
         $scope.fileError = function (event, $flow, flowFile, $message) {
           $log.error($message);
           //trackSvc.trackEvent('upload', 'error', 'upload.error.serverError', $message);
