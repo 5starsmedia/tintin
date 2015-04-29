@@ -49,6 +49,7 @@
     "*": {
       "get": "*",
       "get?activated": ["admin"],
+      "get?published": "*",
       "get?_id": "*",
       "get?tags": "*",
       "get?alias&category._id": "*",

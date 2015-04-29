@@ -28,7 +28,8 @@ var schema = new mongoose.Schema({
   files: [
     {
       _id: mongoose.Schema.Types.ObjectId,
-      title: String
+      title: String,
+      ordinal: Number
     }
   ],
   site: {

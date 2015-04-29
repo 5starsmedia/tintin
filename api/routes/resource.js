@@ -63,9 +63,6 @@ function getFilter(req, schemaFields, next) {
     };
     filter.$and.push(site);
   }
-  if (_.indexOf(schemaFields, 'published') != -1) {
-    filter.$and.push({ 'published': true });
-  }
   filter.$and.push({removed: {$exists: false}});
   var search = req.query['search'];
   if (search && req.resource && req.resource.options && req.resource.options.searchFields) {
