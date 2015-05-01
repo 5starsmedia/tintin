@@ -231,14 +231,31 @@ var saveCategoryFile = function (site, post, image, next) {
             }).on('end', function () {
               var buffer = Buffer.concat(chunks);
               next(null, buffer);
+            }).on('error', function(e) {
+              next(e);
             });
           });
         },
         'saveToDB': ['downloadImage', function (next, data) {
           var buffer = data.downloadImage,
-            mimeType = mime.lookup(file.originalName);
+            mimeType = mime.lookup(file.originalName),
+            isImage = true, resultDimensions, metadata = {};
 
-          var resultDimensions = imageSize(buffer);
+          if (mimeType != 'image/jpeg' && mimeType != 'image/png' && mimeType != 'image/gif') {
+            isImage = false;
+            console.error('!!!!!!!!!!!!!!!!!!!!', mimeType);
+          }
+
+          if (isImage) {
+            try {
+              resultDimensions = imageSize(buffer);
+              metadata = {width: resultDimensions.width, height: resultDimensions.height};
+            } catch (e) {
+              //return next(e);
+              isImage = false;
+            }
+          }
+
           post.files.push(file);
           grid.put(buffer, {
             'content_type': mimeType,
@@ -309,7 +326,7 @@ var saveFile = function (site, post, image, next) {
               next(null, buffer);
             }).on('error', function(e) {
               next(e);
-            });;
+            });
           });
         },
         'saveToDB': ['downloadImage', function (next, data) {
