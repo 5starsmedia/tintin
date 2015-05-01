@@ -81,12 +81,28 @@ var saveItem = function (site, connection, item, next) {
       });
     },
     'comments': ['post', function (next, data) {
-      var meta = {};
       connection.query('SELECT * FROM ' + tablePrefix + 'comments WHERE comment_post_ID = ' + id + ' ORDER BY comment_parent', function (err, rows) {
         if (err) {
           return next(err);
         }
         async.eachSeries(rows, _.partial(saveComment, site, connection, data.post), next);
+      });
+    }],
+    'thumbnail': ['post', function (next, data) {
+      connection.query('SELECT * FROM ' + tablePrefix + 'postmeta WHERE meta_key = "_thumbnail_id" AND post_id = ' + id, function (err, rows) {
+        if (err) { return next(err); }
+        if (rows.length) {
+          connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE ID = ' + rows[0].meta_value, function (err, rows) {
+            if (err) { return next(err); }
+            if (rows.length) {
+              next(null, rows[0].guid)
+            } else {
+              next();
+            }
+          });
+        } else {
+          next();
+        }
       });
     }],
     'categoryId': function (next) {
@@ -100,11 +116,19 @@ var saveItem = function (site, connection, item, next) {
         next(null, rows[0].term_taxonomy_id);
       });
     },
-    'images': ['post', function (next, data) {
+    'images': ['post', 'thumbnail', function (next, data) {
       var m, urls = [], isFirst = true,
         rex = /<img[^>]+src="(http:\/\/[^">]+)"/g,
         rexLink = /<a[^>]+href="(http:\/\/v\-a[^">]+)"/g;
 
+      if (data.thumbnail) {
+        urls.push({
+          guid: data.thumbnail,
+          isImage: true,
+          is_main: true
+        });
+        isFirst = false;
+      }
       /*data.post.body = data.post.body.replace(/"(http:\/\/v\-a[^">]+)\-(\d+)x(\d+)(\.[^">]+)"/g, '"$1$4" data-width="$2" data-height="$3"');
       data.post.body = data.post.body.replace(/"(http:\/\/v\-a[^">]+)\-(\d+)x(\d+)(\.[^">]+)"/g, '"$1$4"');*/
 
