@@ -270,6 +270,7 @@ var saveCategoryFile = function (site, post, image, next) {
               height: resultDimensions.height,
               storage: 'gridfs',
               storageId: res._id.toString(),
+              isImage: isImage,
               isTemp: false
             };
             setExpr.collectionName = 'categories';
