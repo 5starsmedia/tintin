@@ -327,7 +327,7 @@ var saveFile = function (site, post, image, next) {
               resultDimensions = imageSize(buffer);
               metadata = {width: resultDimensions.width, height: resultDimensions.height};
             } catch (e) {
-              return next();
+              return next(e);
             }
           }
           post.files.push(file);
