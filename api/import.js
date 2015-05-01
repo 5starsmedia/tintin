@@ -251,8 +251,8 @@ var saveCategoryFile = function (site, post, image, next) {
               resultDimensions = imageSize(buffer);
               metadata = {width: resultDimensions.width, height: resultDimensions.height};
             } catch (e) {
-              //return next(e);
-              isImage = false;
+              return next(e);
+              //isImage = false;
             }
           }
 
@@ -345,8 +345,8 @@ var saveFile = function (site, post, image, next) {
               resultDimensions = imageSize(buffer);
               metadata = {width: resultDimensions.width, height: resultDimensions.height};
             } catch (e) {
-              //return next(e);
-              isImage = false;
+              return next(e);
+              //isImage = false;
             }
           }
           post.files.push(file);
