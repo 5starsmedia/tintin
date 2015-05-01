@@ -51,7 +51,9 @@ function processGet(collectionName, req, res, next) {
     },
     'tree': ['root', function(next, data) {
       data.root.getArrayTree({
-        removed: {$exists: false}
+        condition: {
+          removed: {$exists: false}
+        }
       }, function(err, tree) {
         if (err) return next(err);
         next(undefined, tree[0]);
