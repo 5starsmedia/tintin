@@ -171,7 +171,8 @@ var saveItem = function (site, connection, item, next) {
 
       var post = data.post;
       post.body = item.post_content.replace(rex, "<figure$2 data-$1>$3</figure>")
-                    .replace(/\[reklama\]/, '<figure class="b-ad-place"></figure>');
+                    .replace(/\[reklama\]/, '<figure class="b-ad-place"></figure>')
+                    .replace(/\n/g, '<p>');
       post.createDate = item.post_date;
       post.title = item.post_title;
       post.alias = item.post_name;
