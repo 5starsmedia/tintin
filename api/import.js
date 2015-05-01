@@ -17,8 +17,8 @@ app.log = require('./log.js');
 app.config = require('./config.js');
 app.models = require('./models');
 
-var tablePrefix = 'ander_',
-  siteDomain = 'vandroide.5stars.link';
+var tablePrefix = 'bp_',
+  siteDomain = 'bezprovodoff.5stars.link';
 
 var commentsRef = {};
 
@@ -192,6 +192,9 @@ var saveItem = function (site, connection, item, next) {
 
 
 var saveCategoryFile = function (site, post, image, next) {
+  if (!fileName) {
+    return next();
+  }
   var fileName = image.guid;
   app.models.files.findOne({originalName: fileName}, function (err, file) {
     var isNew = false;
@@ -474,7 +477,7 @@ async.auto({
       port: 3310,
       user: 'remote',
       password: 'gfhjkm666',
-      database: 'vvslob_android'
+      database: 'gidtec_wp'
     });
     connection.connect();
     next(null, connection);
@@ -490,7 +493,7 @@ async.auto({
       });
     });
   }],
-  'categories': ['connection', function (next, data) {
+  'categories': ['connection', 'site', function (next, data) {
     data.connection.query('SELECT * FROM ' + tablePrefix + 'term_taxonomy WHERE taxonomy = "category" ORDER BY parent', function (err, rows, fields) {
       if (err) throw err;
 
