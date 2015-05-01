@@ -307,7 +307,9 @@ var saveFile = function (site, post, image, next) {
             }).on('end', function () {
               var buffer = Buffer.concat(chunks);
               next(null, buffer);
-            });
+            }).on('error', function(e) {
+              next(e);
+            });;
           });
         },
         'saveToDB': ['downloadImage', function (next, data) {
