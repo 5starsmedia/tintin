@@ -245,7 +245,6 @@ var saveCategoryFile = function (site, post, image, next) {
             isImage = false;
             console.error('!!!!!!!!!!!!!!!!!!!!', mimeType);
           }
-          console.info(buffer);
 
           if (isImage) {
             try {
@@ -319,14 +318,11 @@ var saveFile = function (site, post, image, next) {
           console.info('Download: ', fileName)
           var options = url.parse(fileName);
 
-          console.info(options)
           http.get(options, function (response) {
             var chunks = [];
             response.on('data', function (chunk) {
               chunks.push(chunk);
-              console.info('chunk')
             }).on('end', function () {
-              console.info(chunks.length);
               var buffer = Buffer.concat(chunks);
               next(null, buffer);
             }).on('error', function(e) {
