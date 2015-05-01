@@ -239,7 +239,7 @@ var saveCategoryFile = function (site, post, image, next) {
         'saveToDB': ['downloadImage', function (next, data) {
           var buffer = data.downloadImage,
             mimeType = mime.lookup(file.originalName),
-            isImage = true, resultDimensions, metadata = {};
+            isImage = true, resultDimensions = {width:0, height: 0}, metadata = {};
 
           if (mimeType != 'image/jpeg' && mimeType != 'image/png' && mimeType != 'image/gif') {
             isImage = false;
@@ -333,7 +333,7 @@ var saveFile = function (site, post, image, next) {
         'saveToDB': ['downloadImage', function (next, data) {
           var buffer = data.downloadImage,
             mimeType = mime.lookup(file.originalName),
-            isImage = true, resultDimensions, metadata = {};
+            isImage = true, resultDimensions = {width:0, height: 0}, metadata = {};
 
           if (mimeType != 'image/jpeg' && mimeType != 'image/png' && mimeType != 'image/gif') {
             isImage = false;
