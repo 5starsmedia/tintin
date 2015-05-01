@@ -192,10 +192,10 @@ var saveItem = function (site, connection, item, next) {
 
 
 var saveCategoryFile = function (site, post, image, next) {
+  var fileName = image.guid;
   if (!fileName) {
     return next();
   }
-  var fileName = image.guid;
   app.models.files.findOne({originalName: fileName}, function (err, file) {
     var isNew = false;
     if (!file) {
