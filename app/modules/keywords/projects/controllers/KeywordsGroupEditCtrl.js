@@ -13,7 +13,7 @@ class KeywordsGroupEditCtrl {
         $scope.loadingScan = false;
       }, (err) => {
         if (err.status == 400) {
-          $scope.error = err.msg;
+          $scope.error = err.data.msg;
 
           $timeout(() => {
             $scope.error = null;
