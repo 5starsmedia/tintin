@@ -14,7 +14,7 @@ var express = require('express'),
   stopwords = natural.stopwords;
 
 
-var scanKeyword = function (group, keyword, next) {
+var scanKeyword = function (req, group, keyword, next) {
 
   var user = 'm-slobodianiuk',
     key = '03.266478028:a3acf5e282407d91686118bd9b79d416';
@@ -108,7 +108,7 @@ router.post('/:id/run-scan', function (req, res, next) {
     'keywords': ['group', 'setInProgress', function(next, data) {
       var keywords = data.group.keywords.split("\n");
 
-      async.mapLimit(keywords, 1, _.partial(scanKeyword, data.group), next);
+      async.mapLimit(keywords, 1, _.partial(scanKeyword, req, data.group), next);
     }],
     'calcUrls': ['keywords', function(next, data) {
       var keywords = data.keywords;
