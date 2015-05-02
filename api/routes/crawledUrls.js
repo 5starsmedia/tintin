@@ -13,10 +13,15 @@ var express = require('express'),
   Boilerpipe = require('boilerpipe');
 
 
-router.get('/:url', function (req, res, next) {
+router.get('/', function (req, res, next) {
+  var requestUrl = req.query.url;
+  if (!requestUrl) {
+    res.json({ empty: true });
+    return;
+  }
   async.auto({
     'cachedUrl': function(next) {
-      req.app.models.crawledUrls.findOne({ url: req.params.url }, next);
+      req.app.models.crawledUrls.findOne({ url: requestUrl }, next);
     },
     'crawlUrl': ['cachedUrl', function(next, data) {
       if (data.cachedUrl && data.cachedUrl.code == 200) {
@@ -24,7 +29,7 @@ router.get('/:url', function (req, res, next) {
       }
 
       var options = {
-        url: req.params.url,
+        url: requestUrl,
         headers: {
           'User-Agent': req.headers['user-agent']
         },
@@ -54,7 +59,7 @@ router.get('/:url', function (req, res, next) {
         }
 
         var urlObj = new req.app.models.crawledUrls();
-        urlObj.url = req.params.url;
+        urlObj.url = requestUrl;
         urlObj.code = response.statusCode;
         urlObj.content = body;
         urlObj.encoding = bodyEncoding;
