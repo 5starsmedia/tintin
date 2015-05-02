@@ -12,6 +12,7 @@ class KeywordsGroupEditCtrl {
       group.$runScan(() => {
         $scope.loadingScan = false;
       }, (err) => {
+        $scope.loadingScan = false;
         if (err.status == 400) {
           $scope.error = err.data.msg;
 
