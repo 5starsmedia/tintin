@@ -50,7 +50,7 @@ var scanKeyword = function (group, keyword, next) {
       xml2js.parseString(data.keyword.yandexScanResult, {trim: true}, function (err, result) {
         if (err) return next(err);
         if (result.yandexsearch.response[0].error) {
-          return next({ msg: result.yandexsearch.response[0].error[0]._ });
+          return next(new req.app.errors.OperationError(result.yandexsearch.response[0].error[0]._));
         }
         var response = result.yandexsearch.response[0].results[0];
         next(null, response);
