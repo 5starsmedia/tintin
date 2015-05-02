@@ -48,6 +48,10 @@
     <div class="hpanel">
         <div class="panel-body">
 
+            <div ng-if="error" class="alert alert-block alert-danger">
+                {{error}}
+            </div>
+
             <st-form-element label="{{'Title'|translate}}" field="title">
 
                 <input id="title" class="form-control input-lg" ng-disabled="group.status != 'new'" name="title" type="text" required

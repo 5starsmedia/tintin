@@ -1,7 +1,7 @@
 export default
 class KeywordsGroupEditCtrl {
   /*@ngInject*/
-  constructor($scope, $state, project, group, notify, $filter, KeywordsUrlPreview) {
+  constructor($scope, $state, project, group, notify, $filter, KeywordsUrlPreview, $timeout) {
     $scope.project = project;
     $scope.group = group;
 
@@ -11,6 +11,14 @@ class KeywordsGroupEditCtrl {
       $scope.loadingScan = true;
       group.$runScan(() => {
         $scope.loadingScan = false;
+      }, (err) => {
+        if (err.status == 400) {
+          $scope.error = err.msg;
+
+          $timeout(() => {
+            $scope.error = null;
+          }, 4000)
+        }
       });
     };
 
