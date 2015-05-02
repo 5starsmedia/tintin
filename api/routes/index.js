@@ -22,8 +22,8 @@ exports.init = function (app) {
   app.server.use('/api/menuElements', nestedSet('menuElements'));
 
   app.server.use('/api/keywordProjects', require('./keywordProjects.js'));
-  //app.server.use('/api/keywordGroups', require('./keywordGroups.js'));
-  //app.server.use('/api/crawledUrls', require('./crawledUrls.js'));
+  app.server.use('/api/keywordGroups', require('./keywordGroups.js'));
+  app.server.use('/api/crawledUrls', require('./crawledUrls.js'));
 
   app.server.get('/api/:resource', access(), resourceRoute);
   app.server.get('/api/:resource/:_id', access(), resourceRoute);
