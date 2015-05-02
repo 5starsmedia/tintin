@@ -9,6 +9,10 @@ export default /*@ngInject*/ function bzLoadingContainer($window, $timeout) {
       element.addClass('bz-loading-container').append(loadingLayer);
       scope.$watch(attrs.bzLoadingContainer, function(value) {
         loadingLayer.toggleClass('ng-hide', !value);
+
+        $timeout(function() {
+          scrolling();
+        }, 1000);
       });
 
       loadingLayer.append(spinnerDiv);

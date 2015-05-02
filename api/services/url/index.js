@@ -6,7 +6,7 @@
 'use strict';
 
 var _ = require('lodash'),
-  slug = require("limax");
+  slug = function(str) { return str; };//require("limax");
 
 exports.aliasFor = function (app, text, options, cb) {
   if (!text) { return cb(new Error('Text for alias is empty')); }

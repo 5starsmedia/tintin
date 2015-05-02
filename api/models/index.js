@@ -33,5 +33,6 @@ exports.productCurrencies = require('./product/productCurrency.js');
 
 exports.menuElements = require('./menu/menuElements.js');
 
+exports.crawledUrls = require('./keywords/crawledUrl.js');
 exports.keywordProjects = require('./keywords/keywordProject.js');
 exports.keywordGroups = require('./keywords/keywordGroup.js');

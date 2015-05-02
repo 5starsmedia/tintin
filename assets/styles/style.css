@@ -3625,6 +3625,12 @@ body.modal-open .content {
 .panel-body.no-bottom-border {
   border-bottom: 0 none;
 }
+.text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+  white-space: nowrap;
+}
 .projects .project-label {
   font-weight: 600;
 }

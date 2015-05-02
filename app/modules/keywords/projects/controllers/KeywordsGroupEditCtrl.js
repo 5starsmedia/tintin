@@ -1,10 +1,18 @@
 export default
 class KeywordsGroupEditCtrl {
   /*@ngInject*/
-  constructor($scope, $state, project, group, notify, $filter) {
+  constructor($scope, $state, project, group, notify, $filter, KeywordsUrlPreview) {
     $scope.project = project;
     $scope.group = group;
 
+    $scope.keywords = group.keywords.split("\n");
+
+    $scope.runScan = () => {
+      $scope.loadingScan = true;
+      group.$runScan(() => {
+        $scope.loadingScan = false;
+      });
+    };
 
     $scope.saveItem = (item) => {
       $scope.loading = true;
@@ -19,6 +27,16 @@ class KeywordsGroupEditCtrl {
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;
+      });
+    };
+
+    $scope.activeUrl = null;
+    $scope.previewUrl = (url) => {
+      $scope.activeUrl = url;
+      $scope.loadingPreview = true;
+      KeywordsUrlPreview.getPreview({ url: url }, (data) => {
+        $scope.loadingPreview = false;
+        $scope.parsedData = data;
       });
     }
   }

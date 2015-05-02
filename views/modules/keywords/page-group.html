@@ -50,17 +50,76 @@
 
             <st-form-element label="{{'Title'|translate}}" field="title">
 
-                <input id="title" class="form-control input-lg" name="title" type="text" required
+                <input id="title" class="form-control input-lg" ng-disabled="group.status != 'new'" name="title" type="text" required
                        ng-model="group.title"/>
 
             </st-form-element>
 
-            <st-form-element label="{{'Keywords'|translate}}" field="keywords">
+            <div ng-if="!group.status || group.status == 'new'">
 
-                <textarea id="body" class="form-control" rows="15" name="keywords"
-                          ng-model="group.keywords"></textarea>
+                <st-form-element label="{{'Keywords'|translate}}" field="keywords">
 
-            </st-form-element>
+                    <textarea id="body" class="form-control" rows="15" name="keywords"
+                              ng-model="group.keywords"></textarea>
+
+                </st-form-element>
+
+                <button type="button" ng-disabled="loadingScan" ng-class="{'m-progress': loadingScan}" ng-click="runScan()" class="btn btn-primary">Scan</button>
+
+            </div>
+
+
+            <div ng-if="group.status && group.status != 'new'">
+
+                <div class="row">
+                    <div class="col-xs-3">
+                        <label class="control-label">{{'Keywords'|translate}}</label>
+
+                        <table class="table table-condensed" style="table-layout: fixed;">
+                            <tr ng-repeat="keyword in keywords">
+                                <td style="table-layout: fixed" class="text-overflow">
+                                    {{keyword}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-3">
+                        <label class="control-label">{{'Urls'|translate}}</label>
+
+                        <table class="table table-condensed" style="table-layout: fixed;">
+                            <tr ng-repeat="url in group.result.urls" ng-class="{'active': url.url == activeUrl}">
+                                <td style="table-layout: fixed">
+                                    <label class="text-overflow">
+                                        <input icheck ng-model="checked" type="checkbox" />
+                                        <a href="" ng-click="previewUrl(url.url)">{{url.url}}</a>
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <button type="button" ng-disabled="loadingScan" ng-class="{'m-progress': loadingScan}" ng-click="runScan()" class="btn btn-primary">Rescan</button>
+                    </div>
+                    <div class="col-xs-6">
+
+                        <label class="control-label">{{'Preview'|translate}}</label>
+                        <div class="well" bz-loading-container="loadingPreview">
+                            <div ng-if="parsedData">
+                                <p class="text-overflow">
+                                    <strong>{{'URL:'|translate}}</strong>
+                                    <span ng-if="parsedData.encoding">({{parsedData.encoding}})</span>
+                                    <a ng-href="{{activeUrl}}" target="_blank" ng-bind="activeUrl"></a>
+                                <p><strong>{{'Page title:'|translate}}</strong> <span ng-bind="parsedData.title"></span>
+
+                                <p><strong>{{'Main text (autodetect):'|translate}}</strong> ({{'length:'|translate}} {{parsedData.text.length}})
+                                <div style="white-space: pre-line;" ng-bind="parsedData.text"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
 
         </div>
     </div>
