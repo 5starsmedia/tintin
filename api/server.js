@@ -20,6 +20,7 @@ var express = require('express'),
   sites = require('./middleware/sites.js'),
   tasks = require('./services/tasks'),
   sequence = require('./services/sequence'),
+  crawler = require('./services/crawler'),
   config = require('./config.js');
 //phantom = require('node-phantom'),
 //robots = require('robots.txt'),
@@ -43,6 +44,7 @@ app.services = {
   mail: require('./services/mail'),
   validation: require('./services/validation'),
   sequence: new sequence.SequenceSvc(app),
+  crawler: new crawler.CrawlerSvc(app),
   tasks: new tasks.TasksSvc(app)
 };
 

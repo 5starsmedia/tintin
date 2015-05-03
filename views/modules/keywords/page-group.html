@@ -48,6 +48,21 @@
     <div class="hpanel">
         <div class="panel-body">
 
+            <!--ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                <li class="active"><a href="#step-1">
+                    <h4 class="list-group-item-heading">Step 1</h4>
+                    <p class="list-group-item-text">First step description</p>
+                </a></li>
+                <li class="disabled"><a href="#step-2">
+                    <h4 class="list-group-item-heading">Step 2</h4>
+                    <p class="list-group-item-text">Second step description</p>
+                </a></li>
+                <li class="disabled"><a href="#step-3">
+                    <h4 class="list-group-item-heading">Step 3</h4>
+                    <p class="list-group-item-text">Third step description</p>
+                </a></li>
+            </ul-->
+
             <div ng-if="error" class="alert alert-block alert-danger">
                 {{error}}
             </div>
@@ -73,7 +88,55 @@
             </div>
 
 
-            <div ng-if="group.status && group.status != 'new'">
+            <div ng-if="group.status && group.status == 'finded'">
+
+                <table class="table table-condensed">
+                <tr>
+                    <th style="width: 50%">Ключове слово</th>
+                    <th style="width: 10%">Топ 3</th>
+                    <th style="width: 10%">Топ 10</th>
+                    <th style="width: 10%">Використовувати у ТЗ</th>
+                    <th style="width: 20%">Тип входження</th>
+                </tr>
+                <tr ng-repeat="keyword in group.recomendation.keywords">
+                    <td>
+                        <input type="text" class="form-control" ng-model="keyword.keyword" />
+                    </td>
+                    <td class="text-center">{{keyword.entryInTop3}}</td>
+                    <td class="text-center">{{keyword.entry}}</td>
+                    <td>
+                        <input type="number" class="form-control" ng-model="keyword.useEntry" />
+                    </td>
+                    <td>
+                        <label>
+                            <input type="radio" ng-model="keyword.useType" value="exact" />
+                            Точне
+                        </label>
+                        <br/>
+                        <label>
+                            <input type="radio" ng-model="keyword.useType" value="inexact" />
+                            Розбавлене
+                        </label>
+                        <br/>
+                        <label>
+                            <input type="radio" ng-model="keyword.useType" value="both" />
+                            На вибір
+                        </label>
+                    </td>
+                </tr>
+                </table>
+
+                <div>
+                    {{'Кількість символів'|translate}}
+                    <input type="number" class="form-control" ng-model="group.recomendation.minTextLength" />
+                    <input type="number" class="form-control" ng-model="group.recomendation.maxTextLength" />
+                </div>
+
+
+                <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('scaned')" class="btn btn-primary">Back</button>
+            </div>
+
+            <div ng-if="group.status && group.status != 'new' && group.status != 'finded'">
 
                 <div class="row">
                     <div class="col-xs-3">
@@ -94,7 +157,7 @@
                             <tr ng-repeat="url in group.result.urls" ng-class="{'active': url.url == activeUrl}">
                                 <td style="table-layout: fixed">
                                     <label class="text-overflow">
-                                        <input icheck ng-model="checked" type="checkbox" />
+                                        <input icheck ng-model="url.use" type="checkbox" />
                                         <a href="" ng-click="previewUrl(url.url)">{{url.url}}</a>
                                     </label>
                                 </td>
@@ -115,9 +178,10 @@
                                 <p><strong>{{'Page title:'|translate}}</strong> <span ng-bind="parsedData.title"></span>
 
                                 <p><strong>{{'Main text (autodetect):'|translate}}</strong> ({{'length:'|translate}} {{parsedData.text.length}})
-                                <div style="white-space: pre-line;" ng-bind="parsedData.text"></div>
+                                <div class="b-html-preview" ng-bind-html="parsedData.text"></div>
                             </div>
                         </div>
+                        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()" class="btn btn-primary">Next</button>
 
                     </div>
                 </div>

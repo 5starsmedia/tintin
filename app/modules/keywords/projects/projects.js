@@ -93,7 +93,8 @@ module.config(function ($stateProvider) {
           var defer = $q.defer();
 
           defer.resolve(new KeywordsGroupModel({
-            project: { _id: $stateParams.projectId }
+            project: { _id: $stateParams.projectId },
+            status: 'new'
           }));
           return defer.promise;
         }

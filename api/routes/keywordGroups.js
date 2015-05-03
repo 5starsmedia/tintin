@@ -10,17 +10,17 @@ var express = require('express'),
   fs = require('fs'),
   natural = require('natural'),
   metaphone = natural.Metaphone.process,
-  stem = natural.PorterStemmerRu.stem,
-  stopwords = natural.stopwords;
+  stemmer = natural.PorterStemmerRu,
+  htmlToText = require('html-to-text');
 
 
 var scanKeyword = function (req, group, keyword, next) {
 
-  var user = 'm-slobodianiuk',
-    key = '03.266478028:a3acf5e282407d91686118bd9b79d416';
+  var user = 'esvit',//m-slobodianiuk',
+    key = '03.9573926:0f453a40cd2d029a3143334941a90fda';//03.266478028:a3acf5e282407d91686118bd9b79d416';
 
   var keywords = _.map(keyword.split(' '), function(word) {
-      return stem(word);
+      return stemmer.stem(word);
     });
 
   async.auto({
@@ -76,7 +76,7 @@ var scanKeyword = function (req, group, keyword, next) {
           additionalsWords: _.map(additionalsWords, function(word) {
             return {
               word: word,
-              stem: stem(word)
+              stem: stemmer.stem(word)
             };
           }),
           url: item.doc[0].url[0]
@@ -108,7 +108,7 @@ router.post('/:id/run-scan', function (req, res, next) {
     'keywords': ['group', 'setInProgress', function(next, data) {
       var keywords = data.group.keywords.split("\n");
 
-      async.mapLimit(keywords, 1, _.partial(scanKeyword, req, data.group), next);
+      async.mapLimit(keywords, 3, _.partial(scanKeyword, req, data.group), next);
     }],
     'calcUrls': ['keywords', function(next, data) {
       var keywords = data.keywords;
@@ -130,13 +130,158 @@ router.post('/:id/run-scan', function (req, res, next) {
       sites = _.sortBy(sites, function(site) {
         return -site.count;
       });
-      next(null, _.take(sites, 15));
+      sites = _.take(sites, 15);
+      _.forEach(sites, function(value, n) {
+        if (n <= 9) {
+          value.use = true;
+        }
+      });
+      next(null, sites);
     }],
     'saveGroup': ['group', 'calcUrls', 'keywords', function(next, data) {
       data.group.scanResult.lastDate = Date.now();
       data.group.result.urls = data.calcUrls;
       data.group.scanResult.keywords = data.keywords;
       data.group.status = 'scaned';
+      data.group.save(next);
+    }]
+  }, function (err, data) {
+    if (err) { return next(err); }
+
+    return res.json(data.group);
+  });
+});
+
+var scanUrl = function(req, urlObj, next) {
+  req.app.services.crawler.getUrlContent(urlObj.url, req.headers['user-agent'], function(err, crawlUrl) {
+    if (err) { return next(err); }
+
+    next(null, crawlUrl);
+  });
+};
+
+router.put('/:id/scan', function (req, res, next) {
+  async.auto({
+    'group': function(next) {
+      return req.app.models.keywordGroups.findById(req.params.id, next);
+    },
+    'parseUrls': ['group', function(next, data) {
+      var urls = _.filter(data.group.result.urls, 'use', true);
+
+      async.mapLimit(urls, 3, _.partial(scanUrl, req), next);
+    }],
+    'cleanUrls': ['parseUrls', function(next, data) {
+      var num = 0,
+        urls = _.map(data.parseUrls, function(url) {
+          num += 1;
+          var text = htmlToText.fromString(url.text, {
+              ignoreImage: true,
+              ignoreHref: true,
+              wordwrap: 1000
+            }),
+            strings = text.split(/[\.\n\?!]/);
+
+          strings = _.filter(strings, function(string) {
+            string = _.trim(string);
+            if (string.length < 5) { return false; }
+            return true;
+          });
+          return {
+            url: url.url,
+            strings: strings,
+            textLength: text.length,
+            isTop3: num < 4,
+            isTop10: num < 10
+          };
+        });
+
+      next(null, urls);
+    }],
+    'recomendation': ['group', 'cleanUrls', function(next, data) {
+      stemmer.attach();
+
+      var keywords = data.group.keywords.split("\n"),
+        textLength = 0;
+
+      var data = _.map(keywords, function(keyword) {
+        var keywordTokens = keyword.split(' ');
+        keywordTokens = _.filter(keywordTokens, function(word) {
+          return word.length > 3;
+        });
+        keywordTokens = _.map(keywordTokens, function(word) {
+          return stemmer.stem(word);
+        });
+
+        textLength = 0;
+        var exactEntry = 0,
+          inExactEntry = 0,
+          exactEntryInTop3 = 0,
+          inExactEntryInTop3 = 0;
+        _.forEach(data.cleanUrls, function(url) {
+          textLength += url.textLength;
+          _.forEach(url.strings, function(string) {
+            if (string.indexOf(keyword) != -1) {
+              exactEntry++;
+              if (url.isTop3) {
+                exactEntryInTop3++;
+              }
+            }
+            if (_.intersection(string.tokenizeAndStem(), keywordTokens).length == keywordTokens.length) {
+              inExactEntry++;
+              if (url.isTop3) {
+                inExactEntryInTop3++;
+              }
+            }
+          });
+        });
+        textLength /= data.cleanUrls.length;
+
+        textLength = Math.round(textLength / 100) * 100;
+
+        var entry = Math.ceil((exactEntry + inExactEntry) / data.cleanUrls.length),
+          entryInTop3 = Math.ceil((exactEntryInTop3 + inExactEntryInTop3) / 3);
+        var useExactEntryCount = (exactEntry == 0) ? 0 : (exactEntry == 1 ? 1 : 2),
+          useInExactEntryCount = (inExactEntry == 0) ? 0 : (inExactEntry == 1 ? 1 : 2),
+          useType = 'both';
+
+        if (exactEntry > 0) {
+          useType = 'exact';
+        }
+        if (exactEntry == 0 && inExactEntry > 0) {
+          useType = 'inexact';
+        }
+
+        return {
+          keyword: keyword,
+          entry: entry,
+          entryInTop3: entryInTop3,
+          useEntry: Math.round((entry + entryInTop3) / 2),
+          useType: useType
+        };
+      });
+      var  minTextLength = textLength - textLength * 0.3,
+        maxTextLength = textLength + textLength * 0.3;
+
+      minTextLength = Math.round(minTextLength / 100) * 100;
+      maxTextLength = Math.round(maxTextLength / 100) * 100;
+
+      // Текст не может быть меньше 500 символов
+      if (minTextLength < 500) {
+        minTextLength = 500;
+      }
+      if (maxTextLength < 500) {
+        maxTextLength = 500;
+      }
+
+      next(null, {
+        minTextLength: minTextLength,
+        maxTextLength: maxTextLength,
+        keywords: data
+      });
+    }],
+    'saveGroup': ['group', 'recomendation', function(next, data) {
+      data.group.status = 'finded';
+      data.group.recomendation = data.recomendation;
       data.group.save(next);
     }]
   }, function (err, data) {

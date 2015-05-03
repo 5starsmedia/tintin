@@ -3550,6 +3550,82 @@ fieldset[disabled] .btn-vk.active {
 .list-group.sortable .list-group-item.with-input .drag-handle {
   left: 3px;
 }
+.b-html-preview h6,
+.b-html-preview h5,
+.b-html-preview h4,
+.b-html-preview h3,
+.b-html-preview h2,
+.b-html-preview h1,
+.b-html-preview blockquote,
+.b-html-preview address,
+.b-html-preview pre,
+.b-html-preview div,
+.b-html-preview p,
+.b-html-preview li {
+  background-position: top left;
+  padding-left: 8px;
+  margin: 0;
+  background-repeat: no-repeat;
+  border: 1px dotted gray;
+  padding-top: 8px;
+  margin-bottom: 5px;
+}
+.b-html-preview h1 {
+  background-image: url(../ckeditor/plugins/showblocks/images/block_h1.png);
+}
+.b-html-preview h2 {
+  background-image: url(../ckeditor/plugins/showblocks/images/block_h2.png);
+}
+.b-html-preview h3 {
+  background-image: url(../ckeditor/plugins/showblocks/images/block_h3.png);
+}
+.b-html-preview h4 {
+  background-image: url(../ckeditor/plugins/showblocks/images/block_h4.png);
+}
+.b-html-preview h5 {
+  background-image: url(../ckeditor/plugins/showblocks/images/block_h5.png);
+}
+.b-html-preview h6 {
+  background-image: url(../ckeditor/plugins/showblocks/images/block_h6.png);
+}
+.b-html-preview p {
+  background-image: url(../ckeditor/plugins/showblocks/images/block_p.png);
+}
+.b-html-preview li {
+  background-image: url(../ckeditor/plugins/showblocks/images/block_li.png);
+}
+.b-html-preview blockquote {
+  background-image: url(../ckeditor/plugins/showblocks/images/block_blockquote.png);
+}
+.b-html-preview address {
+  background-image: url(../ckeditor/plugins/showblocks/images/block_address.png);
+}
+.b-html-preview p,
+.b-html-preview li,
+.b-html-preview blockquote,
+.b-html-preview address {
+  font-size: 11px;
+  font-weight: normal;
+  font-style: normal;
+}
+.b-html-preview h1 {
+  font-size: 23px;
+}
+.b-html-preview h2 {
+  font-size: 21px;
+}
+.b-html-preview h3 {
+  font-size: 19px;
+}
+.b-html-preview h4 {
+  font-size: 17px;
+}
+.b-html-preview h5 {
+  font-size: 15px;
+}
+.b-html-preview h6 {
+  font-size: 13px;
+}
 html {
   overflow-x: visible !important;
 }

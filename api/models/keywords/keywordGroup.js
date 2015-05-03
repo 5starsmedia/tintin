@@ -7,7 +7,7 @@ var schema = new mongoose.Schema({
   title: {type: String, required: true},
   keywords: {type: String, required: true},
 
-  status: {type: String, default: 'new', enum: ['new', 'inprocess', 'scaned', 'completed']},
+  status: {type: String, default: 'new', enum: ['new', 'inprocess', 'scaned', 'finded', 'completed']},
 
   project: {
     _id: mongoose.Schema.Types.ObjectId,
@@ -18,9 +18,21 @@ var schema = new mongoose.Schema({
   result: {
     urls: [{
       url: String,
-      count: Number
+      count: Number,
+      use: Boolean
     }],
     additionalsWords: [{ word: String }]
+  },
+  recomendation: {
+    minTextLength: Number,
+    maxTextLength: Number,
+    keywords: [{
+      keyword: String,
+      entry: Number,
+      entryInTop3: Number,
+      useEntry: Number,
+      useType: {type: String}//, default: 'both', enum: ['both', 'exact', 'inexact']}
+    }]
   },
   scanResult: {
     lastDate: Date,

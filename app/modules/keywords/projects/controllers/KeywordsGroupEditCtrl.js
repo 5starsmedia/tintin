@@ -5,7 +5,7 @@ class KeywordsGroupEditCtrl {
     $scope.project = project;
     $scope.group = group;
 
-    $scope.keywords = group.keywords.split("\n");
+    $scope.keywords = (group.keywords || '').split("\n");
 
     $scope.runScan = () => {
       $scope.loadingScan = true;
@@ -20,6 +20,25 @@ class KeywordsGroupEditCtrl {
             $scope.error = null;
           }, 4000)
         }
+      });
+    };
+
+    $scope.back = (status) => {
+      $scope.loading = true;
+      group.status = status;
+      group.$save(() => {
+        $scope.loading = false;
+      }, (err) => {
+        $scope.loading = false;
+      });
+    };
+
+    $scope.nextStep = () => {
+      $scope.loading = true;
+      group.$scanKeywords(() => {
+        $scope.loading = false;
+      }, (err) => {
+        $scope.loading = false;
       });
     };
 

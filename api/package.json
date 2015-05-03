@@ -48,6 +48,7 @@
     "php-unserialize": "0.0.1",
     "pwd": "0.0.4",
     "request": "^2.53.0",
+    "sanitize-html": "^1.6.1",
     "serve-static": "^1.8.1",
     "soap": "^0.8.0",
     "soap-cookie": "^0.10.0",
