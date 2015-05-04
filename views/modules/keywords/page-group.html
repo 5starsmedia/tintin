@@ -128,8 +128,8 @@
 
                 <div>
                     {{'Кількість символів'|translate}}
-                    <input type="number" class="form-control" ng-model="group.recomendation.minTextLength" />
-                    <input type="number" class="form-control" ng-model="group.recomendation.maxTextLength" />
+                    <input type="number" step="100" class="form-control" ng-model="group.recomendation.minTextLength" />
+                    <input type="number" step="100" class="form-control" ng-model="group.recomendation.maxTextLength" />
                 </div>
 
 
@@ -179,8 +179,6 @@
                                 </td>
                             </tr>
                         </table>
-
-                        <button type="button" ng-disabled="loadingScan" ng-class="{'m-progress': loadingScan}" ng-click="runScan()" class="btn btn-primary">Rescan</button>
                     </div>
                     <div class="col-xs-6">
 
