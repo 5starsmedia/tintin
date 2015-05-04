@@ -163,13 +163,11 @@ var routes = require('./routes');
 routes.init(app);
 
 app.server.get('/*', serveStatic(__dirname + '/..', {etag: false}));
+app.use(express.limit(100000000));
 
 app.server.use(function (err, req, res, next) {
   if (err) {
     var isDev = config.get('env') === 'development';
-
-      console.info(err);
-      return next(err);
 
     req.log.error({err: {name: err.name, stack: err.stack}}, err.message);
     if (err.name === app.errors.NotFoundError.name) {
