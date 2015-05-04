@@ -90,7 +90,7 @@ app.server.use(statsdMiddleware({timeByUrl: true}));
 
 app.errors = require('./errors');
 
-app.server.use(bodyParser.json());
+app.server.use(bodyParser.json({ limit: '50mb' }));
 app.server.use(function (req, res, next) {
   var realIP = null;//req.header('x-real-ip');
   req.app = app;
