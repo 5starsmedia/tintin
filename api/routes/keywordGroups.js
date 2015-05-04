@@ -228,6 +228,11 @@ router.put('/:id/scan', function (req, res, next) {
       var keywords = data.group.keywords.split("\n"),
         textLength = 0;
 
+      var additionalWords = _.filter(data.group.result.additionalsWords, function(item) {
+        return item.use;
+      });
+      keywords = keywords.concat(_.map(additionalWords, function(item) { return item.word }));
+
       var data = _.map(keywords, function(keyword) {
         var keywordTokens = keyword.split(' ');
         keywordTokens = _.filter(keywordTokens, function(word) {
