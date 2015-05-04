@@ -167,6 +167,10 @@ app.server.get('/*', serveStatic(__dirname + '/..', {etag: false}));
 app.server.use(function (err, req, res, next) {
   if (err) {
     var isDev = config.get('env') === 'development';
+    if (!req.log.error) {
+      console.info(err);
+      return next(err);
+    }
     req.log.error({err: {name: err.name, stack: err.stack}}, err.message);
     if (err.name === app.errors.NotFoundError.name) {
       var resultErr = {msg: err.message};
