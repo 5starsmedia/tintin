@@ -163,7 +163,6 @@ var routes = require('./routes');
 routes.init(app);
 
 app.server.get('/*', serveStatic(__dirname + '/..', {etag: false}));
-app.use(express.limit(100000000));
 
 app.server.use(function (err, req, res, next) {
   if (err) {
