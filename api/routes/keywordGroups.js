@@ -16,8 +16,8 @@ var express = require('express'),
 
 var scanKeyword = function (req, group, keyword, next) {
 
-  var user = 'esvit',//m-slobodianiuk',
-    key = '03.9573926:0f453a40cd2d029a3143334941a90fda';//03.266478028:a3acf5e282407d91686118bd9b79d416';
+  var user = 'm-slobodianiuk',
+    key = '03.266478028:a3acf5e282407d91686118bd9b79d416';
 
   var keywords = _.map(keyword.split(' '), function(word) {
       return stemmer.stem(word);
