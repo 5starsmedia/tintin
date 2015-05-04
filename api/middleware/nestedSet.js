@@ -20,7 +20,9 @@ function getRoot(req, collectionName, callback) {
     if (!node) {
       node = new req.app.models[collectionName]();
       node.title = 'root';
-      node.title = req.site._id;
+      node.site = {
+        _id: req.site._id
+      };
       node.lft = 1;
       node.rgt = 2;
       node.save(function(err) {
