@@ -7,6 +7,10 @@ class KeywordsGroupEditCtrl {
 
     $scope.keywords = (group.keywords || '').split("\n");
 
+    $scope.getLink = () => {
+      return location.origin + '/preview/keyword-group/' + group._id;
+    };
+
     $scope.runScan = () => {
       $scope.loadingScan = true;
       group.$runScan(() => {
@@ -36,7 +40,14 @@ class KeywordsGroupEditCtrl {
     $scope.nextStep = () => {
       $scope.loading = true;
 
+      if (group.status == 'finded') {
+        group.status = 'completed';
+      }
       group.$save(() => {
+        if (group.status == 'completed') {
+          $scope.loading = false;
+          return;
+        }
         group.$scanKeywords(() => {
           $scope.loading = false;
         }, (err) => {
