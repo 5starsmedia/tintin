@@ -264,15 +264,13 @@ router.put('/:id/scan', function (req, res, next) {
         textLength = Math.round(textLength / 100) * 100;
 
         var entry = Math.ceil((exactEntry + inExactEntry) / data.cleanUrls.length),
-          entryInTop3 = Math.ceil((exactEntryInTop3 + inExactEntryInTop3) / 3);
-        var useExactEntryCount = (exactEntry == 0) ? 0 : (exactEntry == 1 ? 1 : 2),
-          useInExactEntryCount = (inExactEntry == 0) ? 0 : (inExactEntry == 1 ? 1 : 2),
+          entryInTop3 = Math.ceil((exactEntryInTop3 + inExactEntryInTop3) / 3),
           useType = 'both';
 
         if (inExactEntry > 0) {
           useType = 'inexact';
         }
-        if (exactEntry > 0) {
+        if (entry > 0) {
           useType = 'exact';
         }
 
