@@ -98,7 +98,6 @@ function processPost(collectionName, req, res, next) {
       node._w = data.position;
       node.parentId = data.parent._id;
       node.title = 'New node';
-      node.site = req.site._id;
 
       if (req.app.models[collectionName].schema.paths['site._id']) {
         node.site = {
@@ -133,6 +132,7 @@ function processPut(collectionName, req, res, next) {
       req.app.models[collectionName].collection.update({
         _id: { $ne: data.element._id },
         parentId: data.element.parentId,
+        'site._id': req.site._id,
         _w: { $gt: data.element._w }
       }, { $inc: { _w: -1 } }, { multi: true }, function(err) {
         if (err) return next(err);
