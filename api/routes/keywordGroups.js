@@ -269,11 +269,11 @@ router.put('/:id/scan', function (req, res, next) {
           useInExactEntryCount = (inExactEntry == 0) ? 0 : (inExactEntry == 1 ? 1 : 2),
           useType = 'both';
 
+        if (inExactEntry > 0) {
+          useType = 'inexact';
+        }
         if (exactEntry > 0) {
           useType = 'exact';
-        }
-        if (exactEntry == 0 && inExactEntry > 0) {
-          useType = 'inexact';
         }
 
         return {
@@ -284,8 +284,7 @@ router.put('/:id/scan', function (req, res, next) {
           useType: useType
         };
       });
-      var  minTextLength = textLength - textLength * 0.3,
-        maxTextLength = textLength + textLength * 0.3;
+      var  minTextLength = textLength - textLength * 0.3, maxTextLength = textLength;
 
       minTextLength = Math.round(minTextLength / 100) * 100;
       maxTextLength = Math.round(maxTextLength / 100) * 100;
