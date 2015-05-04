@@ -20,6 +20,7 @@ function getRoot(req, collectionName, callback) {
     if (!node) {
       node = new req.app.models[collectionName]();
       node.title = 'root';
+      node.title = req.site._id;
       node.lft = 1;
       node.rgt = 2;
       node.save(function(err) {
@@ -97,6 +98,7 @@ function processPost(collectionName, req, res, next) {
       node._w = data.position;
       node.parentId = data.parent._id;
       node.title = 'New node';
+      node.site = req.site._id;
 
       if (req.app.models[collectionName].schema.paths['site._id']) {
         node.site = {
