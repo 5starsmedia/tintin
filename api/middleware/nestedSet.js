@@ -14,7 +14,7 @@ var express = require('express'),
   config = require('../config.js');
 
 function getRoot(req, collectionName, callback) {
-  req.app.models[collectionName].findOne({ 'site._id': req.site._id, parentId: null }, function(err, node) {
+  req.app.models[collectionName].findOne({ parentId: null }, function(err, node) {
     if (err) return callback(err);
 
     if (!node) {
@@ -52,7 +52,6 @@ function processGet(collectionName, req, res, next) {
     'tree': ['root', function(next, data) {
       data.root.getArrayTree({
         condition: {
-          'site._id': req.site._id,
           removed: {$exists: false}
         }
       }, function(err, tree) {
