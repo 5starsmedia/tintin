@@ -21,7 +21,11 @@ var schema = new mongoose.Schema({
       count: Number,
       use: Boolean
     }],
-    additionalsWords: [{ word: String }]
+    additionalsWords: [{
+      _id: mongoose.Schema.Types.ObjectId,
+      word: String,
+      use: Boolean
+    }]
   },
   recomendation: {
     minTextLength: Number,
@@ -41,7 +45,7 @@ var schema = new mongoose.Schema({
       yandexScanResult: String,
       sites: [{
         site: String,
-        additionalsWords: [{ word: String }],
+        additionalsWords: [{ word: String, stem: String }],
         url: String
       }]
     }]

@@ -149,6 +149,22 @@
                                 </td>
                             </tr>
                         </table>
+
+                        <label class="control-label">{{'Additinal words'|translate}}</label>
+
+                        <table class="table table-condensed" style="table-layout: fixed;">
+                            <tr ng-repeat="keyword in group.result.additionalsWords">
+                                <td style="table-layout: fixed" class="text-overflow">
+                                    <label class="text-overflow">
+                                        <input icheck ng-model="keyword.use" type="checkbox" />
+                                        {{keyword.word}}
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr ng-if="!group.result.additionalsWords.length">
+                                <td class="text-center">{{'None'|translate}}</td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="col-xs-3">
                         <label class="control-label">{{'Urls'|translate}}</label>

@@ -84,7 +84,12 @@ var scanKeyword = function (req, group, keyword, next) {
       });
 
       keywordInfo.additionalsWords = _.uniq(_.union.apply(_, _.map(keywordInfo.sites, function(site) {
-        return _.filter(site.additionalsWords, function(word) { return _.indexOf(keywords, word.stem) == -1 });
+        return _.filter(site.additionalsWords, function(word) {
+          if (word.word.length < 4) {
+            return false;
+          }
+          return _.indexOf(keywords, word.stem) == -1
+        });
       })), 'stem');
 
       next(null, keywordInfo)
@@ -138,17 +143,37 @@ router.post('/:id/run-scan', function (req, res, next) {
       });
       next(null, sites);
     }],
-    'saveGroup': ['group', 'calcUrls', 'keywords', function(next, data) {
+    'calsAdditionalWords': ['keywords', function(next, data) {
+      var additionalWords = [];
+      _.forEach(data.keywords, function(keyword) {
+        additionalWords = additionalWords.concat(keyword.additionalsWords);
+      });
+      additionalWords = _.map(additionalWords, function(item) {
+        var word = item.word.toLowerCase();
+        return {
+          use: false,
+          word: word,
+          stem: stemmer.stem(word)
+        };
+      });
+      additionalWords = _.uniq(additionalWords, 'stem');
+      next(null, additionalWords);
+    }],
+    'saveGroup': ['group', 'calcUrls', 'calsAdditionalWords', 'keywords', function(next, data) {
       data.group.scanResult.lastDate = Date.now();
       data.group.result.urls = data.calcUrls;
+      data.group.result.additionalsWords = data.calsAdditionalWords;
       data.group.scanResult.keywords = data.keywords;
       data.group.status = 'scaned';
-      data.group.save(next);
+      data.group.save(function(err) {
+        if (err) { return next(err); }
+        next(null, data.group)
+      });
     }]
   }, function (err, data) {
     if (err) { return next(err); }
 
-    return res.json(data.group);
+    return res.json(data.saveGroup);
   });
 });
 

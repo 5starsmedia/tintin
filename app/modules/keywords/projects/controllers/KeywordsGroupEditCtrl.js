@@ -35,8 +35,13 @@ class KeywordsGroupEditCtrl {
 
     $scope.nextStep = () => {
       $scope.loading = true;
-      group.$scanKeywords(() => {
-        $scope.loading = false;
+
+      group.$save(() => {
+        group.$scanKeywords(() => {
+          $scope.loading = false;
+        }, (err) => {
+          $scope.loading = false;
+        });
       }, (err) => {
         $scope.loading = false;
       });
