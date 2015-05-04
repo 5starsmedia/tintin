@@ -34,7 +34,7 @@ fs.exists(uploadsFolder, function (exists) {
   }
 });
 
-var allowedCollections = ['products', 'posts', 'accounts', 'groups', 'productBrands'];
+var allowedCollections = ['products', 'posts', 'accounts', 'groups', 'productBrands', 'categories'];
 var maxFileSize = 10 * 1024 * 1024;
 
 function assignFile(req, file, collectionName, resourceId, cb) {
