@@ -76,7 +76,7 @@ router.get('/:id/suggest', function (req, res, next) {
       });
 
       req.app.models.posts.aggregate([
-        { '$match' : { _id: { $ne: data.item._id }, published: true, removed: {$exists: false}, keywords: {$elemMatch: { word: {$in: keys}}} } },
+        { '$match' : { _id: { $ne: data.item._id }, 'site._id': req.site._id, published: true, removed: {$exists: false}, keywords: {$elemMatch: { word: {$in: keys}}} } },
         { '$unwind' : '$keywords'},
         { '$match' : { 'keywords.word': {$in: keys}} },
         { '$group' : { '_id' : '$_id', 'keywords' : { '$sum' : 1} }},
