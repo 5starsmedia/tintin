@@ -1,0 +1,77 @@
+<st-form model="page" state="error" submit="saveItem(page)">
+
+    <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
+        <div class="hpanel" bz-loading-container="loading">
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-lg-9">
+
+                        <a ui-sref="wiki.home" class="back-btn">
+                            <span class="pe-7s-angle-left"></span>
+                        </a>
+
+                        <h2 class="font-light m-b-xs">
+                            <span ng-if="!page._id" style="line-height: 30px;">{{'New wiki page'|translate}}</span>
+                            <span ng-if="page._id">{{'Editing of wiki page'|translate}}</span>
+                        </h2>
+
+                        <small ng-if="post._id">
+                            {{'Article created:'|translate}}
+                            {{post.createDate|date:'dd.MM.yyyy'}}
+                            {{'at'|translate}}
+                            {{post.createDate|date:'HH:mm'}}
+                        </small>
+
+                    </div>
+                    <div class="col-lg-3">
+
+                        <div class="form-actions">
+                            <!--a ng-href="{{post.createDate|date:'/yyyy/MM/dd/'}}{{post.id}}" ng-if="post.id"
+                               class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left" tooltip="{{'Open on site'|translate}}" target="_blank">
+                                <span class="fa fa-external-link"></span>
+                            </a-->
+                            <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+                                {{'Save'|translate}}
+                            </button>
+                            <a ui-sref="wiki.home" class="btn btn-default">
+                                {{'Cancel'|translate}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content" animate-panel effect="zoomIn">
+
+        <st-form-element label="{{'Title'|translate}}" field="title">
+
+            <input id="title" class="form-control input-lg" name="title" type="text" required
+                   ng-model="page.title"/>
+
+        </st-form-element>
+
+        <div class="row">
+            <div class="col-xs-6">
+
+                <label>{{'Исходник:'|translate}}</label>
+                <div class="well" st-sync-scroll>
+                    <textarea tabby style="height: 500px; border: 0 none; background: none; max-width: 100%; min-width: 100%" class="form-control" ng-model="page.body"></textarea>
+                </div>
+
+            </div>
+            <div class="col-xs-6">
+
+                <label>{{'Предварительный просмотр:'|translate}}</label>
+                <div class="well">
+                    <div st-markdown-it="page.body" style="height: 500px; overflow-y: scroll" class="wiki-page"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</st-form>

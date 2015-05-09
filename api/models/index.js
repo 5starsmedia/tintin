@@ -36,3 +36,5 @@ exports.menuElements = require('./menu/menuElements.js');
 exports.crawledUrls = require('./keywords/crawledUrl.js');
 exports.keywordProjects = require('./keywords/keywordProject.js');
 exports.keywordGroups = require('./keywords/keywordGroup.js');
+
+exports.wikiPages = require('./wiki/wikiPage.js');

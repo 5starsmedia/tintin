@@ -209,6 +209,32 @@ var parseXMind = function(chunks, callback) {
 
 };
 
+var parseText = function(chunks, callback) {
+  var str = '';
+  _.forEach(chunks, function(chunk) {
+    str += chunk.data.toString();
+  });
+
+  var items = [],
+    item = { children: [] };
+  var lines = str.split("\n");
+  _.forEach(lines, function(line) {
+    var beginSymb = line.substring(0, 1);
+    if (beginSymb == ' ' || beginSymb == "\t") {
+      item.children.push({ title: _.trim(line) });
+    } else {
+      if (item.children.length) {
+        items.push(item);
+      }
+      item = { title: line, children: [] };
+    }
+  });
+  callback(null, {
+    id: '-',
+    title: '-'
+  }, items);
+};
+
 function post(req, cb) {
   var fields = req.body;
   var files = req.files;
@@ -260,6 +286,21 @@ function post(req, cb) {
 
                 req.app.models.fileChunks.find({ 'file._id': file._id }, 'data', { sort: 'chunkNumber' }, function(err, chunks) {
                   if (err) {return cb(err); }
+
+                  if (mime.lookup(filename) == 'text/plain') {
+                    parseText(chunks, function (err, project, data) {
+                      if (err) { return cb(err); }
+
+                      saveProject(req, project, data, function(err, project) {
+                        if (err) { return cb(err); }
+                        cb(null, 'done', {
+                          _id: project._id,
+                          title: project.title
+                        });
+                      });
+                    });
+                    return;
+                  }
 
                   parseXMind(chunks, function (err, project, data) {
                     if (err) { return cb(err); }

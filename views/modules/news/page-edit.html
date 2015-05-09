@@ -178,6 +178,17 @@
                     </div>
                 </div>
 
+                <div class="hpanel" ng-controller="KeywordsBlockGroupsCtrl">
+                    <div class="panel-heading">
+                        {{'Keyword group'|translate}}
+                    </div>
+                    <div class="panel-body">
+
+                        <select class="form-control" ng-model="post.keywordGroup._id" ng-options="group._id as group.title group by group.project.title for group in groups"></select>
+
+                    </div>
+                </div>
+
             </div>
         </div>
 

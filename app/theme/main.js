@@ -32,6 +32,9 @@ import csFileUpload from './directives/stFileUpload/csFileUpload.js';
 import csFilesList from './directives/stFileUpload/csFilesList.js';
 import csSingleFileUpload from './directives/stFileUpload/csSingleFileUpload.js';
 
+import stSyncScroll from './directives/stSyncScroll/stSyncScroll.js';
+import stMarkdownIt from './directives/stMarkdownIt/stMarkdownIt.js';
+
 module.directive('stForm', stForm)
       .directive('stFormElement', stFormElement)
       .directive('stConfirm', stConfirm)
@@ -41,6 +44,8 @@ module.directive('stForm', stForm)
 module.directive('csFileUpload', csFileUpload);
 module.directive('csFilesList', csFilesList);
 module.directive('csSingleFileUpload', csSingleFileUpload);
+module.directive('stMarkdownIt', stMarkdownIt);
+module.directive('stSyncScroll', stSyncScroll);
 module.directive('uiSelectSearch', () => {
   return {
     restrict: 'C',

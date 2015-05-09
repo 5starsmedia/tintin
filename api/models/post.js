@@ -63,6 +63,10 @@ var postSchema = new mongoose.Schema({
     }
   ],
 
+  keywordGroup: {
+    _id: mongoose.Schema.Types.ObjectId
+  },
+
   account: {
     _id: mongoose.Schema.Types.ObjectId,
     title: String,

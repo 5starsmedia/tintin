@@ -18,10 +18,12 @@ import KeywordsProjectsCtrl from './controllers/KeywordsProjectsCtrl.js';
 import KeywordsProjectEditCtrl from './controllers/KeywordsProjectEditCtrl.js';
 import KeywordsGroupEditCtrl from './controllers/KeywordsGroupEditCtrl.js';
 import KeywordsGroupsCtrl from './controllers/KeywordsGroupsCtrl.js';
+import KeywordsBlockGroupsCtrl from './controllers/KeywordsBlockGroupsCtrl.js';
 
 module.controller('KeywordsProjectsCtrl', KeywordsProjectsCtrl)
   .controller('KeywordsGroupsCtrl', KeywordsGroupsCtrl)
   .controller('KeywordsGroupEditCtrl', KeywordsGroupEditCtrl)
+  .controller('KeywordsBlockGroupsCtrl', KeywordsBlockGroupsCtrl)
   .controller('KeywordsProjectEditCtrl', KeywordsProjectEditCtrl);
 
 

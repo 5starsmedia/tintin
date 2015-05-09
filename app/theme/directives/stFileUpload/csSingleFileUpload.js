@@ -35,7 +35,7 @@ export default
           $log.error($message);
         };
         $scope.fileAdded = function (event, $flow, flowFile) {
-          var allowedExtensions = {xmind: 1};
+          var allowedExtensions = {xmind: 1,txt:1};
           var ext = flowFile.getExtension().toLowerCase();
           if (!allowedExtensions[ext]) {
             var msgExt = 'Unsupported file extension ' + ext + ' (allowed xmind)';

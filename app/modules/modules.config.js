@@ -7,6 +7,7 @@ import sites from './sites/sites';
 import ads from './ads/ads';
 import keywords from './keywords/keywords';
 import ecommerce from './ecommerce/ecommerce';
+import wiki from './wiki/wiki';
 
 export default [
   base,
@@ -17,5 +18,6 @@ export default [
   users,
   ads,
   keywords,
-  ecommerce
+  ecommerce,
+  wiki
 ];
