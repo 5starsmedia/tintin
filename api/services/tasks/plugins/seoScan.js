@@ -42,7 +42,7 @@ exports['seo.scan.post'] = function (app, msg, cb) {
     'googlePosition': ['post', 'keywords', function(next, data) {
       var keywords = data.keywords;
 
-      var url = 'http://bezprovodoff.com/wi-fi/problemi/oshibka-autentifikacii-wifi-android.html';
+      var url = data.postUrl;
       async.mapLimit(keywords, 3, function(keyword, next) {
         app.services.google.getUrlPosition(url, keyword, { count: 100 }, next);
       }, function(err, results){
@@ -54,7 +54,7 @@ exports['seo.scan.post'] = function (app, msg, cb) {
     'yandexPosition': ['post', 'keywordGroup', function(next, data) {
       var keywords = data.keywordGroup.keywords.split("\n");
 
-      var url = 'http://bezprovodoff.com/wi-fi/problemi/oshibka-autentifikacii-wifi-android.html';
+      var url = data.postUrl;
       async.mapLimit(keywords, 3, function(keyword, next) {
         app.services.yandex.getUrlPosition(url, keyword, { count: 100 }, next);
       }, function(err, results){

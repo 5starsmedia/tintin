@@ -20,7 +20,7 @@ exports.urlFor = function(collectionName, params) {
 
   switch (collectionName) {
     case 'posts':
-      return '/' + params.category.parentAlias + '/' + params.category.alias + '/' + params.alias + '.html';
+      return 'http://' + params.site.domain + '/' + params.category.parentAlias + '/' + params.category.alias + '/' + params.alias + '.html';
   }
 
 };
