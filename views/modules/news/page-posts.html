@@ -8,8 +8,14 @@
     </tr>
     <tr ng-repeat="keyword in item.seo.keywords">
         <td>{{keyword.title}}</td>
-        <td class="text-center">{{keyword.google}}</td>
-        <td class="text-center">{{keyword.yandex}}</td>
+        <td class="text-center">
+            <span ng-if="keyword.google">{{keyword.google}}</span>
+            <span ng-if="!keyword.google">-</span>
+        </td>
+        <td class="text-center">
+            <span ng-if="keyword.yandex">{{keyword.yandex}}</span>
+            <span ng-if="!keyword.yandex">-</span>
+        </td>
     </tr>
     </table>
 
