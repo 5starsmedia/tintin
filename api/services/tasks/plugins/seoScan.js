@@ -66,12 +66,19 @@ exports['seo.scan.post'] = function (app, msg, cb) {
       });
     }],
     'updatePost': ['post', 'keywords', 'googlePosition', 'yandexPosition', function(next, data) {
-      var avgGoogle = 0, avgYandex = 0;
+      var avgGoogle = 0, avgYandex = 0,
+        googleCount = 0, yandexCount = 0;
       data.post.seo = {
         lastUpdateDate: Date.now(),
         keywords: _.map(data.keywords, function(keyword, i) {
-          avgGoogle += data.googlePosition[i] + 1;
-          avgYandex += data.yandexPosition[i] + 1;
+          if (data.googlePosition[i] >= 0) {
+            avgGoogle += data.googlePosition[i] + 1;
+            googleCount++;
+          }
+          if (data.yandexPosition[i] >= 0) {
+            avgYandex += data.yandexPosition[i] + 1;
+            yandexCount++;
+          }
           return {
             title: keyword,
             google: data.googlePosition[i] + 1,
@@ -79,8 +86,12 @@ exports['seo.scan.post'] = function (app, msg, cb) {
           };
         })
       };
-      data.post.seo.google = Math.round(avgGoogle / data.keywords.length);
-      data.post.seo.yandex = Math.round(avgYandex / data.keywords.length);
+      if (googleCount) {
+        data.post.seo.google = Math.round(avgGoogle / googleCount);
+      }
+      if (yandexCount) {
+        data.post.seo.yandex = Math.round(avgYandex / yandexCount);
+      }
       data.post.save(next);
     }]
   }, cb);
