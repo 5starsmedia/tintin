@@ -12,7 +12,7 @@ function YandexSvc(app) {
 }
 
 YandexSvc.prototype.getApiUrl = function (keyword, options, next) {
-  //return 'https://xmlsearch.yandex.ru/xmlsearch?user=esvit&key=03.9573926:0f453a40cd2d029a3143334941a90fda&lr=213&filter=none';
+  return 'https://xmlsearch.yandex.ru/xmlsearch?user=esvit&key=03.9573926:0f453a40cd2d029a3143334941a90fda&lr=213&filter=none';
 
   var user = 'm-slobodianiuk',
     key = '03.266478028:a3acf5e282407d91686118bd9b79d416';

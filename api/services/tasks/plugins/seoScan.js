@@ -43,6 +43,7 @@ exports['seo.scan.post'] = function (app, msg, cb) {
       var keywords = data.keywords;
 
       var url = data.postUrl;
+      console.info(url)
       async.mapLimit(keywords, 3, function(keyword, next) {
         app.services.google.getUrlPosition(url, keyword, { count: 100 }, next);
       }, function(err, results){
@@ -55,6 +56,7 @@ exports['seo.scan.post'] = function (app, msg, cb) {
       var keywords = data.keywordGroup.keywords.split("\n");
 
       var url = data.postUrl;
+      console.info(url)
       async.mapLimit(keywords, 3, function(keyword, next) {
         app.services.yandex.getUrlPosition(url, keyword, { count: 100 }, next);
       }, function(err, results){
