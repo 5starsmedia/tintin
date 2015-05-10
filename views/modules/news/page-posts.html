@@ -69,10 +69,12 @@
 
                                 </span>
                             </td>
-                            <td style="width: 5%" data-title="'Positions'|translate" class="text-center">
+                            <td style="width: 5%" data-title="'Positions'|translate" sortable="'seo.google'" class="text-center">
 
                                 <div popover-template="'seo-info.html'" popover-placement="bottom">
+                                    <span ng-if="item.seo.google">
                                     G: {{item.seo.google}}, Y: {{item.seo.yandex}}
+                                    </span>
                                 </div>
 
                             </td>

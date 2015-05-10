@@ -33,7 +33,11 @@ exports['seo.scan.post'] = function (app, msg, cb) {
       app.models.keywordGroups.findById(data.post.keywordGroup._id, next);
     }],
     'keywords': ['keywordGroup', function(next, data) {
-      next(null, data.keywordGroup.keywords.split("\n"))
+      var keywords = data.keywordGroup.keywords.split("\n");
+      keywords = _.map(keywords, function(keyword) {
+        return keyword.replace(/\d+/g, '');
+      });
+      next(null, keywords)
     }],
     'googlePosition': ['post', 'keywords', function(next, data) {
       var keywords = data.keywords;
