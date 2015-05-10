@@ -72,9 +72,8 @@
                             <td style="width: 5%" data-title="'Positions'|translate" sortable="'seo.google'" class="text-center">
 
                                 <div popover-template="'seo-info.html'" popover-placement="bottom">
-                                    <span ng-if="item.seo">
-                                    G: {{item.seo.google}}, Y: {{item.seo.yandex}}
-                                    </span>
+                                    <span ng-if="item.seo.google">G: {{item.seo.google}}</span><span ng-if="item.seo.google && item.seo.yandex">,</span>
+                                    <span ng-if="item.seo.yandex">Y: {{item.seo.yandex}}</span>
                                 </div>
 
                             </td>
