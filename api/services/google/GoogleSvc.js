@@ -18,6 +18,8 @@ GoogleSvc.prototype.getSitesByKeyword = function (keyword, options, next) {
     var urls = [],
       $ = cheerio.load(body);
 
+    console.info(body)
+
     $('h3.r a').each(function() {
       var url = $(this).attr("href").match(/url\?q=(\S+)&sa=/);
       if(url) {
