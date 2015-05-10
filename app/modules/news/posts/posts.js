@@ -4,6 +4,7 @@ import models from '../models/models.js';
 
 let module = angular.module(appName, [
   'base',
+  'ui.bootstrap.popover',
   'ui.router',
   'satellizer',
   'ngTable',

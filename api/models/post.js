@@ -67,6 +67,17 @@ var postSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId
   },
 
+  seo: {
+    yandex: Number,
+    google: Number,
+    lastUpdateDate: {type: Date},
+    keywords: [{
+      title: String,
+      yandex: Number,
+      google: Number
+    }]
+  },
+
   account: {
     _id: mongoose.Schema.Types.ObjectId,
     title: String,

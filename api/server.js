@@ -21,6 +21,8 @@ var express = require('express'),
   tasks = require('./services/tasks'),
   sequence = require('./services/sequence'),
   crawler = require('./services/crawler'),
+  googleSvc = require('./services/google'),
+  yandexSvc = require('./services/yandex'),
   config = require('./config.js');
 //phantom = require('node-phantom'),
 //robots = require('robots.txt'),
@@ -45,7 +47,9 @@ app.services = {
   validation: require('./services/validation'),
   sequence: new sequence.SequenceSvc(app),
   crawler: new crawler.CrawlerSvc(app),
-  tasks: new tasks.TasksSvc(app)
+  tasks: new tasks.TasksSvc(app),
+  google: new googleSvc.GoogleSvc(app),
+  yandex: new yandexSvc.YandexSvc(app)
 };
 
 /* navigation: require('./services/navigation'),
