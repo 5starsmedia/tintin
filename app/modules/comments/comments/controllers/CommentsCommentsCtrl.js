@@ -11,7 +11,7 @@ class CommentsCommentsCtrl {
     }, {
       getData: function ($defer, params) {
         $scope.loading = true;
-        CommentsCommentModel.query(BaseAPIParams({ }, params), function (logs, headers) {
+        CommentsCommentModel.getForModerate(BaseAPIParams({ }, params), function (logs, headers) {
           $scope.loading = false;
           $scope.logs = logs;
           $defer.resolve(logs);

@@ -1,10 +1,11 @@
 export default
   /*@ngInject*/
   function CommentsCommentModel($resource) {
-    var resource = $resource('/api/comments/:_id', {
+    var resource = $resource('/api/comments/:_id/:method', {
       '_id': '@_id'
     }, {
       'get': { method: 'GET' },
+      'getForModerate': { method: 'GET', isArray: true, params: { method: 'moderate' } },
       'save': { method: 'PUT' },
       'create': { method: 'POST' }
     });
