@@ -326,14 +326,21 @@ router.post('/login', function (req, res, next) {
       ]
     });
   } else {
-    req.app.models.accounts.findOne({username: req.body.username}, function (err, account) {
+    req.app.models.accounts.findOne({ $or: [ { username: req.body.username }, { email: req.body.username } ] }, function (err, account) {
       if (err) {
         return next(err);
       }
       if (!account) {
         return res.status(422).json({
           hasErrors: true, summaryErrors: [
-            {msg: 'Incorrect email or password.'}
+            {msg: 'Incorrect email or password'}
+          ]
+        });
+      }
+      if (account.removed) {
+        return res.status(422).json({
+          hasErrors: true, summaryErrors: [
+            {msg: 'Account is locked'}
           ]
         });
       }
@@ -418,7 +425,7 @@ router.post('/reset-confirm', function (req, res, next) {
       }
     },
     account: ['validate', function (next) {
-      req.app.models.accounts.findOne({passwordResetToken: req.body.token}, function (err, account) {
+      req.app.models.accounts.findOne({ passwordResetToken: req.body.token, removed: { $exists: false }}, function (err, account) {
         if (err) {
           return next(err);
         }
@@ -492,7 +499,7 @@ router.post('/reset', function (req, res, next) {
       }
     },
     account: ['validateData', function (next) {
-      req.app.models.accounts.findOne({email: req.body.email}, function (err, account) {
+      req.app.models.accounts.findOne({ email: req.body.email, removed: { $exists: false } }, function (err, account) {
         if (err) {
           return next(err);
         }

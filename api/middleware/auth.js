@@ -76,7 +76,7 @@ module.exports = function () {
         authAsGuest(req, res, next);
         return;
       }
-      req.app.models.accounts.findOne({'_id': payload._id}, function (err, account) {
+      req.app.models.accounts.findOne({ '_id': payload._id, removed: { $exists: false } }, function (err, account) {
         if (err) {
           return next(err);
         }
