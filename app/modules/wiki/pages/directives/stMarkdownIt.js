@@ -1,6 +1,6 @@
 export default
   /*@ngInject*/
-  function () {
+  function ($state) {
     return {
       restrict: 'A',
       scope: {
@@ -124,7 +124,7 @@ export default
 
                   nodes.push({
                     type: 'pages_links_open',
-                    content: '#/wiki/' + escapeHtml(name).trim().toLowerCase().replace(/ /g, '-'),//person.url || '/people/' + person.guid,
+                    content: $state.href('wiki.pages', { alias: escapeHtml(name).trim().toLowerCase().replace(/ /g, '-') }),//person.url || '/people/' + person.guid,
                     level: level++
                   });
                   nodes.push({

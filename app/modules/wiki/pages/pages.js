@@ -13,7 +13,9 @@ let module = angular.module(appName, [
 
 
 import stWikiPage from './directives/stWikiPage.js';
-module.directive('stWikiPage', stWikiPage);
+import stMarkdownIt from './directives/stMarkdownIt.js';
+module.directive('stWikiPage', stWikiPage)
+  .directive('stMarkdownIt', stMarkdownIt);
 
 // controllers
 import WikiPageCtrl from './controllers/WikiPageCtrl.js';
