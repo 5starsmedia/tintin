@@ -21,6 +21,7 @@ var gulp = require('gulp'),
   templateCache = require('gulp-angular-templatecache'),
   htmlify = require('gulp-angular-htmlify'),
   ngAnnotate = require('gulp-ng-annotate'),
+  replace = require('gulp-replace'),
   url = require('url'),
   fs = require('fs'),
   urlRewrite = function (rootDir, indexFile) {
@@ -92,7 +93,13 @@ gulp.task('build-persistent', [], function () {
   return bundle();
 });
 
-gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'optimizeImages'], function () {
+gulp.task('replace-base', ['usemin'], function(){
+  gulp.src([config.outputFile + 'index.html'])
+    .pipe(replace('<base href="/', '<base href="/cabinet/'))
+    .pipe(gulp.dest(config.outputFile + 'index.html'));
+});
+
+gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'optimizeImages', 'replace-base'], function () {
   process.exit(0);
 });
 
