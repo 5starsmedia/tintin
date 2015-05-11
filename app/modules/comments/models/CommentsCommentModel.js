@@ -5,7 +5,6 @@ export default
       '_id': '@_id'
     }, {
       'get': { method: 'GET' },
-      'getForModerate': { method: 'GET', isArray: true, params: { method: 'moderate' } },
       'save': { method: 'PUT' },
       'create': { method: 'POST' }
     });

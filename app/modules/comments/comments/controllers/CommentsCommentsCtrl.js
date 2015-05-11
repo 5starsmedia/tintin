@@ -11,7 +11,7 @@ class CommentsCommentsCtrl {
     }, {
       getData: function ($defer, params) {
         $scope.loading = true;
-        CommentsCommentModel.getForModerate(BaseAPIParams({ }, params), function (logs, headers) {
+        CommentsCommentModel.query(BaseAPIParams({ }, params), function (logs, headers) {
           $scope.loading = false;
           $scope.logs = logs;
           $defer.resolve(logs);
@@ -19,6 +19,19 @@ class CommentsCommentsCtrl {
         });
       }
     });
+
+    $scope.updateItem = function(item) {
+      item.$loading = true;
+      var updateItem = new CommentsCommentModel({
+        _id: item._id,
+        ordinal: item.ordinal,
+        isPublished: !!item.isPublished,
+        price: item.price
+      });
+      updateItem.$save(function () {
+        item.$loading = false;
+      });
+    };
 
     $scope.remove = function(item) {
       $scope.loading = true;

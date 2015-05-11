@@ -12,7 +12,7 @@
                 <div class="panel-body" bz-loading-container="loading">
 
                     <table ng-table="tableParams" show-filter="true" class="table">
-                    <tr ng-repeat="item in $data">
+                    <tr ng-repeat="item in $data" ng-class="{'active': !item.isPublished}">
                         <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
                             <a href="">
                                 <strong>{{item.account.title}} &lt;{{item.account.email}}&gt;</strong><br/>
@@ -27,9 +27,11 @@
                         </td>
                         <td style="width: 5%" data-title="'Publication'|translate" sortable="'isPublished'" class="text-center">
 
-                            <label>
-                                <input icheck ng-model="site.isPublished" type="checkbox"/>
-                            </label>
+                            <div bz-loading-container="item.$loading">
+                                <label>
+                                    <input icheck ng-model="item.isPublished" ng-change="updateItem(item)" type="checkbox"/>
+                                </label>
+                            </div>
 
                         </td>
                         <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">

@@ -12,7 +12,6 @@ PostsModule.prototype.initModels = function () {
 };
 
 PostsModule.prototype.initRoutes = function () {
-  this.app.server.use('/api/comments', require('./routes/comments.js'));
 };
 
 module.exports = PostsModule;

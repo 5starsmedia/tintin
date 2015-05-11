@@ -18,6 +18,8 @@ var schema = new mongoose.Schema({
   realAccount: {
     _id: mongoose.Schema.Types.ObjectId
   },
+  isPublished: {type: Boolean, required: true, default: true},
+
   isAnonymous: {type: Boolean, required: true, default: false},
   collectionName: {type: String, required: true},
   resourceId: {type: mongoose.Schema.Types.ObjectId, required: true},
