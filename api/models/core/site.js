@@ -10,6 +10,8 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
   domain: {type: String, required: true},
+  port: {type: Number, required: true, default: 80},
+
   title: String,
 
   isHttps: Boolean,

@@ -2,7 +2,7 @@ export default
   /*@ngInject*/
   function configState($stateProvider, $urlRouterProvider, $compileProvider, basePermissionsSetProvider, $locationProvider) {
 
-    //$locationProvider.html5Mode(true)
+    $locationProvider.html5Mode(true)
 
     // Optimize load start with remove binding information inside the DOM element
     //$compileProvider.debugInfoEnabled(false);

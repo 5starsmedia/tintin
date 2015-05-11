@@ -33,7 +33,7 @@ module.config(function ($stateProvider, $httpProvider, $authProvider) {
     })
     .state('auth.login', {
       url: '/login',
-      templateUrl: 'views/common_app/login.html',
+      templateUrl: 'views/modules/auth/page-login.html',
       controller: 'AuthLoginCtrl'
     })
     .state('signup', {

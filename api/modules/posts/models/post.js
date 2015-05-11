@@ -1,13 +1,7 @@
-/**
- * Copyright 2015 5starsmedia.com.ua
- *
- * lib/server/models/core/account.js
- * Account mongoose model
- */
 'use strict';
 
 var mongoose = require('mongoose'),
-  autoIncrement = require("./plugin/autoincrement.js");
+  autoIncrement = require("../../../models/plugin/autoincrement.js");
 
 var postSchema = new mongoose.Schema({
   id: Number,

@@ -1,9 +1,3 @@
-/**
- * Mongoose files chunks model
- * @module models.fileChunks
- * @copyright 2014 Cannasos.com. All rights reserved.
- */
-
 'use strict';
 
 var mongoose = require('mongoose');

@@ -1,9 +1,3 @@
-/**
- * Copyright 2015 5starsmedia.com.ua
- *
- * lib/server/models/core/account.js
- * Account mongoose model
- */
 'use strict';
 
 var mongoose = require('mongoose'),

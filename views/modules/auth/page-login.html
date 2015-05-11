@@ -3,10 +3,13 @@
 <div class="login-container">
     <div class="row">
         <div class="col-md-12">
-            <!--div class="text-center m-b-md">
-                <h3>PLEASE LOGIN TO APP</h3>
-                <small>This is the best app ever!</small>
-            </div-->
+            <div class="text-center m-b-md">
+                <h3>{{'PLEASE LOGIN TO APP'|translate}}</h3>
+                <small>
+                    {{globalCtrl.quote[0]}}<br/>
+                    <strong>&mdash; {{globalCtrl.quote[1]}}</strong>
+                </small>
+            </div>
             <div class="hpanel hviolet">
                 <div class="alert alert-danger" ng-if="error.summaryErrors.length">
                     <div ng-repeat="err in error.summaryErrors" ng-bind="err.msg"></div>
@@ -30,12 +33,15 @@
                             </span>
                         </div>
 
-                        <div class="pull-right">
-                            <a href="#">Forgot your password?</a>
-                        </div>
-
-                        <div class="checkbox">
-                            <input icheck type="checkbox" ng-model="user.rememberMe" /> Remember login
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label>
+                                    <input icheck type="checkbox" ng-model="user.rememberMe" /> Remember login
+                                </label>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <a href="" ui-sref="auth.password-recovery">Forgot your password?</a>
+                            </div>
                         </div>
 
                         <div class="row">

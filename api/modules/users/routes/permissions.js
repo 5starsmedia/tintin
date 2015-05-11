@@ -15,7 +15,7 @@ var express = require('express'),
     querystring = require('querystring'),
     async = require('async'),
     S = require('string'),
-    config = require('../config.js');
+    config = require('../../../config.js');
 
 var router = express.Router();
 

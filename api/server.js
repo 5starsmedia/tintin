@@ -20,11 +20,7 @@ var express = require('express'),
   sites = require('./middleware/sites.js'),
   tasks = require('./services/tasks'),
   sequence = require('./services/sequence'),
-  crawler = require('./services/crawler'),
-  googleSvc = require('./services/google'),
-  yandexSvc = require('./services/yandex'),
   config = require('./config.js');
-//phantom = require('node-phantom'),
 //robots = require('robots.txt'),
 //sm = require('sitemap');
 
@@ -34,6 +30,42 @@ app.server = express();
 app.config = config;
 
 app.models = require('./models');
+var PostsModule = require('./modules/posts'),
+  CommentsModule = require('./modules/comments'),
+  KeywordsModule = require('./modules/keywords'),
+  EcommerceModule = require('./modules/ecommerce'),
+  UploadsModule = require('./modules/uploads'),
+  MenuModule = require('./modules/menu'),
+  WikiModule = require('./modules/wiki'),
+  AdsModule = require('./modules/ads'),
+  UsersModule = require('./modules/users'),
+  SitesModule = require('./modules/sites');
+
+app.modules = {
+  posts: new PostsModule(app),
+  comments: new CommentsModule(app),
+  keywords: new KeywordsModule(app),
+  ecommerce: new EcommerceModule(app),
+  uploads: new UploadsModule(app),
+  menu: new MenuModule(app),
+  wiki: new WikiModule(app),
+  ads: new AdsModule(app),
+  users: new UsersModule(app),
+  sites: new SitesModule(app),
+
+  each: function(callFunc) {
+    _.forEach(app.modules, function(obj, name) {
+      if (typeof obj == 'object') {
+        callFunc(obj);
+      }
+    });
+  }
+};
+app.modules.each(function(moduleObj) {
+  moduleObj.initModels();
+});
+
+
 app.services = {
   social: require('./services/social'),
   mq: require('./services/mq'),
@@ -46,11 +78,14 @@ app.services = {
   mail: require('./services/mail'),
   validation: require('./services/validation'),
   sequence: new sequence.SequenceSvc(app),
-  crawler: new crawler.CrawlerSvc(app),
-  tasks: new tasks.TasksSvc(app),
-  google: new googleSvc.GoogleSvc(app),
-  yandex: new yandexSvc.YandexSvc(app)
+  tasks: new tasks.TasksSvc(app)
 };
+
+app.modules.each(function(moduleObj) {
+  if (moduleObj.initServices) {
+    moduleObj.initServices();
+  }
+});
 
 /* navigation: require('./services/navigation'),
  mail: require('./services/mail'),
@@ -111,6 +146,7 @@ app.server.use(function (req, res, next) {
       platform: req.useragent.Platform
     }
   };
+
   req.logRecord = function (name, msg, level, account, next) {
     var log = new req.app.models.logRecords();
     log.account = account || req.auth.account;
@@ -163,7 +199,13 @@ var corsOptionsDelegate = function(req, callback){
 app.server.use(cors(corsOptionsDelegate));
 
 
+app.server.use(require('./middleware/auth.js')());
+
 var routes = require('./routes');
+app.modules.each(function(moduleObj) {
+  moduleObj.initRoutes();
+});
+
 routes.init(app);
 
 app.server.get('/*', serveStatic(__dirname + '/..', {etag: false}));

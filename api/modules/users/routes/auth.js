@@ -1,7 +1,3 @@
-/**
- * Copyright 2014 Cannasos.com
- * GET /api/auth
- */
 'use strict';
 
 var express = require('express'),
@@ -15,7 +11,7 @@ var express = require('express'),
   querystring = require('querystring'),
   async = require('async'),
   S = require('string'),
-  config = require('../config.js');
+  config = require('../../../config.js');
 
 var router = express.Router();
 
@@ -376,7 +372,7 @@ router.get('/activate/:activationToken', function (req, res, next) {
   });
 });
 
-router.post('/activation-resend', require('../middleware/auth.js')(), function (req, res, next) {
+router.post('/activation-resend', require('../../../middleware/auth.js')(), function (req, res, next) {
   if (req.auth.isGuest) {
     res.status(401).end();
   } else {
@@ -479,12 +475,12 @@ router.post('/reset', function (req, res, next) {
   async.auto({
     validateData: function (next) {
       var errors = [];
-      if (!req.body.username) {
-        errors.push({field: 'username', msg: 'Email is required'});
-      } else if (!isEmailRegex.test(req.body.username)) {
-        errors.push({field: 'username', msg: 'Must be a valid email'});
-      } else if (req.body.username.length > 50) {
-        errors.push({field: 'username', msg: 'Maximum length is 50 characters'});
+      if (!req.body.email) {
+        errors.push({field: 'email', msg: 'Email is required'});
+      } else if (!isEmailRegex.test(req.body.email)) {
+        errors.push({field: 'email', msg: 'Must be a valid email'});
+      } else if (req.body.email.length > 50) {
+        errors.push({field: 'email', msg: 'Maximum length is 50 characters'});
       }
 
       if (errors.length > 0) {
@@ -496,7 +492,7 @@ router.post('/reset', function (req, res, next) {
       }
     },
     account: ['validateData', function (next) {
-      req.app.models.accounts.findOne({username: req.body.username}, function (err, account) {
+      req.app.models.accounts.findOne({email: req.body.email}, function (err, account) {
         if (err) {
           return next(err);
         }
@@ -525,10 +521,21 @@ router.post('/reset', function (req, res, next) {
           if (err) {
             return next(err);
           }
-          req.app.services.mail.sendTemplate('passwordReset', data.account.email, {
+          req.app.services.mq.push(req.app, 'events', {
+            name: 'mail.send',
+            template: 'passwordReset',
+            email: data.account.email,
+            options: {
+              userName: data.account.title,
+              token: token
+            }
+          });
+
+          /*req.app.services.mail.sendTemplate('passwordReset', data.account.email, {
             userName: data.account.title,
             token: token
-          }, next);
+          }, next);*/
+          next();
         });
       });
     }]
