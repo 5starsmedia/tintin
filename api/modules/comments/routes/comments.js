@@ -15,7 +15,7 @@ router.get('/moderate', function (req, res, next) {
 
       _.forEach(comments, function(comment) {
         var acc = comment.toObject();
-        if (!acc.account.title && acc.realAccount.title) {
+        if ((!acc.account || !acc.account.title) && acc.realAccount.title) {
           comment.account = {
             title: acc.realAccount.title,
             email: acc.realAccount.email
