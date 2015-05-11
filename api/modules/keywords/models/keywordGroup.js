@@ -35,6 +35,7 @@ var schema = new mongoose.Schema({
       entry: Number,
       entryInTop3: Number,
       useEntry: Number,
+      required: Boolean,
       useType: {type: String}//, default: 'both', enum: ['both', 'exact', 'inexact']}
     }]
   },

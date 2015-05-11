@@ -16,8 +16,8 @@ var express = require('express'),
 
 var scanKeyword = function (req, group, keyword, next) {
 
-  var user = 'm-slobodianiuk',
-    key = '03.266478028:a3acf5e282407d91686118bd9b79d416';
+  var user = 'ya-planshet7',
+    key = '03.221972493:6de9297429530166472794003b183272';
 
   var keywords = _.map(keyword.split(' '), function(word) {
       return stemmer.stem(word);
@@ -225,18 +225,18 @@ router.put('/:id/scan', function (req, res, next) {
     'recomendation': ['group', 'cleanUrls', function(next, data) {
       stemmer.attach();
 
-      var keywords = data.group.keywords.split("\n"),
+      var keywords = _.map(data.group.keywords.split("\n"), function(item){ return { word: item, isAdditional: false } }),
         textLength = 0;
 
       var additionalWords = _.filter(data.group.result.additionalsWords, function(item) {
         return item.use;
       });
-      keywords = keywords.concat(_.map(additionalWords, function(item) { return item.word }));
+      keywords = keywords.concat(_.map(additionalWords, function(item) { return { word: item.word, isAdditional: true } }));
 
       var data = _.map(keywords, function(keyword) {
-        var keywordTokens = keyword.split(' ');
+        var keywordTokens = keyword.word.split(' ');
         keywordTokens = _.filter(keywordTokens, function(word) {
-          return word.length > 3;
+          return word.length > 2;
         });
         keywordTokens = _.map(keywordTokens, function(word) {
           return stemmer.stem(word);
@@ -250,7 +250,7 @@ router.put('/:id/scan', function (req, res, next) {
         _.forEach(data.cleanUrls, function(url) {
           textLength += url.textLength;
           _.forEach(url.strings, function(string) {
-            if (string.indexOf(keyword) != -1) {
+            if (string.indexOf(keyword.word) != -1) {
               exactEntry++;
               if (url.isTop3) {
                 exactEntryInTop3++;
@@ -279,11 +279,13 @@ router.put('/:id/scan', function (req, res, next) {
           useType = 'exact';
         }
 
+        var avgEntry = Math.round((entry + entryInTop3) / 2);
         return {
-          keyword: keyword,
+          keyword: keyword.word,
+          required: !keyword.isAdditional || avgEntry > 0,
           entry: entry,
           entryInTop3: entryInTop3,
-          useEntry: Math.round((entry + entryInTop3) / 2),
+          useEntry: avgEntry,
           useType: useType
         };
       });

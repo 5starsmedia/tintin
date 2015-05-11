@@ -113,6 +113,7 @@
 
                 <table class="table table-condensed">
                 <tr>
+                    <th>Обов'язкові</th>
                     <th style="width: 50%">Ключове слово</th>
                     <th style="width: 10%">Топ 3</th>
                     <th style="width: 10%">Топ 10</th>
@@ -120,6 +121,9 @@
                     <th style="width: 20%">Тип входження</th>
                 </tr>
                 <tr ng-repeat="keyword in group.recomendation.keywords">
+                    <td class="text-center">
+                        <input icheck ng-model="keyword.required" type="checkbox" />
+                    </td>
                     <td>
                         <input type="text" class="form-control" ng-model="keyword.keyword" />
                     </td>
@@ -177,8 +181,18 @@
                             <tr ng-repeat="keyword in group.result.additionalsWords">
                                 <td style="table-layout: fixed" class="text-overflow">
                                     <label class="text-overflow">
-                                        <input icheck ng-model="keyword.use" type="checkbox" />
-                                        {{keyword.word}}
+
+
+
+                                        <div class="input-group input-group-sm">
+                                            <span ng-class="{'h-bg-green': site.isHttps}" class="input-group-addon" tooltip-placement="top" tooltip="{{'Secure protocol (HTTPS)'|translate}}">
+
+                                                            <input icheck ng-model="keyword.use" type="checkbox" />
+                                            </span>
+
+
+                                            <input type="text" class="form-control" ng-model="keyword.word" />
+                                        </div>
                                     </label>
                                 </td>
                             </tr>
