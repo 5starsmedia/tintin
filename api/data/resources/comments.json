@@ -20,6 +20,7 @@
     "*": {
       "get": "*",
       "get?isPublished": "*",
+      "get?isPublished&collectionName&resourceId": "*",
       "get?isAnonymous": "*",
       "get?collectionName&resourceId": "*",
       "put?_id": "admin,*:owner",
