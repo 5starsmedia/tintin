@@ -94,9 +94,9 @@ gulp.task('build-persistent', [], function () {
 });
 
 gulp.task('replace-base', ['usemin'], function(){
-  gulp.src([config.outputFile + 'index.html'])
+  gulp.src(config.outputDir + 'index.html')
     .pipe(replace('<base href="/', '<base href="/cabinet/'))
-    .pipe(gulp.dest(config.outputFile + 'index.html'));
+    .pipe(gulp.dest(config.outputDir));
 });
 
 gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'optimizeImages', 'replace-base'], function () {
