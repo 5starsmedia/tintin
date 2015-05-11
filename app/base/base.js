@@ -10,7 +10,7 @@ import translate from './filters/translate.js';
 import baseMetaEdit from './directives/baseMetaEdit.js';
 
 angular.module(appName, [])
-  .constant('appTitle', 'Paphos CMS')
+  .constant('appTitle', 'Πάφος CMS')
   .constant('appSite', '5starsmedia.com.ua')
   .constant('appSiteLink', 'https://5starsmedia.com.ua/')
   .constant('BaseAPIParams', BaseAPIParams)
