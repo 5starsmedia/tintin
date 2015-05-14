@@ -36,7 +36,7 @@ exports['put.categories'] = function (req, data, cb) {
       });
     }],
     'updateParent': ['parent', function(next, res) {
-      if (res.parent) {
+      if (res.parent && res.parent.alias) {
         data.parentAlias = res.parent.alias;
       }
       next();
