@@ -49,11 +49,14 @@
     "*": {
       "get": "*",
       "get?activated": ["admin"],
+      "get?published": "*",
       "get?_id": "*",
       "get?tags": "*",
+      "get?alias": "*",
       "get?alias&category._id": "*",
       "get?tags.title": "*",
       "get?category._id": "*",
+      "get?category._id&published": "*",
       "put?_id": ["admin", "*:owner"],
       "post": "admin",
       "delete?_id": "admin"

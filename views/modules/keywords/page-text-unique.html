@@ -1,0 +1,17 @@
+<div bz-loading-container="loading">
+
+    <st-form model="item" state="error" submit="checkText(item)">
+
+        <st-form-element label="{{'Body'|translate}}" field="body">
+
+            <textarea id="body" class="form-control" name="body" ng-model="item.text"></textarea>
+
+        </st-form-element>
+
+        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+            {{'Save'|translate}}
+        </button>
+
+    </st-form>
+
+</div>

@@ -14,12 +14,15 @@ var express = require('express'),
   config = require('../config.js');
 
 function getRoot(req, collectionName, callback) {
-  req.app.models[collectionName].findOne({ parentId: null }, function(err, node) {
+  req.app.models[collectionName].findOne({ 'site._id': req.site._id, parentId: null }, function(err, node) {
     if (err) return callback(err);
 
     if (!node) {
       node = new req.app.models[collectionName]();
       node.title = 'root';
+      node.site = {
+        _id: req.site._id
+      };
       node.lft = 1;
       node.rgt = 2;
       node.save(function(err) {
@@ -50,7 +53,12 @@ function processGet(collectionName, req, res, next) {
       }
     },
     'tree': ['root', function(next, data) {
-      data.root.getArrayTree(function(err, tree) {
+      data.root.getArrayTree({
+        condition: {
+          'site._id': req.site._id,
+          removed: {$exists: false}
+        }
+      }, function(err, tree) {
         if (err) return next(err);
         next(undefined, tree[0]);
       });
@@ -126,6 +134,7 @@ function processPut(collectionName, req, res, next) {
       req.app.models[collectionName].collection.update({
         _id: { $ne: data.element._id },
         parentId: data.element.parentId,
+        'site._id': req.site._id,
         _w: { $gt: data.element._w }
       }, { $inc: { _w: -1 } }, { multi: true }, function(err) {
         if (err) return next(err);

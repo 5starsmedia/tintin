@@ -1,3 +1,26 @@
+<script type="text/ng-template" id="seo-info.html">
+
+    <table class="table table-condensed">
+    <tr>
+        <th>Keyword</th>
+        <th class="text-center">G</th>
+        <th class="text-center">Я</th>
+    </tr>
+    <tr ng-repeat="keyword in item.seo.keywords">
+        <td>{{keyword.title}}</td>
+        <td class="text-center">
+            <span ng-if="keyword.google">{{keyword.google}}</span>
+            <span ng-if="!keyword.google">-</span>
+        </td>
+        <td class="text-center">
+            <span ng-if="keyword.yandex">{{keyword.yandex}}</span>
+            <span ng-if="!keyword.yandex">-</span>
+        </td>
+    </tr>
+    </table>
+
+</script>
+
 <div class="content" animate-panel effect="zoomIn">
 
     <div class="row">
@@ -51,6 +74,14 @@
                                 <span class="label label-warning" ng-if="item.status == 1">Чернетка</span>
 
                                 </span>
+                            </td>
+                            <td style="width: 5%" data-title="'Positions'|translate" sortable="'seo.google'" class="text-center">
+
+                                <div popover-template="'seo-info.html'" popover-placement="bottom">
+                                    <span ng-if="item.seo.google">G: {{item.seo.google}}</span><span ng-if="item.seo.google && item.seo.yandex">,</span>
+                                    <span ng-if="item.seo.yandex">Y: {{item.seo.yandex}}</span>
+                                </div>
+
                             </td>
                             <td style="width: 5%" data-title="'Views'|translate" sortable="'viewsCount'" class="text-center">
                                 <span class="fa fa-eye"></span> {{item.viewsCount}}

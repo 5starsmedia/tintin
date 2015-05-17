@@ -1,0 +1,12 @@
+<div class="hpanel">
+    <div class="panel-heading">
+        <div class="panel-tools">
+            <a href="" ui-sref="wiki.editPage({ alias: page.alias })"><i class="fa fa-pencil"></i></a>
+        </div>
+
+        {{page.title}}
+    </div>
+    <div class="panel-body">
+        <div class="wiki-page" st-markdown-it="page.body"></div>
+    </div>
+</div>

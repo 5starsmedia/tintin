@@ -18,10 +18,12 @@ import KeywordsProjectsCtrl from './controllers/KeywordsProjectsCtrl.js';
 import KeywordsProjectEditCtrl from './controllers/KeywordsProjectEditCtrl.js';
 import KeywordsGroupEditCtrl from './controllers/KeywordsGroupEditCtrl.js';
 import KeywordsGroupsCtrl from './controllers/KeywordsGroupsCtrl.js';
+import KeywordsBlockGroupsCtrl from './controllers/KeywordsBlockGroupsCtrl.js';
 
 module.controller('KeywordsProjectsCtrl', KeywordsProjectsCtrl)
   .controller('KeywordsGroupsCtrl', KeywordsGroupsCtrl)
   .controller('KeywordsGroupEditCtrl', KeywordsGroupEditCtrl)
+  .controller('KeywordsBlockGroupsCtrl', KeywordsBlockGroupsCtrl)
   .controller('KeywordsProjectEditCtrl', KeywordsProjectEditCtrl);
 
 
@@ -93,7 +95,8 @@ module.config(function ($stateProvider) {
           var defer = $q.defer();
 
           defer.resolve(new KeywordsGroupModel({
-            project: { _id: $stateParams.projectId }
+            project: { _id: $stateParams.projectId },
+            status: 'new'
           }));
           return defer.promise;
         }

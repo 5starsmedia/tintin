@@ -16,10 +16,44 @@ var gulp = require('gulp'),
   concat = require('gulp-concat'),
   less = require('gulp-less'),
   imagemin = require('gulp-imagemin'),
+  proxy = require('proxy-middleware'),
   copy = require('gulp-copy'),
   templateCache = require('gulp-angular-templatecache'),
   htmlify = require('gulp-angular-htmlify'),
-  ngAnnotate = require('gulp-ng-annotate');
+  ngAnnotate = require('gulp-ng-annotate'),
+  replace = require('gulp-replace'),
+  url = require('url'),
+  fs = require('fs'),
+  urlRewrite = function (rootDir, indexFile) {
+    indexFile = indexFile || "index.html";
+    return function (req, res, next) {
+      var path = url.parse(req.url).pathname;
+      return fs.readFile('./' + rootDir + path, function (err, buf) {
+        if (!err) {
+          return next();
+        }
+        if (path.substring(path.length - 4) == 'html') { // if html file not found
+          res.writeHead(404);
+          return res.end('Not found');
+        }
+        return fs.readFile('./' + rootDir + '/' + indexFile, function (error, buffer) {
+          var resp;
+          if (error) {
+            return next(error);
+          }
+          resp = {
+            headers: {
+              'Content-Type': 'text/html',
+              'Content-Length': buffer.length
+            },
+            body: buffer
+          };
+          res.writeHead(200, resp.headers);
+          return res.end(resp.body);
+        });
+      });
+    };
+  };
 
 var config = {
   entryFile: './app/init.js',
@@ -59,7 +93,13 @@ gulp.task('build-persistent', [], function () {
   return bundle();
 });
 
-gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'optimizeImages'], function () {
+gulp.task('replace-base', ['usemin'], function(){
+  gulp.src(config.outputDir + 'index.html')
+    .pipe(replace('<base href="/', '<base href="/cabinet/'))
+    .pipe(gulp.dest(config.outputDir));
+});
+
+gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'optimizeImages', 'replace-base'], function () {
   process.exit(0);
 });
 
@@ -133,9 +173,16 @@ gulp.task('usemin', ['build-persistent', 'concat'], function () {
 gulp.task('watch', ['build-persistent'], function () {
   gulp.watch(config.assetsDir + 'less/**/*.less', ['less']);
 
+  var proxyOptions = url.parse('http://localhost:8080/api');
+  proxyOptions.route = '/api';
+
   browserSync({
     server: {
-      baseDir: './'
+      baseDir: './',
+      middleware: [
+        proxy(proxyOptions),
+        urlRewrite('.')
+      ]
     }
   });
 

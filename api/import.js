@@ -17,8 +17,8 @@ app.log = require('./log.js');
 app.config = require('./config.js');
 app.models = require('./models');
 
-var tablePrefix = 'ander_',
-  siteDomain = 'vandroide.5stars.link';
+var tablePrefix = 'bp_',
+  siteDomain = 'bezprovodoff.5stars.link';
 
 var commentsRef = {};
 
@@ -81,12 +81,28 @@ var saveItem = function (site, connection, item, next) {
       });
     },
     'comments': ['post', function (next, data) {
-      var meta = {};
       connection.query('SELECT * FROM ' + tablePrefix + 'comments WHERE comment_post_ID = ' + id + ' ORDER BY comment_parent', function (err, rows) {
         if (err) {
           return next(err);
         }
         async.eachSeries(rows, _.partial(saveComment, site, connection, data.post), next);
+      });
+    }],
+    'thumbnail': ['post', function (next, data) {
+      connection.query('SELECT * FROM ' + tablePrefix + 'postmeta WHERE meta_key = "_thumbnail_id" AND post_id = ' + id, function (err, rows) {
+        if (err) { return next(err); }
+        if (rows.length) {
+          connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE ID = ' + rows[0].meta_value, function (err, rows) {
+            if (err) { return next(err); }
+            if (rows.length) {
+              next(null, rows[0].guid)
+            } else {
+              next();
+            }
+          });
+        } else {
+          next();
+        }
       });
     }],
     'categoryId': function (next) {
@@ -100,11 +116,19 @@ var saveItem = function (site, connection, item, next) {
         next(null, rows[0].term_taxonomy_id);
       });
     },
-    'images': ['post', function (next, data) {
+    'images': ['post', 'thumbnail', function (next, data) {
       var m, urls = [], isFirst = true,
         rex = /<img[^>]+src="(http:\/\/[^">]+)"/g,
         rexLink = /<a[^>]+href="(http:\/\/v\-a[^">]+)"/g;
 
+      if (data.thumbnail) {
+        urls.push({
+          guid: data.thumbnail,
+          isImage: true,
+          is_main: true
+        });
+        isFirst = false;
+      }
       /*data.post.body = data.post.body.replace(/"(http:\/\/v\-a[^">]+)\-(\d+)x(\d+)(\.[^">]+)"/g, '"$1$4" data-width="$2" data-height="$3"');
       data.post.body = data.post.body.replace(/"(http:\/\/v\-a[^">]+)\-(\d+)x(\d+)(\.[^">]+)"/g, '"$1$4"');*/
 
@@ -147,7 +171,8 @@ var saveItem = function (site, connection, item, next) {
 
       var post = data.post;
       post.body = item.post_content.replace(rex, "<figure$2 data-$1>$3</figure>")
-                    .replace(/\[reklama\]/, '<figure class="b-ad-place"></figure>');
+                    .replace(/\[reklama\]/, '<figure class="b-ad-place"></figure>')
+                    .replace(/\n\s*\n/g, '<p>');
       post.createDate = item.post_date;
       post.title = item.post_title;
       post.alias = item.post_name;
@@ -193,6 +218,9 @@ var saveItem = function (site, connection, item, next) {
 
 var saveCategoryFile = function (site, post, image, next) {
   var fileName = image.guid;
+  if (!fileName) {
+    return next();
+  }
   app.models.files.findOne({originalName: fileName}, function (err, file) {
     var isNew = false;
     if (!file) {
@@ -228,14 +256,31 @@ var saveCategoryFile = function (site, post, image, next) {
             }).on('end', function () {
               var buffer = Buffer.concat(chunks);
               next(null, buffer);
+            }).on('error', function(e) {
+              next(e);
             });
           });
         },
         'saveToDB': ['downloadImage', function (next, data) {
           var buffer = data.downloadImage,
-            mimeType = mime.lookup(file.originalName);
+            mimeType = mime.lookup(file.originalName),
+            isImage = true, resultDimensions = {width:0, height: 0}, metadata = {};
 
-          var resultDimensions = imageSize(buffer);
+          if (mimeType != 'image/jpeg' && mimeType != 'image/png' && mimeType != 'image/gif') {
+            isImage = false;
+            console.error('!!!!!!!!!!!!!!!!!!!!', mimeType);
+          }
+
+          if (isImage) {
+            try {
+              resultDimensions = imageSize(buffer);
+              metadata = {width: resultDimensions.width, height: resultDimensions.height};
+            } catch (e) {
+              return next(e);
+              //isImage = false;
+            }
+          }
+
           post.files.push(file);
           grid.put(buffer, {
             'content_type': mimeType,
@@ -250,6 +295,7 @@ var saveCategoryFile = function (site, post, image, next) {
               height: resultDimensions.height,
               storage: 'gridfs',
               storageId: res._id.toString(),
+              isImage: isImage,
               isTemp: false
             };
             setExpr.collectionName = 'categories';
@@ -304,13 +350,15 @@ var saveFile = function (site, post, image, next) {
             }).on('end', function () {
               var buffer = Buffer.concat(chunks);
               next(null, buffer);
+            }).on('error', function(e) {
+              next(e);
             });
           });
         },
         'saveToDB': ['downloadImage', function (next, data) {
           var buffer = data.downloadImage,
             mimeType = mime.lookup(file.originalName),
-            isImage = true, resultDimensions, metadata = {};
+            isImage = true, resultDimensions = {width:0, height: 0}, metadata = {};
 
           if (mimeType != 'image/jpeg' && mimeType != 'image/png' && mimeType != 'image/gif') {
             isImage = false;
@@ -322,7 +370,8 @@ var saveFile = function (site, post, image, next) {
               resultDimensions = imageSize(buffer);
               metadata = {width: resultDimensions.width, height: resultDimensions.height};
             } catch (e) {
-              return next();
+              return next(e);
+              //isImage = false;
             }
           }
           post.files.push(file);
@@ -474,7 +523,7 @@ async.auto({
       port: 3310,
       user: 'remote',
       password: 'gfhjkm666',
-      database: 'vvslob_android'
+      database: 'gidtec_wp'
     });
     connection.connect();
     next(null, connection);
@@ -490,7 +539,7 @@ async.auto({
       });
     });
   }],
-  'categories': ['connection', function (next, data) {
+  'categories': ['connection', 'site', function (next, data) {
     data.connection.query('SELECT * FROM ' + tablePrefix + 'term_taxonomy WHERE taxonomy = "category" ORDER BY parent', function (err, rows, fields) {
       if (err) throw err;
 

@@ -15,3 +15,12 @@ exports.aliasFor = function (app, text, options, cb) {
   result = result.substr(0, options.maxLength);
   cb(null, result);
 };
+
+exports.urlFor = function(collectionName, params) {
+
+  switch (collectionName) {
+    case 'posts':
+      return 'http://' + params.site.domain + '/' + params.category.parentAlias + '/' + params.category.alias + '/' + params.alias + '.html';
+  }
+
+};

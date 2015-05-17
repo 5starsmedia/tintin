@@ -15,7 +15,7 @@ class EcommerceList {
       getData: function ($defer, params) {
 
         $scope.loading = true;
-        EcommerceProductModel.query(BaseAPIParams({}, params), function (res, headers) {
+        EcommerceProductModel.query(BaseAPIParams({ isVariation: false }, params), function (res, headers) {
           $scope.loading = false;
           params.total(headers('x-total-count'));
           $defer.resolve(res);

@@ -1,0 +1,19 @@
+<div class="content" bz-loading-container="loading">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="pull-right">
+                <a href="" ui-sref="wiki.editPage({ alias: page.alias })" class="btn btn-primary">
+                    <i class="fa fa-pencil"></i>
+                    {{'Редактировать'|translate}}
+                </a>
+            </div>
+
+            <h1>{{page.title}}</h1>
+
+            <div class="wiki-page" st-markdown-it="page.body"></div>
+        </div>
+        <div class="col-md-3">
+            <div st-wiki-page="'main-menu'"></div>
+        </div>
+    </div>
+</div>

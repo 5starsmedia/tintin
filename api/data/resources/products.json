@@ -7,15 +7,13 @@
       {
         "role": "admin",
         "value": [
-          "title", "email", "username", "tickets.value", "accountType", "profile.interests", "profile.zodiac.title",
-          "profile.country.title", "profile.city", "profile.primaryLanguage.title", "profile.secondaryLanguage.title"
+          "title", "code"
         ]
       },
       {
         "role": "*",
         "value": [
-          "title", "profile.interests", "profile.zodiac.title", "profile.country.title", "profile.state.title",
-          "profile.city", "profile.primaryLanguage.title", "profile.secondaryLanguage.title"
+          "title", "code"
         ]
       }
     ],
@@ -36,6 +34,7 @@
   },
   "acl": {
     "*": {
+      "get?isVariation": "*",
       "get": ["admin", "*:owner", "user"],
       "get?activated": ["admin"],
       "get?category._id": "*",
@@ -44,6 +43,8 @@
       "post": "admin",
       "delete?_id": "admin"
     },
+    "isVariation": false,
+    "withVariations": false,
     "site": false
   }
 }

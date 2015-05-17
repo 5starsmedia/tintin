@@ -34,6 +34,7 @@ class stFormController {
         $scope.submit();
       }
     };
+
     /*function routeChange(event, newUrl) {
      if (!$scope.onLeaveWarning) { return; }
      interactionSvc.confirmAlert('Confirmation', 'You have not saved changes will be lost, do you really want?',

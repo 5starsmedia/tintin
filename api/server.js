@@ -21,7 +21,6 @@ var express = require('express'),
   tasks = require('./services/tasks'),
   sequence = require('./services/sequence'),
   config = require('./config.js');
-//phantom = require('node-phantom'),
 //robots = require('robots.txt'),
 //sm = require('sitemap');
 
@@ -31,6 +30,42 @@ app.server = express();
 app.config = config;
 
 app.models = require('./models');
+var PostsModule = require('./modules/posts'),
+  CommentsModule = require('./modules/comments'),
+  KeywordsModule = require('./modules/keywords'),
+  EcommerceModule = require('./modules/ecommerce'),
+  UploadsModule = require('./modules/uploads'),
+  MenuModule = require('./modules/menu'),
+  WikiModule = require('./modules/wiki'),
+  AdsModule = require('./modules/ads'),
+  UsersModule = require('./modules/users'),
+  SitesModule = require('./modules/sites');
+
+app.modules = {
+  posts: new PostsModule(app),
+  comments: new CommentsModule(app),
+  keywords: new KeywordsModule(app),
+  ecommerce: new EcommerceModule(app),
+  uploads: new UploadsModule(app),
+  menu: new MenuModule(app),
+  wiki: new WikiModule(app),
+  ads: new AdsModule(app),
+  users: new UsersModule(app),
+  sites: new SitesModule(app),
+
+  each: function(callFunc) {
+    _.forEach(app.modules, function(obj, name) {
+      if (typeof obj == 'object') {
+        callFunc(obj);
+      }
+    });
+  }
+};
+app.modules.each(function(moduleObj) {
+  moduleObj.initModels();
+});
+
+
 app.services = {
   social: require('./services/social'),
   mq: require('./services/mq'),
@@ -45,6 +80,12 @@ app.services = {
   sequence: new sequence.SequenceSvc(app),
   tasks: new tasks.TasksSvc(app)
 };
+
+app.modules.each(function(moduleObj) {
+  if (moduleObj.initServices) {
+    moduleObj.initServices();
+  }
+});
 
 /* navigation: require('./services/navigation'),
  mail: require('./services/mail'),
@@ -88,7 +129,7 @@ app.server.use(statsdMiddleware({timeByUrl: true}));
 
 app.errors = require('./errors');
 
-app.server.use(bodyParser.json());
+app.server.use(bodyParser.json({ limit: '50mb' }));
 app.server.use(function (req, res, next) {
   var realIP = null;//req.header('x-real-ip');
   req.app = app;
@@ -105,6 +146,7 @@ app.server.use(function (req, res, next) {
       platform: req.useragent.Platform
     }
   };
+
   req.logRecord = function (name, msg, level, account, next) {
     var log = new req.app.models.logRecords();
     log.account = account || req.auth.account;
@@ -157,7 +199,13 @@ var corsOptionsDelegate = function(req, callback){
 app.server.use(cors(corsOptionsDelegate));
 
 
+app.server.use(require('./middleware/auth.js')());
+
 var routes = require('./routes');
+app.modules.each(function(moduleObj) {
+  moduleObj.initRoutes();
+});
+
 routes.init(app);
 
 app.server.get('/*', serveStatic(__dirname + '/..', {etag: false}));
@@ -165,6 +213,7 @@ app.server.get('/*', serveStatic(__dirname + '/..', {etag: false}));
 app.server.use(function (err, req, res, next) {
   if (err) {
     var isDev = config.get('env') === 'development';
+
     req.log.error({err: {name: err.name, stack: err.stack}}, err.message);
     if (err.name === app.errors.NotFoundError.name) {
       var resultErr = {msg: err.message};

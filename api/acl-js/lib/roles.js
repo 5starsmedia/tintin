@@ -1,9 +1,3 @@
-/**
- * Roles functions
- * @file
- * @copyright 2014 Cannasos.com. All rights reserved.
- * @license GPL V2 (https://github.com/cannasos/acl-js/blob/master/LICENSE)
- */
 'use strict';
 
 var _ = require('lodash');
