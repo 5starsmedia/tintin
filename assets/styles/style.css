@@ -3669,6 +3669,10 @@ body.modal-open .content {
   height: 100%;
   font-size: 11px;
 }
+.ui-select-bootstrap > .ui-select-match > .btn {
+  min-height: 34px;
+  height: initial;
+}
 .cke_editor_body.cke_chrome {
   box-shadow: none;
 }

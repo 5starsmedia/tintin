@@ -13,9 +13,20 @@
                             <span class="pe-7s-angle-left"></span>
                         </a>
 
-                        <h2 class="font-light m-b-xs">
+                        <h2 class="font-light m-b-xs" ng-if="!item.variationProduct">
                             <span ng-if="!item.id" style="line-height: 30px;">{{'Добавление продукта'|translate}}</span>
                             <span ng-if="item.id">{{'Редактирование продукта'|translate}}</span>
+                        </h2>
+
+                        <h2 class="font-light m-b-xs" ng-if="item.variationProduct">
+                            <a ui-sref="ecommerce.edit({id: item.variationProduct._id})">
+                                {{item.variationProduct.title}}
+                            </a>
+
+                            >
+
+                            <span ng-if="!item.id" style="line-height: 30px;">{{'Добавление вариации продукта'|translate}}</span>
+                            <span ng-if="item.id">{{'Редактирование вариации продукта'|translate}}</span>
                         </h2>
 
                         <small ng-if="item.id">

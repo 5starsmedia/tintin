@@ -17,6 +17,7 @@ EcommerceModule.prototype.initModels = function () {
 };
 
 EcommerceModule.prototype.initRoutes = function () {
+  this.app.server.use('/api/products', require('./routes/products.js'));
   this.app.server.use('/api/productTypes', nestedSet('productTypes'));
   this.app.server.use('/api/productCategories', nestedSet('productCategories'));
 };

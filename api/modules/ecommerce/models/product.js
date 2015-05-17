@@ -26,9 +26,9 @@ var schema = new mongoose.Schema({
   isLatest: Boolean,
   isDiscount: Boolean,
   isCanOrder: Boolean,
-  isInStock: Boolean,
   isHit: Boolean,
 
+  isInStock: Boolean,
   inStockCount: Number,
   ordinal: Number,
 
@@ -63,6 +63,30 @@ var schema = new mongoose.Schema({
     {
       _id: mongoose.Schema.Types.ObjectId,
       title: String
+    }
+  ],
+
+  isVariation: {type: Boolean, required: true, default: false},
+  withVariations: {type: Boolean, required: true, default: false},
+  variationProduct:{
+    _id: mongoose.Schema.Types.ObjectId,
+    title: String,
+    coverFile: {
+      _id: mongoose.Schema.Types.ObjectId
+    }
+  },
+  productVariations: [
+    {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String,
+      coverFile: {
+        _id: mongoose.Schema.Types.ObjectId
+      },
+      price: {type: Number, required: true, default: 0},
+      code: String,
+      isInStock: Boolean,
+      inStockCount: Number,
+      isPublished: Boolean
     }
   ],
 

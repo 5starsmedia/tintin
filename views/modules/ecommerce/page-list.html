@@ -19,17 +19,32 @@
 
                     <table ng-table="tableParams" ng-table-filters-manager show-filter="false" class="table">
                         <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
-                            <td data-title="'Code'|translate" sortable="'code'">
+                            <td data-title="'Code'|translate" sortable="'code'" style="width: 50px">
                                 <a ui-sref="ecommerce.edit({id: item._id})">
                                     <span ng-if="item.code" class="font-bold">{{item.code}}</span>
                                 </a>
                             </td>
                             <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
-                                <a ui-sref="ecommerce.edit({id: item._id})">
-                                    {{item.title}}
-                                </a>
+                                <div class="media">
+                                    <div class="media-left" ng-if="item.coverFile">
+                                        <img ng-src="/api/files/{{item.coverFile._id}}?width=40" />
+                                    </div>
+                                    <div class="media-body">
+                                        <a ui-sref="ecommerce.edit({id: item._id})">
+                                            {{item.title}}
+                                        </a>
+                                        <div>
+                                            <a ng-repeat="product in item.productVariations" ui-sref="ecommerce.edit({id: product._id})" title="{{product.code}} {{product.title}}">
+                                                <img ng-if="product.coverFile" ng-src="/api/files/{{product.coverFile._id}}?width=40" />
+                                                <small ng-if="!product.coverFile">
+                                                    {{product.title}}
+                                                </small>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
-                            <td data-title="'Price'|translate" sortable="'price'">
+                            <td data-title="'Price'|translate" style="width: 80px" sortable="'price'">
                                 <div bz-loading-container="item.$loading">
                                     <input type="number" ng-model="item.price" ng-blur="updateItem(item)" class="form-control" />
                                 </div>

@@ -1,9 +1,7 @@
 export default
-class EcommerceList {
+class EcommerceVariationsCtrl {
   /*@ngInject*/
-  constructor($scope, EcommerceProductModel, ngTableParams, BaseAPIParams) {
-
-    $scope.loading = true;
+  constructor($scope, EcommerceProductModel, ngTableParams) {
 
     $scope.tableParams = new ngTableParams({
       page: 1,            // show first page
@@ -13,18 +11,13 @@ class EcommerceList {
       }
     }, {
       getData: function ($defer, params) {
+        let data = $scope.item.productVariations || [];
 
-        $scope.loading = true;
-        EcommerceProductModel.query(BaseAPIParams({ isVariation: false }, params), function (res, headers) {
-          $scope.loading = false;
-          params.total(headers('x-total-count'));
-          $defer.resolve(res);
-        }, function () {
-          $scope.loading = false;
-        });
-
+        params.total(data.length);
+        $defer.resolve(data);
       }
     });
+
 
     $scope.updateItem = function (item) {
       item.$loading = true;
@@ -39,10 +32,6 @@ class EcommerceList {
       });
     };
 
-    $scope.filterByCategory = function (category) {
-      $scope.tableParams.filter({'category._id': category._id});
-    };
-
     $scope.remove = function (item) {
       $scope.loading = true;
       item.$remove(function () {
@@ -51,4 +40,5 @@ class EcommerceList {
       return false;
     };
   }
+
 }

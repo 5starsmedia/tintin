@@ -81,9 +81,13 @@ function resize(req, buf, width, height, cb) {
         resize.interlace('plane').write(destPath, function (err) {
           if (err) { return cb(err); }
           fs.readFile(destPath, function (err, res) {
-            cleanSrcTmp();
-            cleanDestTmp();
             cb(null, res);
+            try {
+              cleanSrcTmp();
+              cleanDestTmp();
+            } catch (e) {
+              console.error(e);
+            }
             fs.close(srcFd, function() {});
             fs.close(destFd, function() {});
           });

@@ -1,9 +1,11 @@
 export default
 class EcommerceEditProductCtrl {
   /*@ngInject*/
-  constructor($scope, product, $sce, EcommerceBrandModel, $filter, EcommerceCategoryModel, $state, $q, notify) {
+  constructor($scope, product, $sce, EcommerceBrandModel, $filter, EcommerceCategoryModel, $state, $q, notify, $modal, variation) {
 
-
+    if (variation) {
+      product.variationProduct = variation;
+    }
     $scope.item = product;
 
     $scope.loading_brands = true;
@@ -36,10 +38,22 @@ class EcommerceEditProductCtrl {
       var defers = [];
 
       delete item.viewsCount;
-      let save = item._id ? item.$save : item.$create;
-      //delete item.files;
+      let save = item._id ? item.$save : item.$create,
+        product = angular.copy(item);
+
+      if (variation && !item._id) {
+        delete item.variationProduct;
+      }
+
       save.call(item, (data) => {
         $scope.$broadcast('saveItem', item, defers);
+
+
+        if (variation) {
+          product._id = data._id;
+          product.variationProduct = variation;
+          defers.push(product.$save());
+        }
 
         $q.all(defers).then(function () {
           $scope.loading = false;
@@ -51,7 +65,32 @@ class EcommerceEditProductCtrl {
         $scope.loading = false;
         $scope.error = res.data;
       });
-    }
+    };
+
+    $scope.createVariationFromProduct = function () {
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: 'views/modules/ecommerce/modal-variation.html',
+        controller: 'EcommerceVariationProductCtrl',
+        resolve: {
+          product: () => angular.copy(product)
+        }
+      });
+
+      modalInstance.result.then(function (product) {
+        $state.reload();
+      });
+    };
+
+    $scope.createProductFromVariation = function (product) {
+      $scope.loading = true;
+
+      product.variationProduct = null;
+      product.$deleteVariation(() => {
+        $scope.loading = false;
+        $state.reload();
+      });
+    };
   }
 
 }

@@ -1,0 +1,63 @@
+<div class="pull-right">
+    <a href="" class="btn btn-success" ui-sref="ecommerce.create({variationId: item._id})">
+        {{'Add new variation'|translate}}
+    </a>
+</div>
+
+<div class="clearfix"></div>
+
+<br/>
+
+<table ng-table="tableParams" class="table">
+    <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
+        <td data-title="'Code'|translate" sortable="'code'">
+            <a ui-sref="ecommerce.edit({id: item._id})">
+                <span ng-if="item.code" class="font-bold">{{item.code}}</span>
+            </a>
+        </td>
+        <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
+            <a ui-sref="ecommerce.edit({id: item._id})">
+                {{item.title}}
+            </a>
+        </td>
+        <td data-title="'Price'|translate" sortable="'price'">
+            <div bz-loading-container="item.$loading">
+                <input type="number" ng-model="item.price" ng-blur="updateItem(item)" class="form-control" />
+            </div>
+        </td>
+        <td data-title="'Availability'|translate" sortable="'inStockCount'">
+
+            <span class="label label-default" ng-if="!item.isInStock">{{'Not available'|translate}}</span>
+            <span class="label label-success" ng-if="item.isInStock">
+                {{'In stock:'|translate}}
+                {{item.inStockCount}}
+            </span>
+
+        </td>
+        <td data-title="'Actions'|translate" class="actions text-right">
+
+            <div class="btn-group">
+
+                <a href="" data-ng-click="item.isPublished = !item.isPublished; updateItem(item)">
+                    <span ng-if="!item.isPublished" title="{{'Unpublish'|translate}}">
+                        <i class="fa fa-lock"></i>
+                    </span>
+                    <span ng-if="item.isPublished" title="{{'Publish'|translate}}">
+                        <i class="fa fa-unlock"></i>
+                    </span>
+                </a>
+
+                <a ui-sref="ecommerce.edit({id: item._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
+
+                <a href="" st-confirm="remove(item)" title="{{'Delete product'|translate}}"
+                   message-title="'Delete'|translate" message="'Are you realy want to delete this product?'|translate">
+                    <span class="fa fa-times text-danger"></span>
+                </a>
+            </div>
+
+        </td>
+    </tr>
+    <tr ng-if="!$data.length">
+        <td colspan="{{$columns.length}}" class="text-center">{{'No products'|translate}}</td>
+    </tr>
+</table>
