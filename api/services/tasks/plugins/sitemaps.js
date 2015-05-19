@@ -7,7 +7,6 @@ exports['sitemap.generate'] = function (app, msg, next) {
   app.models.sites.find({ removed: { $exists: false } }, '_id domain', function(err, sites) {
     if (err) { return next(err); }
 
-    console.info(sites);
     _.forEach(sites, function (site) {
       app.log.debug('[sitemap.generate]', 'Send event for', site.domain, 'success');
 
@@ -20,7 +19,7 @@ exports['sitemap.generate'] = function (app, msg, next) {
 exports['sitemap.generate.site'] = function (app, msg, next) {
   async.auto({
     site: function (next) {
-      app.models.sites.findOne(msg.body._id, '_id domain', next);
+      app.models.sites.findById(msg.body._id, '_id domain', next);
     },
     sitemap: ['site', function (next, data) {
       app.models.sitemaps.create({
