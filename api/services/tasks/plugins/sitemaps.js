@@ -20,7 +20,12 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
       app.models.sites.findOne(msg.body._id, '_id domain', next);
     },
     sitemap: ['site', function (next, data) {
-      app.models.sitemaps.create({ site: data.site }, next);
+      app.models.sitemaps.create({
+        site: {
+          _id: data.site._id,
+          domain: data.site.domain
+        }
+      }, next);
     }],
     posts: ['site', function (next, data) {
       app.models.posts.find({ 'site._id': data.site._id, postType: 'post', published: true, removed: {$exists: false}}, next);
@@ -56,7 +61,7 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
     }],
     publishSitemap: ['postsUrls', function (next, data) {
       data.sitemap.isPublished = true;
-      app.log.debug('[sitemap.generate]', 'Publishing sitemap', data.sitemap._id);
+      app.log.debug('[sitemap.generate]', 'Publishing sitemap for ' + data.sitemap.site.domain, data.sitemap._id);
       data.sitemap.save(next);
     }]
   }, next);
