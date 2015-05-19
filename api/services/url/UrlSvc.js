@@ -18,7 +18,7 @@ UrlSvc.prototype.aliasFor = function (app, text, options, cb) {
 UrlSvc.prototype.urlFor = function (collectionName, params) {
   switch (collectionName) {
     case 'posts':
-      return this.app.config.get('url') + '/' + params.category.parentAlias + '/' + params.category.alias + '/' + params.alias + '.html';
+      return '/' + params.category.parentAlias + '/' + params.category.alias + '/' + params.alias + '.html';
   }
 };
 

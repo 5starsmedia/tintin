@@ -22,14 +22,6 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
       app.models.sites.findById(msg.body._id, '_id domain', next);
     },
     sitemap: ['site', function (next, data) {
-
-      var url = data.site.isHttps ? 'https' : 'http';
-      url += '://' + data.site.domain;
-      if (data.site.port && data.site.port != 80) {
-        url += ':' + data.site.port;
-      }
-      app.config.set('url', url);
-
       app.models.sitemaps.create({
         site: {
           _id: data.site._id,
