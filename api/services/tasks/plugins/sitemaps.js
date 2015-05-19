@@ -3,13 +3,27 @@
 var async = require('async');
 
 exports['sitemap.generate'] = function (app, msg, next) {
+  app.models.sites.find({ removed: { $exists: false } }, '_id', function(err, sites) {
+    if (err) { return next(err); }
+
+    _.forEach(sites, function (site) {
+      app.services.mq.push(app, 'events', {name: 'sitemap.generate.site', _id: site._id});
+    });
+    next();
+  });
+};
+
+exports['sitemap.generate.site'] = function (app, msg, next) {
   async.auto({
-    sitemap: function (next) {
-      app.models.sitemaps.create({}, next);
+    site: function (next) {
+      app.models.sites.findOne(msg.body._id, '_id domain', next);
     },
-    posts: function (next) {
-      app.models.posts.find({ postType: 'post', published: true, removed: {$exists: false}}, next);
-    },
+    sitemap: ['site', function (next, data) {
+      app.models.sitemaps.create({ site: data.site }, next);
+    }],
+    posts: ['site', function (next, data) {
+      app.models.posts.find({ 'site._id': data.site._id, postType: 'post', published: true, removed: {$exists: false}}, next);
+    }],
     categories: function (next) {
       app.models.categories.find({removed: {$exists: false}}, next);
     },

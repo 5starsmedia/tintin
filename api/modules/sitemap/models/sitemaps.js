@@ -7,7 +7,12 @@ var schema = new mongoose.Schema({
   modifyDate: {type: Date},
   removed: {type: Date},
   isPublished: {type: Boolean, required: true, default: false},
-  urlsCount: {type: Number, required: true, default: 0}
+  urlsCount: {type: Number, required: true, default: 0},
+
+  site: {
+    _id: mongoose.Schema.Types.ObjectId,
+    domain: String
+  }
 }, {
   strict: true,
   safe: true,

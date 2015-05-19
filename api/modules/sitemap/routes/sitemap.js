@@ -9,7 +9,7 @@ var express = require('express'),
   router = express.Router();
 
 router.get('/sitemap', function (req, res, next) {
-  req.app.models.sitemaps.find({isPublished: true, removed: {$exists: false}}, '_id', {sort: '-createDate', limit: 1},
+  req.app.models.sitemaps.find({ 'site._id': req.site._id, isPublished: true, removed: {$exists: false}}, '_id', {sort: '-createDate', limit: 1},
     function (err, sitemaps) {
       if (err) {return next(err); }
       if (sitemaps.length === 0) { return next(new req.app.errors.NotFoundError('No sitemaps found')); }
