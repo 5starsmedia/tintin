@@ -186,6 +186,32 @@
 
                         <select class="form-control" ng-model="post.keywordGroup._id" ng-options="group._id as group.title group by group.project.title for group in groups"></select>
 
+                        <br/>
+
+                        <table class="table table-condensed">
+                            <tr>
+                                <th>Keyword</th>
+                                <th class="text-center">G</th>
+                                <th class="text-center">Я</th>
+                            </tr>
+                            <tr ng-repeat="keyword in post.seo.keywords">
+                                <td>{{keyword.title}}</td>
+                                <td class="text-center">
+                                    <span ng-if="keyword.google">{{keyword.google}}</span>
+                                    <span ng-if="!keyword.google">-</span>
+                                </td>
+                                <td class="text-center">
+                                    <span ng-if="keyword.yandex">{{keyword.yandex}}</span>
+                                    <span ng-if="!keyword.yandex">-</span>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <div ng-if="post.keywordGroup._id && post._id && post.status == 4">
+                            <button class="btn btn-default btn-block" type="button" ng-click="updateSeoPositions()">{{'Update positions'|translate}}</button>
+                        </div>
+
                     </div>
                 </div>
 

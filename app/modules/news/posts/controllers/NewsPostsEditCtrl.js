@@ -68,6 +68,15 @@ class NewsPostsEditCtrl {
       return (str || '').split(/\s+/).length;
     };
 
+    $scope.updateSeoPositions = () => {
+      angular.copy($scope.post).$scanSeo(() => {
+        notify({
+          message: $filter('translate')('Article is added to queue for scan'),
+          classes: 'alert-success'
+        });
+      });
+    };
+
     $scope.editorOptions = {
       language: 'ru',
       extraPlugins: 'SelectImages,mediaembed,adInsert,showblocks',
