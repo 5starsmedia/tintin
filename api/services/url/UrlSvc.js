@@ -19,6 +19,9 @@ UrlSvc.prototype.urlFor = function (collectionName, params) {
   switch (collectionName) {
     case 'posts':
       return '/' + params.category.parentAlias + '/' + params.category.alias + '/' + params.alias + '.html';
+
+    case 'files':
+      return '/api/files/' + params._id;
   }
 };
 

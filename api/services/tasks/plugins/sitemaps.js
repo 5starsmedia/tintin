@@ -49,7 +49,7 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
         };
         if (post.coverFile && post.coverFile._id) {
           obj.images.push({
-            loc: app.config.get('url') + '/api/files/' + post.coverFile._id,
+            loc: app.services.url.urlFor('files', post.coverFile),
             caption: post.coverFile.title
           });
         }

@@ -1,7 +1,3 @@
-/**
- * @copyright 2015 Cannasos.com. All rights reserved.
- */
-
 'use strict';
 
 var express = require('express'),
