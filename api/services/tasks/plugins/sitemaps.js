@@ -8,7 +8,7 @@ exports['sitemap.generate'] = function (app, msg, next) {
       app.models.sitemaps.create({}, next);
     },
     posts: function (next) {
-      app.models.posts.find({published: true, removed: {$exists: false}}, next);
+      app.models.posts.find({ postType: 'post', published: true, removed: {$exists: false}}, next);
     },
     categories: function (next) {
       app.models.categories.find({removed: {$exists: false}}, next);
