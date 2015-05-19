@@ -30,10 +30,10 @@
                 <div class="col-lg-3">
 
                     <div class="form-actions">
-                        <!--a ng-href="{{post.createDate|date:'/yyyy/MM/dd/'}}{{post.id}}" ng-if="post.id"
+                        <a ng-href="/preview/post/{{post._id}}" ng-if="post._id"
                            class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left" tooltip="{{'Open on site'|translate}}" target="_blank">
                             <span class="fa fa-external-link"></span>
-                        </a-->
+                        </a>
                         <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
                             {{'Save'|translate}}
                         </button>
