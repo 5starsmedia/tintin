@@ -134,7 +134,8 @@ app.errors = require('./errors');
 
 app.server.use(bodyParser.json({ limit: '50mb' }));
 app.server.use(function (req, res, next) {
-  var realIP = req.headers['x-forwarded-for'] ||
+  var realIP = req.headers['x-real-ip'] ||
+    req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress;
