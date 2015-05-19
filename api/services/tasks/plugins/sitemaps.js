@@ -1,6 +1,7 @@
 'use strict';
 
-var async = require('async');
+var async = require('async'),
+     _ = require('lodash');
 
 exports['sitemap.generate'] = function (app, msg, next) {
   app.models.sites.find({ removed: { $exists: false } }, '_id', function(err, sites) {
