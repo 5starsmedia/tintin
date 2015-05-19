@@ -15,7 +15,8 @@ router.get('/settings', function (req, res, next) {
 
   var varName = req.query.name || 'settings',
     settingsJs = {
-    userIp: req.request.remoteAddress
+      apiEntryPoint: req.app.config.get('url') + '/api',
+      userIp: req.request.remoteAddress
   };
 
   res.end(varName + ' = ' + JSON.stringify(settingsJs));
