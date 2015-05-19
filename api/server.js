@@ -134,13 +134,17 @@ app.errors = require('./errors');
 
 app.server.use(bodyParser.json({ limit: '50mb' }));
 app.server.use(function (req, res, next) {
-  var realIP = null;//req.header('x-real-ip');
+  var realIP = req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress;
+
   req.app = app;
   req.request = {
     id: mongoose.Types.ObjectId().toString('base64'),
     url: req.url,
     method: req.method,
-    remoteAddress: realIP || req.connection.remoteAddress,
+    remoteAddress: realIP,
     remotePort: req.connection.remotePort,
     userAgent: {
       browser: req.useragent.Browser,

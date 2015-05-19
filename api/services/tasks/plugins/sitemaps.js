@@ -44,7 +44,7 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
           changefreq: 'daily',
           priority: 0.89,
           lastmod: post.modifyDate || post.createDate,
-          loc: app.services.url.urlFor('posts', post), // app.config.get('url') + '/blog/' + blog.category.alias + '/' + blog.alias,
+          loc: app.services.url.urlFor('posts', post),
           images: []
         };
         if (post.coverFile && post.coverFile._id) {
