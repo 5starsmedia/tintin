@@ -39,7 +39,8 @@ var PostsModule = require('./modules/posts'),
   WikiModule = require('./modules/wiki'),
   AdsModule = require('./modules/ads'),
   UsersModule = require('./modules/users'),
-  SitesModule = require('./modules/sites');
+  SitesModule = require('./modules/sites'),
+  SitemapModule = require('./modules/sitemap');
 
 app.modules = {
   posts: new PostsModule(app),
@@ -52,6 +53,7 @@ app.modules = {
   ads: new AdsModule(app),
   users: new UsersModule(app),
   sites: new SitesModule(app),
+  sitemap: new SitemapModule(app),
 
   each: function(callFunc) {
     _.forEach(app.modules, function(obj, name) {
