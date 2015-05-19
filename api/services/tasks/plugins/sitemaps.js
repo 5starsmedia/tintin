@@ -4,10 +4,13 @@ var async = require('async'),
      _ = require('lodash');
 
 exports['sitemap.generate'] = function (app, msg, next) {
-  app.models.sites.find({ removed: { $exists: false } }, '_id', function(err, sites) {
+  app.models.sites.find({ removed: { $exists: false } }, '_id domain', function(err, sites) {
     if (err) { return next(err); }
 
+    console.info(sites);
     _.forEach(sites, function (site) {
+      app.log.debug('[sitemap.generate]', 'Send event for', site.domain, 'success');
+
       app.services.mq.push(app, 'events', {name: 'sitemap.generate.site', _id: site._id});
     });
     next();
