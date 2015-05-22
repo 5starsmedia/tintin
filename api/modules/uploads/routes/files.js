@@ -65,10 +65,12 @@ function watermark(req, buf, cb) {
   });
 }
 
-function resize(req, buf, width, height, cb) {
-  tmp.file({postfix: '.jpg'}, function (err, srcPath, srcFd, cleanSrcTmp) {
+function resize(req, buf, width, height, contentType, cb) {
+  var ext = contentType == 'image/png' ? 'png' : 'jpg';
+
+  tmp.file({postfix: '.' + ext}, function (err, srcPath, srcFd, cleanSrcTmp) {
     if (err) { return cb(err); }
-    tmp.file({postfix: '.jpg'}, function (err, destPath, destFd, cleanDestTmp) {
+    tmp.file({postfix: '.'  + ext}, function (err, destPath, destFd, cleanDestTmp) {
       if (err) { return cb(err); }
       fs.writeFile(srcPath, buf, function (err) {
         if (err) { return cb(err); }
@@ -117,12 +119,12 @@ router.get('/:_id', function (req, res, next) {
     getBuffer(req, file, function (err, buf) {
       if (err) { return next(err); }
       res.setHeader('content-type', file.contentType);
-      res.attachment(file.originalName);
+      //res.attachment(file.originalName);
       req.app.models.files.update({_id: req.params._id}, {$inc: {viewsCount: 1}}, function (err) {
         if (err) { return req.log.error(err); }
       });
       if (req.query.width || req.query.height) {
-        resize(req, buf, req.query.width, req.query.height, function (err, resBuf) {
+        resize(req, buf, req.query.width, req.query.height, file.contentType, function (err, resBuf) {
           if (err) { return next(err); }
           res.send(resBuf);
         });
