@@ -20,7 +20,12 @@ var express = require('express'),
 var router = express.Router();
 
 router.get('/', function (req, res, next) {
-  res.json(['issues.has_access']);
+
+  req.app.services.data.getResource('permissions', function(err, data) {
+    if (err) { return next(err); }
+
+    res.json(data);
+  });
 });
 
 

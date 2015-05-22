@@ -28,6 +28,16 @@ var schema = new mongoose.Schema({
     body: String
   },
 
+  settings: {
+    logo: {
+      _id: mongoose.Schema.Types.ObjectId
+    },
+    youtubeChannel: String,
+    subscribeChannel: String,
+    vkGroupId: String,
+    fbGroupId: String
+  },
+
   removed: {type: Date},
   createDate: {type: Date, required: true, default: Date.now}
 }, {

@@ -11,19 +11,32 @@ var express = require('express'),
   querystring = require('querystring'),
   async = require('async'),
   S = require('string'),
-  config = require('../../../config.js');
+  config = require('../../../config.js'),
+  requireAccount = require('../../../middleware/requireAccount.js');
 
 var router = express.Router();
 
-function generateTokenValue(id, cb) {
-  var tokenSecret = config.get('auth.tokenSecret');
-  var token = jwt.sign({_id: id}, tokenSecret, {expiresInMinutes: config.get('auth.persistTokenDuration')});
+function generateTokenValue(account, cb) {
+  var tokenSecret = config.get('auth.tokenSecret'),
+    params = { _id: '' };
+
+  if (account) {
+    params = {
+      _id: account._id
+    };
+    var role = _.first(account.roles || []);
+    if (role || account.roleId) {
+      params.role_id = account.roleId || role._id;
+    }
+  }
+
+  var token = jwt.sign(params, tokenSecret, {expiresInMinutes: config.get('auth.persistTokenDuration')});
 
   cb(null, token);
 }
 
 function assignToken(req, account, cb) {
-  generateTokenValue(account._id, function (err, tokenValue) {
+  generateTokenValue(account, function (err, tokenValue) {
     if (err) {
       return cb(err);
     }
@@ -35,14 +48,18 @@ function assignToken(req, account, cb) {
       persist = false;
       expireAt = Date.now() + config.get('auth.tokenDuration');
     }
-    account.tokens.push({value: tokenValue, persist: persist, expireAt: expireAt});
-    account.usernameDate = Date.now();
-    account.save(function (err) {
-      if (err) {
-        return cb(err);
-      }
+    //account.tokens.push({value: tokenValue, persist: persist, expireAt: expireAt});
+    if (account.save) {
+      account.loginDate = Date.now();
+      account.save(function (err) {
+        if (err) {
+          return cb(err);
+        }
+        cb(null, tokenValue);
+      });
+    } else {
       cb(null, tokenValue);
-    });
+    }
   });
 }
 
@@ -515,7 +532,7 @@ router.post('/reset', function (req, res, next) {
       });
     }],
     reset: ['account', function (next, data) {
-      generateTokenValue(data.account._id, function (err, token) {
+      generateTokenValue(data.account, function (err, token) {
         if (err) {
           return next(err);
         }
@@ -613,7 +630,7 @@ router.post('/register', function (req, res, next) {
         if (err) {
           return next(err);
         }
-        generateTokenValue('', function (err, token) {
+        generateTokenValue(null, function (err, token) {
           if (err) {
             return next(err);
           }
@@ -658,6 +675,50 @@ router.post('/register', function (req, res, next) {
       });
     }]
   }, next);
+
+});
+
+
+router.get('/permissions', requireAccount(), function (req, res, next) {
+  res.json(req.auth.permissions);
+});
+
+router.put('/changeRole', requireAccount(), function (req, res, next) {
+
+
+  req.app.models.roles.findOne({ '_id': req.body.role_id, removed: { $exists: false } }, function (err, role) {
+    if (err) { return next(err); }
+
+    if (!role) {
+      res.status(404).json({ msg: 'Role not found' });
+      return;
+    }
+
+    req.auth.role = role;
+    req.auth.permissions = _.pluck(role.permissions, 'name');
+
+    var acc = req.auth.account;
+    acc.roleId = role._id;
+    assignToken(req, acc, function (err, token) {
+      if (err) {
+        return next(err);
+      }
+      req.account = req.auth.account;
+      req.log = req.log.child({account: _.pick(acc, ['_id', 'username'])});
+      req.log.info('Token generated');
+
+      req.logRecord('change_role', 'User change role', req.app.log_level.info, acc, function (err) {
+        if (err) {
+          return next(err);
+        }
+        loginResponse(req, res, token, req.auth.account, function() {
+
+        });
+      });
+    });
+  });
+
+
 
 });
 

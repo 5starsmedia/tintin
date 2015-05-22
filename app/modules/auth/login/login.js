@@ -71,7 +71,7 @@ module.config(function ($stateProvider, $httpProvider, $authProvider) {
   $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
     event.preventDefault();
     if (error.status == '403') {
-      $state.go('auth.login');
+      $state.go('users.permissions');
     }
   });
 });

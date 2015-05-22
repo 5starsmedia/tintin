@@ -51,6 +51,7 @@ exports['put.accounts.profile.secondaryLanguage._id'] = function (req, data, nex
 exports['accounts.profile.gender._id'] = function (req, data, next) {
   var genderId = data['profile.gender._id'];
   delete data['profile.gender._id'];
+  delete data['profile.gender.title'];
   if (genderId) {
     req.app.models.genders.findById(genderId, function (err, gender) {
       if (err) { return next(err); }

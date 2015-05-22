@@ -4,7 +4,6 @@ import config from './config.js';
 import appCtrl from './controllers/appCtrl.js';
 import clockCtrl from './controllers/clockCtrl.js';
 
-import pageTitle from './directives/pageTitle.js';
 import sideNavigation from './directives/sideNavigation.js';
 import minimalizaMenu from './directives/minimalizaMenu.js';
 import sparkline from './directives/sparkline.js';
@@ -45,8 +44,6 @@ angular.module(appName, [
       $state.go('error.404');
     });
   })
-
-  .directive('pageTitle', pageTitle)
   .directive('sideNavigation', sideNavigation)
   .directive('minimalizaMenu', minimalizaMenu)
   .directive('sparkline', sparkline)

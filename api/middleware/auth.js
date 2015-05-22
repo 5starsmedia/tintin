@@ -39,9 +39,11 @@ function inheritRoles(req, roles, next) {
   });
 }
 
-function authAsAccount(account, req, res, next) {
+function authAsAccount(account, role, req, res, next) {
   req.auth.account = account;
-  var roles = _.pluck(req.auth.account.roles, 'name');
+  req.auth.role = role;
+  req.auth.permissions = _.pluck(role.permissions, 'name');
+  /*var roles = _.pluck(req.auth.account.roles, 'name');
   inheritRoles(req, roles, function (err, inheritedRoles) {
     if (err) {
       return next(err);
@@ -50,8 +52,8 @@ function authAsAccount(account, req, res, next) {
     req.log = req.log.child({account: {_id: account._id, login: account.login}});
 
     next();
-  });
-
+  });*/
+  next();
 }
 
 function authAsGuest(req, res, next) {
@@ -77,23 +79,26 @@ module.exports = function () {
         return;
       }
       req.app.models.accounts.findOne({ '_id': payload._id, removed: { $exists: false } }, function (err, account) {
-        if (err) {
-          return next(err);
-        }
-        if (account) {
-          authAsAccount(account.toObject(), req, res, next);
-          if (!account.activityDate || Date.now() - account.activityDate.getTime() > 30000) {
-            req.log.debug('Updating activity date ', account.username);
-            account.activityDate = Date.now();
-            account.save(function (err) {
-              if (err) {
-                req.log.error(err);
-              }
-            });
+        if (err) { return next(err); }
+
+        req.app.models.roles.findOne({ '_id': payload.role_id, removed: { $exists: false } }, function (err, role) {
+          if (err) { return next(err); }
+
+          if (account && role) {
+            authAsAccount(account.toObject(), role, req, res, next);
+            if (!account.activityDate || Date.now() - account.activityDate.getTime() > 30000) {
+              req.log.debug('Updating activity date ', account.username);
+              account.activityDate = Date.now();
+              account.save(function (err) {
+                if (err) {
+                  req.log.error(err);
+                }
+              });
+            }
+            return;
           }
-          return;
-        }
-        authAsGuest(req, res, next);
+          authAsGuest(req, res, next);
+        });
       });
     } else {
       authAsGuest(req, res, next);

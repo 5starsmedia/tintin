@@ -1,0 +1,19 @@
+<st-form-element label="{{'Title'|translate}}" field="title">
+
+    <input id="title" class="form-control input-lg" name="title" type="text" required
+           ng-model="site.title"/>
+
+</st-form-element>
+
+<st-form-element label="{{'Domain'|translate}}" field="title">
+
+    <div class="input-group">
+        <span ng-class="{'h-bg-green': site.isHttps}" class="input-group-addon">
+            <span ng-if="!site.isHttps">http://</span>
+            <span ng-if="site.isHttps"><span class="pe-7s-lock"></span> https://</span>
+        </span>
+
+        <input id="domain" disabled class="form-control" name="title" type="text" ng-model="site.domain"/>
+    </div>
+
+</st-form-element>

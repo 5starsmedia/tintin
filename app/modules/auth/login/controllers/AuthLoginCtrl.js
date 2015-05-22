@@ -2,13 +2,13 @@ export default
 class AuthLoginCtrl {
 
   /*@ngInject*/
-  constructor($scope, $location, $auth, basePermissionsSet) {
+  constructor($scope, $state, $auth, basePermissionsSet) {
     // загрузка данных, которые были сохранены при установле галочки "Запомнить меня"
     var localAuthData = angular.fromJson((localStorage || {}).authData || '{}');
 
-    var url = $location.url();
-    if ($auth.isAuthenticated() && url == '/auth/login') {
-      $location.url('/');
+    if ($auth.isAuthenticated() && $state.current.name == 'auth.login') {
+      $state.go('dashboard');
+      return;
     }
 
     $scope.isLocked = !!localAuthData.email;
@@ -49,11 +49,12 @@ class AuthLoginCtrl {
       (localStorage || {}).authData = user.rememberMe ? angular.toJson(user) : '{}';
 
       $scope.loading = true;
-      $auth.login(user).then(function () {
+      $auth.login(user).then(function (data) {
         $scope.loading = false;
         basePermissionsSet.clearCache();
-        $location.url('/');
+        $state.go('dashboard');
       }).catch(function (res) {
+        console.info(res)
         $scope.loading = false;
         if (res.status == 422) {
           $scope.error = res.data;

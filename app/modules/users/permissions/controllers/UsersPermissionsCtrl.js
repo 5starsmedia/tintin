@@ -1,5 +1,5 @@
 export default
-class UsersProfileBlockCtrl {
+class UsersPermissionsCtrl {
   /*@ngInject*/
   constructor($scope, $state, UsersProfileSrv, $auth, basePermissionsSet) {
     let payload = $auth.getPayload();
@@ -14,7 +14,7 @@ class UsersProfileBlockCtrl {
       UsersProfileSrv.changeRole(roleId, function(roleId){
         $scope.currentRole = _.find($scope._account.roles, { _id: roleId });
         basePermissionsSet.clearCache();
-        $state.reload();
+        $state.go('dashboard');
       });
     };
   }

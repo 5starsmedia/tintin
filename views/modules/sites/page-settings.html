@@ -52,61 +52,23 @@
             <div class="row">
                 <div class="col-lg-9">
 
-                    <st-form-element label="{{'Title'|translate}}" field="title">
+                    <tabset class="hpanel">
+                        <tab>
+                            <tab-heading>{{'Main information'|translate}}</tab-heading>
 
-                        <input id="title" class="form-control input-lg" name="title" type="text" required
-                               ng-model="site.title"/>
+                            <div class="panel-body" ng-include="'views/modules/sites/form-settings-main.html'"></div>
+                        </tab>
+                        <tab>
+                            <tab-heading>{{'SEO'|translate}}</tab-heading>
 
-                    </st-form-element>
+                            <div class="panel-body" ng-include="'views/modules/sites/form-settings-seo.html'"></div>
+                        </tab>
+                        <tab>
+                            <tab-heading>{{'Design'|translate}}</tab-heading>
 
-                    <st-form-element label="{{'Domain'|translate}}" field="title">
-
-
-                        <div class="input-group">
-                            <span ng-class="{'h-bg-green': site.isHttps}" class="input-group-addon">
-                                <span ng-if="!site.isHttps">http://</span>
-                                <span ng-if="site.isHttps"><span class="pe-7s-lock"></span> https://</span>
-                            </span>
-
-                            <input id="domain" disabled class="form-control" name="title" type="text" ng-model="site.domain"/>
-                        </div>
-
-                    </st-form-element>
-
-
-                    <div class="hpanel">
-                        <div class="panel-heading">
-                            {{'Meta tags'|translate}}
-                        </div>
-                        <div class="panel-body">
-
-                            <div base-meta-edit="site"></div>
-
-                        </div>
-                    </div>
-
-                    <div class="hpanel">
-                        <div class="panel-heading">
-                            {{'Article'|translate}}
-                        </div>
-                        <div class="panel-body">
-
-                            <st-form-element label="{{'Title'|translate}}" field="title">
-
-                                <input id="article_title" class="form-control input-lg" name="article_title" type="text" required
-                                       ng-model="site.article.title"/>
-
-                            </st-form-element>
-
-                            <st-form-element label="{{'Body'|translate}}" field="body">
-
-                                <textarea id="article_body" class="form-control" name="article_body" ckeditor="editorOptions"
-                                          ng-model="site.article.body"></textarea>
-
-                            </st-form-element>
-
-                        </div>
-                    </div>
+                            <div class="panel-body" ng-include="'views/modules/sites/form-settings-design.html'"></div>
+                        </tab>
+                    </tabset>
 
                 </div>
                 <div class="col-lg-3">

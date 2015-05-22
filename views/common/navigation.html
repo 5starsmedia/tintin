@@ -8,18 +8,18 @@
         <div class="stats-label text-color">
             <span class="font-extra-bold font-uppercase">{{_account.title}}</span>
 
-            <!--div class="dropdown" dropdown >
-                <a dropdown-toggle class="dropdown-toggle" href="#">
-                    <small class="text-muted">Founder of App <b class="caret"></b></small>
+            <div class="dropdown" dropdown >
+                <a dropdown-toggle class="dropdown-toggle" href="">
+                    <small class="text-muted">{{currentRole.title}} <b class="caret"></b></small>
                 </a>
                 <ul class="dropdown-menu animated flipInY m-t-xs">
-                    <li><a ui-sref="app_views.contacts">Contacts</a></li>
-                    <li><a ui-sref="app_views.profile">Profile</a></li>
-                    <li><a ui-sref="analytics">Analytics</a></li>
-                    <li class="divider"></li>
-                    <li><a ui-sref="common.login">Logout</a></li>
+                    <li ng-if="_account.roles.length > 1" ng-repeat="role in _account.roles">
+                        <a href="" ng-click="changeRole(role._id)">{{role.title}}</a>
+                    </li>
+                    <li ng-if="_account.roles.length > 1" class="divider"></li>
+                    <li><a ui-sref="auth.logout">Logout</a></li>
                 </ul>
-            </div-->
+            </div>
 
             <!--div class="small-chart m-t-sm" id="sparkline7"></div>
             <div sparkline spark-data="barProfileData" spark-options="barProfileOptions"></div>
@@ -64,9 +64,15 @@
         <li ui-sref-active="active">
             <a ui-sref="keywords.projects"> <span class="nav-label">Keywords</span></a>
         </li>
-        <li ui-sref-active="active">
-            <a ui-sref="users.list"> <span class="nav-label">Users</span></a>
+        <li ng-class="{active: $state.includes('users')}">
+            <a href=""> <span class="nav-label">Users</span> <span class="fa arrow"></span></a>
+
+            <ul class="nav nav-second-level" ng-class="{in: $state.includes('users')}">
+                <li ui-sref-active="active"><a ui-sref="users.list">List of users</a></li>
+                <li ui-sref-active="active"><a ui-sref="users.roles">List of roles</a></li>
+            </ul>
         </li>
+
         <li ng-class="{active: $state.includes('ecommerce')}">
             <a href=""> <span class="nav-label">Products</span> <span class="fa arrow"></span></a>
 

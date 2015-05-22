@@ -153,9 +153,8 @@ var accountSchema = new mongoose.Schema({
   ],
   roles: [
     {
-      createDate: {type: Date, required: true, default: Date.now},
-      title: {type: String, required: true},
-      name: {type: String, required: true}
+      _id: mongoose.Schema.Types.ObjectId,
+      title: {type: String, required: true}
     }
   ],
   coverFile: {

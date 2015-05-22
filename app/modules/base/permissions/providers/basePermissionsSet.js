@@ -40,7 +40,7 @@ export default
       };
     };
 
-    this.$get = /*@ngInject*/ function ($rootScope, $q, $log, BasePermissionModel) {
+    this.$get = /*@ngInject*/ function ($rootScope, $q, $log, BasePermissionModel, $timeout, $state) {
       var currentPermissions = null;
 
       return {

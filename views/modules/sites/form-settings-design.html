@@ -1,0 +1,47 @@
+<st-form-element label="{{'Logo'|translate}}">
+
+    <div class="clearfix"></div>
+
+    <div bz-loading-container="loading">
+    <cs-single-file-upload resource-id="{{site._id}}" collection-name="sites" file="site.settings.logo"
+        allowed-extensions="png,gif,jpg,jpeg" loading="loading" best-width="200" best-height="200"></cs-single-file-upload>
+    </div>
+
+
+</st-form-element>
+
+<st-form-element label="{{'YouTube channel'|translate}}" field="youtubeChannel">
+
+    <input class="form-control" name="youtubeChannel" type="text" ng-model="site.settings.youtubeChannel"/>
+    <div class="help-block">
+        Example: 7planshet
+    </div>
+
+</st-form-element>
+
+<st-form-element label="{{'Subscribe channel'|translate}}" field="subscribeChannel">
+
+    <input class="form-control" name="subscribeChannel" type="text" ng-model="site.settings.subscribeChannel"/>
+    <div class="help-block">
+        Example: hitech.gadj.vandroide
+    </div>
+
+</st-form-element>
+
+<st-form-element label="{{'VK group'|translate}}" field="vkGroupId">
+
+    <input class="form-control" name="vkGroupId" type="text" ng-model="site.settings.vkGroupId"/>
+    <div class="help-block">
+        Example: 75852541
+    </div>
+
+</st-form-element>
+
+<st-form-element label="{{'Facebook group'|translate}}" field="fbGroupId">
+
+    <input class="form-control" name="fbGroupId" type="text" ng-model="site.settings.fbGroupId"/>
+    <div class="help-block">
+        Example: https://www.facebook.com/groups/1451591545123143/
+    </div>
+
+</st-form-element>

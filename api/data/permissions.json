@@ -1,0 +1,14 @@
+[
+  {
+    "name": "admin",
+    "title": "Just admin"
+  },
+  {
+    "name": "auth.login",
+    "title": "User can login"
+  },
+  {
+    "name": "ads",
+    "title": "Ads"
+  }
+]

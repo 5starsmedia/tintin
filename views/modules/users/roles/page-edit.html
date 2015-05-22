@@ -1,0 +1,110 @@
+<div>
+
+
+<st-form model="item" state="error" submit="saveItem(item)">
+
+<div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
+    <div class="hpanel" bz-loading-container="loading">
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-lg-9">
+
+                    <a ui-sref="users.roles" class="back-btn">
+                        <span class="pe-7s-angle-left"></span>
+                    </a>
+
+                    <h2 class="font-light m-b-xs">
+                        <span ng-if="!item._id" style="line-height: 30px;">{{'New role'|translate}}</span>
+                        <span ng-if="item._id">{{'Editing of role'|translate}}</span>
+                    </h2>
+
+                    <small ng-if="item._id">
+                        {{'Role created:'|translate}}
+                        {{item.createDate|date:'dd.MM.yyyy'}}
+                        {{'at'|translate}}
+                        {{item.createDate|date:'HH:mm'}}
+                    </small>
+
+                </div>
+                <div class="col-lg-3">
+
+                    <div class="form-actions">
+                        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+                            {{'Save'|translate}}
+                        </button>
+                        <a ui-sref="users.roles" class="btn btn-default">
+                            {{'Cancel'|translate}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content" animate-panel effect="zoomIn">
+
+<div class="row">
+    <div class="col-lg-9">
+
+        <st-form-element label="{{'Title'|translate}}" field="title">
+
+            <input id="title" class="form-control input-lg" name="title" type="text" required
+                   ng-model="item.title"/>
+
+        </st-form-element>
+
+        <st-form-element label="{{'Description'|translate}}" field="description">
+
+            <textarea id="description" rows="5" class="form-control" name="description" ng-model="item.description"></textarea>
+
+        </st-form-element>
+
+        <div>
+            <div class="checkbox" ng-repeat="permission in permissions">
+                <label>
+                    <input type="checkbox" checklist-model="item.permissions" checklist-value="permission" checklist-comparator="comparePermission">
+                    <strong>{{permission.name}}</strong>
+                    <br/>
+                    <small>{{permission.title}}</small>
+                </label>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-3">
+
+        <div class="hpanel hblue">
+            <div class="panel-heading">
+                {{'Publication'|translate}}
+            </div>
+            <div class="panel-body">
+
+                <div class="form-group checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="item.isTop"/>
+                        {{'Is top'|translate}}
+                    </label>
+                </div>
+
+
+                <div class="form-group checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="item.isHighlight"/>
+                        {{'Is highlight'|translate}}
+                    </label>
+                </div>
+
+                <!--div ng-include="$config.templateUrl('views/modules/news/block-properties.html')()"></div-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+</div>
+
+</st-form>
+</div>

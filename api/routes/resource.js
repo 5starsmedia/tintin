@@ -353,7 +353,7 @@ module.exports = function processRequest(req, res, next) {
     }
 
     var fieldsObj = acl.compareAcl(schemaFields, resource.acl, {
-      roles: req.auth.roles,
+      roles: req.auth.permissions,
       modifiers: req.auth.modifiers,
       method: req.method.toLowerCase(),
       params: params,

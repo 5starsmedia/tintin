@@ -2556,7 +2556,6 @@ h6 {
   display: none !important;
 }
 .bz-loading-container {
-  z-index: 3;
   position: relative;
 }
 .bz-loading-container .bz-loading .fa {
@@ -2572,6 +2571,7 @@ h6 {
   margin-top: -5px;
 }
 .bz-loading-container .bz-loading-overlay {
+  z-index: 300;
   position: absolute;
   top: 0;
   left: 0;
@@ -3058,10 +3058,10 @@ h6 {
   bottom: 0;
 }
 .fu-single__btn {
-  width: 100px;
+  width: 140px;
   position: absolute;
   left: 50%;
-  margin-left: -50px;
+  margin-left: -70px;
   top: 50%;
   margin-top: -20px;
   z-index: 10;
@@ -3079,6 +3079,11 @@ h6 {
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.fu-single {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #eee;
 }
 .st-checklist-item {
   position: relative;

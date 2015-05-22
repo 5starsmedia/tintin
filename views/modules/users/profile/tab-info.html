@@ -24,6 +24,18 @@
         </st-form-element>
 
 
+        <div>
+            <div class="checkbox" ng-repeat="role in roles">
+                <label>
+                    <input type="checkbox" checklist-model="user.roles" checklist-value="role" checklist-comparator="compareRole">
+                    <strong>{{role.title}}</strong>
+                    <br/>
+                    <small>{{role.description}}</small>
+                </label>
+            </div>
+        </div>
+
+
         <div class="form-actions">
             <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
                 {{'Save'|translate}}
