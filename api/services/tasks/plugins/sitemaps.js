@@ -36,21 +36,20 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
       app.models.categories.find({ 'site._id': data.site._id, removed: {$exists: false}}, next);
     }],
     homeUrl: ['sitemap', function (next, data) {
-      async.each(data.posts, function (post, next) {
-        var obj = {
-          sitemap: data.sitemap.toObject(),
-          changefreq: 'daily',
-          priority: 1,
-          loc: '/',
-          images: []
-        };
-        app.models.sitemapUrls.create(obj, function (err) {
-          if (err) { return next(err); }
-          data.sitemap.urlsCount += 1;
-          app.log.debug('[sitemap.generate]', 'Generating url for post', post._id, 'success');
-          next();
-        });
-      }, next);
+      var obj = {
+        sitemap: data.sitemap.toObject(),
+        changefreq: 'daily',
+        priority: 1,
+        loc: '/',
+        images: []
+      };
+      app.models.sitemapUrls.create(obj, function (err) {
+        if (err) { return next(err); }
+        data.sitemap.urlsCount += 1;
+        app.log.debug('[sitemap.generate]', 'Generating url for post', post._id, 'success');
+        next();
+      });
+      next();
     }],
     postsUrls: ['sitemap', 'posts', function (next, data) {
       async.each(data.posts, function (post, next) {
@@ -80,6 +79,7 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
     }],
     categoriesUrls: ['sitemap', 'categories', function (next, data) {
       async.each(data.categories, function (category, next) {
+        console.info(category);
         var obj = {
           sitemap: data.sitemap.toObject(),
           collectionName: 'categories',
