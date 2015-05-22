@@ -49,7 +49,6 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
         app.log.debug('[sitemap.generate]', 'Generating url for post', post._id, 'success');
         next();
       });
-      next();
     }],
     postsUrls: ['sitemap', 'posts', function (next, data) {
       async.each(data.posts, function (post, next) {
@@ -79,7 +78,6 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
     }],
     categoriesUrls: ['sitemap', 'categories', function (next, data) {
       async.each(data.categories, function (category, next) {
-        console.info(category);
         var obj = {
           sitemap: data.sitemap.toObject(),
           collectionName: 'categories',
