@@ -46,7 +46,6 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
       app.models.sitemapUrls.create(obj, function (err) {
         if (err) { return next(err); }
         data.sitemap.urlsCount += 1;
-        app.log.debug('[sitemap.generate]', 'Generating url for post', post._id, 'success');
         next();
       });
     }],
