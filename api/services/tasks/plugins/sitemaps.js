@@ -32,9 +32,9 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
     posts: ['site', function (next, data) {
       app.models.posts.find({ 'site._id': data.site._id, postType: { $ne: 'page' }, published: true, removed: {$exists: false}}, next);
     }],
-    categories: function (next) {
+    categories: ['site', function (next, data) {
       app.models.categories.find({ 'site._id': data.site._id, removed: {$exists: false}}, next);
-    },
+    }],
     homeUrl: ['sitemap', function (next, data) {
       async.each(data.posts, function (post, next) {
         var obj = {
