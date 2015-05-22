@@ -35,7 +35,8 @@ var schema = new mongoose.Schema({
     youtubeChannel: String,
     subscribeChannel: String,
     vkGroupId: String,
-    fbGroupId: String
+    fbGroupId: String,
+    googleAnalytics: String
   },
 
   removed: {type: Date},
