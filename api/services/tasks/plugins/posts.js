@@ -27,6 +27,10 @@ exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb
       app.models.posts.findById(msg.body._id, next);
     },
     'generateKeywords': ['post', function(next, res) {
+      if (res.post.site) {
+        app.services.mq.push(app, 'events', {name: 'sitemap.generate.site', _id: res.post.site._id});
+      }
+
       var tfidf = new TfIdf();
       tfidf.addDocument(res.post.title + ' ' + htmlToText.fromString(res.post.body, { wordwrap: false, ignoreHref: true, ignoreImage: true }));
 

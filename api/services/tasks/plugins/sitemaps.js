@@ -35,6 +35,23 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
     categories: function (next) {
       app.models.categories.find({removed: {$exists: false}}, next);
     },
+    homeUrl: ['sitemap', function (next, data) {
+      async.each(data.posts, function (post, next) {
+        var obj = {
+          sitemap: data.sitemap.toObject(),
+          changefreq: 'daily',
+          priority: 1,
+          loc: '/',
+          images: []
+        };
+        app.models.sitemapUrls.create(obj, function (err) {
+          if (err) { return next(err); }
+          data.sitemap.urlsCount += 1;
+          app.log.debug('[sitemap.generate]', 'Generating url for post', post._id, 'success');
+          next();
+        });
+      }, next);
+    }],
     postsUrls: ['sitemap', 'posts', function (next, data) {
       async.each(data.posts, function (post, next) {
         var obj = {
@@ -57,6 +74,32 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
           if (err) { return next(err); }
           data.sitemap.urlsCount += 1;
           app.log.debug('[sitemap.generate]', 'Generating url for post', post._id, 'success');
+          next();
+        });
+      }, next);
+    }],
+    categoriesUrls: ['sitemap', 'categories', function (next, data) {
+      async.each(data.categories, function (category, next) {
+        var obj = {
+          sitemap: data.sitemap.toObject(),
+          collectionName: 'categories',
+          resourceId: category._id,
+          changefreq: 'daily',
+          priority: 0.5,
+          lastmod: category.modifyDate || category.createDate,
+          loc: app.services.url.urlFor('categories', category),
+          images: []
+        };
+        if (category.coverFile && category.coverFile._id) {
+          obj.images.push({
+            loc: app.services.url.urlFor('files', category.coverFile),
+            caption: category.coverFile.title
+          });
+        }
+        app.models.sitemapUrls.create(obj, function (err) {
+          if (err) { return next(err); }
+          data.sitemap.urlsCount += 1;
+          app.log.debug('[sitemap.generate]', 'Generating url for category', category._id, 'success');
           next();
         });
       }, next);

@@ -20,6 +20,9 @@ UrlSvc.prototype.urlFor = function (collectionName, params) {
     case 'posts':
       return '/' + params.category.parentAlias + '/' + params.category.alias + '/' + params.alias + '.html';
 
+    case 'categories':
+      return '/' + params.parentAlias + '/' + params.alias;
+
     case 'files':
       return '/api/files/' + params._id;
   }
