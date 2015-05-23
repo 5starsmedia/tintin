@@ -6,24 +6,6 @@ var express = require('express'),
   async = require('async'),
   router = express.Router();
 
-router.post('/:id/seo-scan', function (req, res, next) {
-  async.auto({
-    'item': function(next) {
-      return req.app.models.posts.findById(req.params.id, next);
-    }
-  }, function (err, data) {
-    if (err) { return next(err); }
-
-    if (!data.item) {
-      res.status(404).json({ msg: 'Not found' });
-    }
-
-    req.app.services.mq.push(req.app, 'events', {name: 'seo.scan.post', _id: data.item._id});
-
-    return res.status(204).end();
-  });
-});
-
 router.get('/import', function (req, res, next) {
   return;
   _.forEach(data, function(item) {

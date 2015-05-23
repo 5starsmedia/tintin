@@ -52,25 +52,40 @@
         <div class="row">
             <div class="col-lg-9">
 
-                <st-form-element label="{{'Title'|translate}}" field="title">
 
-                    <input id="title" class="form-control input-lg" name="title" type="text" required
-                           ng-model="post.title"/>
+                <tabset class="hpanel">
+                    <tab>
+                        <tab-heading>{{'Main information'|translate}}</tab-heading>
 
-                </st-form-element>
+                        <div class="panel-body">
+                            <st-form-element label="{{'Title'|translate}}" field="title">
 
-                <st-form-element label="{{'Alias'|translate}}" field="alias">
+                                <input id="title" class="form-control input-lg" name="title" type="text" required
+                                       ng-model="post.title"/>
 
-                    <input class="form-control" name="alias" type="text" ng-model="post.alias"/>
+                            </st-form-element>
 
-                </st-form-element>
+                            <st-form-element label="{{'Alias'|translate}}" field="alias">
 
-                <st-form-element label="{{'Body'|translate}}" field="body">
+                                <input class="form-control" name="alias" type="text" ng-model="post.alias"/>
 
-                    <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
-                              ng-model="post.body"></textarea>
+                            </st-form-element>
 
-                </st-form-element>
+                            <st-form-element label="{{'Body'|translate}}" field="body">
+
+                                <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
+                                          ng-model="post.body"></textarea>
+
+                            </st-form-element>
+                        </div>
+                    </tab>
+
+                    <tab>
+                        <tab-heading>{{'SEO'|translate}}</tab-heading>
+
+                        <div ng-include="'views/modules/news/page-seo.html'"></div>
+                    </tab>
+                </tabset>
 
             </div>
             <div class="col-lg-3">
@@ -173,43 +188,6 @@
 
                         <div ng-repeat="keyword in post.keywords">
                             <strong>{{keyword.word}}</strong> - {{keyword.importance}}
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="hpanel" ng-controller="KeywordsBlockGroupsCtrl">
-                    <div class="panel-heading">
-                        {{'Keyword group'|translate}}
-                    </div>
-                    <div class="panel-body">
-
-                        <select class="form-control" ng-model="post.keywordGroup._id" ng-options="group._id as group.title group by group.project.title for group in groups"></select>
-
-                        <br/>
-
-                        <table class="table table-condensed">
-                            <tr>
-                                <th>Keyword</th>
-                                <th class="text-center">G</th>
-                                <th class="text-center">Я</th>
-                            </tr>
-                            <tr ng-repeat="keyword in post.seo.keywords">
-                                <td>{{keyword.title}}</td>
-                                <td class="text-center">
-                                    <span ng-if="keyword.google">{{keyword.google}}</span>
-                                    <span ng-if="!keyword.google">-</span>
-                                </td>
-                                <td class="text-center">
-                                    <span ng-if="keyword.yandex">{{keyword.yandex}}</span>
-                                    <span ng-if="!keyword.yandex">-</span>
-                                </td>
-                            </tr>
-                        </table>
-
-
-                        <div ng-if="post.keywordGroup._id && post._id && post.status == 4">
-                            <button class="btn btn-default btn-block" type="button" ng-click="updateSeoPositions()">{{'Update positions'|translate}}</button>
                         </div>
 
                     </div>

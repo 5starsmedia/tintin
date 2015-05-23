@@ -15,6 +15,7 @@ GoogleSvc.prototype.getSitesByKeyword = function (keyword, options, next) {
 
   request('http://www.google.ru/search?num=' + options.count + '&complete=0&q=' + keyword, function (error, response, body) {
     if (error) { return next(error); }
+
     var urls = [],
       $ = cheerio.load(body);
 

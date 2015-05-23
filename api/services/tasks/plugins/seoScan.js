@@ -13,12 +13,119 @@ exports['seo.scan'] = function (app, msg, cb) {
     if (err) { return cb(err); }
 
     _.forEach(posts, function (post) {
-      app.services.mq.push(app, 'events', {name: 'seo.scan.post', _id: post._id});
+      app.services.mq.push(app, 'events', {name: 'seo.scan.post.yandex', _id: post._id});
+      //app.services.mq.push(app, 'events', {name: 'seo.scan.post', _id: post._id});
     });
     cb();
   });
 };
 
+exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
+  async.auto({
+    'task': function(next) {
+      app.models.seoTasks.findById(msg.body._id, next);
+    },
+    'isProcess': ['task', function(next, data) {
+      data.task.status = 'inprocess';
+      data.task.save(next);
+    }],
+    'keywords': ['task', function(next, data) {
+      var keywords = data.task.keywords.split("\n");
+      keywords = _.map(keywords, function(keyword) {
+        return keyword.replace(/\d+/g, '');
+      });
+      next(null, keywords)
+    }],
+    'yandexPosition': ['task', 'keywords', function(next, data) {
+      var keywords = data.keywords;
+      var url = 'http://' + data.task.site.domain + data.task.url.link;
+
+      async.mapLimit(keywords, 3, function(keyword, next) {
+        app.services.yandex.getUrlPosition(url, keyword, { count: 100 }, next);
+      }, function(err, results){
+        if (err) { return next(err); }
+
+        next(null, results);
+      });
+    }]
+  }, function (err, data) {
+    if (err) {
+      data.task.status = 'errored';
+      data.task.resultString = err.message;
+      data.task.result = err;
+      data.task.save(cb);
+      return;
+    }
+
+    data.task.status = 'completed';
+    data.task.resultString = '';
+    _.forEach(data.keywords, function(keyword, n) {
+      if (data.yandexPosition[n] < 0) {
+        return;
+      }
+      data.task.resultString += keyword + ': ' + data.yandexPosition[n] + '<br/>';
+    });
+    if (!data.task.resultString) {
+      data.task.resultString = '-';
+    }
+    data.task.result = data.yandexPosition;
+    data.task.save(cb);
+  });
+};
+
+
+exports['seo.task.get-google-position'] = function (app, msg, cb) {
+  async.auto({
+    'task': function(next) {
+      app.models.seoTasks.findById(msg.body._id, next);
+    },
+    'isProcess': ['task', function(next, data) {
+      data.task.status = 'inprocess';
+      data.task.save(next);
+    }],
+    'keywords': ['task', function(next, data) {
+      var keywords = data.task.keywords.split("\n");
+      keywords = _.map(keywords, function(keyword) {
+        return keyword.replace(/\d+/g, '');
+      });
+      next(null, keywords)
+    }],
+    'googlePosition': ['task', 'keywords', function(next, data) {
+      var keywords = data.keywords;
+      var url = 'http://' + data.task.site.domain + data.task.url.link;
+
+      async.mapLimit(keywords, 3, function(keyword, next) {
+        app.services.google.getUrlPosition(url, keyword, { count: 100 }, next);
+      }, function(err, results){
+        if (err) { return next(err); }
+
+        next(null, results);
+      });
+    }]
+  }, function (err, data) {
+    if (err) {
+      data.task.status = 'errored';
+      data.task.resultString = err.message;
+      data.task.result = err;
+      data.task.save(cb);
+      return;
+    }
+
+    data.task.status = 'completed';
+    data.task.resultString = '';
+    _.forEach(data.keywords, function(keyword, n) {
+      if (data.googlePosition[n] < 0) {
+        return;
+      }
+      data.task.resultString += keyword + ': ' + data.googlePosition[n] + '<br/>';
+    });
+    if (!data.task.resultString) {
+      data.task.resultString = '-';
+    }
+    data.task.result = data.googlePosition;
+    data.task.save(cb);
+  });
+};
 
 exports['seo.scan.post'] = function (app, msg, cb) {
   async.auto({
