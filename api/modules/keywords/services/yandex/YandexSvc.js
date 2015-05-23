@@ -11,17 +11,12 @@ function YandexSvc(app) {
   this.app = app;
 }
 
-YandexSvc.prototype.getApiUrl = function (keyword, options, next) {
-  //return 'https://xmlsearch.yandex.ru/xmlsearch?user=esvit&key=03.9573926:0f453a40cd2d029a3143334941a90fda&lr=213&filter=none';
-
-  var user = 'm-slobodianiuk',
-    key = '03.266478028:a3acf5e282407d91686118bd9b79d416';
-
-  return 'http://xmlsearch.yandex.ru/xmlsearch?user=' + user + '&key=' + key;
+YandexSvc.prototype.getApiUrl = function (site) {
+  return site.yandexXml;
 };
 
-YandexSvc.prototype.searchByKeyword = function (keyword, options, next) {
-  var url = this.getApiUrl(),
+YandexSvc.prototype.searchByKeyword = function (site, keyword, options, next) {
+  var url = this.getApiUrl(site),
     self = this;
 
   yandex({url: url, query: keyword, groupby: {
@@ -47,8 +42,8 @@ YandexSvc.prototype.searchByKeyword = function (keyword, options, next) {
   });
 };
 
-YandexSvc.prototype.getSitesByKeyword = function (keyword, options, next) {
-  this.searchByKeyword(keyword, options, function(err, result) {
+YandexSvc.prototype.getSitesByKeyword = function (site, keyword, options, next) {
+  this.searchByKeyword(site, keyword, options, function(err, result) {
     if (err) { return next(err); }
 
     var groups = result.grouping[0].group,
@@ -60,8 +55,8 @@ YandexSvc.prototype.getSitesByKeyword = function (keyword, options, next) {
   });
 };
 
-YandexSvc.prototype.getUrlPosition = function (url, keyword, options, next) {
-  this.getSitesByKeyword(keyword, options, function(err, urls) {
+YandexSvc.prototype.getUrlPosition = function (site, url, keyword, options, next) {
+  this.getSitesByKeyword(site, keyword, options, function(err, urls) {
     if (err) { return next(err); }
 
     next(null, _.indexOf(urls, url));

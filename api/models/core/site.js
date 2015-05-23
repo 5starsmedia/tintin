@@ -39,6 +39,8 @@ var schema = new mongoose.Schema({
     googleAnalytics: String
   },
 
+  yandexXml: String,
+
   removed: {type: Date},
   createDate: {type: Date, required: true, default: Date.now}
 }, {

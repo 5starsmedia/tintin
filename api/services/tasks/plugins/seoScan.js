@@ -25,6 +25,9 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
     'task': function(next) {
       app.models.seoTasks.findById(msg.body._id, next);
     },
+    'site': ['task', function(next, data) {
+      app.models.sites.findById(data.task.site._id, next);
+    }],
     'isProcess': ['task', function(next, data) {
       data.task.status = 'inprocess';
       data.task.save(next);
@@ -36,12 +39,12 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
       });
       next(null, keywords)
     }],
-    'yandexPosition': ['task', 'keywords', function(next, data) {
+    'yandexPosition': ['task', 'keywords', 'site', function(next, data) {
       var keywords = data.keywords;
       var url = 'http://' + data.task.site.domain + data.task.url.link;
 
       async.mapLimit(keywords, 3, function(keyword, next) {
-        app.services.yandex.getUrlPosition(url, keyword, { count: 100 }, next);
+        app.services.yandex.getUrlPosition(data.site, url, keyword, { count: 100 }, next);
       }, function(err, results){
         if (err) { return next(err); }
 
