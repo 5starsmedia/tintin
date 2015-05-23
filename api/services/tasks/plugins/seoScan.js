@@ -50,6 +50,26 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
 
         next(null, results);
       });
+    }],
+
+    'resource': ['task', function(next, data) {
+      app.models[data.task.url.collectionName].findById(data.task.url.resourceId, next);
+    }],
+    'updateResource': ['resource', 'keywords', 'yandexPosition', function(next, data) {
+      var avg = 0, count = 0;
+      data.post.seo.lastUpdateDate = Date.now();
+
+      _.forEach(data.keywords, function(keyword, i) {
+        if (data.yandexPosition[i] >= 0) {
+          avg += data.yandexPosition[i] + 1;
+          count++;
+        }
+      });
+
+      if (count) {
+        data.post.seo.google = Math.round(avg / count);
+      }
+      data.post.save(next);
     }]
   }, function (err, data) {
     if (err) {
@@ -104,6 +124,26 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
 
         next(null, results);
       });
+    }],
+
+    'resource': ['task', function(next, data) {
+      app.models[data.task.url.collectionName].findById(data.task.url.resourceId, next);
+    }],
+    'updateResource': ['resource', 'keywords', 'googlePosition', function(next, data) {
+      var avg = 0, count = 0;
+      data.post.seo.lastUpdateDate = Date.now();
+
+      _.forEach(data.keywords, function(keyword, i) {
+          if (data.googlePosition[i] >= 0) {
+            avg += data.googlePosition[i] + 1;
+            count++;
+          }
+        });
+
+      if (count) {
+        data.post.seo.google = Math.round(avg / count);
+      }
+      data.post.save(next);
     }]
   }, function (err, data) {
     if (err) {
