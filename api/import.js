@@ -356,7 +356,7 @@ var saveFile = function (site, post, image, next) {
     var isNew = false;
     if (!file) {
       isNew = true;
-      console.info('New file [post]', fileName, file);
+      console.info('New file [post]', fileName, {originalName: fileName});
       file = new app.models.files({
         originalName: fileName,
         collectionName: 'posts',
