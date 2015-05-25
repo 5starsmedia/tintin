@@ -16,6 +16,44 @@ var app = {};
 app.log = require('./log.js');
 app.config = require('./config.js');
 app.models = require('./models');
+var PostsModule = require('./modules/posts'),
+  CommentsModule = require('./modules/comments'),
+  KeywordsModule = require('./modules/keywords'),
+  EcommerceModule = require('./modules/ecommerce'),
+  UploadsModule = require('./modules/uploads'),
+  MenuModule = require('./modules/menu'),
+  WikiModule = require('./modules/wiki'),
+  AdsModule = require('./modules/ads'),
+  UsersModule = require('./modules/users'),
+  SitesModule = require('./modules/sites'),
+  SitemapModule = require('./modules/sitemap'),
+  ServersModule = require('./modules/servers');
+
+app.modules = {
+  posts: new PostsModule(app),
+  comments: new CommentsModule(app),
+  keywords: new KeywordsModule(app),
+  ecommerce: new EcommerceModule(app),
+  uploads: new UploadsModule(app),
+  menu: new MenuModule(app),
+  wiki: new WikiModule(app),
+  ads: new AdsModule(app),
+  users: new UsersModule(app),
+  sites: new SitesModule(app),
+  sitemap: new SitemapModule(app),
+  servers: new ServersModule(app),
+
+  each: function(callFunc) {
+    _.forEach(app.modules, function(obj, name) {
+      if (typeof obj == 'object') {
+        callFunc(obj);
+      }
+    });
+  }
+};
+app.modules.each(function(moduleObj) {
+  moduleObj.initModels();
+});
 
 var tablePrefix = 'tip_',
   siteDomain = 'vseproip.com';
