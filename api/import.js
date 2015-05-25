@@ -13,9 +13,9 @@ var PHPUnserialize = require('php-unserialize');
 var grid;
 
 
-var tablePrefix = 'tip_',
-  siteDomain = 'vseproip.com',
-  databaseName = 'otendere_vseoip';
+var tablePrefix = 'wp_',
+  siteDomain = 'inet-banking.com',
+  databaseName = 'kingdia_inetban';
 
 var app = {};
 app.log = require('./log.js');
