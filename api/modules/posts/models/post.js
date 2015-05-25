@@ -4,8 +4,6 @@ var mongoose = require('mongoose'),
   autoIncrement = require("../../../models/plugin/autoincrement.js");
 
 var postSchema = new mongoose.Schema({
-  id: Number,
-
   // тип публікації
   postType: {type: String, default: 'news', enum: ['news', 'post', 'page', 'announce']},
   // Назва
@@ -110,9 +108,6 @@ var postSchema = new mongoose.Schema({
   collection: 'posts'
 });
 
-postSchema.index({id: 1}, {unique: true});
 postSchema.index({createDate: 1});
-
-postSchema.plugin(autoIncrement.mongoosePlugin, {field: 'id'});
 
 module.exports = mongoose.model('Post', postSchema);
