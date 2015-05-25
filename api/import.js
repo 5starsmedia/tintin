@@ -26,8 +26,7 @@ var PostsModule = require('./modules/posts'),
   AdsModule = require('./modules/ads'),
   UsersModule = require('./modules/users'),
   SitesModule = require('./modules/sites'),
-  SitemapModule = require('./modules/sitemap'),
-  ServersModule = require('./modules/servers');
+  SitemapModule = require('./modules/sitemap');
 
 app.modules = {
   posts: new PostsModule(app),
@@ -41,7 +40,6 @@ app.modules = {
   users: new UsersModule(app),
   sites: new SitesModule(app),
   sitemap: new SitemapModule(app),
-  servers: new ServersModule(app),
 
   each: function(callFunc) {
     _.forEach(app.modules, function(obj, name) {
