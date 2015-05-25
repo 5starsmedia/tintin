@@ -13,9 +13,9 @@ var PHPUnserialize = require('php-unserialize');
 var grid;
 
 
-var tablePrefix = 'ander_',
-  siteDomain = 'v-androide.com',
-  databaseName = 'movi00_vandroid';
+var tablePrefix = 'tip_',
+  siteDomain = 'vseproip.com',
+  databaseName = 'otendere_vseoip';
 
 var app = {};
 app.log = require('./log.js');
