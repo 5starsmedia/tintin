@@ -17,8 +17,8 @@ app.log = require('./log.js');
 app.config = require('./config.js');
 app.models = require('./models');
 
-var tablePrefix = 'bp_',
-  siteDomain = 'bezprovodoff.5stars.link';
+var tablePrefix = 'tip_',
+  siteDomain = 'vseproip.com';
 
 var commentsRef = {};
 
@@ -523,7 +523,7 @@ async.auto({
       port: 3310,
       user: 'remote',
       password: 'gfhjkm666',
-      database: 'gidtec_wp'
+      database: 'otendere_vseoip'
     });
     connection.connect();
     next(null, connection);
