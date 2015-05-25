@@ -471,7 +471,7 @@ var saveCategory = function (site, connection, item, next) {
       });
     },
     'rootCategory': function (next) {
-      app.models.categories.findOne({parentId: null}, function (err, node) {
+      app.models.categories.findOne({parentId: null, 'site._id': site._id}, function (err, node) {
         if (err) return next(err);
 
         if (!node) {
