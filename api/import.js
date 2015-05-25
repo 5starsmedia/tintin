@@ -352,10 +352,11 @@ var saveCategoryFile = function (site, post, image, next) {
 var saveFile = function (site, post, image, next) {
   var fileName = image.guid;
   app.models.files.findOne({originalName: fileName}, function (err, file) {
+    if (err) return next(err);
     var isNew = false;
     if (!file) {
       isNew = true;
-      console.info('New file [post]', fileName);
+      console.info('New file [post]', fileName, file);
       file = new app.models.files({
         originalName: fileName,
         collectionName: 'posts',
