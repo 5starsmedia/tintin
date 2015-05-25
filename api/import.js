@@ -191,7 +191,7 @@ var saveItem = function (site, connection, item, next) {
       });
     }],
     'post': function (next) {
-      app.models.posts.findOne({id: id}, function (err, post) {
+      app.models.posts.findOne({id: id, 'site._id': site._id}, function (err, post) {
         if (err) {
           return next(err);
         }
@@ -455,7 +455,7 @@ var saveCategory = function (site, connection, item, next) {
       });
     },
     'category': function (next) {
-      app.models.categories.findOne({id: id}, function (err, category) {
+      app.models.categories.findOne({id: id, 'site._id': site._id}, function (err, category) {
         if (err) {
           return next(err);
         }
