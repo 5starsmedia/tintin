@@ -478,6 +478,10 @@ var saveCategory = function (site, connection, item, next) {
           node = new app.models.categories();
           node.title = 'root';
           node.removed = Date.now();
+          node.site = {
+            _id: site._id,
+            domain: site.domain
+          };
           node.save(function (err) {
             if (err) return next(err);
             next(undefined, node);
