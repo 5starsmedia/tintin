@@ -263,6 +263,7 @@ var saveCategoryFile = function (site, post, image, next) {
     var isNew = false;
     if (!file) {
       isNew = true;
+      console.info('New file [category]', fileName);
       file = new app.models.files({
         originalName: fileName,
         collectionName: 'categories',
@@ -354,6 +355,7 @@ var saveFile = function (site, post, image, next) {
     var isNew = false;
     if (!file) {
       isNew = true;
+      console.info('New file [post]', fileName);
       file = new app.models.files({
         originalName: fileName,
         collectionName: 'posts',
