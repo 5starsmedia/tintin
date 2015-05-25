@@ -12,6 +12,11 @@ var http = require('http');
 var PHPUnserialize = require('php-unserialize');
 var grid;
 
+
+var tablePrefix = 'ander_',
+  siteDomain = 'v-androide.com',
+  databaseName = 'movi00_vandroid';
+
 var app = {};
 app.log = require('./log.js');
 app.config = require('./config.js');
@@ -52,9 +57,6 @@ app.modules = {
 app.modules.each(function(moduleObj) {
   moduleObj.initModels();
 });
-
-var tablePrefix = 'tip_',
-  siteDomain = 'vseproip.com';
 
 var commentsRef = {};
 
@@ -559,7 +561,7 @@ async.auto({
       port: 3310,
       user: 'remote',
       password: 'gfhjkm666',
-      database: 'otendere_vseoip'
+      database: databaseName
     });
     connection.connect();
     next(null, connection);
