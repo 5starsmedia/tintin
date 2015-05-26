@@ -12,7 +12,39 @@
     "title": "Ads"
   },
   {
+    "name": "ecommerce",
+    "title": "Ecommerce"
+  },
+  {
     "name": "servers",
     "title": "Manage server"
+  },
+  {
+    "name": "posts",
+    "title": "Posts"
+  },
+  {
+    "name": "ads",
+    "title": "ads"
+  },
+  {
+    "name": "menus",
+    "title": "menus"
+  },
+  {
+    "name": "comments",
+    "title": "comments"
+  },
+  {
+    "name": "keywords",
+    "title": "keywords"
+  },
+  {
+    "name": "users",
+    "title": "users"
+  },
+  {
+    "name": "sites",
+    "title": "sites"
   }
 ]

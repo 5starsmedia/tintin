@@ -1,4 +1,4 @@
-var appName = 'module.base.permissions';
+var appName = 'base.permissions';
 
 let module = angular.module(appName, [
 ]);

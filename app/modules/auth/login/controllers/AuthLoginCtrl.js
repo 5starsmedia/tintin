@@ -33,7 +33,7 @@ class AuthLoginCtrl {
       $auth.authenticate(provider).then(function () {
         basePermissionsSet.clearCache();
         $scope.loading = false;
-        $location.url('/');
+        $state.go('dashboard');
       }).catch(function (res) {
         $scope.loading = false;
         if (res.status == 422) {
@@ -54,7 +54,6 @@ class AuthLoginCtrl {
         basePermissionsSet.clearCache();
         $state.go('dashboard');
       }).catch(function (res) {
-        console.info(res)
         $scope.loading = false;
         if (res.status == 422) {
           $scope.error = res.data;
