@@ -517,7 +517,7 @@ var saveCategory = function (site, connection, item, next) {
       category.alias = data.term.slug;
       category.description = item.description;
       category.parentId = (!parent || !categoryRefId[parent]) ? data.rootCategory._id : categoryRefId[parent]._id;
-      if (parent) {
+      if (parent && categoryRefId[parent]) {
         category.parentAlias = categoryRefId[parent].alias;
       }
       category.markModified('parentId');
