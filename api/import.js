@@ -14,8 +14,8 @@ var grid;
 
 
 var tablePrefix = 'wp_',
-  siteDomain = 'inet-banking.com',
-  databaseName = 'kingdia_inetban';
+  siteDomain = 'pro-ipad.com',
+  databaseName = 'vvslob_ipad';
 
 var app = {};
 app.log = require('./log.js');
