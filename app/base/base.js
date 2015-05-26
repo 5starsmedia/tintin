@@ -14,6 +14,7 @@ import baseMetaEdit from './directives/baseMetaEdit.js';
 import bzLoadingContainer from './directives/bzLoadingContainer.js';
 
 angular.module(appName, [
+  'views',
   permissions,
   'ui.router',
   'cgNotify',

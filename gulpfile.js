@@ -152,7 +152,7 @@ gulp.task('compileAppTemplates', ['build-persistent'], function () {
 });
 
 gulp.task('concat', ['build-persistent', 'compileTemplates'], function() {
-  return gulp.src([config.outputDir + 'app.js', config.outputDir + 'templates.js', config.outputDir + 'templates-app.js'])
+  return gulp.src([config.outputDir + 'templates.js', config.outputDir + 'templates-app.js', config.outputDir + 'app.js'])
     .pipe(concat('app.js'))
     .pipe(gulp.dest(config.outputDir));
 });
