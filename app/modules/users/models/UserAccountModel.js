@@ -1,7 +1,7 @@
 export default
   /*@ngInject*/
-  function UserAccountModel($resource) {
-    return $resource('/api/accounts/:_id/:method', {
+  function UserAccountModel($resource, basePermissionsSet) {
+    var resource = $resource('/api/accounts/:_id/:method', {
       '_id': '@_id'
     }, {
       'getAccountInfo': {
@@ -15,4 +15,5 @@ export default
       'create': { method: 'POST', url: '/api/auth/register' },
       'delete': { method: 'DELETE'}
     });
+    return resource;
   }

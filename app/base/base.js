@@ -18,10 +18,12 @@ angular.module(appName, [])
   .filter('translate', translate)
   .filter('trim', trim)
 
-  .run(($rootScope, appTitle, appSite, appSiteLink) => {
+  .run(($rootScope, appTitle, appSite, appSiteLink, basePermissionsSet) => {
     $rootScope.appTitle = appTitle;
     $rootScope.appSite = appSite;
     $rootScope.appSiteLink = appSiteLink;
+
+    $rootScope.hasPermission = basePermissionsSet.access;
   })
 
 

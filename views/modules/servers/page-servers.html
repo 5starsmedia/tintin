@@ -2,15 +2,15 @@
 
     <div class="row">
 
-        <div class="col-md-9">
+        <div class="col-md-12">
 
             <div class="pull-right">
                 <a class="btn btn-success btn-outline" ui-sref="users.create">
-                    <i class="fa fa-plus"></i> {{'New user'|translate}}
+                    <i class="fa fa-plus"></i> {{'New server'|translate}}
                 </a>
             </div>
             <h2 class="font-light m-b-xs ng-binding">
-                {{'Users'|translate}}
+                {{'Servers'|translate}}
             </h2>
 
             <div class="hpanel">
@@ -43,7 +43,7 @@
                                         </span>
                                     </a>
 
-                                    <a ui-sref="profile.user.info({username: item.username})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
+                                    <a ui-sref="ecommerce.edit({_id: item._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
 
                                     <a href="" st-confirm="remove(item)" title="{{'Delete product'|translate}}"
                                        message-title="'Delete'|translate" message="'Are you realy want to delete this product?'|translate">
@@ -54,7 +54,7 @@
                             </td>
                         </tr>
                         <tr ng-if="!$data.length">
-                            <td colspan="{{$columns.length}}" class="text-center">{{'No users'|translate}}</td>
+                            <td colspan="{{$columns.length}}" class="text-center">{{'No servers'|translate}}</td>
                         </tr>
                     </table>
 
@@ -64,11 +64,6 @@
 
 
         </div>
-        <!--div class="col-md-3">
-
-            <div ng-include="'views/modules/ecommerce/block-tree.html'"></div>
-
-        </div-->
 
 
     </div>

@@ -9,6 +9,7 @@ import keywords from './keywords/keywords';
 import ecommerce from './ecommerce/ecommerce';
 import wiki from './wiki/wiki';
 import comments from './comments/comments';
+import servers from './servers/servers';
 
 export default [
   base,
@@ -21,5 +22,6 @@ export default [
   keywords,
   ecommerce,
   wiki,
-  comments
+  comments,
+  servers
 ];

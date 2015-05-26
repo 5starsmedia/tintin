@@ -9,28 +9,28 @@
 <br/>
 
 <table ng-table="tableParams" class="table">
-    <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
+    <tr ng-repeat="product in $data" ng-class="{'success': product.isPublished}">
         <td data-title="'Code'|translate" sortable="'code'">
-            <a ui-sref="ecommerce.edit({id: item._id})">
-                <span ng-if="item.code" class="font-bold">{{item.code}}</span>
+            <a ui-sref="ecommerce.edit({id: product._id})">
+                <span ng-if="item.code" class="font-bold">{{item.code}}-v{{$index+1}}</span>
             </a>
         </td>
         <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
-            <a ui-sref="ecommerce.edit({id: item._id})">
-                {{item.title}}
+            <a ui-sref="ecommerce.edit({id: product._id})">
+                {{product.title}}
             </a>
         </td>
         <td data-title="'Price'|translate" sortable="'price'">
-            <div bz-loading-container="item.$loading">
-                <input type="number" ng-model="item.price" ng-blur="updateItem(item)" class="form-control" />
+            <div bz-loading-container="product.$loading">
+                <input type="number" ng-model="product.price" ng-blur="updateItem(item)" class="form-control" />
             </div>
         </td>
         <td data-title="'Availability'|translate" sortable="'inStockCount'">
 
-            <span class="label label-default" ng-if="!item.isInStock">{{'Not available'|translate}}</span>
-            <span class="label label-success" ng-if="item.isInStock">
+            <span class="label label-default" ng-if="!product.isInStock">{{'Not available'|translate}}</span>
+            <span class="label label-success" ng-if="product.isInStock">
                 {{'In stock:'|translate}}
-                {{item.inStockCount}}
+                {{product.inStockCount}}
             </span>
 
         </td>
@@ -38,16 +38,16 @@
 
             <div class="btn-group">
 
-                <a href="" data-ng-click="item.isPublished = !item.isPublished; updateItem(item)">
-                    <span ng-if="!item.isPublished" title="{{'Unpublish'|translate}}">
+                <a href="" data-ng-click="product.isPublished = !product.isPublished; updateItem(item)">
+                    <span ng-if="!product.isPublished" title="{{'Unpublish'|translate}}">
                         <i class="fa fa-lock"></i>
                     </span>
-                    <span ng-if="item.isPublished" title="{{'Publish'|translate}}">
+                    <span ng-if="product.isPublished" title="{{'Publish'|translate}}">
                         <i class="fa fa-unlock"></i>
                     </span>
                 </a>
 
-                <a ui-sref="ecommerce.edit({id: item._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
+                <a ui-sref="ecommerce.edit({id: product._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
 
                 <a href="" st-confirm="remove(item)" title="{{'Delete product'|translate}}"
                    message-title="'Delete'|translate" message="'Are you realy want to delete this product?'|translate">

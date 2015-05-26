@@ -22,7 +22,6 @@ import NewsPostsEditCtrl from './controllers/NewsPostsEditCtrl.js';
 module.controller('NewsPostsCtrl', NewsPostsCtrl)
   .controller('NewsPostsEditCtrl', NewsPostsEditCtrl);
 
-
 // config
 module.config(function ($stateProvider) {
   $stateProvider

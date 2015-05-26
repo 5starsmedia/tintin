@@ -36,7 +36,8 @@ var schema = new mongoose.Schema({
     subscribeChannel: String,
     vkGroupId: String,
     fbGroupId: String,
-    googleAnalytics: String
+    googleAnalytics: String,
+    yandexMetrika: String
   },
 
   yandexXml: String,

@@ -19,30 +19,23 @@
 
                     <table ng-table="tableParams" ng-table-filters-manager show-filter="false" class="table">
                         <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
-                            <td data-title="'Code'|translate" sortable="'code'" style="width: 50px">
+                            <td data-title="'Code'|translate" sortable="'code'" style="width: 50px" product-images-preview>
                                 <a ui-sref="ecommerce.edit({id: item._id})">
                                     <span ng-if="item.code" class="font-bold">{{item.code}}</span>
                                 </a>
+                                <br/>
+                                <a ng-href="/api/files/{{item.coverFile._id}}">
+                                    <img ng-src="/api/files/{{item.coverFile._id}}?width=40" alt="{{item.title}} ({{item.code}})" image-with-preview />
+                                </a>
                             </td>
                             <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
-                                <div class="media">
-                                    <div class="media-left" ng-if="item.coverFile">
-                                        <img ng-src="/api/files/{{item.coverFile._id}}?width=40" />
-                                    </div>
-                                    <div class="media-body">
-                                        <a ui-sref="ecommerce.edit({id: item._id})">
-                                            {{item.title}}
-                                        </a>
-                                        <div>
-                                            <a ng-repeat="product in item.productVariations" ui-sref="ecommerce.edit({id: product._id})" title="{{product.code}} {{product.title}}">
-                                                <img ng-if="product.coverFile" ng-src="/api/files/{{product.coverFile._id}}?width=40" />
-                                                <small ng-if="!product.coverFile">
-                                                    {{product.title}}
-                                                </small>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                                <a ui-sref="ecommerce.edit({id: item._id})">
+                                    {{item.title}}
+                                </a>
+                            </td>
+                            <td data-title="'Variations'|translate" style="width: 80px">
+                                <span ng-if="!item.productVariations">No variations</span>
+                                <ng-pluralize count="item.productVariations.length" when="{ 0: 'No variations', one: '{} variation', other: '{} variations' }"></ng-pluralize>
                             </td>
                             <td data-title="'Price'|translate" style="width: 80px" sortable="'price'">
                                 <div bz-loading-container="item.$loading">

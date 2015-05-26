@@ -10,5 +10,9 @@
   {
     "name": "ads",
     "title": "Ads"
+  },
+  {
+    "name": "servers",
+    "title": "Manage server"
   }
 ]

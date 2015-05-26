@@ -28,6 +28,11 @@ module.controller('EcommerceListCtrl', EcommerceListCtrl)
   .controller('EcommerceVariationsCtrl', EcommerceVariationsCtrl)
   .controller('EcommerceTreeCtrl', EcommerceTreeCtrl);
 
+
+import productImagesPreview from './directives/productImagesPreview.js';
+
+module.directive('productImagesPreview', productImagesPreview);
+
 module.config(function ($stateProvider) {
   $stateProvider
     .state('ecommerce', {

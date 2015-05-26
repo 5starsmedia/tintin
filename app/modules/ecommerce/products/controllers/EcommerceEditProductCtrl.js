@@ -58,8 +58,11 @@ class EcommerceEditProductCtrl {
         $q.all(defers).then(function () {
           $scope.loading = false;
 
-          notify('Сохранено', 'success');
-          $state.go('ecommerce.products');
+          notify({
+            message: $filter('translate')('Saved!'),
+            classes: 'alert-success'
+          });
+          $state.go('^.edit', { id: data._id });
         });
       }, (res) => {
         $scope.loading = false;
