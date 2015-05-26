@@ -10,6 +10,15 @@
 
 </st-form-element>
 
+<st-form-element label="{{'Homepage title'|translate}}" field="homepageTitle">
+
+    <input class="form-control" name="homepageTitle" type="text" ng-model="site.settings.homepageTitle"/>
+    <div class="help-block">
+        Example: Home
+    </div>
+
+</st-form-element>
+
 <st-form-element label="{{'YouTube channel'|translate}}" field="youtubeChannel">
 
     <input class="form-control" name="youtubeChannel" type="text" ng-model="site.settings.youtubeChannel"/>
