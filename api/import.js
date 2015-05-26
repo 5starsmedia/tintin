@@ -13,9 +13,9 @@ var PHPUnserialize = require('php-unserialize');
 var grid;
 
 
-var tablePrefix = 'wp_',
-  siteDomain = 'pro-ipad.com',
-  databaseName = 'vvslob_ipad';
+var tablePrefix = 'slik_',
+  siteDomain = 'otendere.com',
+  databaseName = 'otendere_db';
 
 var app = {};
 app.log = require('./log.js');
