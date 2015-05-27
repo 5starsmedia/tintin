@@ -63,7 +63,7 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
           history.save(function(err) {
             if (err) { return next(err); }
 
-            next(position);
+            next(null, position);
           });
         });
       }, function(err, results){
@@ -102,7 +102,6 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
     }]
   }, function (err, data) {
     if (err) {
-      console.info(err);
       data.task.status = 'errored';
       data.task.resultString = err.message;
       data.task.result = err;
@@ -167,7 +166,7 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
           history.save(function(err) {
             if (err) { return next(err); }
 
-            next(position);
+            next(null, position);
           });
         });
       }, function(err, results){
@@ -206,7 +205,6 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
     }]
   }, function (err, data) {
     if (err) {
-      console.info(err);
       data.task.status = 'errored';
       data.task.resultString = err.message;
       data.task.result = err;
