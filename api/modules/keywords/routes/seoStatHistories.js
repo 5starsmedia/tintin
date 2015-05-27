@@ -5,6 +5,7 @@ var express = require('express'),
   _ = require('lodash'),
   async = require('async'),
   request = require('request'),
+  mongoose = require('mongoose'),
   cheerio = require('cheerio'),
   router = express.Router();
 
@@ -41,14 +42,26 @@ router.get('/month', function (req, res, next) {
     }],
     'aggregateGoogle': ['urlModel', function(next, data) {
       req.app.models.seoStatHistories.aggregate([
-        {$match: {'metrik': 'google-position', 'url.collectionName': req.query.collectionName, 'url.resourceId': req.query.resourceId, createDate: {$gte: startDate.toDate()}}},
+        {
+          $match: {
+            'metrik': 'google-position',
+            'url.collectionName': req.query.collectionName,
+            'url.resourceId': new mongoose.Types.ObjectId(req.query.resourceId)
+          }
+        },
         { $project: { day: { $dayOfMonth: "$createDate" }, month: { $month: "$createDate" }, value: '$value', keyword: '$keyword' } },
         { $group: {_id: {keyword: '$keyword', day:'$day', month: '$month'}, points: {$avg: '$value'}, month: {$min:'$month'} } }
       ], next);
     }],
     'aggregateYandex': ['urlModel', function(next, data) {
       req.app.models.seoStatHistories.aggregate([
-        {$match: {'metrik': 'yandex-position', 'url.collectionName': req.query.collectionName, 'url.resourceId': req.query.resourceId, createDate: {$gte: startDate.toDate()}}},
+        {
+          $match: {
+            'metrik': 'yandex-position',
+            'url.collectionName': req.query.collectionName,
+            'url.resourceId': new mongoose.Types.ObjectId(req.query.resourceId)
+          }
+        },
         { $project: { day: { $dayOfMonth: "$createDate" }, month: { $month: "$createDate" }, value: '$value', keyword: '$keyword' } },
         { $group: {_id: {keyword: '$keyword', day:'$day', month: '$month'}, points: {$avg: '$value'}, month: {$min:'$month'} } }
       ], next);
