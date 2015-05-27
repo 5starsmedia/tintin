@@ -102,6 +102,7 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
     }]
   }, function (err, data) {
     if (err) {
+      console.info(err);
       data.task.status = 'errored';
       data.task.resultString = err.message;
       data.task.result = err;
@@ -205,6 +206,7 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
     }]
   }, function (err, data) {
     if (err) {
+      console.info(err);
       data.task.status = 'errored';
       data.task.resultString = err.message;
       data.task.result = err;

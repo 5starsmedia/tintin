@@ -46,7 +46,6 @@ router.post('/run-tasks', function (req, res, next) {
   }, function (err, data) {
     if (err) { return next(err); }
 
-    console.info(data.seoTaskGoogle)
     req.app.services.mq.push(req.app, 'events', {name: 'seo.task.' + data.seoTaskYandex[0].action, _id: data.seoTaskYandex[0]._id});
     req.app.services.mq.push(req.app, 'events', {name: 'seo.task.' + data.seoTaskGoogle[0].action, _id: data.seoTaskGoogle[0]._id});
 
