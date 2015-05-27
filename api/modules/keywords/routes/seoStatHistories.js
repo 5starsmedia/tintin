@@ -49,8 +49,8 @@ router.get('/month', function (req, res, next) {
             'url.resourceId': new mongoose.Types.ObjectId(req.query.resourceId)
           }
         },
-        { $project: { day: { $dayOfMonth: "$createDate" }, month: { $month: "$createDate" }, value: '$value', keyword: '$keyword' } },
-        { $group: {_id: {keyword: '$keyword', day:'$day', month: '$month'}, points: {$avg: '$value'}, month: {$min:'$month'} } }
+        { $project: { day: { $dayOfMonth: "$createDate" }, month: { $month: "$createDate" }, year: { $year: "$createDate" }, value: '$value', keyword: '$keyword' } },
+        { $group: {_id: {keyword: '$keyword', day:'$day', month: '$month', year: '$year'}, position: {$avg: '$value'}, month: {$min:'$month'} } }
       ], next);
     }],
     'aggregateYandex': ['urlModel', function(next, data) {
@@ -62,16 +62,40 @@ router.get('/month', function (req, res, next) {
             'url.resourceId': new mongoose.Types.ObjectId(req.query.resourceId)
           }
         },
-        { $project: { day: { $dayOfMonth: "$createDate" }, month: { $month: "$createDate" }, value: '$value', keyword: '$keyword' } },
-        { $group: {_id: {keyword: '$keyword', day:'$day', month: '$month'}, points: {$avg: '$value'}, month: {$min:'$month'} } }
+        { $project: { day: { $dayOfMonth: "$createDate" }, month: { $month: "$createDate" }, year: { $year: "$createDate" }, value: '$value', keyword: '$keyword' } },
+        { $group: {_id: {keyword: '$keyword', day:'$day', month: '$month', year: '$year'}, position: {$avg: '$value'} } }
       ], next);
     }]
   }, function (err, data) {
     if (err) { return next(err); }
 
+    var gData = {};
+    _.forEach(data.aggregateGoogle, function(item) {
+      var date = new Date(item._id.year, item._id.month - 1, item._id.day, 12, 0, 0);
+      gData[item._id.keyword] = gData[item._id.keyword] || [];
+      gData[item._id.keyword].push([date.getTime(), (item.position < 1 ? 100 : item.position)]);
+    });
+
+    var yData = {};
+    _.forEach(data.aggregateYandex, function(item) {
+      var date = new Date(item._id.year, item._id.month - 1, item._id.day, 12, 0, 0);
+      yData[item._id.keyword] = yData[item._id.keyword] || [];
+      yData[item._id.keyword].push([date.getTime(), (item.position < 1 ? 100 : item.position)]);
+    });
+
     res.json({
-      google: data.aggregateGoogle,
-      yandex: data.aggregateYandex
+      google: _.map(gData, function(item, key) {
+        return {
+          label: key,
+          data: item
+        }
+      }),
+      yandex: _.map(yData, function(item, key) {
+        return {
+          label: key,
+          data: item
+        }
+      })
     });
   });
 });

@@ -10,6 +10,7 @@ let module = angular.module(appName, [
   'ui.select',
   'ngSanitize',
   'sticky',
+  'nvd3',
   models
 ]);
 
