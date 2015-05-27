@@ -44,7 +44,28 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
       var url = 'http://' + data.task.site.domain + data.task.url.link;
 
       async.mapLimit(keywords, 3, function(keyword, next) {
-        app.services.yandex.getUrlPosition(data.site, url, keyword, { count: 100 }, next);
+        app.services.yandex.getUrlPosition(data.site, url, keyword, { count: 100 }, function(err, position) {
+          if (err) { return next(err); }
+          var history = new app.models.seoStatHistories({
+            url: {
+              _id: data.task.url._id,
+              link: data.task.url.link,
+              collectionName: data.task.url.collectionName,
+              resourceId: data.task.url.resourceId
+            },
+            keyword: keyword,
+            metrik: 'yandex-position',
+            value: position,
+            site: {
+              _id: data.task.site
+            }
+          });
+          history.save(function(err) {
+            if (err) { return next(err); }
+
+            next(position);
+          });
+        });
       }, function(err, results){
         if (err) { return next(err); }
 
@@ -126,7 +147,28 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       var url = 'http://' + data.task.site.domain + data.task.url.link;
 
       async.mapLimit(keywords, 3, function(keyword, next) {
-        app.services.google.getUrlPosition(url, keyword, { count: 100 }, next);
+        app.services.google.getUrlPosition(url, keyword, { count: 100 }, function(err, position) {
+          if (err) { return next(err); }
+          var history = new app.models.seoStatHistories({
+            url: {
+              _id: data.task.url._id,
+              link: data.task.url.link,
+              collectionName: data.task.url.collectionName,
+              resourceId: data.task.url.resourceId
+            },
+            keyword: keyword,
+            metrik: 'google-position',
+            value: position,
+            site: {
+              _id: data.task.site
+            }
+          });
+          history.save(function(err) {
+            if (err) { return next(err); }
+
+            next(position);
+          });
+        });
       }, function(err, results){
         if (err) { return next(err); }
 
@@ -184,81 +226,4 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
     data.task.result = data.googlePosition;
     data.task.save(cb);
   });
-};
-
-exports['seo.scan.post'] = function (app, msg, cb) {
-  async.auto({
-    'post': function(next) {
-      app.models.posts.findById(msg.body._id, next);
-    },
-    'postUrl': ['post', function(next, data) {
-      var url = app.services.url.urlFor('posts', data.post);
-      next(null, url);
-    }],
-    'keywordGroup': ['post', 'postUrl', function(next, data) {
-      app.models.keywordGroups.findById(data.post.keywordGroup._id, next);
-    }],
-    'keywords': ['keywordGroup', function(next, data) {
-      var keywords = data.keywordGroup.keywords.split("\n");
-      keywords = _.map(keywords, function(keyword) {
-        return keyword.replace(/\d+/g, '');
-      });
-      next(null, keywords)
-    }],
-    'googlePosition': ['post', 'keywords', function(next, data) {
-      var keywords = data.keywords;
-
-      var url = data.postUrl;
-      console.info(url)
-      async.mapLimit(keywords, 3, function(keyword, next) {
-        app.services.google.getUrlPosition(url, keyword, { count: 100 }, next);
-      }, function(err, results){
-        if (err) { return next(err); }
-
-        next(null, results);
-      });
-    }],
-    'yandexPosition': ['post', 'keywordGroup', function(next, data) {
-      var keywords = data.keywordGroup.keywords.split("\n");
-
-      var url = data.postUrl;
-      console.info(url)
-      async.mapLimit(keywords, 3, function(keyword, next) {
-        app.services.yandex.getUrlPosition(url, keyword, { count: 100 }, next);
-      }, function(err, results){
-        if (err) { return next(err); }
-
-        next(null, results);
-      });
-    }],
-    'updatePost': ['post', 'keywords', 'googlePosition', 'yandexPosition', function(next, data) {
-      var avgGoogle = 0, avgYandex = 0,
-        googleCount = 0, yandexCount = 0;
-      data.post.seo = {
-        lastUpdateDate: Date.now(),
-        keywords: _.map(data.keywords, function(keyword, i) {
-          if (data.googlePosition[i] >= 0) {
-            avgGoogle += data.googlePosition[i] + 1;
-            googleCount++;
-          }
-          if (data.yandexPosition[i] >= 0) {
-            avgYandex += data.yandexPosition[i] + 1;
-            yandexCount++;
-          }
-          return {
-            title: keyword,
-            google: data.googlePosition[i] + 1,
-            yandex: data.yandexPosition[i] + 1
-          };
-        })
-      };
-      if (googleCount) {
-        data.post.seo.google = Math.round(avgGoogle / googleCount);
-      }
-      if (yandexCount) {
-        data.post.seo.yandex = Math.round(avgYandex / yandexCount);
-      }
-      data.post.save(next);
-    }]
-  }, cb);
 };

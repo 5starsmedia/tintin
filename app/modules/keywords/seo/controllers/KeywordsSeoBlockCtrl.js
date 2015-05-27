@@ -1,7 +1,7 @@
 export default
 class KeywordsBlockGroupsCtrl {
   /*@ngInject*/
-  constructor($scope, KeywordsSeoTaskModel, notify, $filter, NgTableParams, BaseAPIParams) {
+  constructor($scope, KeywordsSeoTaskModel, notify, $filter, NgTableParams, BaseAPIParams, KeywordsSeoStatHistoryModel) {
 
     $scope.updateSeoPositions = () => {
       KeywordsSeoTaskModel.runTasks({ collectionName: 'posts', resourceId: $scope.post._id }, () => {
@@ -16,6 +16,10 @@ class KeywordsBlockGroupsCtrl {
     $scope.reloadLog = () => {
       $scope.tableParams.reload();
     };
+
+    KeywordsSeoStatHistoryModel.getMonth({ 'collectionName': 'posts', 'resourceId': $scope.post._id }, (data) =>{
+      console.info(data)
+    });
 
     $scope.tableParams = new NgTableParams({
       page: 1,
