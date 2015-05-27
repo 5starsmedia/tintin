@@ -57,7 +57,7 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
     }],
     'updateResource': ['resource', 'keywords', 'yandexPosition', function(next, data) {
       var avg = 0, count = 0;
-      data.post.seo.lastUpdateDate = Date.now();
+      data.resource.seo.lastUpdateDate = Date.now();
 
       _.forEach(data.keywords, function(keyword, i) {
         if (data.yandexPosition[i] >= 0) {
@@ -67,9 +67,9 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
       });
 
       if (count) {
-        data.post.seo.google = Math.round(avg / count);
+        data.resource.seo.google = Math.round(avg / count);
       }
-      data.post.save(next);
+      data.resource.save(next);
     }]
   }, function (err, data) {
     if (err) {
@@ -131,7 +131,7 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
     }],
     'updateResource': ['resource', 'keywords', 'googlePosition', function(next, data) {
       var avg = 0, count = 0;
-      data.post.seo.lastUpdateDate = Date.now();
+      data.resource.seo.lastUpdateDate = Date.now();
 
       _.forEach(data.keywords, function(keyword, i) {
           if (data.googlePosition[i] >= 0) {
@@ -141,9 +141,9 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
         });
 
       if (count) {
-        data.post.seo.google = Math.round(avg / count);
+        data.resource.seo.google = Math.round(avg / count);
       }
-      data.post.save(next);
+      data.resource.save(next);
     }]
   }, function (err, data) {
     if (err) {

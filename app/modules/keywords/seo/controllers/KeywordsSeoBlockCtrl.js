@@ -26,12 +26,13 @@ class KeywordsBlockGroupsCtrl {
     }, {
       getData: function($defer, params) {
         $scope.loading = true;
-        KeywordsSeoTaskModel.query(BaseAPIParams({ collectionName: 'posts', resourceId: $scope.post._id }, params), function(logs, headers){
-          $scope.loading = false;
-          $scope.logs = logs;
-          $defer.resolve(logs);
-          params.total(headers('x-total-count'));
-        });
+        KeywordsSeoTaskModel.query(BaseAPIParams({ 'url.collectionName': 'posts', 'url.resourceId': $scope.post._id }, params),
+          (logs, headers) =>{
+            $scope.loading = false;
+            $scope.logs = logs;
+            $defer.resolve(logs);
+            params.total(headers('x-total-count'));
+          });
       }
     });
 

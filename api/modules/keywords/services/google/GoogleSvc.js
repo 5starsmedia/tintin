@@ -34,7 +34,7 @@ GoogleSvc.prototype.getUrlPosition = function (url, keyword, options, next) {
   this.getSitesByKeyword(keyword, options, function(err, urls) {
     if (err) { return next(err); }
 
-    next(null, _.indexOf(urls, url));
+    next(null, _.indexOf(urls, url) + 1);
   });
 };
 

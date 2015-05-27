@@ -59,10 +59,11 @@ YandexSvc.prototype.getUrlPosition = function (site, url, keyword, options, next
   this.getSitesByKeyword(site, keyword, options, function(err, urls) {
     if (err) { return next(err); }
 
+    console.info(urls);
     var indexHtml = _.indexOf(urls, url),
       indexAjax = _.indexOf(urls, url + '#!');
 
-    next(null, indexHtml > 0 ? indexHtml : indexAjax);
+    next(null, (indexHtml >= 0 ? indexHtml : indexAjax) + 1);
   });
 };
 
