@@ -1,0 +1,4 @@
+<select ng-model="model">
+    <option ng-repeat="item in items" ng-selected="model == item._id"
+            value="{{item._id}}" ng-bind-html="item.selectTitle"></option>
+</select>

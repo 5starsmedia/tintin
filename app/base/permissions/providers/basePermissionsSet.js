@@ -47,7 +47,7 @@ export default
             if (service.hasPermission(checkPermissions)) {
               success(checkPermissions);
             } else {
-              $log.debug('User haven\'t permissions:', diff);
+              $log.debug('User haven\'t permissions');
               //$rootScope.$emit('$user:pemissionDenied', diff);
               error({
                 'status': '403',

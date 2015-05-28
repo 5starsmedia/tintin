@@ -25,6 +25,7 @@ let module = angular.module(appName, [
 
 import stForm from './directives/stForm/stForm.js';
 import stFormElement from './directives/stFormElement/stFormElement.js';
+import stTreeSelect from './directives/stTreeSelect/stTreeSelect.js';
 import stChecklistItem from './directives/stChecklistItem/stChecklistItem.js';
 import stConfirm from './directives/stConfirm/stConfirm.js';
 
@@ -42,6 +43,7 @@ module.directive('stForm', stForm)
 
 module.directive('csFileUpload', csFileUpload);
 module.directive('csFilesList', csFilesList);
+module.directive('stTreeSelect', stTreeSelect);
 module.directive('csSingleFileUpload', csSingleFileUpload);
 module.directive('stSyncScroll', stSyncScroll);
 module.directive('uiSelectSearch', () => {

@@ -98,8 +98,7 @@
 
                         <st-form-element label="{{'Category'|translate}}" field="category._id">
 
-                            <select ng-model="post.category._id" class="form-control" name="category" required
-                                    ng-options="category._id as category.title for category in categories"></select>
+                            <select ng-model="post.category._id" st-tree-select="categories" class="form-control" name="category" required></select>
 
                         </st-form-element>
 

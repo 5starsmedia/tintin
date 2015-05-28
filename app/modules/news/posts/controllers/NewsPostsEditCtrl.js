@@ -6,7 +6,7 @@ class NewsPostsEditCtrl {
 
     $scope.post = post;
 
-    NewsCategoryModel.query({ page: 1, perPage: 100 }, (data) => {
+    NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
       $scope.categories = data;
     });
 
