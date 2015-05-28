@@ -1,5 +1,28 @@
 <div bz-loading-container="loading">
 
+    <div class="pull-right">
+        <a ui-sref="news.categories" class="btn btn-sm btn-default">
+            <span class="fa fa-sitemap"></span>
+            {{'Edit'|translate}}
+        </a>
+    </div>
+    <h2>{{'Categories'|translate}}</h2>
 
+    <ol class="nav nav-nested">
+        <li tree-view="child in category.children at ol"
+            ng-class="{expanded:child.$expanded, 'active':child.id == activeCategory.id}">
+            <div>
+                <a href="" ng-click="child.$expanded = !child.$expanded" ng-switch on="child.$expanded">
+                    <span ng-show="child.children.length" ng-switch-when="true"><span class="fa fa-minus"></span></span>
+                    <span ng-show="child.children.length" ng-switch-default><span class="fa fa-plus"></span></span>
+                </a>
+                <a class="leaf" href="" ng-click="tableParams.$params.filter['category._id'] = child._id"
+                   ng-class="{'active': child.id == category_id}">
+                    {{child.title}}
+                </a>
+            </div>
+            <ol class="nav nav-nested"></ol>
+        </li>
+    </ol>
 
 </div>

@@ -1,7 +1,7 @@
 <div id="navigation" ng-controller="UsersProfileBlockCtrl">
     <div class="profile-picture">
         <a class="b-profile__block m-b" ui-sref="profile.user.info({ username: _account.username })">
-            <img ng-if="_account.imageUrl" ng-src="{{_account.imageUrl}}" class="img-circle" />
+            <img ng-show="_account.imageUrl" ng-src="{{_account.imageUrl}}" class="img-circle" />
             <span class="b-profile__icon pe-7s-id"></span>
         </a>
 
@@ -13,10 +13,10 @@
                     <small class="text-muted">{{currentRole.title}} <b class="caret"></b></small>
                 </a>
                 <ul class="dropdown-menu animated flipInY m-t-xs">
-                    <li ng-if="_account.roles.length > 1" ng-repeat="role in _account.roles">
+                    <li ng-show="_account.roles.length > 1" ng-repeat="role in _account.roles">
                         <a href="" ng-click="changeRole(role._id)">{{role.title}}</a>
                     </li>
-                    <li ng-if="_account.roles.length > 1" class="divider"></li>
+                    <li ng-show="_account.roles.length > 1" class="divider"></li>
                     <li><a ui-sref="auth.logout">Logout</a></li>
                 </ul>
             </div>
@@ -36,7 +36,7 @@
         <li ui-sref-active="active">
             <a ui-sref="dashboard"> <span class="nav-label">Dashboard</span></a>
         </li>
-        <li ng-class="{active: $state.includes('sites')}" ng-if="_account.has('sites')">
+        <li ng-class="{active: $state.includes('sites')}" ng-show="_account.has('sites')">
             <a href=""> <span class="nav-label">Site</span> <span class="fa arrow"></span></a>
 
             <ul class="nav nav-second-level" ng-class="{in: $state.includes('sites')}">
@@ -44,7 +44,7 @@
                 <li ui-sref-active="active"><a ui-sref="sites.domains">List of sites</a></li>
             </ul>
         </li>
-        <li ng-class="{active: $state.includes('news')}" ng-if="_account.has('posts')">
+        <li ng-class="{active: $state.includes('news')}" ng-show="_account.has('posts')">
             <a href=""> <span class="nav-label">Articles</span> <span class="fa arrow"></span></a>
 
             <ul class="nav nav-second-level" ng-class="{in: $state.includes('news')}">
@@ -52,16 +52,16 @@
                 <li ui-sref-active="active"><a ui-sref="news.categories">Categories</a></li>
             </ul>
         </li>
-        <li ui-sref-active="active" ng-if="_account.has('ads')">
+        <li ui-sref-active="active" ng-show="_account.has('ads')">
             <a ui-sref="ads.settings"> <span class="nav-label">Ads</span></a>
         </li>
-        <li ui-sref-active="active" ng-if="_account.has('menus')">
+        <li ui-sref-active="active" ng-show="_account.has('menus')">
             <a ui-sref="menu.menus"> <span class="nav-label">Menus</span></a>
         </li>
-        <li ui-sref-active="active" ng-if="_account.has('comments')">
+        <li ui-sref-active="active" ng-show="_account.has('comments')">
             <a ui-sref="comments.comments"> <span class="nav-label">Comments</span></a>
         </li>
-        <li ui-sref-active="active" ng-if="_account.has('keywords')">
+        <li ui-sref-active="active" ng-show="_account.has('keywords')">
             <a ui-sref="keywords.projects"> <span class="nav-label">Keywords</span></a>
         </li>
         <li ng-class="{active: $state.includes('users')}">
@@ -73,7 +73,7 @@
             </ul>
         </li>
 
-        <li ng-class="{active: $state.includes('ecommerce')}" ng-if="_account.has('ecommerce')">
+        <li ng-class="{active: $state.includes('ecommerce')}" ng-show="_account.has('ecommerce')">
             <a href=""> <span class="nav-label">Products</span> <span class="fa arrow"></span></a>
 
             <ul class="nav nav-second-level" ng-class="{in: $state.includes('ecommerce')}">
@@ -84,7 +84,7 @@
                 <li ui-sref-active="active"><a ui-sref="ecommerce.currencies">Currencies</a></li>
             </ul>
         </li>
-        <li ng-class="{active: $state.includes('servers')}" ng-if="_account.has('servers')">
+        <li ng-class="{active: $state.includes('servers')}" ng-show="_account.has('servers')">
             <a href=""> <span class="nav-label">Servers</span> <span class="fa arrow"></span></a>
 
             <ul class="nav nav-second-level" ng-class="{in: $state.includes('servers')}">

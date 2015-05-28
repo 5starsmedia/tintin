@@ -36,6 +36,7 @@
   "acl": {
     "viewsCount": {
       "get": ["*"],
+      "get?category._id": "*",
       "get?_id": ["*"]
     },
     "commentsCount": {
