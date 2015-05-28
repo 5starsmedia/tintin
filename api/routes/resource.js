@@ -116,6 +116,10 @@ function processGet(model, fieldsObj, schemaFields, req, res, next) {
       'alias': req.query.alias,
       'removed': {$exists: false}
     };
+
+    if (_.indexOf(schemaFields, 'site._id') != -1) {
+      parameter['site._id'] = req.site._id;
+    }
     model.findOne(parameter, zipFields, function (err, data) {
       if (err) {
         if (err.name === 'CastError') {
