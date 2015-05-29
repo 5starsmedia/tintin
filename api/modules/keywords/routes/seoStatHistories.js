@@ -50,7 +50,7 @@ router.get('/month', function (req, res, next) {
           }
         },
         { $project: { day: { $dayOfMonth: "$createDate" }, month: { $month: "$createDate" }, year: { $year: "$createDate" }, value: '$value', keyword: '$keyword' } },
-        { $group: {_id: {keyword: '$keyword', day:'$day', month: '$month', year: '$year'}, position: {$avg: '$value'}, month: {$min:'$month'} } }
+        { $group: {_id: {keyword: '$keyword', day:'$day', month: '$month', year: '$year'}, position: {$max: '$value'} } }
       ], next);
     }],
     'aggregateYandex': ['urlModel', function(next, data) {
@@ -63,7 +63,7 @@ router.get('/month', function (req, res, next) {
           }
         },
         { $project: { day: { $dayOfMonth: "$createDate" }, month: { $month: "$createDate" }, year: { $year: "$createDate" }, value: '$value', keyword: '$keyword' } },
-        { $group: {_id: {keyword: '$keyword', day:'$day', month: '$month', year: '$year'}, position: {$avg: '$value'} } }
+        { $group: {_id: {keyword: '$keyword', day:'$day', month: '$month', year: '$year'}, position: {$max: '$value'} } }
       ], next);
     }]
   }, function (err, data) {
