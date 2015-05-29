@@ -36,10 +36,10 @@
             <td style="width: 200px; white-space: nowrap;">{{keyword}}</td>
             <td ng-repeat="item in row" ng-class="item.class">
                 {{item.value}}
-                <sup ng-if="item.diff > 0">
+                <sup ng-if="item.diff < 0">
                     {{item.showDiff}}
                 </sup>
-                <sub ng-if="item.diff < 0">
+                <sub ng-if="item.diff > 0">
                     {{item.showDiff}}
                 </sub>
             </td>
