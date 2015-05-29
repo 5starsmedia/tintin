@@ -134,6 +134,9 @@ class KeywordsBlockGroupsCtrl {
         $scope.tableData = tableData;
 
         $scope.tableLoading = false;
+        $timeout(() => {
+          $('#positionsDiv').animate({scrollLeft: 10000}, 800);
+        }, 100);
       });
     };
     loadData();
