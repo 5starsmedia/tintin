@@ -56,6 +56,9 @@ exports['comments.checkSpam'] = function (app, msg, cb) {
     'comment': function(next) {
       app.models.comments.findById(msg.body._id, next);
     },
+    'post': ['comment', function(next, data) {
+      app.models.posts.findById(data.comment.resourceId, next);
+    }],
     'isSpam': ['comment', function(next, data) {
       akismetApi.checkSpam({
         //user_ip: '1.1.1.1',
@@ -63,6 +66,13 @@ exports['comments.checkSpam'] = function (app, msg, cb) {
         comment_author: data.comment.account.title,
         comment_content: data.comment.text
       }, next);
+    }],
+    'updateSite': ['post', function(next, data) {
+      data.comment.site = {
+        '_id': data.post.site._id,
+        'domain': data.post.site.domain
+      };
+      data.comment.save(next);
     }]
   }, function (err, data) {
     if (err) { return cb(err); }
