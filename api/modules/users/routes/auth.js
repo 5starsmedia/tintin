@@ -175,12 +175,7 @@ router.get('/twitter/callback', function (req, res, next) {
               account.activationDate = Date.now();
               account.extToken = data.accessToken.accessToken;
               account.extTokenSecret = data.accessToken.accessTokenSecret;
-              account.roles = [
-                {
-                  'name': 'user',
-                  'title': 'User'
-                }
-              ];
+              account.roles = [];
               account.save(function (err) {
                 if (err) {
                   return next(err);
@@ -284,12 +279,7 @@ router.post('/facebook/callback', function (req, res, next) {
               account.activated = true;
               account.activationDate = Date.now();
               account.extToken = ff.access_token;
-              account.roles = [
-                {
-                  'name': 'user',
-                  'title': 'User'
-                }
-              ];
+              account.roles = [];
               account.save(function (err) {
                 if (err) {
                   return next(err);
@@ -643,16 +633,7 @@ router.post('/register', function (req, res, next) {
           account.pwd = hash;
           account.salt = salt;
           account.receiveNews = true;
-          account.roles = [
-            {
-              'name': 'admin',
-              'title': 'Administrator'
-            },
-            {
-              'name': 'user',
-              'title': 'User'
-            }
-          ];
+          account.roles = [];
 
           account.save(function (err, acc) {
             if (err) {
