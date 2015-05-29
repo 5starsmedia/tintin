@@ -6,6 +6,7 @@ var express = require('express'),
   async = require('async'),
   request = require('request'),
   cheerio = require('cheerio'),
+  akismet = require('akismet'),
   router = express.Router();
 
 router.put('/:id/spam', function (req, res, next) {
