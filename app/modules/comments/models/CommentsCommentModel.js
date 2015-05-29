@@ -6,6 +6,7 @@ export default
     }, {
       'get': { method: 'GET' },
       'save': { method: 'PUT' },
+      'spam': { method: 'PUT', params: { method: 'spam' } },
       'create': { method: 'POST' }
     });
     resource.prototype.getDate = function() {
