@@ -104,11 +104,16 @@ class KeywordsBlockGroupsCtrl {
             var tableItem = tableData[item.label][tableData[item.label].length - 1];
 
             _.forEach(item.data, (date) => {
+              let value = date[1] == 100 ? null : date[1];
+              if (!value) {
+                return;
+              }
+
               if (moment(date[0]).isSame(cursor, 'day')) {
                 if (prevValues[item.label]) {
-                  diff = date[1] - prevValues[item.label];
+                  diff = value - prevValues[item.label];
                 }
-                tableItem.value = date[1];
+                tableItem.value = value;
                 tableItem.diff = diff;
                 if (diff != 0 && diff) {
                   tableItem.class = diff > 0 ? 'danger' : 'success';
@@ -116,7 +121,7 @@ class KeywordsBlockGroupsCtrl {
                 } else {
                   tableItem.class = '';
                 }
-                prevValues[item.label] = date[1];
+                prevValues[item.label] = value;
                 diff = 0;
               }
             });
