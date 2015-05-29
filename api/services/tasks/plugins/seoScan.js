@@ -193,7 +193,6 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
         if (!item) {
           item = { title: keyword };
           data.resource.seo.keywords.push(item);
-          item = _.find(data.resource.seo.keywords, { title: keyword });
         }
         item.google = data.googlePosition[i];
       });

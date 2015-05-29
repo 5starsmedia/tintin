@@ -6,8 +6,12 @@ module.exports = function () {
   return function (req, res, next) {
     var host = req.headers.host, port = 80;
 
+    if (process.env.PAPHOS_SITE) {
+      host = process.env.PAPHOS_SITE;
+    }
+
     if (!host) {
-      return
+      return;
     }
 
     var offset = host[0] === '[' ? host.indexOf(']') + 1 : 0;

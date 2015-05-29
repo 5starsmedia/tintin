@@ -20,6 +20,7 @@ var schema = new mongoose.Schema({
   },
   isPublished: {type: Boolean, required: true, default: true},
 
+  isSpam: {type: Boolean, required: true, default: false},
   isAnonymous: {type: Boolean, required: true, default: false},
   collectionName: {type: String, required: true},
   resourceId: {type: mongoose.Schema.Types.ObjectId, required: true},
