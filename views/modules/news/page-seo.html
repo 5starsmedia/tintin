@@ -33,7 +33,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="(keyword, row) in tableData">
-            <td style="width: 200px">{{keyword}}</td>
+            <td style="width: 200px; white-space: nowrap;">{{keyword}}</td>
             <td ng-repeat="item in row" ng-class="item.class">
                 {{item.value}}
                 <sup ng-if="item.showDiff">
