@@ -3,6 +3,8 @@ class KeywordsBlockGroupsCtrl {
   /*@ngInject*/
   constructor($scope, KeywordsSeoTaskModel, notify, $filter, NgTableParams, BaseAPIParams, KeywordsSeoStatHistoryModel, $timeout) {
 
+    $scope.engineName = 'google';
+
     $scope.updateSeoPositions = () => {
       KeywordsSeoTaskModel.runTasks({ collectionName: 'posts', resourceId: $scope.post._id }, () => {
         notify({
@@ -98,7 +100,7 @@ class KeywordsBlockGroupsCtrl {
         var tableData = {}, dates = [], prevValues = {}, diff;
         while (cursor.isBefore(endDate)) {
           dates.push(cursor.format('DD.MM.YYYY'));
-          _.forEach(data.google, (item) => {
+          _.forEach(data[$scope.engineName], (item) => {
             tableData[item.label] = tableData[item.label] || [];
             tableData[item.label].push({ title: cursor.format('DD.MM.YYYY'), value: '-', class: 'active' });
             var tableItem = tableData[item.label][tableData[item.label].length - 1];
@@ -111,12 +113,12 @@ class KeywordsBlockGroupsCtrl {
 
               if (moment(date[0]).isSame(cursor, 'day')) {
                 if (prevValues[item.label]) {
-                  diff = value - prevValues[item.label];
+                  diff = prevValues[item.label] - value;
                 }
                 tableItem.value = value;
                 tableItem.diff = diff;
                 if (diff != 0 && diff) {
-                  tableItem.class = diff > 0 ? 'danger' : 'success';
+                  tableItem.class = diff < 0 ? 'danger' : 'success';
                   tableItem.showDiff = Math.abs(diff);
                 } else {
                   tableItem.class = '';
@@ -136,6 +138,7 @@ class KeywordsBlockGroupsCtrl {
     };
     loadData();
 
+    $scope.$watch('engineName', loadData);
 
     $scope.tableParams = new NgTableParams({
       page: 1,
