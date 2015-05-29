@@ -19,8 +19,10 @@
     "realAccount":false,
     "*": {
       "get": "*",
+      "get?isSpam": "*",
       "get?isPublished": "*",
       "get?isPublished&collectionName&resourceId": "*",
+      "get?isPublished&isSpam&collectionName&resourceId": "*",
       "get?isAnonymous": "*",
       "get?collectionName&resourceId": "*",
       "put?_id": "admin,*:owner",

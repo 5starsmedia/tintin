@@ -39,7 +39,11 @@ var schema = new mongoose.Schema({
     }
   },
   socialName: {type: String, enum: ['facebook']},
-  socialId: String
+  socialId: String,
+  site: {
+    _id: mongoose.Schema.Types.ObjectId,
+    domain: String
+  }
 }, {
   strict: true,
   safe: false,
