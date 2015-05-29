@@ -39,7 +39,7 @@
                             <a href="" ng-click="checkSpam(item)">
                                 Spam
                             </a>
-                            <a ui-sref="news.edit({ id: item._id })"
+                            <a ng-href="/preview/comment/{{item._id}}" target="_blank"
                                title="{{'Edit'|translate}}"><span class="fa fa-eye"></span>
                             </a>
                             <a href="" st-confirm="remove(item)" title="{{'Delete article'|translate}}"
