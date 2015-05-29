@@ -33,6 +33,13 @@ class CommentsCommentsCtrl {
       });
     };
 
+    $scope.checkSpam = function(item) {
+      item.$loading = true;
+      item.$spam(function () {
+        item.$loading = false;
+      });
+    };
+
     $scope.remove = function(item) {
       $scope.loading = true;
       item.$delete(function() {
