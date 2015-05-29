@@ -39,7 +39,8 @@
                             <a href="" ng-click="checkSpam(item)">
                                 Spam
                             </a>
-                               title="{{'Edit'|translate}}"><span class="fa fa-eye"></span>
+                            <a ng-href="/preview/{{item.collectionName}}/{{item.resourceId}}#comment-{{item.cid}}" target="_blank">
+                                <span class="fa fa-eye"></span>
                             </a>
                             <a href="" st-confirm="remove(item)" title="{{'Delete article'|translate}}"
                                message-title="'Delete'|translate" message="'Are you realy want to delete this article?'|translate">
