@@ -27,7 +27,7 @@ router.put('/:id/spam', function (req, res, next) {
   }, function(err, data) {
     if (err) { return next(err); }
 
-    data.comment.isSpam = data.isSpam;
+    data.comment.isSpam = true;
     if (data.comment.isSpam) {
       data.comment.isPublished = false;
     }
