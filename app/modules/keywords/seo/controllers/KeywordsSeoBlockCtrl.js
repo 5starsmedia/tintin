@@ -15,6 +15,7 @@ class KeywordsBlockGroupsCtrl {
 
     $scope.reloadLog = () => {
       $scope.tableParams.reload();
+      loadData();
     };
 
     $scope.options = {
@@ -45,6 +46,7 @@ class KeywordsBlockGroupsCtrl {
     };
 
     var loadData = () => {
+      $scope.tableLoading = true;
       KeywordsSeoStatHistoryModel.getMonth({'collectionName': 'posts', 'resourceId': $scope.post._id}, (data) => {
         $scope.data = [{
           key: "Cumulative Return",
@@ -124,6 +126,7 @@ class KeywordsBlockGroupsCtrl {
         $scope.dates = dates;
         $scope.tableData = tableData;
 
+        $scope.tableLoading = false;
       });
     };
     loadData();
