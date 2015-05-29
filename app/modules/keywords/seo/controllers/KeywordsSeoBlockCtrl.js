@@ -85,6 +85,45 @@ class KeywordsBlockGroupsCtrl {
             }
           ]
         };
+
+
+
+        var endDate = moment(),
+          startDate = moment(endDate).subtract(1,'month'),
+          cursor = moment(startDate);
+
+        endDate.add(1,'day');
+        var tableData = {}, dates = [], prevValues = {}, diff;
+        while (cursor.isBefore(endDate)) {
+          dates.push(cursor.format('DD.MM.YYYY'));
+          _.forEach(data.google, (item) => {
+            tableData[item.label] = tableData[item.label] || [];
+            tableData[item.label].push({ title: cursor.format('DD.MM.YYYY'), value: '-', class: 'active' });
+            var tableItem = tableData[item.label][tableData[item.label].length - 1];
+
+            _.forEach(item.data, (date) => {
+              if (moment(date[0]).isSame(cursor, 'day')) {
+                if (prevValues[item.label]) {
+                  diff = date[1] - prevValues[item.label];
+                }
+                tableItem.value = date[1];
+                tableItem.diff = diff;
+                if (diff != 0 && diff) {
+                  tableItem.class = diff > 0 ? 'danger' : 'success';
+                  tableItem.showDiff = Math.abs(diff);
+                } else {
+                  tableItem.class = '';
+                }
+                prevValues[item.label] = date[1];
+                diff = 0;
+              }
+            });
+          });
+          cursor.add(1,'day');
+        }
+        $scope.dates = dates;
+        $scope.tableData = tableData;
+
       });
     };
     loadData();

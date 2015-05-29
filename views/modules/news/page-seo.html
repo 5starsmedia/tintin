@@ -23,6 +23,28 @@
         </tr>
     </table>
 
+    <div style="overflow: auto">
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th style="width: 200px">Date</th>
+            <th ng-repeat="(n, date) in dates track by n">{{date}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(keyword, row) in tableData">
+            <td style="width: 200px">{{keyword}}</td>
+            <td ng-repeat="item in row" ng-class="item.class">
+                {{item.value}}
+                <sup ng-if="item.showDiff">
+                    {{item.showDiff}}
+                </sup>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+
 
     <div ng-if="post.keywordGroup._id && post._id && post.status == 4">
         <button class="btn btn-default btn-block" type="button" ng-click="updateSeoPositions()">{{'Update positions'|translate}}</button>
