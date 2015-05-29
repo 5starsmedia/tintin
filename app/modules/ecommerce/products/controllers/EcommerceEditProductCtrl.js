@@ -4,6 +4,11 @@ class EcommerceEditProductCtrl {
   constructor($scope, product, $sce, EcommerceBrandModel, $filter, EcommerceCategoryModel, $state, $q, notify, $modal, variation) {
 
     if (variation) {
+      angular.copy(variation, product);
+      delete product._id;
+      delete product.id;
+      delete product.files;
+      delete product.createDate;
       product.variationProduct = variation;
     }
     $scope.item = product;
@@ -15,20 +20,7 @@ class EcommerceEditProductCtrl {
       $scope.brands = data;
     });
 
-    var walk = function (item, ident) {
-      angular.forEach(item.children, function (el) {
-        el.$ident = ident;
-        el.$title = $sce.trustAsHtml(
-          Array(el.$ident).join('&nbsp;&nbsp;&nbsp;&nbsp;') +
-          $filter('language')(el.title)
-        );
-        categories.push(el);
-
-        walk(el, ident + 1);
-      });
-    }, categories = [];
-    EcommerceCategoryModel.query({page: 1, perPage: 1000}, function (data) {
-      //walk(data, 0);
+    EcommerceCategoryModel.getTree({page: 1, perPage: 1000}, function (data) {
       $scope.categories = data;
     });
 

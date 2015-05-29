@@ -35,10 +35,7 @@
 
                         <st-form-element label="{{'Category'|translate}}" field="category._id">
 
-                            <select class="form-control" ng-model="item.category._id">
-                                <option ng-repeat="category in categories" value="{{category._id}}"
-                                        ng-selected="item.category._id == category._id" ng-bind-html="category.title"></option>
-                            </select>
+                            <select ng-model="item.category._id" st-tree-select="categories" class="form-control" name="category" required></select>
 
                         </st-form-element>
 

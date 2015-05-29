@@ -48,7 +48,7 @@ class EcommerceEditAttributesCtrl {
       loadFields(id);
     });
 
-    EcommerceTypeModel.query({page: 1, perPage: 200}, function (data) {
+    EcommerceTypeModel.getTree({page: 1, perPage: 200}, function (data) {
       //walk(data, 0);
       $scope.types = data;
     });

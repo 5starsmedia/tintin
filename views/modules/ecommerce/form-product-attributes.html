@@ -4,9 +4,7 @@
 
         <label>{{'Product type'|translate}}</label>
 
-        <select class="form-control" ng-model="item.productType._id">
-            <option ng-repeat="type in types" value="{{type._id}}" ng-selected="item.productType._id == type._id" ng-bind-html="type.title"></option>
-        </select>
+        <select ng-model="item.productType._id" st-tree-select="types" class="form-control" name="category" required></select>
 
     </div>
 

@@ -33,11 +33,14 @@ import productImagesPreview from './directives/productImagesPreview.js';
 
 module.directive('productImagesPreview', productImagesPreview);
 
-module.config(function ($stateProvider) {
+module.config(function ($stateProvider, basePermissionsSetProvider) {
   $stateProvider
     .state('ecommerce', {
       abstract: true,
-      templateUrl: "views/common/content_small.html"
+      templateUrl: "views/common/content_small.html",
+      resolve: {
+        permissions: basePermissionsSetProvider.access(['ecommerce'])
+      }
     })
     .state('ecommerce.products', {
       url: "/products",
@@ -70,7 +73,7 @@ module.config(function ($stateProvider) {
         variation: ($stateParams, $q, EcommerceProductModel) => {
           var defer = $q.defer();
           if ($stateParams.variationId) {
-            EcommerceProductModel.get({_id: $stateParams.variationId, fields: 'title,coverFile'}, (product) => {
+            EcommerceProductModel.get({_id: $stateParams.variationId }, (product) => {
               defer.resolve(product);
             });
           } else {

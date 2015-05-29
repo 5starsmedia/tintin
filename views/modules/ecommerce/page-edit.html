@@ -14,8 +14,8 @@
                         </a>
 
                         <h2 class="font-light m-b-xs" ng-if="!item.variationProduct">
-                            <span ng-if="!item.id" style="line-height: 30px;">{{'Добавление продукта'|translate}}</span>
-                            <span ng-if="item.id">{{'Редактирование продукта'|translate}}</span>
+                            <span ng-if="!item._id" style="line-height: 30px;">{{'Добавление продукта'|translate}}</span>
+                            <span ng-if="item._id">{{'Редактирование продукта'|translate}}</span>
                         </h2>
 
                         <h2 class="font-light m-b-xs" ng-if="item.variationProduct">
@@ -25,8 +25,8 @@
 
                             >
 
-                            <span ng-if="!item.id" style="line-height: 30px;">{{'Добавление вариации продукта'|translate}}</span>
-                            <span ng-if="item.id">{{'Редактирование вариации продукта'|translate}}</span>
+                            <span ng-if="!item._id" style="line-height: 30px;">{{'Добавление вариации продукта'|translate}}</span>
+                            <span ng-if="item._id">{{'Редактирование вариации продукта'|translate}}</span>
                         </h2>
 
                         <small ng-if="item.id">

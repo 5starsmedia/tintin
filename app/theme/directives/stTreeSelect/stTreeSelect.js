@@ -13,7 +13,7 @@ export default
 
         var items, walkItem = (dataItem, level) => {
             _.forEach(dataItem.children, (item) => {
-              item.selectTitle = _.repeat('&#8230;', level * 2) + item.title;
+              item.selectTitle = _.repeat('&nbsp;', level * 3) + item.title;
               items.push(item);
               walkItem(item, level + 1);
             });
