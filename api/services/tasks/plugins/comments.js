@@ -68,10 +68,14 @@ exports['comments.checkSpam'] = function (app, msg, cb) {
       }, next);
     }],
     'updateSite': ['post', function(next, data) {
-      data.comment.site = {
-        '_id': data.post.site._id,
-        'domain': data.post.site.domain
-      };
+      if (data.post) {
+        data.comment.site = {
+          '_id': data.post.site._id,
+          'domain': data.post.site.domain
+        };
+      } else {
+        data.comment.isPublished = false;
+      }
       data.comment.save(next);
     }]
   }, function (err, data) {
