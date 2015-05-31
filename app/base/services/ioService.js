@@ -2,8 +2,7 @@
  *
  */
 
-/*@ngInject*/
-function IOSvc($log, $q, $auth, IO_URL) {
+function /*@ngInject*/ IOSvc($log, $q, $auth, IO_URL) {
   this.$log = $log;
   this.$q = $q;
   this.$auth = $auth;
