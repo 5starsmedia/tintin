@@ -19,8 +19,11 @@ var express = require('express'),
   compression = require('compression'),
   sites = require('./middleware/sites.js'),
   tasks = require('./services/tasks'),
+  notification = require('./services/notification'),
   urlSvc = require('./services/url'),
   sequence = require('./services/sequence'),
+  broadcast = require('./services/broadcast'),
+  socket = require('./services/socket'),
   config = require('./config.js');
 //robots = require('robots.txt'),
 //sm = require('sitemap');
@@ -42,7 +45,8 @@ var PostsModule = require('./modules/posts'),
   UsersModule = require('./modules/users'),
   SitesModule = require('./modules/sites'),
   SitemapModule = require('./modules/sitemap'),
-  ServersModule = require('./modules/servers');
+  ServersModule = require('./modules/servers'),
+  NotificationModule = require('./modules/notifications');
 
 app.modules = {
   posts: new PostsModule(app),
@@ -57,6 +61,7 @@ app.modules = {
   sites: new SitesModule(app),
   sitemap: new SitemapModule(app),
   servers: new ServersModule(app),
+  notifications: new NotificationModule(app),
 
   each: function(callFunc) {
     _.forEach(app.modules, function(obj, name) {
@@ -82,8 +87,11 @@ app.services = {
   sms: require('./services/sms'),
   mail: require('./services/mail'),
   validation: require('./services/validation'),
+  notification: new notification.NotificationSvc(app),
   sequence: new sequence.SequenceSvc(app),
-  tasks: new tasks.TasksSvc(app)
+  tasks: new tasks.TasksSvc(app),
+  broadcast: new broadcast.BroadcastSvc(app),
+  socket: new socket.SocketSvc(app)
 };
 
 app.modules.each(function(moduleObj) {
@@ -261,6 +269,7 @@ exports.start = function (cb) {
       _.partial(app.services.modifiers.loadPlugins, app),
       _.partial(app.services.validation.loadValidators, app),
       _.partial(app.services.hooks.loadPlugins, app),
+      app.services.broadcast.init.bind(app.services.broadcast),
       app.services.tasks.init.bind(app.services.tasks)
     ]),
     function (next) {
@@ -291,20 +300,19 @@ exports.start = function (cb) {
       require('./migrations').migrateToActual(app, next);
     },
     function (next) {
-      app.log.debug('Http server starting at', config.get('http.port'), '...');
-      httpServer = http.createServer(app.server);
-      httpServer.listen(config.get('http.port'), next);
+      app.httpServer = http.createServer(app.server);
+      app.services.socket.init(next);
     },
     function (next) {
-      app.log.debug('Http server started successfully');
-      //refreshStrainsStats(app, next);
-      next();
+      app.log.debug('Http server starting at', config.get('http.port'), '...');
+      app.httpServer.listen(config.get('http.port'), next);
     },
     _.bind(app.services.tasks.start, app.services.tasks)
   ], function (err) {
-    if (err) {
-      return cb(err);
-    }
+    if (err) { return cb(err); }
+
+    app.services.tasks.start();
+
     app.log.info('Configuration "' + config.get('env') + '" successfully loaded in', Date.now() - startDate, 'ms');
 
     /*setInterval(function () {

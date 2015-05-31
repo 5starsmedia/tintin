@@ -17,6 +17,9 @@ import CommentsCommentsCtrl from './controllers/CommentsCommentsCtrl.js';
 
 module.controller('CommentsCommentsCtrl', CommentsCommentsCtrl);
 
+import commentsForResource from './directives/commentsForResource.js';
+
+module.directive('commentsForResource', commentsForResource);
 
 // config
 module.config(function ($stateProvider) {

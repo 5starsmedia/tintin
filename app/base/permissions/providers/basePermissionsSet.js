@@ -19,7 +19,7 @@ export default
     };
 
     this.$get = /*@ngInject*/ function ($rootScope, $q, $log, BasePermissionModel, $timeout, $state, $auth) {
-      var currentPermissions = null;
+      var currentPermissions = angular.fromJson(localStorage.permissions || 'null');
 
       var service = {
         clearCache: function () {
@@ -58,11 +58,19 @@ export default
             }
           });
         },
-        getCurrent: function (success) {
+        getPermissions: (callback) => {
           var defer = $q.defer();
-          if (success) {
-            defer.promise.then(success);
-          }
+          defer.promise.then(callback || angular.noop);
+          BasePermissionModel.getUserSet(function (data) {
+            defer.resolve(data);
+          }, function () {
+            defer.resolve([]);
+          });
+          return defer.promise;
+        },
+        getCurrent: (callback) => {
+          var defer = $q.defer();
+          defer.promise.then(callback || angular.noop);
           if (currentPermissions != null) {
             $log.debug('Return cached permissions', currentPermissions);
             defer.resolve(currentPermissions);
@@ -70,17 +78,19 @@ export default
           }
           $log.debug('Load new permissions');
 
-          BasePermissionModel.getUserSet(function (data) {
-            currentPermissions = data;
-            $log.debug('Return new permissions', currentPermissions);
-            defer.resolve(currentPermissions);
-          }, function () {
-            currentPermissions = [];
-            defer.resolve(currentPermissions);
+          service.getPermissions((permissions) => {
+            currentPermissions = permissions;
+            $log.debug('Return new permissions', permissions);
+            localStorage.permissions = angular.toJson(permissions);
+            defer.resolve(permissions);
           });
           return defer.promise;
         }
       };
+      service.getPermissions((permissions) => {
+        currentPermissions = permissions;
+        localStorage.permissions = angular.toJson(permissions);
+      });
       return service;
     };
   }

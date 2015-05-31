@@ -1,6 +1,3 @@
-/**
- * Copyright 2014 Cannasos.com
- */
 'use strict';
 var config = require('../config.js'),
   moment = require('moment'),

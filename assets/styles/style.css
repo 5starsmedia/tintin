@@ -3631,6 +3631,90 @@ fieldset[disabled] .btn-vk.active {
 .b-html-preview h6 {
   font-size: 13px;
 }
+.pn-list {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  display: block;
+  padding-right: 8px;
+  padding-bottom: 8px;
+  width: 240px;
+}
+.pn-list:hover .pn-list__header {
+  display: block;
+}
+.pn-list__header {
+  display: none;
+  width: 100%;
+  text-align: right;
+}
+.pn-list__h-btn {
+  font-size: 12px;
+}
+.pn-item {
+  position: relative;
+  display: block;
+  margin-top: 8px;
+  padding: 6px 10px;
+  width: 100%;
+  border-radius: 2px;
+  background-color: rgba(50, 50, 50, 0.85);
+  box-shadow: 0 0 3px 1px rgba(100, 100, 100, 0.5);
+  font-size: 12px;
+  cursor: pointer;
+}
+.pn-item:hover .pn-item__close {
+  opacity: .6;
+}
+.pn-item__close {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  display: block;
+  opacity: .2;
+  transition: opacity 0.1s linear;
+}
+.pn-item__close:hover {
+  text-decoration: none;
+}
+.pn-item__close .fa {
+  color: #fff;
+}
+.pn-item__title {
+  margin-bottom: 2px;
+  padding-right: 8px;
+  color: #fff;
+  font-weight: 700;
+}
+.pn-item__body {
+  position: relative;
+}
+.pn-item__avatar {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  border-radius: 2px;
+}
+.pn-item__content {
+  color: #fff;
+}
+.pn-item_avatar .pn-item__content {
+  margin-left: 48px;
+  min-height: 40px;
+}
+.pn-item__account-title {
+  color: #3498db;
+  font-weight: 700;
+}
+.pn-item__text {
+  display: block;
+  line-height: 1.2;
+}
+.pn-item__date {
+  display: block;
+  color: #aaa;
+  text-align: right;
+}
 html {
   overflow-x: visible !important;
 }

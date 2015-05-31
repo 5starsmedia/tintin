@@ -2,6 +2,8 @@
 
 var appName = 'base';
 
+import models from './models/models.js';
+
 import permissions from './permissions/permissions';
 
 import BaseAPIParams from './factories/BaseAPIParams.js';
@@ -9,18 +11,27 @@ import BaseAPIParams from './factories/BaseAPIParams.js';
 import translate from './filters/translate.js';
 import trim from './filters/trim.js';
 
+import baseEventService from './services/baseEventService.js';
+import notificationService from './services/notificationService.js';
+import ioService from './services/ioService.js';
+import favicoService from './services/favicoService.js';
+
 // directives
 import baseMetaEdit from './directives/baseMetaEdit.js';
 import bzLoadingContainer from './directives/bzLoadingContainer.js';
+import basePopupNotifications from './directives/basePopupNotifications.js';
 
 angular.module(appName, [
   'views',
+  models,
   permissions,
   'ui.router',
+  'ui.bootstrap.tooltip',
   'cgNotify',
   'ngAnimate',
   'ngProgress'
 ])
+  .constant('IO_URL', location.origin + '/')
   .constant('appTitle', 'Paphos CMS')
   .constant('appSite', '5starsmedia.com.ua')
   .constant('appSiteLink', 'https://5starsmedia.com.ua/')
@@ -62,7 +73,16 @@ angular.module(appName, [
     $rootScope.hasPermission = basePermissionsSet.access;
   })
 
+  .service('baseEventService', baseEventService)
+  .service('notificationService', notificationService)
+  .service('favicoService', favicoService)
+  .service('ioService', ioService)
+  .run((ioService) => {
+    ioService.connect();
+  })
+
   .directive('bzLoadingContainer', bzLoadingContainer)
+  .directive('basePopupNotifications', basePopupNotifications)
 
   .directive('baseMetaEdit', baseMetaEdit);
 

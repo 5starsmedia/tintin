@@ -62,7 +62,7 @@ class NewsPostsEditCtrl {
     };
     $scope.selectSource = (item, model) => {
       $scope.post.source = item.title;
-    }
+    };
 
     $scope.countWords = (str) => {
       return (str || '').split(/\s+/).length;

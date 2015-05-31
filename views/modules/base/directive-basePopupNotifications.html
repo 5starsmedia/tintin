@@ -1,0 +1,31 @@
+<div class="pn-list" ng-show="notifications && notifications.length > 0">
+    <div class="pn-list__header">
+        <a rel="nofollow" class="pn-list__h-btn" ng-click="closeAll()">Mark all as read</a>
+    </div>
+    <div class="pn-item" ng-class="{'pn-item_avatar': notification.resourceInfo.account}"
+         ng-repeat="notification in notifications" ng-click="go(notification)">
+        <a tooltip="Close" rel="nofollow" class="pn-item__close" ng-click="close(notification)">
+            <i class="fa fa-close"></i>
+        </a>
+
+        <div class="pn-item__title">
+            <span ng-bind="notification.title"></span>
+        </div>
+        <div class="pn-item__body">
+            <div class="pn-item__avatar" ng-if="notification.resourceInfo.account">
+                <cs-avatar account="notification.resourceInfo.account" width="40"></cs-avatar>
+            </div>
+            <div class="pn-item__content">
+                <div class="pn-item__account-title" ng-if="notification.resourceInfo.account">
+                    <span ng-bind="notification.resourceInfo.account.title"></span>
+                </div>
+                <div class="pn-item__text">
+                    <span ng-bind="notification.text"></span>
+                </div>
+                <div class="pn-item__date">
+                    <span ng-bind="notification.createDate"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

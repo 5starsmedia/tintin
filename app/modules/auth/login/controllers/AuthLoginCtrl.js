@@ -2,7 +2,7 @@ export default
 class AuthLoginCtrl {
 
   /*@ngInject*/
-  constructor($scope, $state, $auth, basePermissionsSet) {
+  constructor($scope, $rootScope, $state, $auth, basePermissionsSet) {
     // загрузка данных, которые были сохранены при установле галочки "Запомнить меня"
     var localAuthData = angular.fromJson((localStorage || {}).authData || '{}');
 
@@ -33,6 +33,7 @@ class AuthLoginCtrl {
       $auth.authenticate(provider).then(function () {
         basePermissionsSet.clearCache();
         $scope.loading = false;
+        $rootScope.$broadcast('authLoginSuccess');
         $state.go('dashboard');
       }).catch(function (res) {
         $scope.loading = false;
@@ -52,6 +53,7 @@ class AuthLoginCtrl {
       $auth.login(user).then(function (data) {
         $scope.loading = false;
         basePermissionsSet.clearCache();
+        $rootScope.$broadcast('authLoginSuccess');
         $state.go('dashboard');
       }).catch(function (res) {
         $scope.loading = false;

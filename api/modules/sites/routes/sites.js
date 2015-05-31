@@ -13,9 +13,15 @@ router.get('/current', function (req, res, next) {
 router.get('/settings', function (req, res, next) {
   res.header('Content-Type', 'application/javascript');
 
+  var apiEntryPointHost = req.app.config.get('url');
+  if (process.env.PAPHOS_SITE) {
+    //@todo https
+    apiEntryPointHost = 'http://' + req.headers.host;
+  }
+
   var varName = req.query.name || 'settings',
     settingsJs = {
-      apiEntryPoint: req.app.config.get('url') + '/api',
+      apiEntryPoint: apiEntryPointHost + '/api',
       userIp: req.request.remoteAddress,
       settings: req.site.settings
   };

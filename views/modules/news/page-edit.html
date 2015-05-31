@@ -80,10 +80,21 @@
                         </div>
                     </tab>
 
-                    <tab>
+                    <tab ng-if="post._id">
                         <tab-heading>{{'SEO'|translate}}</tab-heading>
 
                         <div ng-include="'views/modules/news/page-seo.html'"></div>
+                    </tab>
+
+                    <tab ng-if="post._id">
+                        <tab-heading>
+                            {{'Comments'|translate}}
+                            <span class="label label-info" ng-if="post.commentsCount">{{post.commentsCount}}</span>
+                        </tab-heading>
+
+                        <div class="panel-body">
+                            <div comments-for-resource="posts" resource-id="{{post._id}}"></div>
+                        </div>
                     </tab>
                 </tabset>
 

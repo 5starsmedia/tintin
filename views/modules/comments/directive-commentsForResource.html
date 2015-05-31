@@ -1,0 +1,44 @@
+<div bz-loading-container="loading">
+
+    <table ng-table="tableParams" show-filter="true" class="table">
+    <tr ng-repeat="item in $data" ng-class="{'active': !item.isPublished}">
+        <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
+            <a href="">
+                <strong>{{item.account.title}} &lt;{{item.account.email}}&gt;</strong><br/>
+                {{item.text|trim:100}}
+            </a>
+        </td>
+        <td style="width: 15%" data-title="'Date of publication'|translate" sortable="'createDate'" class="text-center">
+            <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">
+                {{item.getDate()}},
+                {{item.createDate|date:'HH:mm'}}
+            </span>
+        </td>
+        <td style="width: 5%" data-title="'Publication'|translate" sortable="'isPublished'" class="text-center">
+
+            <div bz-loading-container="item.$loading">
+                <label>
+                    <input icheck ng-model="item.isPublished" ng-change="updateItem(item)" type="checkbox"/>
+                </label>
+            </div>
+
+        </td>
+        <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">
+
+            <a href="" ng-click="checkSpam(item)">
+                Spam
+            </a>
+            <a ng-href="/preview/{{item.collectionName}}/{{item.resourceId}}#comment-{{item.cid}}" target="_blank">
+                <span class="fa fa-eye"></span>
+            </a>
+            <a href="" st-confirm="remove(item)" title="{{'Delete article'|translate}}"
+               message-title="'Delete'|translate" message="'Are you realy want to delete this article?'|translate">
+                <span class="fa fa-times text-danger"></span>
+            </a>
+
+        </td>
+    </tr>
+    </table>
+
+
+</div>

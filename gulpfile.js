@@ -176,11 +176,15 @@ gulp.task('watch', ['build-persistent'], function () {
   var proxyOptions = url.parse('http://localhost:8080/api');
   proxyOptions.route = '/api';
 
+  var proxyOptions2 = url.parse('http://localhost:8080/socket.io');
+  proxyOptions2.route = '/socket.io';
+
   browserSync({
     server: {
       baseDir: './',
       middleware: [
         proxy(proxyOptions),
+        proxy(proxyOptions2),
         urlRewrite('.')
       ]
     }

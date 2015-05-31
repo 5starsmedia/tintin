@@ -1,0 +1,104 @@
+.pn-list {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  display: block;
+  padding-right: 8px;
+  padding-bottom: 8px;
+  width: 240px;
+
+  &:hover {
+    .pn-list__header {
+      display: block;
+    }
+  }
+
+  &__header{
+    display: none;
+    width: 100%;
+    text-align: right;
+  }
+
+  &__h-btn {
+    font-size: 12px;
+  }
+}
+
+.pn-item {
+  position: relative;
+  display: block;
+  margin-top: 8px;
+  padding: 6px 10px;
+  width: 100%;
+  border-radius: 2px;
+  background-color: rgba(50, 50, 50, 0.85);
+  box-shadow: 0 0 3px 1px rgba(100, 100, 100, 0.5);
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover {
+    .pn-item__close {
+      opacity: .6;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 2px;
+    right: 6px;
+    display: block;
+    opacity: .2;
+    transition: opacity 0.1s linear;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    .fa {
+      color: #fff;
+    }
+  }
+
+  &__title {
+    margin-bottom: 2px;
+    padding-right: 8px;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  &__body {
+    position: relative;
+  }
+
+  &__avatar {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    border-radius: 2px;
+  }
+
+  &__content {
+    color: #fff;
+
+    .pn-item_avatar & {
+      margin-left: 48px;
+      min-height: 40px;
+    }
+  }
+
+  &__account-title {
+    color: @color-blue;
+    font-weight: 700;
+  }
+
+  &__text {
+    display: block;
+    line-height: 1.2;
+  }
+
+  &__date {
+    display: block;
+    color: #aaa;
+    text-align: right;
+  }
+}

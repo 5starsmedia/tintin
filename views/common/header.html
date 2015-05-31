@@ -13,6 +13,21 @@
     </form>
     <div class="navbar-right">
         <ul class="nav navbar-nav no-borders">
+            <!--li class="dropdown" ng-controller="NotificationsPopupCtrl">
+                <a class="dropdown-toggle label-menu-corner" href="" data-toggle="dropdown" aria-expanded="false">
+                    <i class="pe-7s-speaker"></i>
+                    <span class="label label-success" ng-if="listNotificationsCount">{{listNotificationsCount}}</span>
+                </a>
+                <ul class="dropdown-menu hdropdown notification">
+                    <li ng-repeat="message in messages">
+                        <a>
+                            <span class="label label-success">{{message.title}}</span>
+                            {{message.text}}
+                        </a>
+                    </li>
+                    <! --li class="summary"><a href="#">See all notifications</a></li- ->
+                </ul>
+            </li-->
             <li class="dropdown">
                 <a ui-sref="auth.logout">
                     <i class="pe-7s-upload pe-rotate-90"></i>

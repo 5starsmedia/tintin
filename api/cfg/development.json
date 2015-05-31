@@ -27,15 +27,15 @@
       },
       "debug": false
     },
-    "imagesPath": "https://dev.cannasos.com/static/mail"
+    "imagesPath": "https://5starsmedia.com.ua/static/mail"
   },
   "twitter": {
-    "consumerKey": "gVhPQ7k9o2e19eCefnaZPhF6s",
-    "consumerSecret": "Wt6KWpuHU6Zwix1MTqfjGTg3OQ5PPdAXreK2KhJL9V0VkZZGwZ"
+    "consumerKey": "",
+    "consumerSecret": ""
   },
   "facebook": {
-    "clientId": "418197618334612",
-    "clientSecret": "ff90c091a37ce84855a6e350d15458f1"
+    "clientId": "",
+    "clientSecret": ""
   },
   "statd": {
     "host": "127.0.0.1",
@@ -45,6 +45,15 @@
     "enabled": true,
     "stomp": {
       "destination": "/queue/tasks",
+      "host": "127.0.0.1",
+      "port": 61613,
+      "login": "root",
+      "password": "123456"
+    }
+  },
+  "broadcast": {
+    "stomp": {
+      "destination": "/topic/broadcast",
       "host": "127.0.0.1",
       "port": 61613,
       "login": "root",

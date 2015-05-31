@@ -1,4 +1,5 @@
 import base from './base/base';
+import notifications from './notifications/notifications';
 import auth from './auth/auth';
 import news from './news/news';
 import menu from './menu/menu';
@@ -13,6 +14,7 @@ import servers from './servers/servers';
 
 export default [
   base,
+  notifications,
   auth,
   sites,
   news,
