@@ -197,9 +197,21 @@ gulp.task('watch', ['build-persistent'], function () {
 
 // WEB SERVER
 gulp.task('serve', function () {
+
+  var proxyOptions = url.parse('http://localhost:8080/api');
+  proxyOptions.route = '/api';
+
+  var proxyOptions2 = url.parse('http://localhost:8080/socket.io');
+  proxyOptions2.route = '/socket.io';
+
   browserSync({
     server: {
-      baseDir: './'
+      baseDir: './build',
+      middleware: [
+        proxy(proxyOptions),
+        proxy(proxyOptions2),
+        urlRewrite('./build')
+      ]
     }
   });
 });

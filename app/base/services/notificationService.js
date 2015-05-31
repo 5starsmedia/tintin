@@ -1,5 +1,9 @@
+/**
+ *
+ */
+
 /*@ngInject*/
-  function NotificationSvc($log, $q, $http, $auth, baseEventService, BaseNotificationModel) {
+function NotificationSvc($log, $q, $http, $auth, baseEventService, BaseNotificationModel) {
   angular.extend(NotificationSvc.prototype, baseEventService.EventEmitterBase.prototype);
   baseEventService.EventEmitterBase.call(this, $log);
   this.notificationRes = BaseNotificationModel;
