@@ -9,7 +9,7 @@ export default
         'resourceId': '@'
       },
       templateUrl: 'views/modules/comments/directive-commentsForResource.html',
-      controller: ($scope, NgTableParams, CommentsCommentModel, BaseAPIParams) => {
+      controller: /*@ngInject*/ ($scope, NgTableParams, CommentsCommentModel, BaseAPIParams) => {
 
         $scope.tableParams = new NgTableParams({
           page: 1,
