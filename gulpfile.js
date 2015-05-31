@@ -111,12 +111,16 @@ gulp.task('optimizeImages', ['clean'], function () {
     .pipe(gulp.dest(config.outputDir + 'assets'));
 });
 
-gulp.task('copyAssets', ['copyCkeditor'], function () {
+gulp.task('copyAssets', ['copyCkeditor', 'copyFavicon'], function () {
   return gulp.src(config.assetsDir + '**/*.{eot,ttf,woff,woff2,svg}')
     .pipe(copy(config.outputDir));
 });
 gulp.task('copyCkeditor', ['clean'], function () {
   return gulp.src(config.assetsDir + 'ckeditor/**')
+    .pipe(copy(config.outputDir));
+});
+gulp.task('copyFavicon', ['clean'], function () {
+  return gulp.src('favicon.ico')
     .pipe(copy(config.outputDir));
 });
 
