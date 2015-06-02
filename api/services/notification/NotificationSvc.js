@@ -37,7 +37,6 @@ NotificationSvc.prototype.send = function (accountId, notificationType, options,
       self.app.models.accounts.findById(accountId, '_id title notifications email', next);
     },
     settings: ['account', function (next, data) {
-      console.info(data.account, accountId);
       next(null, data.account.notifications[notificationType]);
     }],
     opts: ['account', 'settings', function (next, data) {

@@ -15,7 +15,11 @@ function notifyPostComment(app, comment, next) {
         account: comment.toObject().account
       }
     };
-    app.services.notification.send(post.account._id, 'postsComment', opts, next);
+    if (post.account && post.account._id) {
+      app.services.notification.send(post.account._id, 'postsComment', opts, next);
+    } else {
+      next();
+    }
   });
 }
 
