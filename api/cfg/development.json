@@ -11,6 +11,9 @@
     "persistTokenDuration": 2592000000,
     "guestRoleName": "guest"
   },
+  "notifications": {
+    "mailingDelay": 30
+  },
   "urls": {
     "support": "https://support.dev.cannasos.com"
   },
@@ -45,6 +48,16 @@
     "enabled": true,
     "stomp": {
       "destination": "/queue/tasks",
+      "host": "127.0.0.1",
+      "port": 61613,
+      "login": "root",
+      "password": "123456"
+    }
+  },
+  "states": {
+    "enabled": true,
+    "stomp": {
+      "destination": "/queue/states",
       "host": "127.0.0.1",
       "port": 61613,
       "login": "root",

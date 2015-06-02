@@ -22,7 +22,7 @@ var schema = new mongoose.Schema({
     type: String,
     required: true,
     default: 'message',
-    enum: ['message', 'postComment', 'commentReply', 'system', 'shareComment', 'share']
+    enum: ['message', 'postComment', 'postsComment', 'commentReply', 'system', 'shareComment', 'share']
   },
   collectionName: {type: String, required: true},
   resourceId: {type: mongoose.Schema.Types.ObjectId, required: true},

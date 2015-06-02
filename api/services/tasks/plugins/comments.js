@@ -21,9 +21,6 @@ exports['db.comments.insert'] = exports['db.comments.delete'] = function (app, m
       });
     });
   });
-
-
-  app.services.mq.push(app, 'events', {name: 'comments.checkSpam', _id: msg.body._id});
 };
 
 exports['db.accounts.update'] = function (app, msg, cb) {

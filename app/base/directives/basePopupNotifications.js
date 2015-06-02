@@ -1,6 +1,6 @@
 export default
   /*@ngInject*/
-  function basePopupNotifications($log, $rootScope, $location, $auth, ioService, BaseNotificationModel, notificationService, favicoService, $state) {
+  function basePopupNotifications($log, $rootScope, $location, $auth, ioService, BaseNotificationModel, notificationService, favicoService, $state, $notification) {
     return {
       replace: true,
       restrict: 'A',
@@ -12,6 +12,23 @@ export default
         scope.reload = () => {
           notificationService.getPopupNotifications().then(function (notifications) {
             scope.notifications = notifications;
+
+            $notification.requestPermission().then(function (permission) {
+              if (permission == 'granted') {
+                _.forEach(notifications, (notification) => {
+                  var notify = $notification(notification.title, {
+                    body: notification.text,
+                    icon: 'assets/images/notifications/comment.png'
+                  });
+                  notify.$on('click', function () {
+                    scope.go(notification);
+                  });
+                  notify.$on('close', function () {
+                    scope.close(notification);
+                  });
+                });
+              }
+            });
           });
         };
 

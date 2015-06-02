@@ -15,7 +15,7 @@ function notifyPostComment(app, comment, next) {
         account: comment.toObject().account
       }
     };
-    app.services.notification.send(post.account._id, 'postComment', opts, next);
+    app.services.notification.send(post.account._id, 'postsComment', opts, next);
   });
 }
 
@@ -91,29 +91,6 @@ exports['notifications.mailing'] = function (app, msg, next) {
           }
           if (!account.email || account.email.length === 0) {
             app.log.warn('[notifications.mailing]', 'Cannot send notification email to', account.login);
-            return next();
-          }
-          app.log.debug('[notifications.mailing]', 'mailing notification ', notification.notificationType);
-          app.services.mail.sendTemplate(notification.notificationType, account.email, {_id: notification._id}, next);
-        });
-      });
-  }, next);
-};
-
-exports['notifications.insert'] = function (app, msg, next) {
-  var date = new Date((new Date()).getTime() - app.config.get('notifications.mailingDelay'));
-  async.times(5, function (n, next) {
-    app.models.notifications.findOneAndUpdate(
-      {isMailed: false, isEmailVisible: true, removed: {$exists: false}, isRead: false, createDate: {$lt: date}},
-      {isMailed: true, mailedDate: Date.now()},
-      {sort: {_id: 1}, multi: true}, function (err, notification) {
-        if (err) { return next(err); }
-        if (!notification || !notification.account) { return next(); }
-        app.models.accounts.findById(notification.account._id, function (err, account) {
-          if (err) { return next(err); }
-          if (!account) { return next(); }
-          if (!account.email || account.email.length === 0) {
-            app.log.warn('[notifications.mailing]', 'Cannot send notification email to', account.title);
             return next();
           }
           app.log.debug('[notifications.mailing]', 'mailing notification ', notification.notificationType);

@@ -29,7 +29,8 @@ angular.module(appName, [
   'ui.bootstrap.tooltip',
   'cgNotify',
   'ngAnimate',
-  'ngProgress'
+  'ngProgress',
+  'notification'
 ])
   .constant('IO_URL', location.origin + '/')
   .constant('appTitle', 'Paphos CMS')

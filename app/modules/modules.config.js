@@ -11,6 +11,7 @@ import ecommerce from './ecommerce/ecommerce';
 import wiki from './wiki/wiki';
 import comments from './comments/comments';
 import servers from './servers/servers';
+import constructor from './constructor/constructor';
 
 export default [
   base,
@@ -25,5 +26,6 @@ export default [
   ecommerce,
   wiki,
   comments,
-  servers
+  servers,
+  constructor
 ];

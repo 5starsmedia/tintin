@@ -74,16 +74,29 @@ function processGet(collectionName, req, res, next) {
 
 function processPost(collectionName, req, res, next) {
   async.auto({
-    'parent': function(next) {
+    'before': function(next) {
+      if (!req.query.before) {
+        return next();
+      }
       req.app.models[collectionName].findById(new mongoose.Types.ObjectId(req.params.id), next);
     },
+    'parent': ['before', function(next, data) {
+      if (data.before) {
+        req.app.models[collectionName].findById(new mongoose.Types.ObjectId(data.before.parentId), next);
+      } else {
+        req.app.models[collectionName].findById(new mongoose.Types.ObjectId(req.params.id), next);
+      }
+    }],
     'childrens': ['parent', function(next, data) {
       if (!data.parent) {
         return next(req.app.errors.NotFoundError('Node "' + req.params.id + '" not found.'));
       }
       data.parent.getChildren(next);
     }],
-    'position': ['parent', 'childrens', function(next, data) {
+    'position': ['parent', 'childrens', 'before', function(next, data) {
+      if (data.before) {
+        return next(null, data.before._w);
+      }
       if (req.query.insert) {
         req.app.models[collectionName].collection.update({ parentId: data.parent._id }, { $inc: { _w: 1 } }, { multi: true }, function(err, data) {
           if (err) return next(err);
@@ -96,10 +109,10 @@ function processPost(collectionName, req, res, next) {
       next(undefined, data.childrens.length + 1)
     }],
     'insertChildren': ['position', function(next, data) {
-      var node = new req.app.models[collectionName]();
+      var node = new req.app.models[collectionName](req.body);
       node._w = data.position;
       node.parentId = data.parent._id;
-      node.title = 'New node';
+      node.title = req.body.title || 'New node';
 
       if (req.app.models[collectionName].schema.paths['site._id']) {
         node.site = {
@@ -108,6 +121,22 @@ function processPost(collectionName, req, res, next) {
         };
       }
       node.save(next);
+    }],
+    'hooks': ['insertChildren', function(next, data) {
+      req.app.services.hooks.hook(req, 'afterPost.' + collectionName, data.insertChildren[0], next);
+    }],
+    'tasks': ['insertChildren', function(next, data) {
+      req.app.services.mq.push(req.app, 'events', {
+        name: 'db.' + collectionName + '.insert',
+        _id: data.insertChildren[0]._id
+      }, next);
+    }],
+    'updateBefore': ['before', 'insertChildren', function(next, data) {
+      if (!data.before) {
+        return next();
+      }
+      data.before.parentId = data.insertChildren[0]._id;
+      data.before.save(next);
     }]
   }, function(err, data){
     if (err) return next(err);

@@ -1,0 +1,16 @@
+<div ng-controller="Constructor.SendNotificationCtrl" bz-loading-container="loading">
+
+    <h3>{{'Send email'|translate}}</h3>
+
+    <div class="alert alert-info">
+        {{'Отправляет email выбраному пользователю без задержек во времени. Можно также использовать'|translate}}
+        <a href="" ng-click="item.stateType = 'send.notification'">уведомления</a>.
+        {{'При отправке уведомления пользователь увидит его в своем личном кабинете, если на протяжении некотого времени уведомление не будет прочитано, то оно будет отправлено на почту.'|translate}}
+    </div>
+
+    <div class="form-group">
+        <label>{{'User'|translate}}</label>
+        <select required class="form-control" ng-model="item.settings.userId" ng-options="user._id as user.title for user in users"></select>
+    </div>
+
+</div>

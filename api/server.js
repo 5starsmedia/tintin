@@ -46,7 +46,8 @@ var PostsModule = require('./modules/posts'),
   SitesModule = require('./modules/sites'),
   SitemapModule = require('./modules/sitemap'),
   ServersModule = require('./modules/servers'),
-  NotificationModule = require('./modules/notifications');
+  NotificationModule = require('./modules/notifications'),
+  ConstructorModule = require('./modules/constructor');
 
 app.modules = {
   posts: new PostsModule(app),
@@ -62,6 +63,7 @@ app.modules = {
   sitemap: new SitemapModule(app),
   servers: new ServersModule(app),
   notifications: new NotificationModule(app),
+  constructor: new ConstructorModule(app),
 
   each: function(callFunc) {
     _.forEach(app.modules, function(obj, name) {
@@ -270,7 +272,8 @@ exports.start = function (cb) {
       _.partial(app.services.validation.loadValidators, app),
       _.partial(app.services.hooks.loadPlugins, app),
       app.services.broadcast.init.bind(app.services.broadcast),
-      app.services.tasks.init.bind(app.services.tasks)
+      app.services.tasks.init.bind(app.services.tasks),
+      app.services.states.init.bind(app.services.states)
     ]),
     function (next) {
       app.log.debug('Connecting to mongodb...');
@@ -307,11 +310,13 @@ exports.start = function (cb) {
       app.log.debug('Http server starting at', config.get('http.port'), '...');
       app.httpServer.listen(config.get('http.port'), next);
     },
-    _.bind(app.services.tasks.start, app.services.tasks)
+    //_.bind(app.services.tasks.start, app.services.tasks, {}),
+    //_.bind(app.services.states.start, app.services.states, {})
   ], function (err) {
     if (err) { return cb(err); }
 
     app.services.tasks.start();
+    app.services.states.start();
 
     app.log.info('Configuration "' + config.get('env') + '" successfully loaded in', Date.now() - startDate, 'ms');
 
