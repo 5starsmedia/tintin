@@ -1,0 +1,79 @@
+{{> header.html}}
+
+<table class="row">
+    <tr>
+        <td class="wrapper">
+
+            <table class="twelve columns">
+                <tr>
+                    <td class="content-wrap sub-grid">
+
+                        <p class="content__title_medium">Hi, {{account.title}}</p>
+
+                        <p>You have a new comment on your post "{{blog.title}}":</p>
+
+                        <table class="avatar-with-text">
+                            <tr>
+                                <td class="avatar">
+                                    {{#if senderAccount.coverFile._id}}
+                                    <img src="{{config.url}}/api/files/{{senderAccount.coverFile._id}}?width=100&height=100"
+                                         alt="{{senderAccount.title}}'s photo"
+                                         width="50" height="50" class="center">
+                                    {{else}}
+                                    {{#if senderAccount.imageUrl}}
+                                    <img src="{{senderAccount.imageUrl}}" alt="{{senderAccount.title}}'s photo"
+                                         width="50" height="50" class="center">
+                                    {{else}}
+                                    <img src="{{config.images}}/avatar-128.jpg" width="50" height="50"
+                                         class="center" alt="{{senderAccount.title}}'s photo">
+                                    {{/if}}
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{notification.text}}
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table>
+                            <tr>
+                                <td class="six sub-columns">
+
+                                    <table class="medium-button radius center">
+                                        <tr>
+                                            <td>
+                                                <a href="{{config.url}}/blog/{{blog.category.alias}}/{{blog.alias}}#comments"
+                                                   target="_blank">Reply</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                                <td class="six sub-columns last">
+
+                                    <table class="medium-button radius center">
+                                        <tr>
+                                            <td>
+
+                                                <a href="{{config.url}}/blog/{{blog.category.alias}}/{{blog.alias}}#comments"
+                                                   target="_blank">See all comments</a>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+
+                    <td class="expander"></td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+{{> footer.html}}
