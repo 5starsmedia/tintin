@@ -13,7 +13,8 @@ class NewsPostsEditCtrl {
     $scope.saveItem = (item) => {
       $scope.loading = true;
       let save = item._id ? item.$save : item.$create;
-      //delete item.files;
+      delete item.viewsCount;
+      delete item.commentsCount;
       save.call(item, (data) => {
         $scope.loading = false;
         //$state.go('news.posts');
