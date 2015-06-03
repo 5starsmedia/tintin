@@ -8,7 +8,7 @@ class EcommerceEditProductCtrl {
       delete product._id;
       delete product.id;
       delete product.createDate;
-      product.code += '-v' + ((product.productVariations.length || 0) + 1);
+      product.code += '-v' + (((product.productVariations || []).length || 0) + 1);
       product.variationProduct = variation;
     }
     $scope.item = product;
