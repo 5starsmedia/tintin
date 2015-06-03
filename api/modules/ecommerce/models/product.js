@@ -16,6 +16,8 @@ var schema = new mongoose.Schema({
   body: String,
   code: String,
 
+  variationTitle: String,
+
   createDate: {type: Date, required: true, default: Date.now},
 
   removed: {type: Date},
@@ -79,6 +81,7 @@ var schema = new mongoose.Schema({
     {
       _id: mongoose.Schema.Types.ObjectId,
       title: String,
+      variationTitle: String,
       coverFile: {
         _id: mongoose.Schema.Types.ObjectId
       },

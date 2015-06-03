@@ -41,6 +41,7 @@ exports['put.products'] = function (req, data, cb) {
         return product._id.toString() != res.product._id.toString();
       });
       res.product.title = data['title'] || res.product.title;
+      res.product.variationTitle = data['variationTitle'] || res.product.variationTitle;
       res.product.price = data['price'] || res.product.price;
       res.product.isInStock = data['isInStock'] || res.product.isInStock;
       res.product.inStockCount = data['inStockCount'] || res.product.inStockCount;

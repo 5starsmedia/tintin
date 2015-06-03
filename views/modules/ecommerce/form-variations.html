@@ -19,6 +19,9 @@
             <a ui-sref="ecommerce.edit({id: product._id})">
                 {{product.title}}
             </a>
+            <div ng-if="product.variationTitle">
+                <small>{{product.variationTitle}}</small>
+            </div>
         </td>
         <td data-title="'Price'|translate" sortable="'price'">
             <div bz-loading-container="product.$loading">
