@@ -34,6 +34,8 @@ var postSchema = new mongoose.Schema({
     description: String
   },
 
+  attributes:  mongoose.Schema.Types.Mixed,
+
   status: {type: Number, required: true, default: 0},
 
   viewsCount: {type: Number, required: true, default: 0},
@@ -81,6 +83,7 @@ var postSchema = new mongoose.Schema({
       title: String
     }
   },
+  createdBy: mongoose.Schema.Types.ObjectId,
 
   category: {
     _id: mongoose.Schema.Types.ObjectId,

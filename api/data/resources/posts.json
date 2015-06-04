@@ -43,10 +43,6 @@
       "get": ["*"],
       "get?_id": ["*"]
     },
-    "publishedDate": {
-      "get": ["*"],
-      "get?_id": ["*"]
-    },
     "*": {
       "get": "*",
       "get?activated": ["admin"],

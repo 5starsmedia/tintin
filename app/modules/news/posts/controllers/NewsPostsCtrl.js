@@ -20,7 +20,7 @@ class NewsPostsCtrl {
       getData: function ($defer, params) {
         console.info(params.filter())
         $scope.loading = true;
-        NewsPostModel.query(BaseAPIParams({ fields: 'title,likesCount,viewsCount,status,createDate,account,seo' }, params), function (logs, headers) {
+        NewsPostModel.query(BaseAPIParams({ fields: 'title,likesCount,viewsCount,status,createDate,account,seo,publishedDate' }, params), function (logs, headers) {
           $scope.loading = false;
           $scope.logs = logs;
           $defer.resolve(logs);
