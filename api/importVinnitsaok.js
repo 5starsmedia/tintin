@@ -222,7 +222,7 @@ var saveFile = function(site, post, image, next) {
   });
 }
 
-var siteDomain = 'vinnitsaok.com.ua',
+var siteDomain = 'vinnitsaok.5stars.link',
   apiEntryPoint = 'http://vinnitsaok.com.ua/api/rest.php',
   categories = [];
 
