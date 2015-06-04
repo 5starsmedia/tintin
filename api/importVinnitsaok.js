@@ -69,6 +69,7 @@ var saveItem = function(site, item, next) {
     post.source = item.source;
     post.photoSource = item.photo_source;
     post.status = item.status;
+    post.published = item.status == 4;
 
     post.createDate = new Date(parseInt(item.created_at));
     post.publishedDate = new Date(parseInt(item.published_at));
