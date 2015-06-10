@@ -103,7 +103,7 @@ var saveItem = function(site, item, next) {
     getApi('/news/' + id, {}, function(err, info) {
       if (err) { return next(err); }
       if (!info) {
-        console.info(id);
+        return next();
       }
 
       var images = [];
