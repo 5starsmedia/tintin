@@ -292,7 +292,7 @@ async.auto({
     app.models.posts.remove({ 'site._id': data.site._id }, next);
   }],
   'getNews': ['site', 'getCategories', 'deleteNews', 'mongoConnection', function(next, data) {
-    var pager = { page: 1, count: 25 };
+    var pager = { page: 1, count: 225 };
 
     getApi('/news?count=' +  pager.count + '&page=' +  pager.page, {}, function(err, res) {
       if (err) { return next(err); }
