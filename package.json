@@ -1,10 +1,14 @@
 {
-  "name": "test_es6",
+  "name": "paphos_cms",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/username/repository.git"
+  },
   "devDependencies": {
     "babelify": "~5.0.3",
     "browser-sync": "^1.7.1",

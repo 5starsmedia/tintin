@@ -65,7 +65,7 @@ var saveItem = function(site, item, next) {
     }
 
     post.title = item.title.uk;
-    post.body = item.body.uk;
+    post.body = item.body.uk || ' ';
     post.source = item.source;
     post.photoSource = item.photo_source;
     post.status = item.status;
