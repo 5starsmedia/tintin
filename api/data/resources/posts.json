@@ -54,6 +54,7 @@
       "get?tags.title": "*",
       "get?category._id": "*",
       "get?category._id&published": "*",
+      "get?attributes.hasPhotoreport&published": "*",
       "put?_id": ["admin", "*:owner"],
       "post": "admin",
       "delete?_id": "admin"
