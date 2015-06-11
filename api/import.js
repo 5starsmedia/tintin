@@ -15,7 +15,7 @@ var grid;
 
 var tablePrefix = 'zb_',
   siteDomain = 'zagrandok.ru',
-  databaseName = 'zagrandok_db';
+  databaseName = 'zagrando_db';
 
 var app = {};
 app.log = require('./log.js');
