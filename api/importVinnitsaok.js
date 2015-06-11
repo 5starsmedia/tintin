@@ -121,6 +121,7 @@ var saveItem = function(site, item, next) {
         });
       }
       post.attributes.hasPhotoreport = (info.images && info.images.length > 3);
+      post.markModified('attributes');
 
       post.save(function (err){
         if (err) return next(err);
