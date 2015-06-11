@@ -265,7 +265,7 @@ function walk(category) {
 var importCategories = false,
   deleteNews = false,
   total = 100;
-var pager = { page: 1, count: 20};
+var pager = { page: 0, count: 20};
 
 function loadPage(site) {
 
@@ -313,10 +313,10 @@ async.auto({
     async.whilst(
       function () { return pager.page < total; },
       function (next) {
+        pager.page++;
         console.info('Load page: ', pager.page);
         getApi('/news?count=' +  pager.count + '&page=' +  pager.page, {}, function(err, res) {
           if (err) { return next(err); }
-          pager.count++;
 
           async.eachLimit(res.data, 1, _.partial(saveItem, data.site), next);
         });
