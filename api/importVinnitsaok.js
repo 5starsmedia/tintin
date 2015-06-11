@@ -86,7 +86,8 @@ var saveItem = function(site, item, next) {
       isAdv: item.is_adv,
       isPolitAdv: item.is_polit_adv,
       isInterview: item.is_interview,
-      isPoll: item.is_poll
+      isPoll: item.is_poll,
+      hasVideo: item.has_video
     };
     post.markModified('attributes');
     if (item.category_id) {
@@ -119,6 +120,7 @@ var saveItem = function(site, item, next) {
           images.push(image);
         });
       }
+      post.attributes.hasPhotoreport = (info.images && info.images.length > 3);
 
       post.save(function (err){
         if (err) return next(err);
