@@ -263,7 +263,13 @@ function walk(category) {
 }
 
 var importCategories = false,
-  deleteNews = true;
+  deleteNews = false,
+  total = 100;
+var pager = { page: 1, count: 20};
+
+function loadPage(site) {
+
+}
 
 async.auto({
   'mongoConnection': function(next) {
@@ -303,13 +309,19 @@ async.auto({
     app.models.posts.remove({ 'site._id': data.site._id }, next);
   }],
   'getNews': ['site', 'getCategories', 'deleteNews', 'mongoConnection', function(next, data) {
-    var pager = { page: 1, count: 525 };
 
-    getApi('/news?count=' +  pager.count + '&page=' +  pager.page, {}, function(err, res) {
-      if (err) { return next(err); }
+    async.whilst(
+      function () { return pager.page < total; },
+      function (next) {
+        console.info('Load page: ', pager.page);
+        getApi('/news?count=' +  pager.count + '&page=' +  pager.page, {}, function(err, res) {
+          if (err) { return next(err); }
+          pager.count++;
 
-      async.eachLimit(res.data, 1, _.partial(saveItem, data.site), next);
-    });
+          async.eachLimit(res.data, 1, _.partial(saveItem, data.site), next);
+        });
+      }, next
+    );
   }]
 }, function (err, data) {
   if (err) { console.info(err); }
