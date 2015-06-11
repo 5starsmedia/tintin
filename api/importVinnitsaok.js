@@ -268,10 +268,6 @@ var importCategories = false,
   total = 100;
 var pager = { page: 0, count: 20};
 
-function loadPage(site) {
-
-}
-
 async.auto({
   'mongoConnection': function(next) {
     app.log.debug('Connecting to mongodb...');
@@ -316,10 +312,15 @@ async.auto({
       function (next) {
         pager.page++;
         console.info('Load page: ', pager.page);
-        getApi('/news?count=' +  pager.count + '&page=' +  pager.page, {}, function(err, res) {
+        /*getApi('/news?count=' +  pager.count + '&page=' +  pager.page, {}, function(err, res) {
           if (err) { return next(err); }
 
           async.eachLimit(res.data, 1, _.partial(saveItem, data.site), next);
+        });*/
+        getApi('/news/199113', {}, function(err, res) {
+          if (err) { return next(err); }
+
+          async.eachLimit([res], 1, _.partial(saveItem, data.site), next);
         });
       }, next
     );
