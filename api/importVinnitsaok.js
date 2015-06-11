@@ -80,6 +80,7 @@ var saveItem = function(site, item, next) {
     post.viewsCount = item.hits;
     post.commentsCount = item.comments_count;
     post.ownPhoto = item.own_photo;
+    post.isInterview = item.is_interview;
 
     post.attributes = {
       isEditorChoose: item.is_editor_choose,
