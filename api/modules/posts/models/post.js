@@ -48,6 +48,7 @@ var postSchema = new mongoose.Schema({
 
   isTop: Boolean,
   isHighlight: Boolean,
+  hasPhotoreport: Boolean,
 
   ownPhoto: Boolean,
   isAllowComments: Boolean,
