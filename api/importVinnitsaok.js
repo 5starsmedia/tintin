@@ -147,7 +147,7 @@ var saveCategoryItem = function(site, item, next) {
       category = new app.models.categories({ id: id, site: { _id: site._id } });
     }
     category.title = (item.title || '').uk;
-    category.alias = item.url;
+    //category.alias = item.url;
     if (!category.title) {
       category.title = '-';
     }
