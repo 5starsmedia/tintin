@@ -101,7 +101,6 @@ var saveItem = function(site, item, next) {
       };
       if (categoriesId2_Id[categoryId].parentId.toString() == '557008983efd7e0f20f1228e') {
         post.isBlog = true;
-        console.info(categoriesId2_Id[categoryId])
       }
     }
 
@@ -312,16 +311,16 @@ async.auto({
       function (next) {
         pager.page++;
         console.info('Load page: ', pager.page);
-        /*getApi('/news?count=' +  pager.count + '&page=' +  pager.page, {}, function(err, res) {
+        getApi('/news?count=' +  pager.count + '&page=' +  pager.page, {}, function(err, res) {
           if (err) { return next(err); }
 
           async.eachLimit(res.data, 1, _.partial(saveItem, data.site), next);
-        });*/
-        getApi('/news/199113', {}, function(err, res) {
+        });
+        /*getApi('/news/199113', {}, function(err, res) {
           if (err) { return next(err); }
 
           async.eachLimit([res], 1, _.partial(saveItem, data.site), next);
-        });
+        });*/
       }, next
     );
   }]
