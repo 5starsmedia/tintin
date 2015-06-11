@@ -99,9 +99,9 @@ var saveItem = function(site, item, next) {
         title: categoriesId2_Id[categoryId].title,
         alias: categoriesId2_Id[categoryId].alias
       };
-      console.info(categoriesId2_Id[categoryId])
-      if (categoriesId2_Id[categoryId]._id.toString() == '557008983efd7e0f20f1228e') {
+      if (categoriesId2_Id[categoryId].parentId.toString() == '557008983efd7e0f20f1228e') {
         post.isBlog = true;
+        console.info(categoriesId2_Id[categoryId])
       }
     }
 
