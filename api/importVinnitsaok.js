@@ -120,7 +120,7 @@ var saveItem = function(site, item, next) {
           images.push(image);
         });
       }
-      post.attributes.hasPhotoreport = (info.images && info.images.length > 3);
+      post.hasPhotoreport = (info.images && info.images.length > 3);
       post.markModified('attributes');
 
       post.save(function (err){
