@@ -91,9 +91,9 @@ var saveItem = function(site, item, next) {
       hasVideo: item.has_video
     };
     post.markModified('attributes');
+    console.info(item.id);
     if (item.category_id) {
       var categoryId = parseInt(item.category_id);
-      console.info(categoryId);
       post.category = {
         _id: categoriesId2_Id[categoryId]._id,
         title: categoriesId2_Id[categoryId].title,
