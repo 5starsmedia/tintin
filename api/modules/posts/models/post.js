@@ -50,6 +50,7 @@ var postSchema = new mongoose.Schema({
   isHighlight: Boolean,
   hasPhotoreport: Boolean,
   isInterview: Boolean,
+  isBlog: Boolean,
 
   ownPhoto: Boolean,
   isAllowComments: Boolean,

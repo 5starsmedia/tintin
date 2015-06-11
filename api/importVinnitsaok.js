@@ -99,6 +99,9 @@ var saveItem = function(site, item, next) {
         title: categoriesId2_Id[categoryId].title,
         alias: categoriesId2_Id[categoryId].alias
       };
+      if (categoriesId2_Id[categoryId].parentAlias == 'blogs') {
+        post.isBlog = true;
+      }
     }
 
 

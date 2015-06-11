@@ -56,6 +56,7 @@
       "get?category._id&published": "*",
       "get?hasPhotoreport&published": "*",
       "get?isInterview&published": "*",
+      "get?isBlog&published": "*",
       "put?_id": ["admin", "*:owner"],
       "post": "admin",
       "delete?_id": "admin"
