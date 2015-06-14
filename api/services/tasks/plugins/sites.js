@@ -88,3 +88,22 @@ exports['db.sites.insert'] = exports['db.posts.update'] = function (app, msg, cb
     }]
   }, cb);
 };
+
+exports['db.sites.delete'] = function (app, msg, cb) {
+  async.auto({
+    'site': function(next) {
+      app.models.sites.findById(msg.body._id, next);
+    },
+    'domain': ['site', function(next, res) {
+      app.models.dnsDomains.findOne({ name: res.site.domain }, next);
+    }],
+    'records': ['domain', function(next, data) {
+      app.models.dnsRecords.remove({ 'domain._id': data.domain._id }, next);
+    }],
+    'removeDomain': ['records', 'domain', function(next, data) {
+      if (data.records.length) { return next(); }
+
+      data.domain.remove(next);
+    }]
+  }, cb);
+};
