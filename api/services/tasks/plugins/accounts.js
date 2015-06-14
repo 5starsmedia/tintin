@@ -9,7 +9,7 @@ exports['db.accounts.insert'] = exports['db.accounts.update'] = function (app, m
     'account': function (next) {
       app.models.accounts.findById(msg.body._id, next);
     },
-    'setZodiac': ['account', function (next, res) {
+    /*'setZodiac': ['account', function (next, res) {
       if (res.account.profile.dateOfBirth) {
         var tmp = moment.utc(res.account.profile.dateOfBirth);
         var birthDate = {month: tmp.get('month'), day: tmp.get('day')};
@@ -75,7 +75,7 @@ exports['db.accounts.insert'] = exports['db.accounts.update'] = function (app, m
       var fillingLevel = Math.round(filledFields * 100 / fieldsCount);
 
       app.models.accounts.update({_id: data.account._id}, {$set: {profileStrength: fillingLevel}}, next);
-    }]
+    }]*/
 
   }, function (err, res) {
     if (err) { return cb(err); }

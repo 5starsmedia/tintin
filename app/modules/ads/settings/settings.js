@@ -22,7 +22,8 @@ module.config(function ($stateProvider) {
   $stateProvider
     .state('ads', {
       abstract: true,
-      templateUrl: "views/common/content_small.html"
+      parent: 'cabinet',
+      template: '<div ui-view></div>'
     })
     .state('ads.settings', {
       url: "/ads-settings",

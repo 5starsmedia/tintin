@@ -29,7 +29,8 @@ module.config(function ($stateProvider) {
   $stateProvider
     .state('ruleConstructor', {
       abstract: true,
-      templateUrl: "views/common/content_small.html"
+      parent: 'cabinet',
+      template: '<div ui-view></div>'
     })
     .state('ruleConstructor.main', {
       url: "/constructor",

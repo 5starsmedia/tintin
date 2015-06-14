@@ -12,6 +12,7 @@ import wiki from './wiki/wiki';
 import comments from './comments/comments';
 import servers from './servers/servers';
 import constructor from './constructor/constructor';
+import dashboard from './dashboard/dashboard';
 
 export default [
   base,
@@ -27,5 +28,6 @@ export default [
   wiki,
   comments,
   servers,
-  constructor
+  constructor,
+  dashboard
 ];

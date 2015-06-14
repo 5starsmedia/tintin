@@ -160,10 +160,10 @@ app.server.use(function (req, res, next) {
     remoteAddress: realIP,
     remotePort: req.connection.remotePort,
     userAgent: {
-      browser: req.useragent.Browser,
-      version: req.useragent.Version,
-      os: req.useragent.OS,
-      platform: req.useragent.Platform
+      browser: req.useragent.browser,
+      version: req.useragent.version,
+      os: req.useragent.os,
+      platform: req.useragent.platform
     }
   };
 
@@ -174,6 +174,7 @@ app.server.use(function (req, res, next) {
     log.level = level;
     log.msg = msg;
     log.req = req.request;
+
     next = next || account; // if account is not set last parameter is callback
     log.save(function (err) {
       if (err) {

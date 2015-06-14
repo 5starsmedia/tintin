@@ -22,7 +22,8 @@ module.config(function ($stateProvider) {
   $stateProvider
     .state('users', {
       abstract: true,
-      templateUrl: "views/common/content_small.html"
+      parent: 'cabinet',
+      template: '<div ui-view></div>'
     })
     .state('users.list', {
       url: '/users',

@@ -27,7 +27,7 @@ module.exports = function () {
         return next(err);
       }
       if (!site) {
-        res.status(418).json({ domain: host, msg: 'I\'m a teapot' });
+        res.status(418).json({ domain: host, msg: 'I\'m a teapot', port: port });
         return;
       }
       req.site = site;

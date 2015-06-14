@@ -109,6 +109,7 @@ function processPost(collectionName, req, res, next) {
       next(undefined, data.childrens.length + 1)
     }],
     'insertChildren': ['position', function(next, data) {
+      delete req.body._id;
       var node = new req.app.models[collectionName](req.body);
       node._w = data.position;
       node.parentId = data.parent._id;

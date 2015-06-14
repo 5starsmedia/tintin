@@ -11,6 +11,19 @@
     "persistTokenDuration": 2592000000,
     "guestRoleName": "guest"
   },
+  "dns": {
+    "ip": "127.0.0.1",
+    "port": 15353,
+    "default-ttl": 3600,
+    "enable-tcp": true,
+    "enable-v6": true,
+    "nameservers": ["ns1.example.com", "ns2.example.com"],
+    "nameservers-ip": {
+      "ns1.moedns.net": ["127.0.0.1", "::1"],
+      "ns2.moedns.net": ["127.0.0.2", "::2"]
+    },
+    "version": "Paphos CMS"
+  },
   "notifications": {
     "mailingDelay": 30
   },

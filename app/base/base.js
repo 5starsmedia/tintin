@@ -2,11 +2,14 @@
 
 var appName = 'base';
 
+import config from './config.js';
+
 import models from './models/models.js';
 
 import permissions from './permissions/permissions';
 
 import BaseAPIParams from './factories/BaseAPIParams.js';
+import UnknownDomainInterceptor from './factories/UnknownDomainInterceptor.js';
 
 import translate from './filters/translate.js';
 import trim from './filters/trim.js';
@@ -30,21 +33,28 @@ angular.module(appName, [
   'cgNotify',
   'ngAnimate',
   'ngProgress',
-  'notification'
+  'notification',
+
+  'ui.bootstrap',
+  'angular-flot',
+  'angles',
+  'angular-peity'
 ])
   .constant('IO_URL', location.origin + '/')
   .constant('appTitle', 'Paphos CMS')
   .constant('appSite', '5starsmedia.com.ua')
   .constant('appSiteLink', 'https://5starsmedia.com.ua/')
   .constant('BaseAPIParams', BaseAPIParams)
+  .factory('UnknownDomainInterceptor', UnknownDomainInterceptor)
   .filter('translate', translate)
   .filter('trim', trim)
+  .config(config)
 
   // redirect on 404 where no route
   .run(function($rootScope, $state) {
     $rootScope.$state = $state;
     $rootScope.$on('$stateChangeError', function(event) {
-      $state.go('error.404');
+      $state.go('cabinet.404');
     });
   })
 

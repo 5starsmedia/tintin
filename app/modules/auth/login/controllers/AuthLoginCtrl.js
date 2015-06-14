@@ -7,7 +7,7 @@ class AuthLoginCtrl {
     var localAuthData = angular.fromJson((localStorage || {}).authData || '{}');
 
     if ($auth.isAuthenticated() && $state.current.name == 'auth.login') {
-      $state.go('dashboard');
+      $state.go('cabinet.dashboard');
       return;
     }
 
@@ -34,7 +34,7 @@ class AuthLoginCtrl {
         basePermissionsSet.clearCache();
         $scope.loading = false;
         $rootScope.$broadcast('authLoginSuccess');
-        $state.go('dashboard');
+        $state.go('cabinet.dashboard');
       }).catch(function (res) {
         $scope.loading = false;
         if (res.status == 422) {
@@ -54,7 +54,7 @@ class AuthLoginCtrl {
         $scope.loading = false;
         basePermissionsSet.clearCache();
         $rootScope.$broadcast('authLoginSuccess');
-        $state.go('dashboard');
+        $state.go('cabinet.dashboard');
       }).catch(function (res) {
         $scope.loading = false;
         if (res.status == 422) {

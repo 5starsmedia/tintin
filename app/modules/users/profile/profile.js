@@ -35,7 +35,8 @@ module.config(function ($stateProvider) {
     .state('profile', {
       abstract: true,
       url: "/profile",
-      templateUrl: "views/common/content.html"
+      parent: 'cabinet',
+      template: '<div ui-view></div>'
     })
     .state('profile.user', {
       url: '/:username',

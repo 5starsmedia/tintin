@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
   materializedPlugin = require('mongoose-materialized');
 
 var schema = new mongoose.Schema({
-  id: {type: Number, required: true, default: 0},
+  id: Number,
 
   // Назва
   title: {type: String, required: true},

@@ -37,7 +37,8 @@ module.config(function ($stateProvider, basePermissionsSetProvider) {
   $stateProvider
     .state('ecommerce', {
       abstract: true,
-      templateUrl: "views/common/content_small.html",
+      parent: 'cabinet',
+      template: '<div ui-view></div>',
       resolve: {
         permissions: basePermissionsSetProvider.access(['ecommerce'])
       }

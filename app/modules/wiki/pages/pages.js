@@ -30,7 +30,8 @@ module.config(function ($stateProvider) {
   $stateProvider
     .state('wiki', {
       abstract: true,
-      templateUrl: "views/common/content_small.html"
+      parent: 'cabinet',
+      template: '<div ui-view></div>'
     })
     .state('wiki.home', {
       url: "/wiki",

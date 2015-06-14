@@ -32,7 +32,8 @@ module.config(function ($stateProvider) {
   $stateProvider
     .state('keywords', {
       abstract: true,
-      templateUrl: "views/common/content_small.html"
+      parent: 'cabinet',
+      template: '<div ui-view></div>'
     })
     .state('keywords.projects', {
       url: "/keywords/projects",

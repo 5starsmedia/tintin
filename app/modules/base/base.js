@@ -1,6 +1,5 @@
 'use strict';
 
-import config from './config.js';
 import appCtrl from './controllers/appCtrl.js';
 import clockCtrl from './controllers/clockCtrl.js';
 
@@ -24,7 +23,6 @@ angular.module(appName, [
   'cgNotify',                 // Angular notify
   'angles',                   // Angular ChartJS
 ])
-  .config(config)
   .controller('appCtrl', appCtrl)
   .controller('clockCtrl', clockCtrl)
   .directive('sideNavigation', sideNavigation)

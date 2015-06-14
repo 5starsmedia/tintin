@@ -1,0 +1,34 @@
+<!--div id="header" ng-include="'views/cabinet/header.html'"></div-->
+
+<aside id="menu" ng-include="'views/cabinet/navigation.html'"></aside>
+
+<div id="wrapper">
+    <!--div small-header class="normalheader transition animated fadeIn small-header" ng-if="!$state.current.data.hideTitle">
+        <div class="hpanel">
+            <div class="panel-body">
+                <a ng-click="small()" href="">
+                    <div class="clip-header">
+                        <i class="fa fa-arrow-down"></i>
+                    </div>
+                </a>
+
+                <div id="hbreadcrumb" class="pull-right">
+                    <ol class="hbreadcrumb breadcrumb">
+                        <li><a ui-sref="dashboard">Dashboard</a></li>
+                        <li ng-repeat="state in $state.$current.path" ng-switch="$last || !!state.abstract" ng-if="state.data.pageTitle" ng-class="{active: $last}">
+                            <a ng-switch-when="false" href="#{{state.url.format($stateParams)}}">{{state.data.pageTitle}}</a>
+                            <span ng-switch-when="true">{{state.data.pageTitle}}</span>
+                        </li>
+                    </ol>
+                </div>
+                <h2 class="font-light m-b-xs">
+                    {{ $state.current.data.pageTitle }}
+                </h2>
+                <small>{{ $state.current.data.pageDesc }}</small>
+            </div>
+        </div>
+    </div-->
+    <div>
+        <div ui-view animate-panel></div>
+    </div>
+</div>

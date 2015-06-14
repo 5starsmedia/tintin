@@ -6,6 +6,7 @@ var async = require('async'),
   _ = require('lodash'),
   pwd = require('pwd'),
   moment = require('moment'),
+  account = require('../../models/core/account.js'),
   role = require('../../modules/users/models/role.js');
 
 exports.getInfo = function (cb) {
@@ -31,9 +32,7 @@ function createRole(app, roleItem, cb) {
 
 function createRoles(app, cb) {
   fs.readFile(path.join(__dirname, 'json', 'roles.json'), function (err, text) {
-    if (err) {
-      return cb(err);
-    }
+    if (err) { return cb(err); }
     async.each(JSON.parse(text), function (site, next) {
       createRole(app, site, next);
     }, cb);
@@ -47,6 +46,16 @@ exports.migrate = function (app, cb) {
     if (err) {
       return cb(err);
     }
-    cb();
+    account.findOne({}, function(err, account) {
+      if (err) { return next(err); }
+
+      role.findOne({}, function(err, role) {
+        if (err) { return next(err); }
+
+        account.roles = [];
+        account.roles.push(role);
+        account.save(cb);
+      });
+    });
   });
 };

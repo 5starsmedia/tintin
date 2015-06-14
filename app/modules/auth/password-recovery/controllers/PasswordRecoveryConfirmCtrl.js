@@ -21,7 +21,7 @@ class PasswordRecoveryConfirmCtrl {
         basePermissionsSet.clearCache();
         $auth.setToken(res.token);
         $timeout(() => {
-          $state.go('dashboard');
+          $state.go('cabinet.dashboard');
         }, 3000)
       }, (res) => {
         $scope.loading = false;
