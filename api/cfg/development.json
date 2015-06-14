@@ -17,10 +17,10 @@
     "default-ttl": 3600,
     "enable-tcp": true,
     "enable-v6": true,
-    "nameservers": ["ns1.example.com", "ns2.example.com"],
-    "nameservers-ip": {
-      "ns1.moedns.net": ["127.0.0.1", "::1"],
-      "ns2.moedns.net": ["127.0.0.2", "::2"]
+    "nameservers": {
+      "ns1.5stars.link": ["46.4.48.144"],
+      "ns2.5stars.link": ["46.4.48.144"],
+      "ns3.5stars.link": ["46.4.48.144"]
     },
     "version": "Paphos CMS"
   },

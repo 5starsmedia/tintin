@@ -9,9 +9,9 @@ MongoClient.connect(config.get('mongodb'), function (err, db) {
 
   exports.queryRecord = function (name, type, callback) {
     var collection = db
-      .collection('records')
+      .collection('dnsRecords')
       .find({
-        name: name,
+        'domain.name': name,
         type: type
       })
       .toArray(function (err, docs) {
@@ -22,15 +22,15 @@ MongoClient.connect(config.get('mongodb'), function (err, db) {
       });
   };
 
-  exports.queryGeo = function (name, type, dest, callback) {
+  exports.queryGeo = function (name, type, dest, isp, sourceIP, callback) {
     if (dest === null) {
       return callback(null);
     }
     var collection = db
-      .collection('records')
+      .collection('dnsRecords')
       .find({
-        name: name,
-        type: type,
+        'domain.name': name,
+        type: type/*,
         geo: {
           $in: [
             dest.country_code,
@@ -38,7 +38,7 @@ MongoClient.connect(config.get('mongodb'), function (err, db) {
             dest.country_name,
             dest.continent_code
           ]
-        }
+        }*/
       })
       .toArray(function (err, docs) {
         if (err) {

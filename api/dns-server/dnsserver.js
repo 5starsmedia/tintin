@@ -95,31 +95,35 @@ function randomOrder() {
 
 function authorityNS(res, queryName, callback) {
   var testv4 = new RegExp(/\d\d?\d?\.\d\d?\d?\.\d\d?\d?\.\d\d?\d?/),
-    nameservers = config.get('dns.nameservers'),
-    nameserversIp = config.get('dns.nameservers-ip');
+    nameservers = config.get('dns.nameservers');
   // Send authority NS records.
-  nameservers.forEach(function (ns) {
+
+  for (nameserver in nameservers) {
+    if (!nameservers.hasOwnProperty(nameserver)) {
+      continue;
+    }
+
     res.authority.push(dns.NS({
       name: queryName,
-      data: ns,
+      data: nameserver,
       ttl: defaultTtl
     }));
-    nameserversIp[ns].forEach(function (nsIP) {
+    nameservers[nameserver].forEach(function (nsIP) {
       if (testv4.test(nsIP)) {
         res.additional.push(dns.A({
-          name: ns,
+          name: nameserver,
           address: nsIP,
           ttl: defaultTtl
         }));
       } else {
         res.additional.push(dns.AAAA({
-          name: ns,
+          name: nameserver,
           address: nsIP,
           ttl: defaultTtl
         }));
       }
     });
-  });
+  }
   callback();
 }
 
@@ -258,7 +262,6 @@ function minimoedns(request, response) {
         case "A":
           // GeoDNS for A record is supported. Processing with edns-client-subnet support
           Record.queryGeo(name, type, sourceDest, sourceISP, sourceIP, function (err, georecords) {
-             console.log(georecords);
             if (err) {
               console.log(err);
             }
@@ -269,14 +272,14 @@ function minimoedns(request, response) {
                 switch (record.type) {
                   case "A":
                     response.answer.push(dns.A({
-                      name: record.name,
+                      name: record.domain.name,
                       address: record.content,
                       ttl: record.ttl || defaultTtl
                     }));
                     break;
                   case "CNAME":
                     response.answer.push(dns.CNAME({
-                      name: record.name,
+                      name: record.domain.name,
                       data: record.content,
                       ttl: record.ttl || defaultTtl
                     }));
@@ -299,14 +302,14 @@ function minimoedns(request, response) {
                     switch (record.type) {
                       case "A":
                         response.answer.push(dns.A({
-                          name: record.name,
+                          name: record.domain.name,
                           address: record.content,
                           ttl: record.ttl || defaultTtl
                         }));
                         break;
                       case "CNAME":
                         response.answer.push(dns.CNAME({
-                          name: record.name,
+                          name: record.domain.name,
                           data: record.content,
                           ttl: record.ttl || defaultTtl
                         }));
@@ -384,14 +387,14 @@ function minimoedns(request, response) {
                 switch (record.type) {
                   case "AAAA":
                     response.answer.push(dns.AAAA({
-                      name: record.name,
+                      name: record.domain.name,
                       address: record.content,
                       ttl: record.ttl || defaultTtl
                     }));
                     break;
                   case "CNAME":
                     response.answer.push(dns.CNAME({
-                      name: record.name,
+                      name: record.domain.name,
                       data: record.content,
                       ttl: record.ttl || defaultTtl
                     }));
@@ -413,14 +416,14 @@ function minimoedns(request, response) {
                     switch (record.type) {
                       case "AAAA":
                         response.answer.push(dns.AAAA({
-                          name: record.name,
+                          name: record.domain.name,
                           address: record.content,
                           ttl: record.ttl || defaultTtl
                         }));
                         break;
                       case "CNAME":
                         response.answer.push(dns.CNAME({
-                          name: record.name,
+                          name: record.domain.name,
                           data: record.content,
                           ttl: record.ttl || defaultTtl
                         }));
@@ -428,7 +431,7 @@ function minimoedns(request, response) {
                       case "A":
                         var content = SOAresult[0].content.split(" ");
                         response.authority.push(dns.SOA({
-                          name: SOAresult[0].name,
+                          name: SOAresult[0].domain.name,
                           primary: content[0],
                           admin: content[1].replace("@", "."),
                           serial: content[2],
