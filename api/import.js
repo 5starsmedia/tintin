@@ -13,9 +13,9 @@ var PHPUnserialize = require('php-unserialize');
 var grid;
 
 
-var tablePrefix = 'zb_',
-  siteDomain = 'zagrandok.ru',
-  databaseName = 'zagrando_db';
+var tablePrefix = 'h2o_',
+  siteDomain = 'vseowode.ru',
+  databaseName = 'kingdia_vseowode';
 
 var app = {};
 app.log = require('./log.js');
