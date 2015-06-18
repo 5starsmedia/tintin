@@ -12,6 +12,7 @@ MenuModule.prototype.initModels = function () {
 
 MenuModule.prototype.initRoutes = function () {
   this.app.server.use('/api/menuElements', nestedSet('menuElements'));
+  this.app.server.use('/api/cmsMenu', require('./routes/cmsMenu.js'));
 };
 
 module.exports = MenuModule;

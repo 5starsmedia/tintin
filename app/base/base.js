@@ -4,6 +4,7 @@ var appName = 'base';
 
 import config from './config.js';
 
+import cabinet from './cabinet/cabinet.js';
 import models from './models/models.js';
 
 import permissions from './permissions/permissions';
@@ -27,6 +28,7 @@ import basePopupNotifications from './directives/basePopupNotifications.js';
 angular.module(appName, [
   'views',
   models,
+  cabinet,
   permissions,
   'ui.router',
   'ui.bootstrap.tooltip',

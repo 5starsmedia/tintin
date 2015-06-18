@@ -46,5 +46,9 @@
   {
     "name": "sites",
     "title": "sites"
+  },
+  {
+    "name": "issues",
+    "title": "issues"
   }
 ]

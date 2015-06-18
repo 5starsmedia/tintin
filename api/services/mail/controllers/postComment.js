@@ -16,18 +16,18 @@ exports.controller = function (app, sendOpts, model, next) {
       }
       app.models.accounts.findById(data.notification.resourceInfo.account._id, next);
     }],
-    blog: ['notification', function (next, data) {
-      app.models.blogs.findById(data.notification.resourceId, next);
+    post: ['notification', function (next, data) {
+      app.models.posts.findById(data.notification.resourceId, next);
     }]
   }, function (err, data) {
     if (err) { return next(err); }
     model.account = data.account;
     model.senderAccount = data.senderAccount;
-    model.randomAccounts = data.randomAccounts;
     model.notification = data.notification;
-    model.blog = data.blog;
+    model.post = data.post;
+    model.url = app.services.url.urlFor('posts', data.post);
 
-    sendOpts.subject = 'New comment on your post "' + data.blog.title + '"';
+    sendOpts.subject = 'New comment on your post "' + data.post.title + '"';
     next(null, model);
   });
 };

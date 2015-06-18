@@ -1,0 +1,134 @@
+[
+  {
+    "sref": "cabinet.dashboard",
+    "title": "Dashboard",
+    "permissions": []
+  },
+  {
+    "sref": "sites",
+    "title": "Site",
+    "permissions": ["sites"],
+    "items": [
+      {
+        "sref": "sites.settings",
+        "title": "Site settings",
+        "permissions": ["sites"]
+      },
+      {
+        "sref": "sites.domains",
+        "title": "List of sites",
+        "permissions": ["sites"]
+      }
+    ]
+  },
+  {
+    "sref": "news",
+    "title": "Articles",
+    "permissions": ["posts"],
+    "items": [
+      {
+        "sref": "news.posts",
+        "title": "List of articles",
+        "permissions": ["posts"]
+      },
+      {
+        "sref": "news.categories",
+        "title": "Categories",
+        "permissions": ["posts"]
+      }
+    ]
+  },
+  {
+    "sref": "ads.settings",
+    "title": "Ads",
+    "permissions": ["ads"]
+  },
+  {
+    "sref": "menu.menus",
+    "title": "Menus",
+    "permissions": ["menus"]
+  },
+  {
+    "sref": "comments.comments",
+    "title": "Comments",
+    "permissions": ["comments"]
+  },
+  {
+    "sref": "keywords.projects",
+    "title": "Keywords",
+    "permissions": ["keywords"]
+  },
+  {
+    "sref": "users",
+    "title": "Users",
+    "permissions": [],
+    "items": [
+      {
+        "sref": "users.list",
+        "title": "List of users",
+        "permissions": []
+      },
+      {
+        "sref": "users.roles",
+        "title": "List of roles",
+        "permissions": []
+      }
+    ]
+  },
+  {
+    "sref": "ecommerce",
+    "title": "Products",
+    "permissions": ["ecommerce"],
+    "items": [
+      {
+        "sref": "ecommerce.products",
+        "title": "List of products",
+        "permissions": []
+      },
+      {
+        "sref": "ecommerce.categories",
+        "title": "Product categories",
+        "permissions": []
+      },
+      {
+        "sref": "ecommerce.types",
+        "title": "Product types",
+        "permissions": []
+      },
+      {
+        "sref": "ecommerce.brands",
+        "title": "Brands",
+        "permissions": []
+      },
+      {
+        "sref": "ecommerce.currencies",
+        "title": "Currencies",
+        "permissions": []
+      }
+    ]
+  },
+  {
+    "sref": "servers",
+    "title": "Servers",
+    "permissions": ["servers"],
+    "items": [
+      {
+        "sref": "servers.list",
+        "title": "List of servers",
+        "permissions": []
+      }
+    ]
+  },
+  {
+    "sref": "issues",
+    "title": "Issues",
+    "permissions": ["issues"],
+    "items": [
+      {
+        "sref": "issues.list",
+        "title": "List of issues",
+        "permissions": []
+      }
+    ]
+  }
+]

@@ -4,12 +4,17 @@ var async = require('async'),
      _ = require('lodash');
 
 function createRecord(app, domain, type, host, priority, content, next) {
+  var domainName = domain.name;
+  if (host != '@') {
+    domainName = host + '.' + domainName;
+  }
   var record = new app.models.dnsRecords({
     domain: {
       _id: domain._id,
-      name: domain.name
+      name: domainName
     },
     type: type,
+    host: host,
     content: content,
     priority: priority
   });
@@ -17,27 +22,23 @@ function createRecord(app, domain, type, host, priority, content, next) {
 }
 
 function createRecords(app, domain, next) {
+  var nameservers = _.keys(app.config.get('dns.nameservers')),
+    ip = app.config.get('dns.default-ip');
   async.auto({
     'SOA': function(next) {
       createRecord(app, domain, 'SOA', '@', null, 'ns1.5stars.link admin.mistinfo.com. 2015052801 10800 7200 604800 86400', next);
     },
-    'NS1': function(next) {
-      createRecord(app, domain, 'NS', '@', null, 'ns1.5stars.link', next);
-    },
-    'NS2': function(next) {
-      createRecord(app, domain, 'NS', '@', null, 'ns2.5stars.link', next);
-    },
-    'NS3': function(next) {
-      createRecord(app, domain, 'NS', '@', null, 'ns3.5stars.link', next);
+    'NS': function(next) {
+      async.map(nameservers, _.partial(createRecord, app, domain, 'NS', '@', null), next);
     },
     'A1': function(next) {
-      createRecord(app, domain, 'A', '@', null, '46.4.48.144', next);
+      async.map(ip, _.partial(createRecord, app, domain, 'A', '@', null), next);
     },
     'A2': function(next) {
-      createRecord(app, domain, 'A', 'www', null, '46.4.48.144', next);
+      async.map(ip, _.partial(createRecord, app, domain, 'A', 'www', null), next);
     },
     'A3': function(next) {
-      createRecord(app, domain, 'A', '*', null, '46.4.48.144', next);
+      async.map(ip, _.partial(createRecord, app, domain, 'A', '*', null), next);
     },
     'TXT': function(next) {
       createRecord(app, domain, 'TXT', '*', null, 'v=spf1 a -all', next);
@@ -59,7 +60,7 @@ function createRecords(app, domain, next) {
  +------+---------+-------+------+------+-------------+-------------------+---------------------+------------+---------+-------+--------+---------+---------------------+---------------------+
  8 rows in set (0.00 sec)
 */
-exports['db.sites.insert'] = exports['db.posts.update'] = function (app, msg, cb) {
+exports['db.sites.insert'] = exports['db.sites.update'] = function (app, msg, cb) {
   async.auto({
     'site': function(next) {
       app.models.sites.findById(msg.body._id, next);

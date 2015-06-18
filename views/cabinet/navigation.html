@@ -32,63 +32,21 @@
         </div>
     </div>
 
-    <ul side-navigation class="nav" id="side-menu">
-        <li ui-sref-active="active">
-            <a ui-sref="cabinet.dashboard"> <span class="nav-label">Dashboard</span></a>
-        </li>
-        <li ng-class="{active: $state.includes('sites')}" ng-show="_account.has('sites')">
-            <a href=""> <span class="nav-label">Site</span> <span class="fa arrow"></span></a>
-
-            <ul class="nav nav-second-level" ng-class="{in: $state.includes('sites')}">
-                <li ui-sref-active="active"><a ui-sref="sites.settings">Site settings</a></li>
-                <li ui-sref-active="active"><a ui-sref="sites.domains">List of sites</a></li>
-            </ul>
-        </li>
-        <li ng-class="{active: $state.includes('news')}" ng-show="_account.has('posts')">
-            <a href=""> <span class="nav-label">Articles</span> <span class="fa arrow"></span></a>
-
-            <ul class="nav nav-second-level" ng-class="{in: $state.includes('news')}">
-                <li ui-sref-active="active"><a ui-sref="news.posts">List of articles</a></li>
-                <li ui-sref-active="active"><a ui-sref="news.categories">Categories</a></li>
-            </ul>
-        </li>
-        <li ui-sref-active="active" ng-show="_account.has('ads')">
-            <a ui-sref="ads.settings"> <span class="nav-label">Ads</span></a>
-        </li>
-        <li ui-sref-active="active" ng-show="_account.has('menus')">
-            <a ui-sref="menu.menus"> <span class="nav-label">Menus</span></a>
-        </li>
-        <li ui-sref-active="active" ng-show="_account.has('comments')">
-            <a ui-sref="comments.comments"> <span class="nav-label">Comments</span></a>
-        </li>
-        <li ui-sref-active="active" ng-show="_account.has('keywords')">
-            <a ui-sref="keywords.projects"> <span class="nav-label">Keywords</span></a>
-        </li>
-        <li ng-class="{active: $state.includes('users')}">
-            <a href=""> <span class="nav-label">Users</span> <span class="fa arrow"></span></a>
-
-            <ul class="nav nav-second-level" ng-class="{in: $state.includes('users')}">
-                <li ui-sref-active="active"><a ui-sref="users.list">List of users</a></li>
-                <li ui-sref-active="active"><a ui-sref="users.roles">List of roles</a></li>
-            </ul>
-        </li>
-
-        <li ng-class="{active: $state.includes('ecommerce')}" ng-show="_account.has('ecommerce')">
-            <a href=""> <span class="nav-label">Products</span> <span class="fa arrow"></span></a>
-
-            <ul class="nav nav-second-level" ng-class="{in: $state.includes('ecommerce')}">
-                <li ui-sref-active="active"><a ui-sref="ecommerce.products">List of products</a></li>
-                <li ui-sref-active="active"><a ui-sref="ecommerce.categories">Product categories</a></li>
-                <li ui-sref-active="active"><a ui-sref="ecommerce.types">Product types</a></li>
-                <li ui-sref-active="active"><a ui-sref="ecommerce.brands">Brands</a></li>
-                <li ui-sref-active="active"><a ui-sref="ecommerce.currencies">Currencies</a></li>
-            </ul>
-        </li>
-        <li ng-class="{active: $state.includes('servers')}" ng-show="_account.has('servers')">
-            <a href=""> <span class="nav-label">Servers</span> <span class="fa arrow"></span></a>
-
-            <ul class="nav nav-second-level" ng-class="{in: $state.includes('servers')}">
-                <li ui-sref-active="active"><a ui-sref="servers.list">List of servers</a></li>
+    <ul class="nav" id="side-menu">
+        <li ng-class="{active: $state.includes(item.sref) || item.$expand}"
+            ng-repeat="item in menu"
+            ng-show="_account.has(item.permissions)">
+            <a ng-show="!item.items.length" ui-sref="{{item.sref}}">
+                <span class="nav-label">{{item.title}}</span>
+            </a>
+            <a ng-show="item.items.length" href="" ng-click="item.$expand = !item.$expand">
+                <span class="nav-label">{{item.title}}</span>
+                <span ng-if="item.items.length" class="fa arrow"></span>
+            </a>
+            <ul ng-show="$state.includes(item.sref) || item.items.length && item.$expand" class="nav nav-second-level" ng-class="{in: $state.includes(item.sref)}">
+                <li ui-sref-active="active" ng-repeat="subitem in item.items">
+                    <a ui-sref="{{subitem.sref}}">{{subitem.title}}</a>
+                </li>
             </ul>
         </li>
     </ul>

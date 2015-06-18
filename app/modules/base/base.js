@@ -3,14 +3,12 @@
 import appCtrl from './controllers/appCtrl.js';
 import clockCtrl from './controllers/clockCtrl.js';
 
-import sideNavigation from './directives/sideNavigation.js';
 import minimalizaMenu from './directives/minimalizaMenu.js';
 import sparkline from './directives/sparkline.js';
 import icheck from './directives/icheck.js';
 import panelTools from './directives/panelTools.js';
 import smallHeader from './directives/smallHeader.js';
 import animatePanel from './directives/animatePanel.js';
-import landingScrollspy from './directives/landingScrollspy.js';
 
 var appName = 'module.base';
 
@@ -25,13 +23,11 @@ angular.module(appName, [
 ])
   .controller('appCtrl', appCtrl)
   .controller('clockCtrl', clockCtrl)
-  .directive('sideNavigation', sideNavigation)
   .directive('minimalizaMenu', minimalizaMenu)
   .directive('sparkline', sparkline)
   .directive('icheck', icheck)
   .directive('panelTools', panelTools)
   .directive('smallHeader', smallHeader)
-  .directive('animatePanel', animatePanel)
-  .directive('landingScrollspy', landingScrollspy);
+  .directive('animatePanel', animatePanel);
 
 export default appName;

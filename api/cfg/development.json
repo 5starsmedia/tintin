@@ -11,6 +11,11 @@
     "persistTokenDuration": 2592000000,
     "guestRoleName": "guest"
   },
+  "seo": {
+    "text-ru": {
+      "userkey": "76ae6c2a1d8dfe1a7404535066c99d69"
+    }
+  },
   "dns": {
     "ip": "127.0.0.1",
     "port": 15353,
@@ -22,6 +27,7 @@
       "ns2.5stars.link": ["46.4.48.144"],
       "ns3.5stars.link": ["46.4.48.144"]
     },
+    "default-ip": ["46.4.48.144"],
     "version": "Paphos CMS"
   },
   "notifications": {

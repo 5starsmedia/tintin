@@ -10,6 +10,7 @@ var schema = new mongoose.Schema({
 
   type: {type: String, required: true},
   content: {type: String, required: true},
+  host: String,
   ttl: Number,
   priority: Number,
 

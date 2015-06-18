@@ -6,35 +6,47 @@ var express = require('express'),
   async = require('async'),
   request = require('request'),
   cheerio = require('cheerio'),
+  htmlToText = require('html-to-text'),
+  querystring = require('querystring'),
   router = express.Router();
 
-function parseHTML(content) {
-  var result_urls = [];
-  var $ = cheerio.load(content);
-
-  // jQuery is now loaded on the jsdom window created from 'agent.body'
-  $('h3.r a').each(function() {
-    var url = $(this).attr("href").match(/url\?q=(\S+)&sa=/);
-    if(url) {
-      result_urls.push(url[1]);
-    }
-  });
-  return result_urls;
-}
-
 router.post('/', function (req, res, next) {
+  var url = 'http://api.text.ru/account';
 
-  var keyword = 'как настроить вай фай на телефоне андроид';
+  req.app.services.mq.push(req.app, 'events', {name: 'seo.checkTextUnique', _id: req.body._id});
 
-  var url = 'http://bezprovodoff.com/wi-fi/nastrojka-wi-fi/kak-nastroit-wifi-na-telefone-android.html';
-
-  request('http://www.google.com/search?num=100&complete=0&q=' + keyword, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var urls = parseHTML(body);
-
-      var index = _.indexOf(urls, url)
-      res.json(index);
+  /*request.post({
+    url: url,
+    form: {
+      method: 'get_packages_info',
+      userkey: req.app.config.get('seo.text-ru.userkey')
     }
+  }, function (error, response, body) {
+console.info(body)
+    res.json(body);
+  });*/
+
+  res.json({ success: true });
+});
+
+router.get('/:uid', function (req, res, next) {
+  var url = 'http://api.text.ru/post';
+
+  request.post({
+    url: url,
+    form: {
+      uid: req.params.uid,
+      userkey: req.app.config.get('seo.text-ru.userkey'),
+      jsonvisible: 'detail'
+    }
+  }, function (error, response, body) {
+    var resp = JSON.parse(body);
+
+    resp.result_json = JSON.parse(resp.result_json);
+    resp.seo_check = JSON.parse(resp.seo_check);
+    resp.spell_check = JSON.parse(resp.spell_check);
+
+    res.json(resp);
   });
 });
 

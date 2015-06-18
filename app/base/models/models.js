@@ -6,7 +6,9 @@ var module = angular.module(appName, [
 
 // models
 import BaseNotificationModel from './BaseNotificationModel.js';
+import BaseMenuModel from './BaseMenuModel.js';
 
 module.factory('BaseNotificationModel', BaseNotificationModel);
+module.factory('BaseMenuModel', BaseMenuModel);
 
 export default appName;
