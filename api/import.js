@@ -227,7 +227,7 @@ var saveItem = function (site, connection, item, next) {
         keywords: data.meta['_aioseop_keywords'],
         description: data.meta['_aioseop_description']
       };
-      data.post.viewsCount = parseInt(data.meta['pvc_views']);
+      data.post.viewsCount = parseInt(data.meta['pvc_views'] || 0);
       data.post.save(next);
     }],
     'updateCategory': ['post', 'meta', 'categoryId', function (next, data) {
