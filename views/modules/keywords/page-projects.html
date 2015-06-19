@@ -5,14 +5,14 @@
         <div class="col-md-12">
 
             <div class="pull-right">
-                <a class="btn btn-success btn-outline" ui-sref="keywords.projectCreate">
+                <a class="btn btn-success btn-outline" href="" ng-click="newProject()">
                     <i class="fa fa-plus"></i> {{'New project'|translate}}
                 </a>
-                <cs-single-file-upload compact-mode="true" file="file" loading="loading">
+                <!--cs-single-file-upload compact-mode="true" file="file" loading="loading">
                     <button type="button" class="btn btn-primary btn-outline" ng-disabled="loading" ng-class="{'m-progress': loading}" >
                         <i class="fa fa-upload"></i> {{'Upload XMind'|translate}}
                     </button>
-                </cs-single-file-upload>
+                </cs-single-file-upload-->
             </div>
             <h2 class="font-light m-b-xs ng-binding">
                 {{'Keywords Projects'|translate}}
@@ -25,7 +25,7 @@
                     <table ng-table="tableParams" show-filter="true" class="table">
                     <tr ng-repeat="item in $data">
                         <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
-                            <a class="text-info" ui-sref="keywords.projectEdit({ id: item._id })">
+                            <a class="text-info" ui-sref="keywords.projectView({ id: item._id })">
                                 {{item.title}}
                             </a>
                         </td>
@@ -37,7 +37,7 @@
                         </td>
                         <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">
 
-                            <a ui-sref="keywords.projectEdit({ id: item._id })"
+                            <a ui-sref="keywords.projectView({ id: item._id })"
                                title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span>
                             </a>
                             <a href="" st-confirm="remove(item)" title="{{'Delete project'|translate}}"

@@ -1,0 +1,87 @@
+<div class="content" animate-panel effect="zoomIn">
+
+  <div class="row">
+
+    <div class="col-md-9">
+
+      <div class="pull-right">
+        <a class="btn btn-success btn-outline" ui-sref="news.create">
+          <i class="fa fa-plus"></i> {{'New issue'|translate}}
+        </a>
+      </div>
+      <h2 class="font-light m-b-xs ng-binding">
+        {{'Issues'|translate}}
+      </h2>
+
+      <div class="hpanel">
+        <div class="panel-body" bz-loading-container="loading">
+
+
+          <table ng-table="tableParams" show-filter="true" class="table">
+            <tr ng-repeat="item in $data">
+              <td style="width: 15%" class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
+                <a class="text-info" ui-sref="news.edit({ id: item._id })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
+                  <span ng-if="item.isTop" class="fa fa-star"></span>
+
+                  {{item.title}}
+                </a>
+              </td>
+              <td style="width: 10%" data-title="'Author'|translate" sortable="'name'">
+                {{item.account.title}}
+              </td>
+              <td style="width: 10%" data-title="'Date of publication'|translate" sortable="'createDate'" class="text-center">
+                                <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">
+
+                                <span class="label label-success" ng-if="item.status == 4">
+                                    {{item.createDate|date:'HH:mm'}}
+                                </span>
+                                <span class="label label-info" ng-if="item.status == 6">
+                                    Відкладено на
+                                    {{item.publishedDate|date:'HH:mm'}}
+                                </span>
+                                <span class="label label-danger" ng-if="item.status == 2">На модерації</span>
+                                <span class="label label-warning" ng-if="item.status == 1">Чернетка</span>
+
+                                </span>
+              </td>
+              <td style="width: 5%" data-title="'Positions'|translate" sortable="'seo.google'" class="text-center">
+
+                <div popover-template="'seo-info.html'" popover-placement="bottom">
+                  <span ng-if="item.seo.google">G: {{item.seo.google}}</span><span ng-if="item.seo.google && item.seo.yandex">,</span>
+                  <span ng-if="item.seo.yandex">Y: {{item.seo.yandex}}</span>
+                </div>
+
+              </td>
+              <td style="width: 5%" data-title="'Views'|translate" sortable="'viewsCount'" class="text-center">
+                <span class="fa fa-eye"></span> {{item.viewsCount}}
+              </td>
+              <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">
+
+                <a ui-sref="news.edit({ id: item._id })"
+                   title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span>
+                </a>
+                <a href="" st-confirm="remove(item)" title="{{'Delete article'|translate}}"
+                   message-title="'Delete'|translate" message="'Are you realy want to delete this article?'|translate">
+                  <span class="fa fa-times text-danger"></span>
+                </a>
+
+              </td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+
+
+    </div>
+    <div class="col-md-3">
+
+
+
+    </div>
+
+
+  </div>
+
+
+</div>

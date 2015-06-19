@@ -13,6 +13,7 @@ import comments from './comments/comments';
 import servers from './servers/servers';
 import constructor from './constructor/constructor';
 import dashboard from './dashboard/dashboard';
+import issues from './issues/issues';
 
 export default [
   base,
@@ -29,5 +30,6 @@ export default [
   comments,
   servers,
   constructor,
-  dashboard
+  dashboard,
+  issues
 ];

@@ -96,6 +96,14 @@
                             <div comments-for-resource="posts" resource-id="{{post._id}}"></div>
                         </div>
                     </tab>
+
+                    <tab ng-if="post._id">
+                        <tab-heading>
+                            {{'Uniqueness'|translate}}
+                        </tab-heading>
+
+                        <div ng-include="'views/modules/news/page-uniqueness.html'"></div>
+                    </tab>
                 </tabset>
 
             </div>

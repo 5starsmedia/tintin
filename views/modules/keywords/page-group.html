@@ -1,250 +1,271 @@
 <div>
 
-<st-form model="group" state="error" submit="saveItem(group)">
+  <st-form model="group" state="error" submit="saveItem(group)">
 
-<div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
-    <div class="hpanel" bz-loading-container="loading">
+    <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled"
+         class="normalheader transition animated fadeIn small-header">
+      <div class="hpanel" bz-loading-container="loading">
         <div class="panel-body">
 
-            <div class="row">
-                <div class="col-lg-9">
+          <div class="row">
+            <div class="col-lg-9">
 
-                    <a ui-sref="keywords.projects" class="back-btn">
-                        <span class="pe-7s-angle-left"></span>
-                    </a>
+              <a ui-sref="keywords.projects" class="back-btn">
+                <span class="pe-7s-angle-left"></span>
+              </a>
 
-                    <h2 class="font-light m-b-xs">
-                        <a ui-sref="keywords.projectEdit({ id: project._id })">{{project.title}}</a> >
-                        <span>{{group.title}}</span>
-                    </h2>
+              <h2 class="font-light m-b-xs">
+                <a ui-sref="keywords.projectEdit({ id: project._id })">{{project.title}}</a> >
+                <span>{{group.title}}</span>
+              </h2>
 
-                    <small>
-                        {{'Project created:'|translate}}
-                        {{project.createDate|date:'dd.MM.yyyy'}}
-                        {{'at'|translate}}
-                        {{project.createDate|date:'HH:mm'}}
-                    </small>
+              <small>
+                {{'Project created:'|translate}}
+                {{project.createDate|date:'dd.MM.yyyy'}}
+                {{'at'|translate}}
+                {{project.createDate|date:'HH:mm'}}
+              </small>
 
-                </div>
-                <div class="col-lg-3">
-
-                    <div class="form-actions">
-                        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
-                            {{'Save'|translate}}
-                        </button>
-                        <a ui-sref="keywords.projectEdit({ id: project._id })" class="btn btn-default">
-                            {{'Cancel'|translate}}
-                        </a>
-                    </div>
-                </div>
             </div>
+            <div class="col-lg-3">
+
+              <div class="form-actions">
+                <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
+                        type="submit">
+                  {{'Save'|translate}}
+                </button>
+                <a ui-sref="keywords.projectEdit({ id: project._id })" class="btn btn-default">
+                  {{'Cancel'|translate}}
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<div class="content" animate-panel effect="zoomIn">
+    <div class="content" animate-panel effect="zoomIn">
 
 
-    <div class="hpanel">
+      <div class="hpanel">
         <div class="panel-body">
 
-            <!--ul class="nav nav-pills nav-justified thumbnail setup-panel">
-                <li class="active"><a href="#step-1">
-                    <h4 class="list-group-item-heading">Step 1</h4>
-                    <p class="list-group-item-text">First step description</p>
-                </a></li>
-                <li class="disabled"><a href="#step-2">
-                    <h4 class="list-group-item-heading">Step 2</h4>
-                    <p class="list-group-item-text">Second step description</p>
-                </a></li>
-                <li class="disabled"><a href="#step-3">
-                    <h4 class="list-group-item-heading">Step 3</h4>
-                    <p class="list-group-item-text">Third step description</p>
-                </a></li>
-            </ul-->
+          <!--ul class="nav nav-pills nav-justified thumbnail setup-panel">
+              <li class="active"><a href="#step-1">
+                  <h4 class="list-group-item-heading">Step 1</h4>
+                  <p class="list-group-item-text">First step description</p>
+              </a></li>
+              <li class="disabled"><a href="#step-2">
+                  <h4 class="list-group-item-heading">Step 2</h4>
+                  <p class="list-group-item-text">Second step description</p>
+              </a></li>
+              <li class="disabled"><a href="#step-3">
+                  <h4 class="list-group-item-heading">Step 3</h4>
+                  <p class="list-group-item-text">Third step description</p>
+              </a></li>
+          </ul-->
 
-            <div ng-if="error" class="alert alert-block alert-danger">
-                {{error}}
-            </div>
+          <div ng-if="error" class="alert alert-block alert-danger">
+            {{error}}
+          </div>
 
-            <st-form-element label="{{'Title'|translate}}" field="title">
+          <st-form-element label="{{'Title'|translate}}" field="title">
 
-                <input id="title" class="form-control input-lg" ng-disabled="group.status != 'new'" name="title" type="text" required
-                       ng-model="group.title"/>
+            <input id="title" class="form-control input-lg" ng-disabled="group.status != 'new'" name="title" type="text"
+                   required
+                   ng-model="group.title"/>
 
-            </st-form-element>
+          </st-form-element>
 
-            <div ng-if="!group.status || group.status == 'new'">
+          <div ng-if="!group.status || group.status == 'new'">
 
-                <st-form-element label="{{'Keywords'|translate}}" field="keywords">
+            <st-form-element label="{{'Keywords'|translate}}" field="keywords">
 
                     <textarea id="body" class="form-control" rows="15" name="keywords"
                               ng-model="group.keywords"></textarea>
 
-                </st-form-element>
+            </st-form-element>
 
-                <button type="button" ng-disabled="loadingScan" ng-class="{'m-progress': loadingScan}" ng-click="runScan()" class="btn btn-primary">Scan</button>
+            <button type="button" ng-disabled="loadingScan" ng-class="{'m-progress': loadingScan}" ng-click="runScan()"
+                    class="btn btn-primary">Scan
+            </button>
 
-            </div>
+          </div>
 
 
-            <div ng-if="group.status && group.status == 'completed'">
+          <div ng-if="group.status && group.status == 'completed'">
 
-                <div class="row">
-                    <div class="col-xs-6 col-xs-offset-3">
-                        <br/><br/><br/>
-                        {{'Link on preview:'|translate}}
-                        <div class="input-group">
-                            <input type="text" class="form-control" readonly value="{{getLink()}}" />
+
+            <div ng-include="'views/modules/keywords/page-group-preview.html'"></div>
+            <div class="row">
+              <div class="col-xs-6 col-xs-offset-3">
+                <br/><br/><br/>
+                {{'Link on preview:'|translate}}
+                <div class="input-group">
+                  <input type="text" class="form-control" readonly value="{{getLink()}}"/>
 
                             <span class="input-group-btn">
-                                <a class="btn btn-default" target="_blank" ng-href="{{getLink()}}" title="{{'Open link in new tab'|translate}}">
-                                    <span class="fa fa-external-link"></span>
+                                <a class="btn btn-default" target="_blank" ng-href="{{getLink()}}"
+                                   title="{{'Open link in new tab'|translate}}">
+                                  <span class="fa fa-external-link"></span>
                                 </a>
                             </span>
-                        </div>
-                        <br/><br/><br/>
-                    </div>
                 </div>
-
+                <br/><br/><br/>
+              </div>
             </div>
+            <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('finded')"
+                    class="btn btn-primary">Back
+            </button>
 
-            <div ng-if="group.status && group.status == 'finded'">
+          </div>
 
-                <table class="table table-condensed">
-                <tr>
-                    <th>Обов'язкові</th>
-                    <th style="width: 50%">Ключове слово</th>
-                    <th style="width: 10%">Топ 3</th>
-                    <th style="width: 10%">Топ 10</th>
-                    <th style="width: 10%">Використовувати у ТЗ</th>
-                    <th style="width: 20%">Тип входження</th>
-                </tr>
-                <tr ng-repeat="keyword in group.recomendation.keywords">
-                    <td class="text-center">
-                        <input icheck ng-model="keyword.required" type="checkbox" />
+          <div ng-if="group.status && group.status == 'finded'">
+
+            <table class="table table-condensed">
+              <tr>
+                <th>Обов'язкові</th>
+                <th style="width: 50%">Ключове слово</th>
+                <th style="width: 10%">Топ 3</th>
+                <th style="width: 10%">Топ 10</th>
+                <th style="width: 10%">Використовувати у ТЗ</th>
+                <th style="width: 20%">Тип входження</th>
+              </tr>
+              <tr ng-repeat="keyword in group.recomendation.keywords">
+                <td class="text-center">
+                  <input icheck ng-model="keyword.required" type="checkbox"/>
+                </td>
+                <td>
+                  <input type="text" class="form-control" ng-model="keyword.keyword"/>
+                </td>
+                <td class="text-center">{{keyword.entryInTop3}}</td>
+                <td class="text-center">{{keyword.entry}}</td>
+                <td>
+                  <input type="number" class="form-control" ng-model="keyword.useEntry"/>
+                </td>
+                <td>
+                  <label>
+                    <input type="radio" ng-model="keyword.useType" value="exact"/>
+                    Точне
+                  </label>
+                  <br/>
+                  <label>
+                    <input type="radio" ng-model="keyword.useType" value="inexact"/>
+                    Розбавлене
+                  </label>
+                  <br/>
+                  <label>
+                    <input type="radio" ng-model="keyword.useType" value="both"/>
+                    На вибір
+                  </label>
+                </td>
+              </tr>
+            </table>
+
+            <div>
+              {{'Кількість символів'|translate}}
+              <input type="number" step="100" class="form-control" ng-model="group.recomendation.minTextLength"/>
+              <input type="number" step="100" class="form-control" ng-model="group.recomendation.maxTextLength"/>
+            </div>
+            <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()"
+                    class="btn pull-right btn-primary">Next
+            </button>
+
+            <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('scaned')"
+                    class="btn btn-primary">Back
+            </button>
+          </div>
+
+          <div ng-if="group.status && group.status == 'scaned'">
+
+            <div class="row">
+              <div class="col-xs-3">
+                <label class="control-label">{{'Keywords'|translate}}</label>
+
+                <table class="table table-condensed" style="table-layout: fixed;">
+                  <tr ng-repeat="keyword in keywords">
+                    <td style="table-layout: fixed" class="text-overflow">
+                      {{keyword}}
                     </td>
-                    <td>
-                        <input type="text" class="form-control" ng-model="keyword.keyword" />
-                    </td>
-                    <td class="text-center">{{keyword.entryInTop3}}</td>
-                    <td class="text-center">{{keyword.entry}}</td>
-                    <td>
-                        <input type="number" class="form-control" ng-model="keyword.useEntry" />
-                    </td>
-                    <td>
-                        <label>
-                            <input type="radio" ng-model="keyword.useType" value="exact" />
-                            Точне
-                        </label>
-                        <br/>
-                        <label>
-                            <input type="radio" ng-model="keyword.useType" value="inexact" />
-                            Розбавлене
-                        </label>
-                        <br/>
-                        <label>
-                            <input type="radio" ng-model="keyword.useType" value="both" />
-                            На вибір
-                        </label>
-                    </td>
-                </tr>
+                  </tr>
                 </table>
 
-                <div>
-                    {{'Кількість символів'|translate}}
-                    <input type="number" step="100" class="form-control" ng-model="group.recomendation.minTextLength" />
-                    <input type="number" step="100" class="form-control" ng-model="group.recomendation.maxTextLength" />
-                </div>
-                <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()" class="btn pull-right btn-primary">Next</button>
+                <label class="control-label">{{'Additinal words'|translate}}</label>
 
-                <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('scaned')" class="btn btn-primary">Back</button>
-            </div>
-
-            <div ng-if="group.status && group.status == 'scaned'">
-
-                <div class="row">
-                    <div class="col-xs-3">
-                        <label class="control-label">{{'Keywords'|translate}}</label>
-
-                        <table class="table table-condensed" style="table-layout: fixed;">
-                            <tr ng-repeat="keyword in keywords">
-                                <td style="table-layout: fixed" class="text-overflow">
-                                    {{keyword}}
-                                </td>
-                            </tr>
-                        </table>
-
-                        <label class="control-label">{{'Additinal words'|translate}}</label>
-
-                        <table class="table table-condensed" style="table-layout: fixed;">
-                            <tr ng-repeat="keyword in group.result.additionalsWords">
-                                <td style="table-layout: fixed" class="text-overflow">
-                                    <label class="text-overflow">
+                <table class="table table-condensed" style="table-layout: fixed;">
+                  <tr ng-repeat="keyword in group.result.additionalsWords">
+                    <td style="table-layout: fixed" class="text-overflow">
+                      <label class="text-overflow">
 
 
+                        <div class="input-group input-group-sm">
+                                            <span ng-class="{'h-bg-green': site.isHttps}" class="input-group-addon"
+                                                  tooltip-placement="top"
+                                                  tooltip="{{'Secure protocol (HTTPS)'|translate}}">
 
-                                        <div class="input-group input-group-sm">
-                                            <span ng-class="{'h-bg-green': site.isHttps}" class="input-group-addon" tooltip-placement="top" tooltip="{{'Secure protocol (HTTPS)'|translate}}">
-
-                                                            <input icheck ng-model="keyword.use" type="checkbox" />
+                                                            <input icheck ng-model="keyword.use" type="checkbox"/>
                                             </span>
 
 
-                                            <input type="text" class="form-control" ng-model="keyword.word" />
-                                        </div>
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr ng-if="!group.result.additionalsWords.length">
-                                <td class="text-center">{{'None'|translate}}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-xs-3">
-                        <label class="control-label">{{'Urls'|translate}}</label>
-
-                        <table class="table table-condensed" style="table-layout: fixed;">
-                            <tr ng-repeat="url in group.result.urls" ng-class="{'active': url.url == activeUrl}">
-                                <td style="table-layout: fixed">
-                                    <label class="text-overflow">
-                                        <input icheck ng-model="url.use" type="checkbox" />
-                                        <a href="" ng-click="previewUrl(url.url)">{{url.url}}</a>
-                                    </label>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-xs-6">
-
-                        <label class="control-label">{{'Preview'|translate}}</label>
-                        <div class="well" bz-loading-container="loadingPreview">
-                            <div ng-if="parsedData">
-                                <p class="text-overflow">
-                                    <strong>{{'URL:'|translate}}</strong>
-                                    <span ng-if="parsedData.encoding">({{parsedData.encoding}})</span>
-                                    <a ng-href="{{activeUrl}}" target="_blank" ng-bind="activeUrl"></a>
-                                <p><strong>{{'Page title:'|translate}}</strong> <span ng-bind="parsedData.title"></span>
-
-                                <p><strong>{{'Main text (autodetect):'|translate}}</strong> ({{'length:'|translate}} {{parsedData.text.length}})
-                                <div class="b-html-preview" ng-bind-html="parsedData.text"></div>
-                            </div>
+                          <input type="text" class="form-control" ng-model="keyword.word"/>
                         </div>
-                        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()" class="btn btn-primary">Next</button>
+                      </label>
+                    </td>
+                  </tr>
+                  <tr ng-if="!group.result.additionalsWords.length">
+                    <td class="text-center">{{'None'|translate}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-xs-3">
+                <label class="control-label">{{'Urls'|translate}}</label>
 
-                    </div>
+                <table class="table table-condensed" style="table-layout: fixed;">
+                  <tr ng-repeat="url in group.result.urls" ng-class="{'active': url.url == activeUrl}">
+                    <td style="table-layout: fixed">
+                      <label class="text-overflow">
+                        <input icheck ng-model="url.use" type="checkbox"/>
+                        <a href="" ng-click="previewUrl(url.url)">{{url.url}}</a>
+                      </label>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-xs-6">
+
+                <label class="control-label">{{'Preview'|translate}}</label>
+
+                <div class="well" bz-loading-container="loadingPreview">
+                  <div ng-if="parsedData">
+                    <p class="text-overflow">
+                      <strong>{{'URL:'|translate}}</strong>
+                      <span ng-if="parsedData.encoding">({{parsedData.encoding}})</span>
+                      <a ng-href="{{activeUrl}}" target="_blank" ng-bind="activeUrl"></a>
+
+                    <p><strong>{{'Page title:'|translate}}</strong> <span ng-bind="parsedData.title"></span>
+
+                    <p><strong>{{'Main text (autodetect):'|translate}}</strong> ({{'length:'|translate}}
+                      {{parsedData.text.length}})
+
+                    <div class="b-html-preview" ng-bind-html="parsedData.text"></div>
+                  </div>
                 </div>
+                <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()"
+                        class="btn btn-primary">Next
+                </button>
 
+              </div>
             </div>
+
+          </div>
 
 
         </div>
+      </div>
+
+
     </div>
 
-
-
-</div>
-
-</st-form>
+  </st-form>
 </div>
 

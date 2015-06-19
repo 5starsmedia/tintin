@@ -15,10 +15,6 @@ var express = require('express'),
 
 
 var scanKeyword = function (req, group, keyword, next) {
-
-  var user = 'ya-planshet7',
-    key = '03.221972493:6de9297429530166472794003b183272';
-
   var keywords = _.map(keyword.split(' '), function(word) {
       return stemmer.stem(word);
     });
@@ -34,7 +30,7 @@ var scanKeyword = function (req, group, keyword, next) {
       next(null, keywordObj);
     },
     'getYandex': ['keyword', function(next, data) {
-      var url = 'http://xmlsearch.yandex.ru/xmlsearch?user=' + user + '&key=' + key;
+      var url = req.site.yandexXml;
 
       var xmlResults = data.keyword.yandexScanResult;
       if (xmlResults) {
@@ -171,7 +167,13 @@ router.post('/:id/run-scan', function (req, res, next) {
       });
     }]
   }, function (err, data) {
-    if (err) { return next(err); }
+    if (err) {
+      data.group.status = 'new';
+      data.group.save(function() {
+        next(err);
+      });
+      return;
+    }
 
     return res.json(data.saveGroup);
   });

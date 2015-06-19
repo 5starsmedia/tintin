@@ -4,6 +4,7 @@ class KeywordsProjectEditCtrl {
   constructor($scope, $state, $filter, $stateParams, project, notify, $http, $sce) {
 
     $scope.project = project;
+    $scope.item = project;
 
     $scope.saveItem = (item) => {
       $scope.loading = true;
@@ -16,11 +17,17 @@ class KeywordsProjectEditCtrl {
           message: $filter('translate')('Project saved!'),
           classes: 'alert-success'
         });
-        $state.go('^.edit', { id: data._id });
+        $state.go('^.projectView', { id: data._id });
+        $scope.$close(data);
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;
       });
-    }
+    };
+
+
+    $scope.close = () => {
+      $scope.$dismiss('cancel');
+    };
   }
 }

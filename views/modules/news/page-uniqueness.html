@@ -1,0 +1,52 @@
+<div class="panel-body" ng-controller="KeywordsTextUniqueCtrl" bz-loading-container="loading">
+
+
+    <button type="button" ng-click="checkText(post)">Check text</button>
+
+    <button ng-if="uid" type="button" ng-click="checkStatus()">Check status</button>
+
+    {{seo_result}}
+
+    <div>
+        Уникальность
+
+        <span>{{result.unique}}%</span>
+    </div>
+    <div>
+        Всего символов
+
+        <span>{{result.seo_check.count_chars_with_space}}</span>
+    </div>
+
+    <div>
+        Без пробелов
+
+        <span>{{result.seo_check.count_chars_without_space}}</span>
+    </div>
+
+    <div>
+        Количество слов
+
+        <span>{{result.seo_check.count_words}}</span>
+    </div>
+
+    <div>
+        Заспамленость
+
+        <span>{{result.seo_check.spam_percent}}</span>
+    </div>
+
+    <div>
+        Вода
+
+        <span>{{result.seo_check.water_percent}}</span>
+    </div>
+
+
+    <div>
+        Замена символов
+
+        <span>{{result.seo_check.mixed_words.length}}</span>
+    </div>
+
+</div>

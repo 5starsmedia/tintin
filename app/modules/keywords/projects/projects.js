@@ -45,26 +45,7 @@ module.config(function ($stateProvider) {
         hideTitle: true
       }
     })
-    .state('keywords.projectCreate', {
-      url: "/keywords/projects/new",
-      controller: 'KeywordsProjectEditCtrl',
-      templateUrl: "views/modules/keywords/page-edit.html",
-      data: {
-        pageTitle: 'News',
-        pageDesc: 'Test',
-        hideTitle: true
-      },
-      resolve: {
-        project: ($stateParams, $q, KeywordsProjectModel) => {
-          var defer = $q.defer();
-
-          defer.resolve(new KeywordsProjectModel({
-          }));
-          return defer.promise;
-        }
-      }
-    })
-    .state('keywords.projectEdit', {
+    .state('keywords.projectView', {
       url: "/keywords/:id",
       controller: 'KeywordsGroupsCtrl',
       templateUrl: "views/modules/keywords/page-edit.html",
