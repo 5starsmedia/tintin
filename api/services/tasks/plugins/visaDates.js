@@ -77,7 +77,7 @@ function checkVisa(app, model, callback) {
     'thirdPage': ['secondPage', function(next, resData) {
 
       var res = url.resolve(host + path, action);
-      console.info(res, host + path, action);
+      console.info(res);
       request.post({ url: res, form: resData.secondPage, headers: { 'Referer': host + path } }, function(err,response,body){
 
         path = response.request.uri.path;
