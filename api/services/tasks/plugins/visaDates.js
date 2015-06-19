@@ -27,10 +27,9 @@ function checkVisa(app, model, callback) {
 
   var num = model.id;
 
-  var host = 'https://www.vfsvisaonline.com';
+  var host = 'https://polandonline.vfsglobal.com';
   var baseUrl = host + '/poland-ukraine-appointment/AppScheduling/';
-  var urlMain =  baseUrl + 'AppWelcome.aspx?P=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA=';
-
+  var urlMain =  baseUrl + 'AppWelcome.aspx?P=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA%3d';
 
   request.defaults({
     followRedirect: false,
@@ -77,6 +76,7 @@ function checkVisa(app, model, callback) {
     }],
     'thirdPage': ['secondPage', function(next, resData) {
 
+      console.info(host + path);
       var res = url.resolve(host + path, action);
       request.post({ url: res, form: resData.secondPage, headers: { 'Referer': host + path } }, function(err,response,body){
 
