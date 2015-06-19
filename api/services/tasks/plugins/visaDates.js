@@ -77,7 +77,6 @@ function checkVisa(app, model, callback) {
     'thirdPage': ['secondPage', function(next, resData) {
 
       var res = url.resolve(host + path, action);
-      console.info(res);
       request.post({ url: res, form: resData.secondPage, headers: { 'Referer': host + path } }, function(err,response,body){
 
         path = response.request.uri.path;
@@ -103,6 +102,7 @@ function checkVisa(app, model, callback) {
         var $ = cheerio.load(body),
           text = $('#ctl00_plhMain_lblMsg').text();
 
+        console.info(text);
         if (text == '') {
           next(undefined, {hasError: true, response: body});
           return;
