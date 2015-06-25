@@ -78,7 +78,7 @@ module.config(function ($stateProvider, basePermissionsSetProvider) {
               defer.resolve(product);
             });
           } else {
-            defer.resolve({});
+            defer.resolve(null);
           }
           return defer.promise;
         }

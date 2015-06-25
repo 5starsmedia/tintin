@@ -96,8 +96,7 @@
         <tab ng-if="!item.variationProduct._id && item._id">
             <tab-heading>
                 {{'Product variations'|translate}}
-                <span class="label label-default" ng-if="item.productVariations">{{item.productVariations.length}}</span>
-                <span class="label label-default" ng-if="!item.productVariations">0</span>
+                <span class="label label-default">{{item.variationCount}}</span>
             </tab-heading>
 
             <div class="panel-body"

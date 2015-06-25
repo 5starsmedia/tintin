@@ -28,6 +28,7 @@ router.delete('/:id/variation', function (req, res, next) {
         return product._id.toString() != data.product._id.toString();
       });
       data.variationProduct.withVariations = data.variationProduct.productVariations.length > 0;
+      data.variationProduct.variationCount -= 1;
       data.variationProduct.save(next);
     }],
     'saveProduct': ['product', 'saveVariationProduct', function(next, data) {

@@ -35,7 +35,7 @@ class EcommerceRelatedProductsCtrl {
           relatedIds.push(id);
 
           $scope.loading = true;
-          EcommerceProductModel.query(BaseAPIParams({}, params), function (data, headers) {
+          EcommerceProductModel.query(BaseAPIParams({ isVariation: false }, params), function (data, headers) {
             $scope.loading = false;
 
             data = _.filter(data, (item) => {

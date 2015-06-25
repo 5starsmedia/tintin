@@ -1,7 +1,7 @@
 export default
 class EcommerceVariationsCtrl {
   /*@ngInject*/
-  constructor($scope, EcommerceProductModel, ngTableParams) {
+  constructor($scope, EcommerceProductModel, ngTableParams, BaseAPIParams) {
 
     $scope.tableParams = new ngTableParams({
       page: 1,            // show first page
@@ -11,10 +11,14 @@ class EcommerceVariationsCtrl {
       }
     }, {
       getData: function ($defer, params) {
-        let data = $scope.item.productVariations || [];
-
-        params.total(data.length);
-        $defer.resolve(data);
+        $scope.loading = true;
+        EcommerceProductModel.query(BaseAPIParams({ 'variationProduct._id': $scope.item._id }, params), function (res, headers) {
+          $scope.loading = false;
+          params.total(headers('x-total-count'));
+          $defer.resolve(res);
+        }, function () {
+          $scope.loading = false;
+        });
       }
     });
 
@@ -34,7 +38,10 @@ class EcommerceVariationsCtrl {
 
     $scope.remove = function (item) {
       $scope.loading = true;
+
+      item = new EcommerceProductModel(item);
       item.$remove(function () {
+        $scope.item.variationCount -= 1;
         $scope.tableParams.reload();
       });
       return false;

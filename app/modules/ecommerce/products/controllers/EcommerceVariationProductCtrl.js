@@ -27,6 +27,7 @@ class EcommerceVariationProduct {
 
     $scope.saveItem = function(value) {
       $scope.loading = true;
+      delete product.isVariation;
       product.$save(() => {
         $scope.loading = false;
         $modalInstance.close(product);

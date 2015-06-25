@@ -77,6 +77,7 @@ var schema = new mongoose.Schema({
       _id: mongoose.Schema.Types.ObjectId
     }
   },
+  variationCount: {type: Number, required: true, default: 0},
   productVariations: [
     {
       _id: mongoose.Schema.Types.ObjectId,

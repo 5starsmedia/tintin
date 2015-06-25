@@ -29,7 +29,7 @@
                             <span ng-if="item._id">{{'Редактирование вариации продукта'|translate}}</span>
                         </h2>
 
-                        <small ng-if="item.id">
+                        <small ng-if="item._id">
                             {{'Product created:'|translate}}
                             {{item.createDate|date:'dd.MM.yyyy'}}
                             {{'at'|translate}}
@@ -43,7 +43,10 @@
                             <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
                                 {{'Save'|translate}}
                             </button>
-                            <a ui-sref="ecommerce.products" class="btn btn-default">
+                            <a ng-if="!item.isVariation" ui-sref="ecommerce.products" class="btn btn-default">
+                                {{'Cancel'|translate}}
+                            </a>
+                            <a ng-if="item.isVariation" ui-sref="ecommerce.edit({id: item.variationProduct._id})" class="btn btn-default">
                                 {{'Cancel'|translate}}
                             </a>
                         </div>

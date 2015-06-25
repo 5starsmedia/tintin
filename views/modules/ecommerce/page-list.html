@@ -24,7 +24,7 @@
                                     <span ng-if="item.code" class="font-bold">{{item.code}}</span>
                                 </a>
                                 <br/>
-                                <a ng-href="/api/files/{{item.coverFile._id}}">
+                                <a ng-if="item.coverFile" ng-href="/api/files/{{item.coverFile._id}}">
                                     <img ng-src="/api/files/{{item.coverFile._id}}?width=40" alt="{{item.title}} ({{item.code}})" image-with-preview />
                                 </a>
                             </td>
@@ -34,8 +34,7 @@
                                 </a>
                             </td>
                             <td data-title="'Variations'|translate" style="width: 80px">
-                                <span ng-if="!item.productVariations">No variations</span>
-                                <ng-pluralize count="item.productVariations.length" when="{ 0: 'No variations', one: '{} variation', other: '{} variations' }"></ng-pluralize>
+                                <ng-pluralize count="item.variationCount" when="{ 0: 'No variations', one: '{} variation', other: '{} variations' }"></ng-pluralize>
                             </td>
                             <td data-title="'Price'|translate" style="width: 80px" sortable="'price'">
                                 <div bz-loading-container="item.$loading">

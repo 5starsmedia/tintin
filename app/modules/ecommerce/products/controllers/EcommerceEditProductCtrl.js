@@ -8,8 +8,16 @@ class EcommerceEditProductCtrl {
       delete product._id;
       delete product.id;
       delete product.createDate;
-      product.code += '-v' + (((product.productVariations || []).length || 0) + 1);
+      if (product.code) {
+        product.code += '-v' + (((product.productVariations || []).length || 0) + 1);
+      }
+      product.isVariation = true;
+      product.variationCount = 0;
       product.variationProduct = variation;
+
+      delete product.productVariations;
+    } else {
+      product.isVariation = !!product.variationProduct;
     }
     $scope.item = product;
 
@@ -33,19 +41,21 @@ class EcommerceEditProductCtrl {
       let save = item._id ? item.$save : item.$create,
         product = angular.copy(item);
 
-      if (variation && !item._id) {
-        delete item.variationProduct;
+      if (variation && !product._id) {
+      //  delete item.variationProduct;
       }
 
-      save.call(item, (data) => {
+      delete product.isVariation;
+      save.call(product, (data) => {
         $scope.$broadcast('saveItem', item, defers);
 
 
-        if (variation) {
+        /*if (variation) {
           product._id = data._id;
           product.variationProduct = variation;
+          delete product.isVariation;
           defers.push(product.$save());
-        }
+        }*/
 
         $q.all(defers).then(function () {
           $scope.loading = false;
@@ -81,6 +91,7 @@ class EcommerceEditProductCtrl {
       $scope.loading = true;
 
       product.variationProduct = null;
+      delete product.isVariation;
       product.$deleteVariation(() => {
         $scope.loading = false;
         $state.reload();
