@@ -490,7 +490,7 @@ function minimoedns(request, response) {
                               case "A":
                                 var content = SOAresult[0].content.split(" ");
                                 response.authority.push(dns.SOA({
-                                  name: SOAresult[0].name,
+                                  name: SOAresult[0].domain.name,
                                   primary: content[0],
                                   admin: content[1].replace("@", "."),
                                   serial: content[2],
@@ -551,7 +551,7 @@ function minimoedns(request, response) {
                   result = result.sort(randomOrder);
                   result.forEach(function (record) {
                     response.answer.push(dns.CNAME({
-                      name: record.name,
+                      name: record.domain.name,
                       data: record.content,
                       ttl: record.ttl || defaultTtl
                     }));
@@ -582,7 +582,7 @@ function minimoedns(request, response) {
                           doc = doc.sort(randomOrder);
                           doc.forEach(function (docResult) {
                             response.answer.push(dns.CNAME({
-                              name: docResult.name,
+                              name: docResult.domain.name,
                               data: docResult.content,
                               ttl: docResult.ttl || defaultTtl
                             }));
@@ -612,8 +612,8 @@ function minimoedns(request, response) {
               res = res.sort(randomOrder);
               res.forEach(function (record) {
                 response.answer.push(dns.MX({
-                  name: record.name,
-                  priority: record.prio,
+                  name: record.domain.name,
+                  priority: record.priority,
                   exchange: record.content,
                   ttl: record.ttl || defaultTtl
                 }));
@@ -635,8 +635,8 @@ function minimoedns(request, response) {
               res.forEach(function (record) {
                 var content = record.content.split(" ");
                 response.answer.push(dns.SRV({
-                  name: record.name,
-                  priority: record.prio,
+                  name: record.domain.name,
+                  priority: record.priority,
                   weight: content[0],
                   port: content[1],
                   target: content[2],
@@ -659,7 +659,7 @@ function minimoedns(request, response) {
             if (res[0]) {
               res.forEach(function (record) {
                 response.answer.push(dns.TXT({
-                  name: record.name,
+                  name: record.domain.name,
                   data: record.content,
                   ttl: record.ttl || defaultTtl
                 }));
