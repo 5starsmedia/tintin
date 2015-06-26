@@ -90,7 +90,7 @@ exports['db.sites.insert'] = exports['db.sites.update'] = function (app, msg, cb
     'saveMx': ['records', 'domain', function(next, data) {
       var mxRecord = _.find(data.records, { type: 'MX' });
 
-      if (!data.site.yandexMx) {
+      if (!data.site.yandexCName) {
         if (mxRecord) {
           mxRecord.remove(next);
         } else {
@@ -106,8 +106,8 @@ exports['db.sites.insert'] = exports['db.sites.update'] = function (app, msg, cb
     }],
     'saveCName': ['records', 'domain', function(next, data) {
       var record = _.find(data.records, { type: 'CNAME', content: 'mail.yandex.ru.' });
-console.info(record)
-      if (!data.site.yandexMx) {
+
+      if (!data.site.yandexCName) {
         if (record) {
           record.remove(next);
         } else {
@@ -116,9 +116,26 @@ console.info(record)
         return;
       }
       if (!record) {
-        createRecord(app, data.domain, 'CNAME', data.site.yandexMx, null, 'mail.yandex.ru.', next);
+        createRecord(app, data.domain, 'CNAME', data.site.yandexCName, null, 'mail.yandex.ru.', next);
       } else {
-        record.host = data.site.yandexMx;
+        record.host = data.site.yandexCName;
+        record.save(next);
+      }
+    }],
+    'saveMailCName': ['records', 'domain', function(next, data) {
+      var record = _.find(data.records, { type: 'CNAME', host: 'mail', content: 'domain.mail.yandex.net.' });
+
+      if (!data.site.yandexCName) {
+        if (record) {
+          record.remove(next);
+        } else {
+          next();
+        }
+        return;
+      }
+      if (!record) {
+        createRecord(app, data.domain, 'CNAME', 'mail', null, 'domain.mail.yandex.net.', next);
+      } else {
         record.save(next);
       }
     }]
