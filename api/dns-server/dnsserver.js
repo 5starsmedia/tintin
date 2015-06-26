@@ -671,6 +671,9 @@ function minimoedns(request, response) {
             }
           });
           break;
+        default:
+          notfound(response, SOAresult);
+          break;
       }
     }
   });
