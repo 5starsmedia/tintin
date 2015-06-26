@@ -11,7 +11,7 @@ MongoClient.connect(config.get('mongodb'), function (err, db) {
     var collection = db
       .collection('dnsRecords')
       .find({
-        'domain.name': name,
+        'domain.name': name.toLowerCase(),
         type: type
       })
       .toArray(function (err, docs) {
@@ -29,7 +29,7 @@ MongoClient.connect(config.get('mongodb'), function (err, db) {
     var collection = db
       .collection('dnsRecords')
       .find({
-        'domain.name': name,
+        'domain.name': name.toLowerCase(),
         type: type/*,
         geo: {
           $in: [
