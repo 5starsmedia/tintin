@@ -222,9 +222,8 @@ function minimoedns(request, response) {
       switch (type) {
         case "SOA":
           var content = SOAresult[0].content.split(" ");
-          console.info(SOAresult)
           response.answer.push(dns.SOA({
-            name: SOAresult[0].name,
+            name: SOAresult[0].domain.name,
             primary: content[0],
             admin: content[1].replace("@", "."),
             serial: content[2],
@@ -247,7 +246,7 @@ function minimoedns(request, response) {
               res = res.sort(randomOrder);
               res.forEach(function (record) {
                 response.answer.push(dns.NS({
-                  name: record.name,
+                  name: record.domain.name,
                   data: record.content,
                   ttl: record.ttl || defaultTtl
                 }));
