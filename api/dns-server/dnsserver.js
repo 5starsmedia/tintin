@@ -222,6 +222,7 @@ function minimoedns(request, response) {
       switch (type) {
         case "SOA":
           var content = SOAresult[0].content.split(" ");
+          console.info(SOAresult)
           response.answer.push(dns.SOA({
             name: SOAresult[0].name,
             primary: content[0],
