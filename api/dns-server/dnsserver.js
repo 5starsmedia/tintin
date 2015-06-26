@@ -260,6 +260,7 @@ function minimoedns(request, response) {
           });
           break;
         case "A":
+        case "ANY":
           // GeoDNS for A record is supported. Processing with edns-client-subnet support
           Record.queryGeo(name, type, sourceDest, sourceISP, sourceIP, function (err, georecords) {
             if (err) {
