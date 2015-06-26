@@ -130,7 +130,7 @@ function authorityNS(res, queryName, callback) {
 function notfound(res, SOA) {
   var content = SOA[0].content.split(" ");
   res.authority.push(dns.SOA({
-    name: SOA[0].name,
+    name: SOA[0].domain.name,
     primary: content[0],
     admin: content[1].replace("@", "."),
     serial: content[2],
