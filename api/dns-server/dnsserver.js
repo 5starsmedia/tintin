@@ -533,7 +533,7 @@ function minimoedns(request, response) {
               georecords = georecords.sort(randomOrder);
               georecords.forEach(function (record) {
                 response.answer.push(dns.CNAME({
-                  name: record.host + '.' + record.domain.name,
+                  name: record.domain.name,
                   data: record.content,
                   ttl: record.ttl || defaultTtl
                 }));
