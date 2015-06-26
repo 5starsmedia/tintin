@@ -86,6 +86,41 @@ exports['db.sites.insert'] = exports['db.sites.update'] = function (app, msg, cb
       if (data.records.length) { return next(); }
 
       createRecords(app, data.domain, next);
+    }],
+    'saveMx': ['records', 'domain', function(next, data) {
+      var mxRecord = _.find(data.records, { type: 'MX' });
+
+      if (!data.site.yandexMx) {
+        if (mxRecord) {
+          mxRecord.remove(next);
+        } else {
+          next();
+        }
+        return;
+      }
+      if (!mxRecord) {
+        createRecord(app, data.domain, 'MX', '@', 10, 'mx.yandex.ru.', next);
+      } else {
+        mxRecord.save(next);
+      }
+    }],
+    'saveCName': ['records', 'domain', function(next, data) {
+      var record = _.find(data.records, { type: 'CNAME', content: 'mail.yandex.ru.' });
+console.info(record)
+      if (!data.site.yandexMx) {
+        if (record) {
+          record.remove(next);
+        } else {
+          next();
+        }
+        return;
+      }
+      if (!record) {
+        createRecord(app, data.domain, 'CNAME', data.site.yandexMx, null, 'mail.yandex.ru.', next);
+      } else {
+        record.host = data.site.yandexMx;
+        record.save(next);
+      }
     }]
   }, cb);
 };

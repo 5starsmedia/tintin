@@ -42,6 +42,7 @@ var schema = new mongoose.Schema({
   },
 
   yandexXml: String,
+  yandexMx: String,
 
   removed: {type: Date},
   createDate: {type: Date, required: true, default: Date.now}
