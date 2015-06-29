@@ -12,12 +12,14 @@ let module = angular.module(appName, [
 // controllers
 import ConstructorConstructorCtrl from './controllers/ConstructorConstructorCtrl.js';
 import ConstructorEditStateCtrl from './controllers/ConstructorEditStateCtrl.js';
+import ConstructorEventCtrl from './controllers/ConstructorEventCtrl.js';
 
 //states
 import SendNotificationCtrl from './controllers/states/SendNotificationCtrl.js';
 
 module.controller('ConstructorConstructorCtrl', ConstructorConstructorCtrl)
   .controller('ConstructorEditStateCtrl', ConstructorEditStateCtrl)
+  .controller('ConstructorEventCtrl', ConstructorEventCtrl)
 
   .controller('Constructor.SendNotificationCtrl', SendNotificationCtrl);
 
@@ -38,6 +40,18 @@ module.config(function ($stateProvider) {
       templateUrl: "views/modules/constructor/page-constructor.html",
       data: {
         specialClass: 'constructor'
+      }
+    })
+    .state('ruleConstructor.event', {
+      parent: 'ruleConstructor.main',
+      url: "/:eventType",
+      controller: 'ConstructorEventCtrl',
+      templateUrl: "views/modules/constructor/page-event.html",
+      data: {
+        specialClass: 'constructor'
+      },
+      resolve: {
+        eventType: ($stateParams) => $stateParams.eventType
       }
     })
 });

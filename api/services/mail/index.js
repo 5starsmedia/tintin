@@ -136,7 +136,7 @@ exports.sendTemplate = function (name, email, options, cb) {
 
       if (data.htmlTemplate) {
         var mailHtml = data.htmlTemplate(data.model);
-        juice.juiceContent(mailHtml, _.extend({url: app.config.get('url')}, juiceOpts), function (err, html) {
+        juice.juiceResources(mailHtml, _.extend({url: app.config.get('url')}, juiceOpts), function (err, html) {
           if (err) { return next(err); }
           mailHtml = minify(html, htmlMinOpts);
           data.sendOptions.html = mailHtml;

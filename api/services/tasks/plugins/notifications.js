@@ -90,11 +90,11 @@ exports['notifications.mailing'] = function (app, msg, next) {
           if (err) { return next(err); }
           if (!account) { return next(); }
           if (!account.activated) {
-            app.log.info('[notifications.mailing]', 'Cannot send notification email to unactivated account', account.login);
+            app.log.info('[notifications.mailing]', 'Cannot send notification email to unactivated account', account.username);
             return next();
           }
           if (!account.email || account.email.length === 0) {
-            app.log.warn('[notifications.mailing]', 'Cannot send notification email to', account.login);
+            app.log.warn('[notifications.mailing]', 'Cannot send notification email to', account.username);
             return next();
           }
           app.log.debug('[notifications.mailing]', 'mailing notification ', notification.notificationType);

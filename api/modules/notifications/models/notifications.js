@@ -21,8 +21,8 @@ var schema = new mongoose.Schema({
   notificationType: {
     type: String,
     required: true,
-    default: 'message',
-    enum: ['message', 'postComment', 'postsComment', 'commentReply', 'system', 'shareComment', 'share']
+    default: 'postsComment',
+    enum: ['postsComment', 'contactsFeedback', 'system']
   },
   collectionName: {type: String, required: true},
   resourceId: {type: mongoose.Schema.Types.ObjectId, required: true},

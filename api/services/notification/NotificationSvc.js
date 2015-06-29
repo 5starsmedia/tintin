@@ -4,8 +4,8 @@ var _ = require('lodash'),
   async = require('async');
 
 var notificationOpts = {
-  'message': {isPopupVisible: true, isListVisible: false, isEmailVisible: true},
-  'postsComment': {isPopupVisible: true, isListVisible: true, isEmailVisible: true},
+  'contactsFeedback': {isPopupVisible: false, isListVisible: false, isEmailVisible: true},
+  'postsComment':     {isPopupVisible: true, isListVisible: true, isEmailVisible: true},
   'adviceComment': {isPopupVisible: true, isListVisible: true, isEmailVisible: true},
   'commentReply': {isPopupVisible: true, isListVisible: true, isEmailVisible: true},
   'strainReviewComment': {isPopupVisible: true, isListVisible: true, isEmailVisible: true},

@@ -23,6 +23,13 @@
 
         </st-form-element>
 
+        <st-form-element label="{{'E-mail'|translate}}" field="email">
+
+            <input class="form-control input-lg" name="email" type="text" required
+                   ng-model="user.email"/>
+
+        </st-form-element>
+
 
         <div>
             <div class="checkbox" ng-repeat="role in roles">

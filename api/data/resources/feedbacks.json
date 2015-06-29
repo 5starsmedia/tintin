@@ -1,0 +1,13 @@
+{
+  "resource": "feedbacks",
+  "model": "Feedback",
+  "options": {
+    "searchFields": [],
+    "maxPerPage": []
+  },
+  "acl": {
+    "*": {
+      "post": "*"
+    }
+  }
+}
