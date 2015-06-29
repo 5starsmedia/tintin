@@ -1,10 +1,6 @@
 'use strict';
 
-var nestedSet = require('../../middleware/nestedSet.js'),
-  crawler = require('./services/crawler'),
-  googleSvc = require('./services/google'),
-  yandexSvc = require('./services/yandex'),
-  seoSvc = require('./services/seo');
+var nestedSet = require('../../middleware/nestedSet.js');
 
 function IssuesModule(app) {
   this.app = app;

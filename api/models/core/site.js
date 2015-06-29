@@ -38,7 +38,8 @@ var schema = new mongoose.Schema({
     fbGroupId: String,
     googleAnalytics: String,
     yandexMetrika: String,
-    homepageTitle: String
+    homepageTitle: String,
+    structureLevel: {type: Number, required: true, default: 2}
   },
 
   yandexXml: String,

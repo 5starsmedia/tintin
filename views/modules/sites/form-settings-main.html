@@ -29,3 +29,21 @@
     <input class="form-control" name="yandexCName" type="text" ng-model="site.yandexCName"/>
 
 </st-form-element>
+
+<st-form-element label="{{'Quantity of levels'|translate}}" field="settings.structureLevel">
+
+    <div class="radio">
+    <label>
+        <input type="radio" value="1" name="structureLevel" ng-model="site.settings.structureLevel" />
+
+        {{'One level'|translate}}
+    </label>
+        <br/>
+    <label>
+        <input type="radio" value="2" name="structureLevel" ng-model="site.settings.structureLevel" />
+
+        {{'Two level'|translate}}
+    </label>
+    </div>
+
+</st-form-element>
