@@ -457,12 +457,12 @@ var saveCategory = function (site, connection, item, next) {
       });
     },
     'category': function (next) {
-      app.models.categories.findOne({id: termId, 'site._id': site._id}, function (err, category) {
+      app.models.categories.findOne({id: id, 'site._id': site._id}, function (err, category) {
         if (err) {
           return next(err);
         }
         if (!category) {
-          category = new app.models.categories({id: termId, site: {_id: site._id, domain: site.domain}});
+          category = new app.models.categories({id: id, site: {_id: site._id, domain: site.domain}});
         }
         next(null, category);
       });
@@ -527,7 +527,7 @@ var saveCategory = function (site, connection, item, next) {
       console.info('Import category', termId, 'parent', parent, 'w', category._w);
       category.save(function (err, category) {
         if (err) return next(err);
-        categoryRefId[termId] = category;
+        categoryRefId[id] = category;
         next();
       });
     }],
