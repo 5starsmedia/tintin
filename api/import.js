@@ -443,10 +443,13 @@ var saveFile = function (site, post, image, next) {
 }
 
 var categoryRefId = {},
-  wCategories = {};
+  wCategories = {},
+  taxonomyRefTerm = {};
 var saveCategory = function (site, connection, item, next) {
   var id = parseInt(item.term_taxonomy_id),
     termId = parseInt(item.term_id);
+
+  taxonomyRefTerm[id] = termId;
   async.auto({
     'term': function (next) {
       connection.query('SELECT * FROM ' + tablePrefix + 'terms WHERE term_id = ' + termId, function (err, rows) {
@@ -513,9 +516,9 @@ var saveCategory = function (site, connection, item, next) {
       category.title = data.term.name;
       category.alias = data.term.slug;
       category.description = item.description;
-      category.parentId = (!parent || !categoryRefId[parent]) ? data.rootCategory._id : categoryRefId[parent]._id;
-      if (parent && categoryRefId[parent]) {
-        category.parentAlias = categoryRefId[parent].alias;
+      category.parentId = (!parent || !categoryRefId[taxonomyRefTerm[parent]]) ? data.rootCategory._id : categoryRefId[taxonomyRefTerm[parent]]._id;
+      if (parent && categoryRefId[taxonomyRefTerm[parent]]) {
+        category.parentAlias = categoryRefId[taxonomyRefTerm[parent]].alias;
       }
       category.markModified('parentId');
 
