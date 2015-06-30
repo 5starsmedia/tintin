@@ -449,7 +449,7 @@ var saveCategory = function (site, connection, item, next) {
   var id = parseInt(item.term_taxonomy_id),
     termId = parseInt(item.term_id);
 
-  taxonomyRefTerm[id] = termId;
+  taxonomyRefTerm[termId] = id;
   async.auto({
     'term': function (next) {
       connection.query('SELECT * FROM ' + tablePrefix + 'terms WHERE term_id = ' + termId, function (err, rows) {
