@@ -263,7 +263,6 @@ var saveCategoryFile = function (site, post, image, next) {
     var isNew = false;
     if (!file) {
       isNew = true;
-      console.info('New file [category]', fileName);
       file = new app.models.files({
         originalName: fileName,
         collectionName: 'categories',
@@ -356,7 +355,6 @@ var saveFile = function (site, post, image, next) {
     var isNew = false;
     if (!file) {
       isNew = true;
-      console.info('New file [post]', fileName, {originalName: fileName});
       file = new app.models.files({
         originalName: fileName,
         collectionName: 'posts',
@@ -381,7 +379,6 @@ var saveFile = function (site, post, image, next) {
       }
       async.auto({
         'downloadImage': function (next) {
-          console.info('Download: ', fileName)
           var options = url.parse(fileName);
 
           http.get(options, function (response) {
@@ -527,10 +524,10 @@ var saveCategory = function (site, connection, item, next) {
       } else {
         category._w = wCategories[parent] = 1;
       }
-      console.info('Import category', id, 'parent', parent, 'w', category._w);
+      console.info('Import category', termId, 'parent', parent, 'w', category._w);
       category.save(function (err, category) {
         if (err) return next(err);
-        categoryRefId[id] = category;
+        categoryRefId[termId] = category;
         next();
       });
     }],
@@ -595,7 +592,6 @@ async.auto({
     data.connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_status = "publish" AND post_type = "post" OR post_type = "page"', function (err, rows, fields) {
       if (err) throw err;
 
-      console.info('get posts:', rows.length)
       async.eachSeries(rows, _.partial(saveItem, data.site, data.connection), next);
     });
   }]
