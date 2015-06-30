@@ -527,7 +527,7 @@ var saveCategory = function (site, connection, item, next) {
       console.info('Import category', termId, '-', id, 'parent', parent, 'w', category._w);
       category.save(function (err, category) {
         if (err) return next(err);
-        categoryRefId[termId] = category;
+        categoryRefId[id] = category;
         next();
       });
     }],
