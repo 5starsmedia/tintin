@@ -527,7 +527,7 @@ var saveCategory = function (site, connection, item, next) {
       } else {
         category._w = wCategories[parent] = 1;
       }
-      console.info('Import category', termId, '-', id, 'parent', parent, 'w', category._w);
+      console.info('Import category', termId, '-', id, 'parent', parent, '-', taxonomyRefTerm[parent], 'w', category._w);
       category.save(function (err, category) {
         if (err) return next(err);
         categoryRefId[id] = category;
