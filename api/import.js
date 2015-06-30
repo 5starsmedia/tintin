@@ -462,7 +462,9 @@ var saveCategory = function (site, connection, item, next) {
           return next(err);
         }
         if (!category) {
-          category = new app.models.categories({id: id, site: {_id: site._id, domain: site.domain}});
+          category = new app.models.categories({id: termId, site: {_id: site._id, domain: site.domain}});
+        } else {
+          category.id = termId;
         }
         next(null, category);
       });
