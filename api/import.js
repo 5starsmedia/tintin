@@ -535,7 +535,7 @@ var saveCategory = function (site, connection, item, next) {
       });
     }],
     'saveImage': ['category', function (next, data) {
-      connection.query('SELECT * FROM ' + tablePrefix + 'options WHERE option_name = "z_taxonomy_image' + id + '"', function (err, rows) {
+      connection.query('SELECT * FROM ' + tablePrefix + 'options WHERE option_name = "z_taxonomy_image' + termId + '"', function (err, rows) {
         if (err || !rows.length) {
           return next(err);
         }
