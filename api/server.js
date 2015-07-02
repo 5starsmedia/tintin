@@ -220,6 +220,7 @@ var corsOptionsDelegate = function(req, callback){
   if(site && site.isCorsEnabled){
     corsOptions.origin = true;
     corsOptions.credentials = true;
+    corsOptions.exposedHeaders = ['x-total-count'];
   }
   callback(null, corsOptions);
 };
