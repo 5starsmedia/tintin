@@ -55,14 +55,16 @@ class VotingPollEditCtrl {
         windowClass: "hmodal-success",
         resolve: {
           item: function () {
-            return choise;
+            return choise || {};
           }
         }
       });
       modalInstance.result.then((item) => {
         $scope.item.choices = $scope.item.choices || [];
 
-        $scope.item.choices.push(item);
+        if (!choise) {
+          $scope.item.choices.push(item);
+        }
       });
 
     };
