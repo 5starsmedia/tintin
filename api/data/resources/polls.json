@@ -7,9 +7,8 @@
   },
   "acl": {
     "*": {
-      "get": "voting",
-      "get?refs.resourceId&refs.collectionName": "voting",
-      "get?_id": ["voting", "*:owner"],
+      "get": "*",
+      "get?_id": ["*"],
       "put?_id": ["voting", "*:owner"],
       "post": ["voting", "*:owner"],
       "delete?_id": ["voting", "*:owner"]
