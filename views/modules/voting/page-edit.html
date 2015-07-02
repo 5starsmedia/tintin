@@ -97,7 +97,7 @@
             <div class="panel-body">
 
               <table class="table">
-                <tr ng-repeat="choice in item.choices">
+                <tr ng-repeat="(n, choice) in item.choices track by n">
                   <td>
                     <a href="" ng-click="editChoise(choice)">
                       {{choice.title}}
