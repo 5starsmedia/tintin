@@ -95,6 +95,16 @@ SocketSvc.prototype.init = function (next) {
   });
   self.io.on('connection', function (socket) {
     var name = socket.account && socket.account.username ? socket.account.username : 'anonymous';
+
+    // hack for catch all events
+    var original_$emit = socket.onevent;
+    socket.onevent = function(packet) {
+      var args = packet.data || [];
+      original_$emit.call (this, packet);    // original call
+
+      self.app.services.broadcast.publish('socket:' + args[0], {account: socket.account, endpoint: socket.handshake.address, event: args[0], data: args[1] });
+    };
+
     self.log.info('Socket connection from "%s" started', name);
     socket.on('disconnect', function () {
       self.log.info('Socket connection from "%s" closed', name);

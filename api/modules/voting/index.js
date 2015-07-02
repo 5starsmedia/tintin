@@ -11,6 +11,12 @@ VotingModule.prototype.initModels = function () {
 };
 
 VotingModule.prototype.initRoutes = function () {
+
+  this.app.services.broadcast.on('socket:send.vote', function (data) {
+
+    console.info(data);
+
+  });
 };
 
 module.exports = VotingModule;
