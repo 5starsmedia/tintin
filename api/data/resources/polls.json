@@ -6,6 +6,22 @@
     "maxPerPage": []
   },
   "acl": {
+    "site": false,
+    "choices": {
+      "get?_id": ["*"],
+      "put?_id": ["voting", "*:owner"],
+      "post": ["voting", "*:owner"]
+    },
+    "files": {
+      "get?_id": ["*"],
+      "put?_id": ["voting", "*:owner"],
+      "post": ["voting", "*:owner"]
+    },
+    "meta": {
+      "get?_id": ["*"],
+      "put?_id": ["voting", "*:owner"],
+      "post": ["voting", "*:owner"]
+    },
     "*": {
       "get": "*",
       "get?_id": ["*"],
