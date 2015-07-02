@@ -21,6 +21,7 @@ router.get('/settings', function (req, res, next) {
 
   var varName = req.query.name || 'settings',
     settingsJs = {
+      ioEntryPoint: apiEntryPointHost + '/',
       apiEntryPoint: apiEntryPointHost + '/api',
       userIp: req.request.remoteAddress,
       settings: req.site.settings
