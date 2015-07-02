@@ -65,6 +65,13 @@
 
                 </st-form-element>
 
+                <st-form-element label="{{'Alias'|translate}}" field="alias">
+
+                  <input id="alias" class="form-control" name="alias" type="text" required
+                         ng-model="item.alias"/>
+
+                </st-form-element>
+
                 <st-form-element label="{{'Body'|translate}}" field="body">
 
                                 <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
