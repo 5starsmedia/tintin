@@ -12,5 +12,3 @@ exports.genders = require('./user/gender.js');
 
 exports.queueMessages = require('./queueMessages.js');
 exports.sequences = require('./sequences.js');
-
-exports.visaDates = require('./visaDate.js');
