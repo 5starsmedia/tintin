@@ -102,7 +102,7 @@ SocketSvc.prototype.init = function (next) {
       var args = packet.data || [];
       original_$emit.call (this, packet);    // original call
 
-      self.app.services.broadcast.publish('socket:' + args[0], {account: socket.account, endpoint: socket.handshake.address, event: args[0], data: args[1] });
+      self.app.services.broadcast.publish('socket:' + args[0], {account: socket.account, endpoint: client.handshake.headers['x-forwarded-for'] || socket.handshake.address, event: args[0], data: args[1] });
     };
 
     self.log.info('Socket connection from "%s" started', name);
