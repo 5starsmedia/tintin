@@ -1,9 +1,3 @@
-/**
- * Copyright 2014 Cannasos.com
- *
- * lib/server/migrations/0.0.1/index.js
- * Migration to version 0.0.1
- */
 'use strict';
 
 var async = require('async'),

@@ -12,7 +12,7 @@ function IOSvc($log, $q, $auth, IO_URL) {
 IOSvc.prototype.connect = function () {
   var auth = this.$auth.getToken();
   if (auth) {
-    this.$log.debug('[ioService]', 'Connecting to socket');
+    this.$log.debug('[ioService]', 'Connecting to socket', this.IO_URL);
     this.ioInstance = window.io.connect(this.IO_URL, {query: {token: auth}});
   }
 };
