@@ -2,39 +2,36 @@
 
   <div class="row">
 
-    <div class="col-md-9">
+    <div class="col-xs-12">
 
       <div class="pull-right">
-        <a class="btn btn-success btn-outline" ui-sref="issues.create">
-          <i class="fa fa-plus"></i> {{'New issue'|translate}}
+        <a class="btn btn-success btn-outline" ui-sref="voting.create">
+          <i class="fa fa-plus"></i> {{'New poll'|translate}}
         </a>
       </div>
       <h2 class="font-light m-b-xs ng-binding">
-        {{'Issues'|translate}}
+        {{'Polls'|translate}}
       </h2>
 
       <div class="hpanel">
         <div class="panel-body" bz-loading-container="loading">
 
 
-          <table ng-table="tableParams" show-filter="true" class="table">
+          <table ng-table="tableParams" class="table">
             <tr ng-repeat="item in $data">
               <td style="width: 15%" class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
-                <a class="text-info" ui-sref="news.edit({ id: item._id })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
+                <a class="text-info" ui-sref="voting.edit({ id: item._id })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
                   <span ng-if="item.isTop" class="fa fa-star"></span>
 
                   {{item.title}}
                 </a>
-              </td>
-              <td style="width: 10%" data-title="'Author'|translate" sortable="'name'">
-                {{item.account.title}}
               </td>
               <td style="width: 5%" data-title="'Views'|translate" sortable="'viewsCount'" class="text-center">
                 <span class="fa fa-eye"></span> {{item.viewsCount}}
               </td>
               <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">
 
-                <a ui-sref="news.edit({ id: item._id })"
+                <a ui-sref="voting.edit({ id: item._id })"
                    title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span>
                 </a>
                 <a href="" st-confirm="remove(item)" title="{{'Delete article'|translate}}"
@@ -48,11 +45,6 @@
 
         </div>
       </div>
-
-
-    </div>
-    <div class="col-md-3">
-
 
 
     </div>

@@ -50,5 +50,9 @@
   {
     "name": "issues",
     "title": "issues"
+  },
+  {
+    "name": "voting",
+    "title": "Polls"
   }
 ]

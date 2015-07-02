@@ -205,7 +205,7 @@ gulp.task('serve', function () {
   var proxyOptions = url.parse('http://localhost:8080/api');
   proxyOptions.route = '/api';
 
-  var proxyOptions2 = url.parse('http://localhost:8080/socket.io');
+  var proxyOptions2 = url.parse('ws://localhost:8080/socket.io');
   proxyOptions2.route = '/socket.io';
 
   browserSync({
@@ -216,6 +216,7 @@ gulp.task('serve', function () {
         proxy(proxyOptions2),
         urlRewrite('./build')
       ]
-    }
+    },
+    notify: false
   });
 });

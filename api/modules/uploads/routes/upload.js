@@ -34,7 +34,7 @@ fs.exists(uploadsFolder, function (exists) {
   }
 });
 
-var allowedCollections = ['products', 'posts', 'accounts', 'groups', 'productBrands', 'categories'];
+var allowedCollections = ['products', 'posts', 'accounts', 'polls', 'choises', 'productBrands', 'categories'];
 var maxFileSize = 10 * 1024 * 1024;
 
 function assignFile(req, file, collectionName, resourceId, cb) {
@@ -246,10 +246,12 @@ function post(req, cb) {
       }
     }, {upsert: true, new: true}, function (err, file) {
       if (err) {return cb(err); }
+
       fs.readFile(files[fileParameterName].path, function (err, data) {
         if (err) {return cb(err); }
         fs.unlink(files[fileParameterName].path, function (err) {
           if (err) {return cb(err); }
+
           req.app.models.fileChunks.create({
             data: data,
             size: data.length,
@@ -259,6 +261,7 @@ function post(req, cb) {
             if (err) {return cb(err); }
             req.app.models.files.findByIdAndUpdate(file._id, {$inc: {uploadedChunks: 1}}, function (err, newFile) {
               if (err) {return cb(err); }
+
               if (newFile.uploadedChunks === newFile.totalChunks) {
                 async.parallel([
                   _.bind(toGridFSqueue.push, toGridFSqueue, {

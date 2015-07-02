@@ -1,0 +1,144 @@
+global
+  maxconn 45000 # Max simultaneous connections from an upstream server
+  spread-checks 5 # Distribute health checks with some randomness
+  log 127.0.0.1 local0
+  log 127.0.0.1 local1 notice
+  #debug # Uncomment for verbose logging
+
+defaults # Apply to all services
+  log global
+  mode http
+  balance roundrobin
+  option abortonclose # abort request if client closes output channel while waiting
+  option httpclose # add "Connection:close" header if it is missing
+  option forwardfor # nsert x-forwarded-for header so that app servers can see both proxy and client IPs
+  option redispatch # any server can handle any session
+  timeout client 60s
+  timeout connect 2s
+  timeout server 30s
+  timeout check 5s
+  stats enable
+  stats uri /stats # Real path redacted
+  stats realm Haproxy\ Statistics
+  stats auth username:password # Real credentials redacted
+  monitor-uri /monitor # Returns 200 if we're up; real path redacted
+#  errorfile 503 /etc/haproxy/errors/503.http
+
+  userlist shareaholic_admins
+    user myuser insecure-password mypass # Real auth redacted
+
+  #stats socket  level admin
+
+frontend main
+  bind 0.0.0.0:80
+  mode http
+  default_backend backend_10_0_0_20
+  option httplog
+  option http-server-close
+  option http-pretend-keepalive
+  bind 0.0.0.0:443 ssl crt /root/.ssl/5starsmedia.com.ua.pem
+  redirect scheme https if { hdr(Host) -i 5starsmedia.com.ua } !{ ssl_fc }
+  acl url_74x6r hdr_end(host) vinnitsaok.5stars.link
+  use_backend backend_10_0_0_21 if url_74x6r
+  acl url_pvi hdr_end(host) seasons.5stars.link
+  use_backend backend_10_0_0_53 if url_pvi
+  acl url_y7gb9 hdr_end(host) tintin.5stars.link
+  use_backend backend_10_0_0_50 if url_y7gb9
+  acl url_o6r hdr_end(host) 5starsmedia.com.ua
+  use_backend backend_10_0_0_1 if url_o6r
+  acl url_zpvi hdr_end(host) putevoditel.in.ua
+  use_backend backend_10_0_0_64 if url_zpvi
+  acl url_l23xr hdr_end(host) vinnitsaok.com.ua
+  use_backend backend_10_0_0_1 if url_l23xr
+  acl url_34n29 hdr_end(host) logs.5stars.link
+  use_backend backend_10_0_0_50 if url_34n29
+  acl url_x6r hdr_end(host) bugs.5stars.link
+  use_backend backend_10_0_0_61 if url_x6r
+  acl url_8m2t9 hdr_end(host) presspoint.in.ua
+  use_backend backend_10_0_0_11 if url_8m2t9
+  acl url_d9529 hdr_end(host) vibori2014.vn.ua
+  use_backend backend_10_0_0_1 if url_d9529
+  acl url_wewmi hdr_end(host) broadway.vn.ua
+  use_backend backend_10_0_0_1 if url_wewmi
+  acl url_3ik9 hdr_end(host) vibori.com.ua
+  use_backend backend_10_0_0_20 if url_3ik9
+  acl url_hsemi hdr_end(host) mixbox.in.ua
+  use_backend backend_10_0_0_1 if url_hsemi
+  acl url_jc3di hdr_end(host) news.vn.ua
+  use_backend backend_10_0_0_10 if url_jc3di
+  acl url_zjjor hdr_end(host) smov.vn.ua
+  use_backend backend_10_0_0_62 if url_zjjor
+  acl url_rzfr hdr_end(host) inet-banking.com
+  use_backend backend_10_0_0_20 if url_rzfr
+  acl url_dte29 hdr_end(host) bezprovodoff.com
+  use_backend backend_10_0_0_21 if url_dte29
+  acl url_otj4i hdr_end(host) luxuryinterni.it
+  use_backend backend_10_0_0_63 if url_otj4i
+  acl url_s8aor hdr_end(host) profandroid.com
+  use_backend backend_10_0_0_20 if url_s8aor
+  acl url_c4n29 hdr_end(host) v-androide.com
+  use_backend backend_10_0_0_20 if url_c4n29
+  acl url_r529 hdr_end(host) eko-world.com
+  use_backend backend_10_0_0_20 if url_r529
+  acl url_pzaor hdr_end(host) webakcent.pro
+  use_backend backend_10_0_0_20 if url_pzaor
+  acl url_7nwmi hdr_end(host) vseproip.com
+  use_backend backend_10_0_0_20 if url_7nwmi
+  acl url_pk3xr hdr_end(host) pro-ipad.com
+  use_backend backend_10_0_0_20 if url_pk3xr
+  acl url_2t9 hdr_end(host) otendere.com
+  use_backend backend_10_0_0_20 if url_2t9
+  acl url_l8fr hdr_end(host) 5stars.link
+  use_backend backend_10_0_0_60 if url_l8fr
+  acl url_pvi hdr_end(host) qiwiq.ru
+  use_backend backend_10_0_0_20 if url_pvi
+
+backend backend_10_0_0_21
+  mode http
+  balance roundrobin
+  server backend_10_0_0_21 10.0.0.21:80 check inter 2000
+backend backend_10_0_0_53
+  mode http
+  balance roundrobin
+  server backend_10_0_0_53 10.0.0.53:80 check inter 2000
+backend backend_10_0_0_50
+  mode http
+  balance roundrobin
+  server backend_10_0_0_50 10.0.0.50:80 check inter 2000
+backend backend_10_0_0_1
+  mode http
+  balance roundrobin
+  server backend_10_0_0_1 10.0.0.1:80 check inter 2000
+backend backend_10_0_0_64
+  mode http
+  balance roundrobin
+  server backend_10_0_0_64 10.0.0.64:80 check inter 2000
+backend backend_10_0_0_61
+  mode http
+  balance roundrobin
+  server backend_10_0_0_61 10.0.0.61:80 check inter 2000
+backend backend_10_0_0_11
+  mode http
+  balance roundrobin
+  server backend_10_0_0_11 10.0.0.11:80 check inter 2000
+backend backend_10_0_0_20
+  mode http
+  balance roundrobin
+  server backend_10_0_0_20 10.0.0.20:80 check inter 2000
+backend backend_10_0_0_10
+  mode http
+  balance roundrobin
+  server backend_10_0_0_10 10.0.0.10:80 check inter 2000
+backend backend_10_0_0_62
+  mode http
+  balance roundrobin
+  server backend_10_0_0_62 10.0.0.62:80 check inter 2000
+backend backend_10_0_0_63
+  mode http
+  balance roundrobin
+  server backend_10_0_0_63 10.0.0.63:80 check inter 2000
+backend backend_10_0_0_60
+  mode http
+  balance roundrobin
+  server backend_10_0_0_60 10.0.0.60:80 check inter 2000
+

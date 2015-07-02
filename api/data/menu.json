@@ -130,5 +130,17 @@
         "permissions": []
       }
     ]
+  },
+  {
+    "sref": "voting.polls",
+    "title": "Polls",
+    "permissions": ["voting"],
+    "items": [
+      {
+        "sref": "voting.polls",
+        "title": "List of polls",
+        "permissions": ["voting"]
+      }
+    ]
   }
 ]

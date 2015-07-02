@@ -49,7 +49,8 @@ var PostsModule = require('./modules/posts'),
   NotificationModule = require('./modules/notifications'),
   ConstructorModule = require('./modules/constructor'),
   IssueModule = require('./modules/issues'),
-  ContactsModule = require('./modules/contacts');
+  ContactsModule = require('./modules/contacts'),
+  VotingModule = require('./modules/voting');
 
 app.modules = {
   posts: new PostsModule(app),
@@ -68,6 +69,7 @@ app.modules = {
   constructor: new ConstructorModule(app),
   issues: new IssueModule(app),
   contacts: new ContactsModule(app),
+  voting: new VotingModule(app),
 
   each: function(callFunc) {
     _.forEach(app.modules, function(obj, name) {

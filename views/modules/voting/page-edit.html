@@ -1,0 +1,146 @@
+<div>
+
+
+  <st-form model="item" state="error" submit="saveItem(item)">
+
+    <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
+      <div class="hpanel" bz-loading-container="loading">
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-lg-9">
+
+              <a ui-sref="voting.polls" class="back-btn">
+                <span class="pe-7s-angle-left"></span>
+              </a>
+
+              <h2 class="font-light m-b-xs">
+                <span ng-if="!item._id" style="line-height: 30px;">{{'New poll'|translate}}</span>
+                <span ng-if="item._id">{{'Editing of poll'|translate}}</span>
+              </h2>
+
+              <small ng-if="item._id">
+                {{'Poll created:'|translate}}
+                {{item.createDate|date:'dd.MM.yyyy'}}
+                {{'at'|translate}}
+                {{item.createDate|date:'HH:mm'}}
+              </small>
+
+            </div>
+            <div class="col-lg-3">
+
+              <div class="form-actions">
+                <a ng-href="/preview/polls/{{item._id}}" ng-if="item._id"
+                   class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left" tooltip="{{'Open on site'|translate}}" target="_blank">
+                  <span class="fa fa-external-link"></span>
+                </a>
+                <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+                  {{'Save'|translate}}
+                </button>
+                <a ui-sref="voting.polls" class="btn btn-default">
+                  {{'Cancel'|translate}}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content" animate-panel effect="zoomIn">
+
+      <div class="row">
+        <div class="col-lg-7">
+
+
+          <tabset class="hpanel">
+            <tab>
+              <tab-heading>{{'Main information'|translate}}</tab-heading>
+
+              <div class="panel-body">
+                <st-form-element label="{{'Title'|translate}}" field="title">
+
+                  <input id="title" class="form-control input-lg" name="title" type="text" required
+                         ng-model="item.title"/>
+
+                </st-form-element>
+
+                <st-form-element label="{{'Body'|translate}}" field="body">
+
+                                <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
+                                          ng-model="item.body"></textarea>
+
+                </st-form-element>
+              </div>
+            </tab>
+          </tabset>
+
+        </div>
+        <div class="col-lg-5">
+
+          <div class="hpanel hblue">
+            <div class="pull-right">
+              <a class="btn btn-success btn-outline btn-sm" href="" ng-click="editChoise({})">
+                <i class="fa fa-plus"></i> {{'New choice'|translate}}
+              </a>
+            </div>
+            <div class="panel-heading">
+              {{'Choices'|translate}}
+            </div>
+            <div class="panel-body">
+
+              <table class="table">
+                <tr ng-repeat="choice in item.choices">
+                  <td>
+                    <a href="" ng-click="editChoise(choice)">
+                      {{choice.title}}
+                    </a>
+                  </td>
+                  <td>{{choice.votes}}</td>
+                </tr>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+          <div class="hpanel">
+            <div class="panel-heading">
+              {{'Attached images'|translate}}
+            </div>
+            <div class="panel-body clearfix" editor-select-images="item.files">
+              <div>
+                <cs-file-upload resource-id="{{item._id}}" collection-name="polls" files="item.files"
+                                cover-file="item.coverFile" has-cover-select="true">
+                </cs-file-upload>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+          <div class="hpanel">
+            <div class="panel-heading">
+              {{'Meta tags'|translate}}
+            </div>
+            <div class="panel-body">
+
+              <div base-meta-edit="item"></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </st-form>
+</div>

@@ -1,0 +1,18 @@
+{
+  "resource": "polls",
+  "model": "Poll",
+  "options": {
+    "searchFields": [],
+    "maxPerPage": []
+  },
+  "acl": {
+    "*": {
+      "get": "voting",
+      "get?refs.resourceId&refs.collectionName": "voting",
+      "get?_id": ["voting", "*:owner"],
+      "put?_id": ["voting", "*:owner"],
+      "post": ["voting", "*:owner"],
+      "delete?_id": ["voting", "*:owner"]
+    }
+  }
+}
