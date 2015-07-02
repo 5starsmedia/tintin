@@ -9,22 +9,26 @@
     "site": false,
     "choices": {
       "get?_id": ["*"],
+      "get?alias": ["*"],
       "put?_id": ["voting", "*:owner"],
       "post": ["voting", "*:owner"]
     },
     "files": {
       "get?_id": ["*"],
+      "get?alias": ["*"],
       "put?_id": ["voting", "*:owner"],
       "post": ["voting", "*:owner"]
     },
     "meta": {
       "get?_id": ["*"],
+      "get?alias": ["*"],
       "put?_id": ["voting", "*:owner"],
       "post": ["voting", "*:owner"]
     },
     "*": {
       "get": "*",
       "get?_id": ["*"],
+      "get?alias": ["*"],
       "put?_id": ["voting", "*:owner"],
       "post": ["voting", "*:owner"],
       "delete?_id": ["voting", "*:owner"]
