@@ -4,58 +4,16 @@ var config = require('../config.js'),
   jwt = require('jsonwebtoken'),
   _ = require('lodash');
 
-var inheritCache = {};
-
-function inheritRoles(req, roles, next) {
-  var strName = roles.join();
-  var resRoles = inheritCache[strName];
-  if (resRoles) {
-    return next(null, resRoles);
-  }
-  resRoles = [];
-  req.app.services.data.getResource('roles', function (err, rolesRes) {
-    if (err) {
-      return next(err);
-    }
-    for (var i = 0; i <= roles.length; i += 1) {
-      var roleName = roles[i];
-      for (var j = 0; j < rolesRes.length; j += 1) {
-        var roleRes = rolesRes[j];
-        if (roleRes.name === roleName && roleRes.inherits) {
-          for (var k = 0; k < roleRes.inherits.length; k += 1) {
-            var roleToInherit = roleRes.inherits[k];
-            if (resRoles.indexOf(roleToInherit) === -1 && roles.indexOf(roleToInherit) === -1) {
-              resRoles.push(roleToInherit);
-            }
-          }
-        }
-      }
-    }
-    inheritCache[strName] = resRoles;
-    next(null, resRoles);
-  });
-}
-
 function authAsAccount(account, role, req, res, next) {
   req.auth.account = account;
   req.auth.role = role;
   req.auth.permissions = _.pluck(role.permissions, 'name');
-  /*var roles = _.pluck(req.auth.account.roles, 'name');
-  inheritRoles(req, roles, function (err, inheritedRoles) {
-    if (err) {
-      return next(err);
-    }
-    req.auth.roles = roles.concat(inheritedRoles);
-    req.log = req.log.child({account: {_id: account._id, login: account.login}});
-
-    next();
-  });*/
   next();
 }
 
 function authAsGuest(req, res, next) {
   req.auth.isGuest = true;
-  req.auth.roles = [config.get('auth.guestRoleName')];
+  req.auth.roles = [];//config.get('auth.guestRoleName')];
   next();
 }
 

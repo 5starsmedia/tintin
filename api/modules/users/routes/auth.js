@@ -24,6 +24,9 @@ function generateTokenValue(account, cb) {
     params = {
       _id: account._id
     };
+    account.roles = _.filter(account.roles, function(role) {
+      return !!role._id;
+    });
     var role = _.first(account.roles || []);
     if (role || account.roleId) {
       params.role_id = account.roleId || role._id;
