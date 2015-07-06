@@ -49,6 +49,7 @@ app.modules.each(function(moduleObj) {
 });
 
 function updateArticle(site, post, next) {
+  console.info(post._id);
   app.services.mq.push(app, 'events', {
       name: 'db.posts.update',
       _id: post._id
@@ -88,7 +89,6 @@ async.auto({
     console.info(err);
   }
 
-  data.connection.end();
   mongoose.connection.close(function (err) {
     app.log.debug('Mongodb connection successfully closed');
   });
