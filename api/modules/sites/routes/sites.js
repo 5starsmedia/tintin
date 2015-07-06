@@ -51,4 +51,17 @@ router.get('/yandex', function (req, res, next) {
   }
 });
 
+router.get('/google', function (req, res, next) {
+  res.header('Content-Type', 'text/plain');
+
+  var file = req.site.googleWebmasterTxt || '';
+  file = file.replace('.html', '').replace('.txt', '').replace('google', '');
+
+  if (file != '' && req.query.id == file) {
+    res.end('google-site-verification: ' + req.site.googleWebmasterTxt);
+  } else {
+    res.status(404).end('Sorry!' + file);
+  }
+});
+
 module.exports = router;
