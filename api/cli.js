@@ -9,7 +9,7 @@ var Stomp = require('stomp-client'),
 
 program
   .version('0.0.1')
-  .description('TinTin command line utility')
+  .description('Paphos command line utility')
 ;
 /*
  var connect = deasync(function (next) {

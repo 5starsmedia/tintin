@@ -3,19 +3,9 @@ var mysql = require('mysql'),
   async = require('async'),
   moment = require('moment'),
   mongoose = require('mongoose'),
-  Grid = mongoose.mongo.Grid,
   request = require('request'),
   imageSize = require('image-size'),
   mime = require('mime');
-var url = require('url');
-var http = require('http');
-var PHPUnserialize = require('php-unserialize');
-var grid;
-
-
-var tablePrefix = 'zo_',
-  siteDomain = 'beyklopov.ru',
-  databaseName = 'beyklopo_db';
 
 var app = {};
 app.log = require('./log.js');
@@ -58,6 +48,15 @@ app.modules.each(function(moduleObj) {
   moduleObj.initModels();
 });
 
+function updateArticle(site, post, next) {
+  app.services.mq.push(app, 'events', {
+      name: 'db.posts.update',
+      _id: post._id
+    },
+    next);
+}
+
+var siteDomain = 'beyklopov.ru';
 async.auto({
   'mongoConnection': function (next) {
     app.log.debug('Connecting to mongodb...');
@@ -67,19 +66,7 @@ async.auto({
     });
     mongoose.set('debug', false);
   },
-  'connection': function (next) {
-    var connection = mysql.createConnection({
-      host: 'mistinfo.com',
-      port: 3310,
-      user: 'remote',
-      password: 'gfhjkm666',
-      database: databaseName
-    });
-    connection.connect();
-    next(null, connection);
-  },
   'site': ['mongoConnection', function (next) {
-    grid = new Grid(mongoose.connection.db, 'fs');
     app.models.sites.findOne({domain: siteDomain}, function (err, data) {
       if (!data) {
         data = new app.models.sites({domain: siteDomain});
@@ -89,18 +76,10 @@ async.auto({
       });
     });
   }],
-  'categories': ['connection', 'site', function (next, data) {
-    data.connection.query('SELECT * FROM ' + tablePrefix + 'term_taxonomy WHERE taxonomy = "category" ORDER BY parent', function (err, rows, fields) {
+  'updateArticle': ['mongoConnection', 'site', function(next, data) {
+    app.models.products.find({ 'site._id': data.site._id }, function (err, rows) {
       if (err) throw err;
-
-      async.eachSeries(rows, _.partial(saveCategory, data.site, data.connection), next);
-    });
-  }],
-  'getPosts': ['categories', 'connection', function (next, data) {
-    data.connection.query('SELECT * FROM ' + tablePrefix + 'posts WHERE post_status = "publish" AND post_type = "post" OR post_type = "page"', function (err, rows, fields) {
-      if (err) throw err;
-
-      async.eachSeries(rows, _.partial(saveItem, data.site, data.connection), next);
+      async.each(rows, _.partial(updateArticle, data.site), next);
     });
   }]
 }, function (err, data) {
