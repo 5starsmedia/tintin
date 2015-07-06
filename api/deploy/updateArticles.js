@@ -8,20 +8,20 @@ var mysql = require('mysql'),
   mime = require('mime');
 
 var app = {};
-app.log = require('./log.js');
-app.config = require('./config.js');
-app.models = require('./models');
-var PostsModule = require('./modules/posts'),
-  CommentsModule = require('./modules/comments'),
-  KeywordsModule = require('./modules/keywords'),
-  EcommerceModule = require('./modules/ecommerce'),
-  UploadsModule = require('./modules/uploads'),
-  MenuModule = require('./modules/menu'),
-  WikiModule = require('./modules/wiki'),
-  AdsModule = require('./modules/ads'),
-  UsersModule = require('./modules/users'),
-  SitesModule = require('./modules/sites'),
-  SitemapModule = require('./modules/sitemap');
+app.log = require('../log.js');
+app.config = require('../config.js');
+app.models = require('../models');
+var PostsModule = require('../modules/posts'),
+  CommentsModule = require('../modules/comments'),
+  KeywordsModule = require('../modules/keywords'),
+  EcommerceModule = require('../modules/ecommerce'),
+  UploadsModule = require('../modules/uploads'),
+  MenuModule = require('../modules/menu'),
+  WikiModule = require('../modules/wiki'),
+  AdsModule = require('../modules/ads'),
+  UsersModule = require('../modules/users'),
+  SitesModule = require('../modules/sites'),
+  SitemapModule = require('../modules/sitemap');
 
 app.modules = {
   posts: new PostsModule(app),
