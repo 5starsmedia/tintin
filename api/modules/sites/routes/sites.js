@@ -34,13 +34,14 @@ router.get('/robots', function (req, res, next) {
   res.header('Content-Type', 'text/plain');
 
   req.site.robotsTxt = req.site.robotsTxt || '';
-
+console.info(req.request.url);
   res.end(req.site.robotsTxt);
 });
 
 router.get('/yandex', function (req, res, next) {
   res.header('Content-Type', 'text/plain');
 
+  console.info(req.request.url);
   var file = req.site.yandexWebmasterTxt || '';
   file = file.replace('.html', '').replace('.txt', '').replace('yandex_', '');
 
