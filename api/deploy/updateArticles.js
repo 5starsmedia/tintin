@@ -42,17 +42,11 @@ async.auto({
     });
     mongoose.set('debug', false);
   }],
-  'site': ['mongoConnection', function (next) {
-    app.models.sites.findOne({domain: siteDomain}, next);
-  }],
-  'updateArticle': ['mongoConnection', 'site', function (next, data) {
+  'updateArticle': ['mongoConnection', function (next) {
     app.services.tasks.start();
     app.services.states.start();
 
-    app.models.posts.find({'site._id': data.site._id}, function (err, rows) {
-      if (err) throw err;
-      async.each(rows, _.partial(updateArticle, data.site), next);
-    });
+    app.services.mq.push(app, 'events', {name: 'posts.keywords'}, next);
   }]
 }, function (err, data) {
 
