@@ -30,4 +30,25 @@ router.get('/settings', function (req, res, next) {
   res.end(varName + ' = ' + JSON.stringify(settingsJs));
 });
 
+router.get('/robots', function (req, res, next) {
+  res.header('Content-Type', 'text/plain');
+
+  req.site.robotsTxt = req.site.robotsTxt || '';
+
+  res.end(req.site.robotsTxt);
+});
+
+router.get('/yandex', function (req, res, next) {
+  res.header('Content-Type', 'text/plain');
+
+  var file = req.site.yandexWebmasterTxt || '';
+  file = file.replace('.html', '').replace('.txt', '').replace('yandex_', '');
+
+  if (req.query.id == file) {
+    res.end(req.site.robotsTxt);
+  } else {
+    res.status(404).end('Sorry!' + file);
+  }
+});
+
 module.exports = router;

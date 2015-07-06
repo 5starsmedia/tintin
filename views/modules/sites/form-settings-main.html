@@ -24,6 +24,12 @@
 
 </st-form-element>
 
+<st-form-element label="{{'Yandex Webmaster (name of html file)'|translate}}" field="yandexWebmasterTxt">
+
+    <input class="form-control" name="yandexWebmasterTxt" type="text" ng-model="site.yandexWebmasterTxt"/>
+
+</st-form-element>
+
 <st-form-element label="{{'Yandex Mail CNAME'|translate}}" field="yandexCName">
 
     <input class="form-control" name="yandexCName" type="text" ng-model="site.yandexCName"/>
@@ -45,5 +51,11 @@
         {{'Two level'|translate}}
     </label>
     </div>
+
+</st-form-element>
+
+<st-form-element label="{{'Content of robots.txt'|translate}}" field="robotsTxt">
+
+    <textarea class="form-control" ng-model="site.robotsTxt" name="robotsTxt"></textarea>
 
 </st-form-element>

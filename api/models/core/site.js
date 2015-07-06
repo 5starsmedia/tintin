@@ -44,6 +44,9 @@ var schema = new mongoose.Schema({
 
   yandexXml: String,
   yandexCName: String,
+  yandexWebmasterTxt: String,
+
+  robotsTxt: { type: String, required: true, default: "User-agent: *\nAllow: /" },
 
   removed: {type: Date},
   createDate: {type: Date, required: true, default: Date.now}
