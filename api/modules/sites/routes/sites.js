@@ -34,19 +34,18 @@ router.get('/robots', function (req, res, next) {
   res.header('Content-Type', 'text/plain');
 
   req.site.robotsTxt = req.site.robotsTxt || '';
-console.info(req.request.url);
+
   res.end(req.site.robotsTxt);
 });
 
 router.get('/yandex', function (req, res, next) {
   res.header('Content-Type', 'text/plain');
 
-  console.info(req.request.url);
   var file = req.site.yandexWebmasterTxt || '';
   file = file.replace('.html', '').replace('.txt', '').replace('yandex_', '');
 
-  if (req.query.id == file) {
-    res.end(req.site.robotsTxt);
+  if (file != '' && req.query.id == file) {
+    res.end(req.site.yandexWebmasterTxt);
   } else {
     res.status(404).end('Sorry!' + file);
   }
