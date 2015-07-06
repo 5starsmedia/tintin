@@ -78,7 +78,7 @@ async.auto({
     });
   }],
   'updateArticle': ['mongoConnection', 'site', function(next, data) {
-    app.models.products.find({ 'site._id': data.site._id }, function (err, rows) {
+    app.models.posts.find({ 'site._id': data.site._id }, function (err, rows) {
       if (err) throw err;
       async.each(rows, _.partial(updateArticle, data.site), next);
     });
