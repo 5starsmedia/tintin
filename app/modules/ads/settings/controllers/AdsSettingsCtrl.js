@@ -9,7 +9,8 @@ class AdsSettingsCtrl {
       { id: 'before-post', title: 'Перед текстом' },
       { id: 'in-text', title: 'В тексте' },
       { id: 'after-post', title: 'После текста' },
-      { id: 'header', title: 'В шапке' }
+      { id: 'header', title: 'В шапке' },
+      { id: 'footer', title: 'Вконце сайта' }
     ];
 
     var loadData = () => {
