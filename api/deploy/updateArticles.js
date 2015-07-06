@@ -43,9 +43,6 @@ async.auto({
     mongoose.set('debug', false);
   }],
   'updateArticle': ['mongoConnection', function (next) {
-    app.services.tasks.start();
-    app.services.states.start();
-
     app.services.mq.push(app, 'events', {name: 'posts.keywords'}, next);
   }]
 }, function (err, data) {
