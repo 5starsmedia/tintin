@@ -360,3 +360,5 @@ exports.stop = function (cb) {
     }
   ], cb);
 };
+
+exports.app = app;
