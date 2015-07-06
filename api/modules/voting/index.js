@@ -1,6 +1,8 @@
 'use strict';
 
-var nestedSet = require('../../middleware/nestedSet.js');
+var nestedSet = require('../../middleware/nestedSet.js'),
+  _ = require('lodash'),
+  async = require('async');
 
 function VotingModule(app) {
   this.app = app;
@@ -11,22 +13,7 @@ VotingModule.prototype.initModels = function () {
 };
 
 VotingModule.prototype.initRoutes = function () {
-
-  var self = this;
-  this.app.services.broadcast.on('socket:send.vote', function (data) {
-
-    console.info(data);
-
-    async.auto({
-      'poll': function (next) {
-        self.app.models.polls.findById(msg.body._id, next);
-      }
-    }, function (err, res) {
-      if (err) { return cb(err); }
-      res.account.save(cb);
-    });
-
-  });
+  this.app.server.use('/api/polls', require('./routes/polls.js'));
 };
 
 module.exports = VotingModule;

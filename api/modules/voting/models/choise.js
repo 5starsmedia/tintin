@@ -2,17 +2,14 @@
 
 var mongoose = require('mongoose');
 
-var voteSchema = new mongoose.Schema({
-  ip: String,
-  createDate: {type: Date, required: true, default: Date.now}
-});
+var voteSchema = require('./vote.js');
 
 var schema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   title: {type: String, required: true},
   body: String,
 
-  votes: [voteSchema],
+  voteCount: {type: Number, required: true, default: 0},
 
   coverFile: {
     _id: mongoose.Schema.Types.ObjectId,

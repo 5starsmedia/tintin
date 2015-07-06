@@ -3944,6 +3944,10 @@ body.constructor #wrapper {
 .nodes-select .node.active .node-descr {
   color: #fff;
 }
+.cke_contents a {
+  color: #3498db;
+  text-decoration: underline;
+}
 html {
   overflow-x: visible !important;
 }

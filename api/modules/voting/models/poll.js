@@ -1,7 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  choiceSchema = require('./choise.js');
+  choiceSchema = require('./choise.js'),
+  voteSchema = require('./vote.js');
 
 var schema = new mongoose.Schema({
   title: {type: String, required: true},
@@ -16,6 +17,10 @@ var schema = new mongoose.Schema({
   },
 
   choices: [choiceSchema],
+  votes: [voteSchema],
+
+  voteCount: {type: Number, required: true, default: 0},
+  voterCount: {type: Number, required: true, default: 0},
 
   viewsCount: {type: Number, required: true, default: 0},
   createDate: {type: Date, required: true, default: Date.now},
