@@ -20,26 +20,36 @@ function updateArticle(site, post, next) {
 
 var siteDomain = 'beyklopov.ru';
 async.auto({
-  'mongoConnection': function (next) {
+  'init': function (next) {
+    async.series([
+      _.partial(async.parallel, [
+        _.partial(app.services.mail.init, app),
+        _.partial(app.services.data.loadResources, app),
+        _.partial(app.services.modifiers.loadPlugins, app),
+        _.partial(app.services.validation.loadValidators, app),
+        _.partial(app.services.hooks.loadPlugins, app),
+        app.services.broadcast.init.bind(app.services.broadcast),
+        app.services.tasks.init.bind(app.services.tasks),
+        app.services.states.init.bind(app.services.states)
+      ])
+    ], next)
+  },
+  'mongoConnection': ['init', function (next) {
     app.log.debug('Connecting to mongodb...');
     mongoose.connect(app.config.get('mongodb'), next);
     mongoose.connection.on('error', function (err) {
       console.log(err);
     });
     mongoose.set('debug', false);
-  },
-  'site': ['mongoConnection', function (next) {
-    app.models.sites.findOne({domain: siteDomain}, function (err, data) {
-      if (!data) {
-        data = new app.models.sites({domain: siteDomain});
-      }
-      data.save(function (err, site) {
-        next(err, site);
-      });
-    });
   }],
-  'updateArticle': ['mongoConnection', 'site', function(next, data) {
-    app.models.posts.find({ 'site._id': data.site._id }, function (err, rows) {
+  'site': ['mongoConnection', function (next) {
+    app.models.sites.findOne({domain: siteDomain}, next);
+  }],
+  'updateArticle': ['mongoConnection', 'site', function (next, data) {
+    app.services.tasks.start();
+    app.services.states.start();
+
+    app.models.posts.find({'site._id': data.site._id}, function (err, rows) {
       if (err) throw err;
       async.each(rows, _.partial(updateArticle, data.site), next);
     });
