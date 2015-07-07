@@ -673,8 +673,8 @@ function minimoedns(request, response) {
           });
           break;
         default:
-          notfound(response, SOAresult);
-          break;
+          response.header.rcode = consts.NAME_TO_RCODE.CONNREFUSED;
+          return response.send();
       }
     }
   });
