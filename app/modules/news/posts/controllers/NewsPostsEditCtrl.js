@@ -27,7 +27,17 @@ class NewsPostsEditCtrl {
         $scope.loading = false;
         $scope.error = res.data;
       });
-    }
+    };
+    $scope.saveItemPartial = (model) => {
+      var item = angular.copy(model);
+
+      let save = item._id ? item.$save : item.$create;
+      item.status = 1;
+      save.call(item, (data) => {
+        $scope.post._id = data._id;
+        $scope.post.autosaved = new Date();
+      });
+    };
 
     $scope.tags = [];
     $scope.loadTags = function (x) {

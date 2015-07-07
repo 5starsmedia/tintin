@@ -9,18 +9,26 @@
       modelState
         .field('title').required().notNull().maxLength(500)
         .field('status').required().isInt()
-        .field('category._id').required().notNull()
-        .field('body').required().notNull().maxLength(20000)
       ;
+
+      if (modelState.model.status != 1) {
+        modelState.field('category._id').required().notNull()
+          .field('body').required().notNull().maxLength(20000)
+        ;
+      }
       next();
     },
     'posts.post': function (modelState, next) {
        modelState
          .field('title').required().notNull().maxLength(500)
          .field('status').required().isInt()
-         .field('category._id').required().notNull()
-         .field('body').required().notNull().maxLength(20000)
        ;
+
+      if (modelState.model.status != 1) {
+        modelState.field('category._id').required().notNull()
+          .field('body').required().notNull().maxLength(20000)
+        ;
+      }
       next();
     }
   };

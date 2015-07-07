@@ -87,9 +87,11 @@ exports['put.posts'] = function (req, data, cb) {
         }
       }
 
-      data['category.alias'] = res.category.alias;
-      if (res.category.parentAlias) {
-        data['category.parentAlias'] = res.category.parentAlias;
+      if (res.category) {
+        data['category.alias'] = res.category.alias;
+        if (res.category.parentAlias) {
+          data['category.parentAlias'] = res.category.parentAlias;
+        }
       }
       if (data.published) {
         data.publishDate = res.post.publishDate || new Date();

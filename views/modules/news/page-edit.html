@@ -1,7 +1,10 @@
 <div>
 
 
-<st-form model="post" state="error" submit="saveItem(post)">
+<st-form model="post" state="error" submit="saveItem(post)"
+         auto-save="saveItemPartial(post)"
+         auto-save-mode="interval"
+         auto-save-interval="5000">
 
 <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
     <div class="hpanel" bz-loading-container="loading">
