@@ -34,6 +34,10 @@ class NewsPostsEditCtrl {
       let save = item._id ? item.$save : item.$create;
       item.status = 1;
       save.call(item, (data) => {
+        notify({
+          message: $filter('translate')('Auto saved!'),
+          classes: 'alert-success'
+        });
         $scope.post._id = data._id;
         $scope.autosaved = new Date();
       });
