@@ -33,6 +33,8 @@ class NewsPostsEditCtrl {
 
       let save = item._id ? item.$save : item.$create;
       item.status = 1;
+      delete item.viewsCount;
+      delete item.commentsCount;
       save.call(item, (data) => {
         notify({
           message: $filter('translate')('Auto saved!'),
