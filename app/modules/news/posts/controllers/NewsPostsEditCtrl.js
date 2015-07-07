@@ -35,7 +35,7 @@ class NewsPostsEditCtrl {
       item.status = 1;
       save.call(item, (data) => {
         $scope.post._id = data._id;
-        $scope.post.autosaved = new Date();
+        $scope.autosaved = new Date();
       });
     };
 
