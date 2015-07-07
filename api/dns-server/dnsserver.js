@@ -674,7 +674,7 @@ function minimoedns(request, response) {
           break;
         default:
           response.header.rcode = consts.NAME_TO_RCODE.CONNREFUSED;
-          return response.cancel();
+          return response.send();
       }
     }
   });
