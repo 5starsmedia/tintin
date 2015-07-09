@@ -33,7 +33,7 @@ export default
           var query = {
             collectionName: $scope.collectionName,
             resourceId: $scope.resourceId,
-            isPublished: true,
+            //isPublished: true,
             sort: '-createDate',
             perPage: 3000,
             page: 1
