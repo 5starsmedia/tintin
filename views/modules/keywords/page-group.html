@@ -15,7 +15,7 @@
               </a>
 
               <h2 class="font-light m-b-xs">
-                <a ui-sref="keywords.projectEdit({ id: project._id })">{{project.title}}</a> >
+                <a ui-sref="keywords.projectView({ id: project._id })">{{project.title}}</a> >
                 <span>{{group.title}}</span>
               </h2>
 
@@ -114,6 +114,10 @@
                 <br/><br/><br/>
               </div>
             </div>
+            <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('inwork')"
+                    class="btn btn-primary pull-right">In work
+            </button>
+
             <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('finded')"
                     class="btn btn-primary">Back
             </button>
@@ -121,6 +125,14 @@
           </div>
 
           <div ng-if="group.status && group.status == 'finded'">
+
+
+            <st-form-element label="{{'Body'|translate}}" field="group.result.text">
+
+              <textarea id="text" class="form-control" name="text" ckeditor="editorOptions"
+                        ng-model="group.result.text"></textarea>
+
+            </st-form-element>
 
             <table class="table table-condensed">
               <tr>
@@ -263,6 +275,22 @@
         </div>
       </div>
 
+
+
+      <div class="hpanel">
+
+        <div class="panel-heading">
+          {{'Comments'|translate}}
+        </div>
+
+        <div class="panel-body">
+
+          <div comments-box collection-name="keywordGroups" place-holder="Комментарий..." resource-id="{{group._id}}"></div>
+
+        </div>
+
+
+      </div>
 
     </div>
 

@@ -18,8 +18,12 @@ import CommentsCommentsCtrl from './controllers/CommentsCommentsCtrl.js';
 module.controller('CommentsCommentsCtrl', CommentsCommentsCtrl);
 
 import commentsForResource from './directives/commentsForResource.js';
+import commentsBox from './directives/commentsBox.js';
+import commentsSend from './directives/commentsSend.js';
 
 module.directive('commentsForResource', commentsForResource);
+module.directive('commentsBox', commentsBox);
+module.directive('commentsSend', commentsSend);
 
 // config
 module.config(function ($stateProvider) {

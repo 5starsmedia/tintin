@@ -31,8 +31,10 @@ class NewsPostsEditCtrl {
     $scope.saveItemPartial = (model) => {
       var item = angular.copy(model);
 
+      if (item.status != 1) {
+        return;
+      }
       let save = item._id ? item.$save : item.$create;
-      item.status = 1;
       delete item.viewsCount;
       delete item.commentsCount;
       save.call(item, (data) => {

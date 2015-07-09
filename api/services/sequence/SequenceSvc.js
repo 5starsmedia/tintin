@@ -12,6 +12,7 @@ SequenceSvc.prototype.getNext = function (name, next) {
     {upsert: true},
     function (err, counter) {
       if (err) { return next(err); }
+      if (!counter) { return next(null, 1); }
       next(null, counter.value);
     });
 };

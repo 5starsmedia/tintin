@@ -1,0 +1,40 @@
+<div bz-loading-container="loading">
+
+
+    <st-form model="comment" state="error" submit="postComment(comment)">
+
+    <!--div class="row">
+        <div class="col-sm-6">
+            <st-form-element field="title">
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="md md-person"></i></span>
+                    <input id="title" class="form-control" name="title" type="text" placeholder="Имя" required ng-model="comment.title"/>
+                </div>
+
+            </st-form-element>
+        </div>
+        <div class="col-sm-6">
+            <st-form-element field="email">
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="md md-email"></i></span>
+                    <input id="email" class="form-control" name="email" type="text" placeholder="E-mail" ng-model="comment.email"/>
+                </div>
+
+            </st-form-element>
+        </div>
+    </div-->
+
+    <div class="c-compact__send-box-wrap">
+
+        <st-form-element field="text">
+
+            <textarea type="text" placeholder="{{placeHolder}}" rows="3" class="form-control" ng-model="comment.text"></textarea>
+
+        </st-form-element>
+    </div>
+
+    <button class="btn btn-primary" type="submit" ng-disabled="!isSendEnabled()">Отправить</button>
+    </st-form>
+</div>

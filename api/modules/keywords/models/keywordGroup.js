@@ -7,7 +7,14 @@ var schema = new mongoose.Schema({
   title: {type: String, required: true},
   keywords: {type: String, required: true},
 
-  status: {type: String, default: 'new', enum: ['new', 'inprocess', 'scaned', 'finded', 'completed']},
+  status: {type: String, default: 'new', enum: [
+    'new',
+    'inprocess',
+    'scaned',
+    'finded',
+    'completed',
+    'inwork' // видно у редактора
+  ]},
 
   project: {
     _id: mongoose.Schema.Types.ObjectId,
@@ -16,6 +23,12 @@ var schema = new mongoose.Schema({
   createDate: {type: Date, required: true, default: Date.now},
 
   result: {
+    text: String,
+    account: {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String
+    },
+    dueDate: Date,
     urls: [{
       url: String,
       count: Number,

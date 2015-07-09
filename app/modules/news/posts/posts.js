@@ -61,7 +61,7 @@ module.config(function ($stateProvider) {
             isAllowComments: true,
             //own_photo: false,
             //user_id: bzUser.id,
-            status: 4,
+            status: 1,
             //publish_date: date
           }));
           return defer.promise;

@@ -23,6 +23,8 @@ let module = angular.module(appName, [
 });
 
 
+import stAvatar from './directives/stAvatar/stAvatar.js';
+
 import stForm from './directives/stForm/stForm.js';
 import stFormElement from './directives/stFormElement/stFormElement.js';
 import stTreeSelect from './directives/stTreeSelect/stTreeSelect.js';
@@ -34,6 +36,8 @@ import csFilesList from './directives/stFileUpload/csFilesList.js';
 import csSingleFileUpload from './directives/stFileUpload/csSingleFileUpload.js';
 
 import stSyncScroll from './directives/stSyncScroll/stSyncScroll.js';
+
+module.directive('stAvatar', stAvatar);
 
 module.directive('stForm', stForm)
       .directive('stFormElement', stFormElement)

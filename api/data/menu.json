@@ -54,9 +54,21 @@
     "permissions": ["comments"]
   },
   {
-    "sref": "keywords.projects",
+    "sref": "keywords",
     "title": "Keywords",
-    "permissions": ["keywords"]
+    "permissions": [["keywords.projects"], ["keywords.specifications"]],
+    "items": [
+      {
+        "sref": "keywords.projects",
+        "title": "List of projects",
+        "permissions": ["keywords.projects"]
+      },
+      {
+        "sref": "keywords.specifications",
+        "title": "List of specifications",
+        "permissions": ["keywords.specifications"]
+      }
+    ]
   },
   {
     "sref": "users",

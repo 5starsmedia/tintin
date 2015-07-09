@@ -36,8 +36,12 @@
     "title": "comments"
   },
   {
-    "name": "keywords",
-    "title": "keywords"
+    "name": "keywords.projects",
+    "title": "keywords.projects"
+  },
+  {
+    "name": "keywords.specifications",
+    "title": "keywords.specifications"
   },
   {
     "name": "users",

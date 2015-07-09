@@ -1,8 +1,7 @@
 <div id="navigation" ng-controller="UsersProfileBlockCtrl">
     <div class="profile-picture">
-        <a class="b-profile__block m-b" ui-sref="profile.user.info({ username: _account.username })">
-            <img ng-show="_account.imageUrl" ng-src="{{_account.imageUrl}}" class="img-circle" />
-            <span class="b-profile__icon pe-7s-id"></span>
+        <a ui-sref="profile.user.info({ username: _account.username })">
+            <st-avatar account="_account"></st-avatar>
         </a>
 
         <div class="stats-label text-color">
@@ -43,8 +42,10 @@
                 <span class="nav-label">{{item.title}}</span>
                 <span ng-if="item.items.length" class="fa arrow"></span>
             </a>
-            <ul ng-show="$state.includes(item.sref) || item.items.length && item.$expand" class="nav nav-second-level" ng-class="{in: $state.includes(item.sref)}">
-                <li ui-sref-active="active" ng-repeat="subitem in item.items">
+            <ul ng-show="$state.includes(item.sref) || item.items.length && item.$expand"
+                class="nav nav-second-level" ng-class="{in: $state.includes(item.sref)}">
+                <li ui-sref-active="active" ng-repeat="subitem in item.items"
+                    ng-if="_account.has(subitem.permissions)">
                     <a ui-sref="{{subitem.sref}}">{{subitem.title}}</a>
                 </li>
             </ul>

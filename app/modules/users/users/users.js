@@ -17,6 +17,10 @@ import UsersUserCreateCtrl from './controllers/UsersUserCreateCtrl.js';
 module.controller('UsersUserListCtrl', UsersUserListCtrl);
 module.controller('UsersUserCreateCtrl', UsersUserCreateCtrl);
 
+import usersSelectBox from './directives/usersSelectBox.js';
+
+module.directive('usersSelectBox', usersSelectBox);
+
 // config
 module.config(function ($stateProvider) {
   $stateProvider

@@ -17,7 +17,7 @@ export default
     });
 
     resource.prototype.has = function() {
-      return basePermissionsSet.hasPermission.call(basePermissionsSet, arguments);
+      return basePermissionsSet.hasPermission.apply(basePermissionsSet, arguments);
     };
     return resource;
   }

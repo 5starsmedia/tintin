@@ -4,6 +4,8 @@
     </div>
     <div class="card-body card-padding">
 
+        <div ng-bind-html="group.result.text"></div>
+
         <p>
             <strong>Text lenght:</strong>
             {{group.recomendation.minTextLength}}-{{group.recomendation.maxTextLength}}

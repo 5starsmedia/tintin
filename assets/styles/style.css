@@ -4066,6 +4066,9 @@ body.modal-open .content {
 #menu {
   top: 0;
 }
+[date-picker] th {
+  padding: 4px 0;
+}
 .projects .project-label {
   font-weight: 600;
 }

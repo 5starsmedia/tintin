@@ -1,65 +1,21 @@
 export default
-class KeywordsGroupEditCtrl {
+class KeywordsSpecificationViewCtrl {
   /*@ngInject*/
-  constructor($scope, $state, project, group, notify, $filter, KeywordsUrlPreview, $timeout) {
-    $scope.project = project;
+  constructor($scope, $state, group, notify, $filter) {
     $scope.group = group;
-
-    $scope.keywords = (group.keywords || '').split("\n");
-
-    $scope.getLink = () => {
-      return location.origin + '/preview/keyword-group/' + group._id;
-    };
-
-    $scope.runScan = () => {
-      $scope.loadingScan = true;
-      group.$runScan(() => {
-        $scope.loadingScan = false;
-      }, (err) => {
-        $scope.loadingScan = false;
-        if (err.status == 400) {
-          $scope.error = err.data.msg;
-
-          $timeout(() => {
-            $scope.error = null;
-          }, 4000)
-        }
-      });
-    };
 
     $scope.back = (status) => {
       $scope.loading = true;
       group.status = status;
       group.$save((data) => {
         $scope.loading = false;
-        if (status == 'inwork') {
+        if (status == 'completed') {
           notify({
-            message: $filter('translate')('Group submitted to the work!'),
+            message: $filter('translate')('Group back!'),
             classes: 'alert-success'
           });
-          $state.go('^.projectView', { id: project._id });
+          $state.go('^.specifications');
         }
-      }, (err) => {
-        $scope.loading = false;
-      });
-    };
-
-    $scope.nextStep = () => {
-      $scope.loading = true;
-
-      if (group.status == 'finded') {
-        group.status = 'completed';
-      }
-      group.$save(() => {
-        if (group.status == 'completed') {
-          $scope.loading = false;
-          return;
-        }
-        group.$scanKeywords(() => {
-          $scope.loading = false;
-        }, (err) => {
-          $scope.loading = false;
-        });
       }, (err) => {
         $scope.loading = false;
       });
@@ -71,26 +27,15 @@ class KeywordsGroupEditCtrl {
       save.call(item, (data) => {
         $scope.loading = false;
         notify({
-          message: $filter('translate')('Group saved!'),
+          message: $filter('translate')('Specifications saved!'),
           classes: 'alert-success'
         });
-        $state.go('^.groupEdit', { id: data._id, projectId: project._id });
+        $state.go('^.specifications');
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;
       });
     };
-
-    $scope.activeUrl = null;
-    $scope.previewUrl = (url) => {
-      $scope.activeUrl = url;
-      $scope.loadingPreview = true;
-      KeywordsUrlPreview.getPreview({ url: url }, (data) => {
-        $scope.loadingPreview = false;
-        $scope.parsedData = data;
-      });
-    }
-
 
     $scope.editorOptions = {
       language: 'ru',
