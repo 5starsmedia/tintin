@@ -10,7 +10,7 @@ export default
         height: '@'
       },
       templateUrl: 'app/theme/directives/stAvatar/stAvatar.html',
-      controller: function ($scope) {
+      controller: /*@ngInject*/ function ($scope) {
       if (!$scope.width) {
         $scope.width = 200;
       }
