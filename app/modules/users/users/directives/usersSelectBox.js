@@ -8,7 +8,7 @@ export default
       scope: {
         'account': '='
       },
-      controller: ($scope, UserAccountModel) => {
+      controller: /*@ngInject*/ ($scope, UserAccountModel) => {
         $scope.loading = true;
         UserAccountModel.query({ page: 1, perPage: 100, fields: 'title,coverFile,imageUrl' }, function (res, headers) {
           $scope.loading = false;
