@@ -94,8 +94,8 @@
 
             <st-form-element label="{{'Due date'|translate}}" field="group.result.dueDate">
 
-              <div ng-if="group.result.dueDate" date-picker="group.result.dueDate" view="minutes"></div>
-              <div ng-if="!group.result.dueDate" date-picker="group.result.dueDate"></div>
+              <div ng-if="group.result.dueDate" date-picker="group.result.dueDate" min-view="date" view="date"></div>
+              <div ng-if="!group.result.dueDate" date-picker="group.result.dueDate" min-view="date"></div>
 
             </st-form-element>
 
