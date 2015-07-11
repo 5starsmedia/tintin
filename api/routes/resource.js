@@ -204,7 +204,8 @@ function processPost(model, fieldsObj, req, res, next) {
             domain: req.site.domain
           };
         }
-        model.create(body, function (err, obj) {
+        var item = new model(body);
+        item.save(function (err, obj) {
           if (err) {
             return next(err);
           }

@@ -8,6 +8,8 @@ function authAsAccount(account, role, req, res, next) {
   req.auth.account = account;
   req.auth.role = role;
   req.auth.permissions = _.pluck(role.permissions, 'name');
+
+  req.app.contextService.set('request:account', account);
   next();
 }
 

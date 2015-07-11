@@ -1,9 +1,10 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  autoIncrement = require("../../../models/plugin/autoincrement.js");
+  autoIncrement = require("../../../models/plugin/autoincrement.js"),
+  createdBy = require("../../../models/plugin/createdBy.js");
 
-var postSchema = new mongoose.Schema({
+var schema = new mongoose.Schema({
   id: Number,
 
   // тип публікації
@@ -86,7 +87,6 @@ var postSchema = new mongoose.Schema({
       title: String
     }
   },
-  createdBy: mongoose.Schema.Types.ObjectId,
 
   category: {
     _id: mongoose.Schema.Types.ObjectId,
@@ -116,6 +116,8 @@ var postSchema = new mongoose.Schema({
   collection: 'posts'
 });
 
-postSchema.index({createDate: 1});
+schema.index({createDate: 1});
 
-module.exports = mongoose.model('Post', postSchema);
+schema.plugin(createdBy);
+
+module.exports = mongoose.model('Post', schema);

@@ -118,6 +118,12 @@
                     </div>
                     <div class="panel-body">
 
+                        <st-form-element label="{{'Author'|translate}}" field="account">
+
+                            <users-select-box account="post.account"></users-select-box>
+
+                        </st-form-element>
+
                         <st-form-element label="{{'Category'|translate}}" field="category._id">
 
                             <select ng-model="post.category._id" st-tree-select="categories" class="form-control" name="category" required></select>
@@ -188,10 +194,9 @@
                     <div class="panel-body">
 
                         <st-checklist-item label="{{'Write article title'|translate}}"
-                                           description="{{'Title must be at least 100 symbols'|translate}}"
+                                           description="{{'Title must be at least 100 symbols' |translate}}"
                                            warning-description="{{'Title must have at least 6 words'|translate}}"
-                                           success="countWords(post.title) >= 6"
-                                           warning="post.title.length"></st-checklist-item>
+                                           success="countWords(post.title)>=6" warning="post.title.length"></st-checklist-item>
 
                         <st-checklist-item label="{{'Upload images'|translate}}"
                                            description="{{'Title must be at least 100 symbols'|translate}}"

@@ -22,6 +22,7 @@ var gulp = require('gulp'),
   htmlify = require('gulp-angular-htmlify'),
   ngAnnotate = require('gulp-ng-annotate'),
   replace = require('gulp-replace'),
+  extractTranslate = require('gulp-angular-translate-extractor'),
   url = require('url'),
   fs = require('fs'),
   urlRewrite = function (rootDir, indexFile) {
@@ -174,8 +175,27 @@ gulp.task('usemin', ['build-persistent', 'concat'], function () {
 });
 
 
+gulp.task('translate', function() {
+  var i18ndest = 'locale';
+  return gulp.src([
+    'index.html',
+    'views/**/*.html',
+    'app/**/*.js'
+  ])
+    .pipe(extractTranslate({
+      defaultLang: 'en-US',         // default language
+      lang: ['en-US', 'ru-RU'],   // array of languages
+      dest: i18ndest,             // destination
+      safeMode: false,            // do not delete old translations, true - contrariwise
+      stringifyOptions: true,     // force json to be sorted, false - contrariwise
+    }))
+    .pipe(gulp.dest(i18ndest));
+});
+
 gulp.task('watch', ['build-persistent'], function () {
   gulp.watch(config.assetsDir + 'less/**/*.less', ['less']);
+
+  gulp.watch(['index.html','views/**/*.html','app/**/*.js'], ['translate']);
 
   var proxyOptions = url.parse('http://localhost:8080/api');
   proxyOptions.route = '/api';

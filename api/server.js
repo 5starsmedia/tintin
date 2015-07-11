@@ -24,7 +24,8 @@ var express = require('express'),
   sequence = require('./services/sequence'),
   broadcast = require('./services/broadcast'),
   socket = require('./services/socket'),
-  config = require('./config.js');
+  config = require('./config.js'),
+  contextService = require('request-context');
 //robots = require('robots.txt'),
 //sm = require('sitemap');
 
@@ -32,6 +33,9 @@ var app = {};
 app.log = require('./log.js');
 app.server = express();
 app.config = config;
+
+app.contextService = contextService;
+app.server.use(contextService.middleware('request')); // for createdBy plugin
 
 app.models = require('./models');
 var PostsModule = require('./modules/posts'),
@@ -255,6 +259,9 @@ app.server.use(function (err, req, res, next) {
         r.fieldErrors = [{field: err.field, msg: err.msg}];
       } else {
         r.summaryErrors = [{msg: err.msg}];
+      }
+      if (err.errors) {
+        r.errors = err.errors;
       }
       return res.status(422).json(r);
     } else if (err.name === app.errors.OperationError.name) {
