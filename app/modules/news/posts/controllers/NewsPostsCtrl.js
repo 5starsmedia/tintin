@@ -1,26 +1,27 @@
 export default
 class NewsPostsCtrl {
   /*@ngInject*/
-  constructor($scope, $window, NewsPostModel, BaseAPIParams, NgTableParams, NewsCategoryModel) {
+  constructor($scope, $location, $q, NewsPostModel, BaseAPIParams, NgTableParams, NewsCategoryModel, UserAccountModel) {
 
     NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
       $scope.category = data;
     });
 
-    $scope.tableParams = new NgTableParams({
+    $scope.tableParams = new NgTableParams(angular.extend({
       page: 1,
       count: 10,
       sorting: {
         createDate: 'desc'
       }
-    }, {
+    }, $location.search()), {
       groupBy: function(item) {
         return item.getDate();
       },
       getData: function ($defer, params) {
-        console.info(params.filter())
+        $location.search(params.url());
+
         $scope.loading = true;
-        NewsPostModel.query(BaseAPIParams({ fields: 'title,likesCount,viewsCount,status,createDate,account,seo,publishedDate' }, params), function (logs, headers) {
+        NewsPostModel.query(BaseAPIParams({ fields: 'title,likesCount,viewsCount,status,createDate,account,seo,createdBy,publishedDate' }, params), function (logs, headers) {
           $scope.loading = false;
           $scope.logs = logs;
           $defer.resolve(logs);
@@ -36,6 +37,23 @@ class NewsPostsCtrl {
 
         $scope.tableParams.reload();
       })
+    };
+
+    $scope.users = function($column) {
+      var defer = $q.defer();
+
+      UserAccountModel.query({ page:1, perPage: 100, fields: 'title'}, function(res) {
+        var data = [];
+        angular.forEach(res, function(item) {
+          data.push({
+            id: item._id,
+            title: item.title
+          });
+        });
+        defer.resolve(data);
+      });
+
+      return defer;
     };
   }
 }

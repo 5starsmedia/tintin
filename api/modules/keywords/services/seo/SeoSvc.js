@@ -2,7 +2,6 @@
 
 var async = require('async'),
   request = require('request'),
-  cheerio = require('cheerio'),
   _ = require('lodash');
 
 function SeoSvc(app) {

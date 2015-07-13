@@ -53,15 +53,20 @@ angular.module(appName, [
   .config(config)
 
   // redirect on 404 where no route
-  .run(function($rootScope, $state) {
+  .run(function($rootScope, $state, $http) {
     $rootScope.$state = $state;
     $rootScope.$on('$stateChangeError', function(event) {
       $state.go('cabinet.404');
     });
+
+    $rootScope.currentLocale = 'ru-RU';
+    $http.get('locale/' + $rootScope.currentLocale + '.json').success((data) => {
+      $rootScope.translates = data;
+    });
   })
 
   .run(function($rootScope, ngProgress) {
-    $('.splash').css('display', 'none')
+    $('.splash').css('display', 'none');
 
     ngProgress.color('#62cb31');
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {

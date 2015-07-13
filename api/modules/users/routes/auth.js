@@ -67,7 +67,7 @@ function assignToken(req, account, cb) {
 }
 
 function auth(req, res, account, next) {
-  pwd.hash(req.body.password, account.salt, function (err, hash) {
+  var checkHash = function(hash) {
     if (account.pwd === hash) {
       assignToken(req, account, function (err, token) {
         if (err) {
@@ -85,7 +85,6 @@ function auth(req, res, account, next) {
         });
       });
     } else {
-
       req.logRecord('login', 'Incorrect email or password', req.app.log_level.error, account, function (err) {
         if (err) {
           return next(err);
@@ -96,8 +95,18 @@ function auth(req, res, account, next) {
           ]
         });
       });
-
     }
+  };
+
+  // for news site @todo remove this
+  if (account.salt == '') {
+    var hash = crypto.createHash('sha512').update(req.body.password).digest('hex');
+    return checkHash(hash);
+  }
+  pwd.hash(req.body.password, account.salt, function (err, hash) {
+    if (err) { return next(err); }
+
+    checkHash(hash);
   });
 }
 

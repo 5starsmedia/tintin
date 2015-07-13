@@ -1,0 +1,49 @@
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <!--a href="" ng-click="reload()" class="btn btn-default btn-xs pull-right"><span class="fa fa-refresh"></span></a-->
+    <h3 class="panel-title">{{'Статистика авторов'|translate}}</h3>
+  </div>
+  <div class="panel-body" bz-loading-container="loading">
+
+    <table class="table">
+      <tr>
+        <th>{{'Автор'|translate}}</th>
+        <th>{{'Сегодня'|translate}}</th>
+        <th>{{'Вчера'|translate}}</th>
+        <th>{{'В этом месяце'|translate}}</th>
+        <th>{{'В прошлом месяце'|translate}}</th>
+        <th>{{'За все время'|translate}}</th>
+      </tr>
+      <tr ng-repeat="info in statistic">
+        <td class="table-preview">
+          <span class="name">
+            <st-avatar width="120" height="120" account="info.account"></st-avatar>
+
+            {{info.account.title}}
+          </span>
+        </td>
+        <td title="{{'Сегодня'|translate}}">
+          <span ng-if="info.today"><a ng-href="news?filter[createdBy._id]={{info.account._id}}">{{info.today}}</a></span>
+          <span ng-if="!info.today">-</span>
+        </td>
+        <td title="{{'Вчера'|translate}}">
+          <span ng-if="info.yesterday"><a ng-href="news?filter[createdBy._id]={{info.account._id}}">{{info.yesterday}}</a></span>
+          <span ng-if="!info.yesterday">-</span>
+        </td>
+        <td title="{{'В этом месяце'|translate}}">
+          <span ng-if="info.month"><a ng-href="news?filter[createdBy._id]={{info.account._id}}">{{info.month}}</a></span>
+          <span ng-if="!info.month">-</span>
+        </td>
+        <td title="{{'В прошлом месяце'|translate}}">
+          <span ng-if="info.prevMonth"><a ng-href="news?filter[createdBy._id]={{info.account._id}}">{{info.prevMonth}}</a></span>
+          <span ng-if="!info.prevMonth">-</span>
+        </td>
+        <td title="{{'За все время'|translate}}">
+          <span ng-if="info.all"><a ng-href="news?filter[createdBy._id]={{info.account._id}}">{{info.all}}</a></span>
+          <span ng-if="!info.all">-</span>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+</div>

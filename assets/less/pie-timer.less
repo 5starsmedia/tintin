@@ -1,0 +1,56 @@
+@pie-timer-size: 20px;
+@pie-timer-color: #d97572;
+
+small.timer {
+    color: #d97572;
+    font-weight: bold;
+}
+
+.bz-pie-timer {
+    position: relative;
+    font-size: 200px;
+    width: @pie-timer-size;
+    height: @pie-timer-size;
+    float: right;
+    margin-left: 5px;
+    margin-top: -2px;
+    border: 2px solid @pie-timer-color;
+    border-radius: 50%;
+
+    & > .slice {
+        position: absolute;
+        margin: -2px;
+        width: @pie-timer-size;
+        height: @pie-timer-size;
+        clip: rect(0, @pie-timer-size, @pie-timer-size, @pie-timer-size / 2);
+
+        &.gt50 {
+            clip: rect(auto, auto, auto, auto);
+        }
+        & > .pie {
+            position: absolute;
+            width: @pie-timer-size;
+            height: @pie-timer-size;
+            clip: rect(0, @pie-timer-size / 2, @pie-timer-size, 0);
+            -moz-border-radius: @pie-timer-size / 2;
+            -webkit-border-radius: @pie-timer-size / 2;
+            border-radius: @pie-timer-size / 2;
+
+            &.fill {
+                -moz-transform: rotate(180deg) !important;
+                -webkit-transform: rotate(180deg) !important;
+                -o-transform: rotate(180deg) !important;
+                transform: rotate(180deg) !important;
+            }
+        }
+    }
+    &.fill > .percent {
+        display: none;
+    }
+    &.fill > .slice > .pie {
+        border: transparent;
+        background-color: @pie-timer-color;
+        width: @pie-timer-size;
+        height: @pie-timer-size;
+    }
+}

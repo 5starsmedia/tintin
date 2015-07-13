@@ -219,11 +219,6 @@
   overflow: hidden;
 
   &__image {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
   }
 
   &__btn {
@@ -234,6 +229,7 @@
     top: 50%;
     margin-top: -20px;
     z-index: 10;
+    background: rgba(192, 192, 192, .75);
   }
 
   &_group {
@@ -258,7 +254,8 @@
 }
 
 .fu-single {
-  width: 200px;
-  height: 200px;
+  min-width: 150px;
+  min-height: 150px;
+  max-width: 100%;
   border: 1px solid #eee;
 }

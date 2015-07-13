@@ -18,6 +18,7 @@ var gulp = require('gulp'),
   imagemin = require('gulp-imagemin'),
   proxy = require('proxy-middleware'),
   copy = require('gulp-copy'),
+  angularTranslate = require('gulp-angular-translate'),
   templateCache = require('gulp-angular-templatecache'),
   htmlify = require('gulp-angular-htmlify'),
   ngAnnotate = require('gulp-ng-annotate'),
@@ -100,7 +101,7 @@ gulp.task('replace-base', ['usemin'], function(){
     .pipe(gulp.dest(config.outputDir));
 });
 
-gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'optimizeImages', 'replace-base'], function () {
+gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'optimizeImages', 'replace-base', 'less'], function () {
   process.exit(0);
 });
 
@@ -126,11 +127,11 @@ gulp.task('copyFavicon', ['clean'], function () {
 });
 
 gulp.task('less', function () {
-  return gulp.src(config.assetsDir + 'less/style.less')
+  return gulp.src(config.assetsDir + 'less/theme.less')
     .pipe(less({
       paths: [ path.join(__dirname, 'less', 'includes') ]
     }))
-    .pipe(gulp.dest(config.assetsDir + 'styles'));
+    .pipe(gulp.dest(config.assetsDir + 'css'));
 });
 
 gulp.task('compileTemplates', ['compileAppTemplates'], function () {
@@ -175,7 +176,7 @@ gulp.task('usemin', ['build-persistent', 'concat'], function () {
 });
 
 
-gulp.task('translate', function() {
+gulp.task('parseTranslate', function() {
   var i18ndest = 'locale';
   return gulp.src([
     'index.html',
@@ -190,6 +191,11 @@ gulp.task('translate', function() {
       stringifyOptions: true,     // force json to be sorted, false - contrariwise
     }))
     .pipe(gulp.dest(i18ndest));
+});
+gulp.task('translate', ['parseTranslate'], function() {
+  return gulp.src('locale/*.json')
+    .pipe(angularTranslate())
+    .pipe(gulp.dest('build/'));
 });
 
 gulp.task('watch', ['build-persistent'], function () {

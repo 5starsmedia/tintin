@@ -1,347 +1,348 @@
 <div>
 
 
-<st-form model="post" state="error" submit="saveItem(post)"
-         auto-save="saveItemPartial(post)"
-         auto-save-mode="interval"
-         auto-save-interval="30000">
+  <st-form model="post" state="error" submit="saveItem(post)"
+           auto-save="saveItemPartial(post)"
+           auto-save-mode="interval"
+           auto-save-interval="30000">
 
-<div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
-    <div class="hpanel" bz-loading-container="loading">
-        <div class="panel-body">
+    <div sticky
+         sticky-class="sticky-element"
+         body-class="sticky-enabled"
+         class="sticky-header" bz-loading-container="loading">
 
-            <div class="row">
-                <div class="col-lg-9">
+      <div class="row">
+        <div class="col-lg-9">
+          <h2 class="font-light m-b-xs">
+            <span ng-if="!post._id" style="line-height: 30px;">{{'New article'|translate}}</span>
+            <span ng-if="post._id">{{'Editing of article'|translate}}</span>
+          </h2>
 
-                    <a ui-sref="news.posts" class="back-btn">
-                        <span class="pe-7s-angle-left"></span>
-                    </a>
+          <!--small ng-if="post._id">
+              {{'Article created:'|translate}}
+              {{post.createDate|date:'dd.MM.yyyy'}}
+              {{'at'|translate}}
+              {{post.createDate|date:'HH:mm'}}
+          </small-->
 
-                    <h2 class="font-light m-b-xs">
-                        <span ng-if="!post._id" style="line-height: 30px;">{{'New article'|translate}}</span>
-                        <span ng-if="post._id">{{'Editing of article'|translate}}</span>
-                    </h2>
-
-                    <small ng-if="post._id">
-                        {{'Article created:'|translate}}
-                        {{post.createDate|date:'dd.MM.yyyy'}}
-                        {{'at'|translate}}
-                        {{post.createDate|date:'HH:mm'}}
-                    </small>
-
-                </div>
-                <div class="col-lg-3">
-
-                    <div class="form-actions">
-                        <a ng-href="/preview/posts/{{post._id}}" ng-if="post._id"
-                           class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left" tooltip="{{'Open on site'|translate}}" target="_blank">
-                            <span class="fa fa-external-link"></span>
-                        </a>
-                        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
-                            {{'Save'|translate}}
-                        </button>
-                        <a ui-sref="news.posts" class="btn btn-default">
-                            {{'Cancel'|translate}}
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
+        <div class="col-lg-3">
+
+          <div class="form-actions">
+            <a ng-href="/preview/posts/{{post._id}}" ng-if="post._id"
+               class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left"
+               tooltip="{{'Open on site'|translate}}" target="_blank">
+              <span class="fa fa-external-link"></span>
+            </a>
+            <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
+                    type="submit">
+              {{'Save'|translate}}
+            </button>
+            <a ui-sref="news.posts" class="btn btn-default">
+              {{'Cancel'|translate}}
+            </a>
+          </div>
+        </div>
+
+      </div>
     </div>
-</div>
 
-<div class="content" animate-panel effect="zoomIn">
+    <div class="content" animate-panel effect="zoomIn">
 
-        <div class="row">
-            <div class="col-lg-9">
+      <div class="row">
+        <div class="col-lg-9">
 
 
-                <tabset class="hpanel">
-                    <tab>
-                        <tab-heading>{{'Main information'|translate}}</tab-heading>
+          <tabset class="hpanel">
+            <tab>
+              <tab-heading>{{'Main information'|translate}}</tab-heading>
 
-                        <div class="panel-body">
-                            <st-form-element label="{{'Title'|translate}}" field="title">
+              <div class="panel-body">
+                <st-form-element label="{{'Title'|translate}}" field="title">
 
-                                <input id="title" class="form-control input-lg" name="title" type="text" required
-                                       ng-model="post.title"/>
+                  <input id="title" class="form-control input-lg" name="title" type="text" required
+                         ng-model="post.title"/>
 
-                            </st-form-element>
+                </st-form-element>
 
-                            <st-form-element label="{{'Alias'|translate}}" field="alias">
+                <st-form-element label="{{'Alias'|translate}}" field="alias" ng-if="post.postType != 'news'">
 
-                                <input class="form-control" name="alias" type="text" ng-model="post.alias"/>
+                  <input class="form-control" name="alias" type="text" ng-model="post.alias"/>
 
-                            </st-form-element>
+                </st-form-element>
 
-                            <st-form-element label="{{'Body'|translate}}" field="body">
+                <st-form-element label="{{'Body'|translate}}" field="body">
 
                                 <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
                                           ng-model="post.body"></textarea>
 
-                            </st-form-element>
-                        </div>
-                    </tab>
+                </st-form-element>
+              </div>
+            </tab>
 
-                    <tab ng-if="post._id">
-                        <tab-heading>{{'SEO'|translate}}</tab-heading>
+            <tab ng-if="post._id && post.postType != 'news'">
+              <tab-heading>{{'SEO'|translate}}</tab-heading>
 
-                        <div ng-include="'views/modules/news/page-seo.html'"></div>
-                    </tab>
+              <div ng-include="'views/modules/news/page-seo.html'"></div>
+            </tab>
 
-                    <tab ng-if="post._id">
-                        <tab-heading>
-                            {{'Comments'|translate}}
-                            <span class="label label-info" ng-if="post.commentsCount">{{post.commentsCount}}</span>
-                        </tab-heading>
+            <tab ng-if="post._id">
+              <tab-heading>
+                {{'Comments'|translate}}
+                <span class="label label-info" ng-if="post.commentsCount">{{post.commentsCount}}</span>
+              </tab-heading>
 
-                        <div class="panel-body">
-                            <div comments-for-resource="posts" resource-id="{{post._id}}"></div>
-                        </div>
-                    </tab>
+              <div class="panel-body">
+                <div comments-for-resource="posts" resource-id="{{post._id}}"></div>
+              </div>
+            </tab>
 
-                    <tab ng-if="post._id">
-                        <tab-heading>
-                            {{'Uniqueness'|translate}}
-                        </tab-heading>
+            <tab ng-if="post._id && post.postType != 'news'">
+              <tab-heading>
+                {{'Uniqueness'|translate}}
+              </tab-heading>
 
-                        <div ng-include="'views/modules/news/page-uniqueness.html'"></div>
-                    </tab>
-                </tabset>
+              <div ng-include="'views/modules/news/page-uniqueness.html'"></div>
+            </tab>
+          </tabset>
 
-            </div>
-            <div class="col-lg-3">
-
-                <div class="hpanel hblue">
-                    <div class="panel-heading">
-                        {{'Publication'|translate}}
-                    </div>
-                    <div class="panel-body">
-
-                        <st-form-element label="{{'Author'|translate}}" field="account">
-
-                            <users-select-box account="post.account"></users-select-box>
-
-                        </st-form-element>
-
-                        <st-form-element label="{{'Category'|translate}}" field="category._id">
-
-                            <select ng-model="post.category._id" st-tree-select="categories" class="form-control" name="category" required></select>
-
-                        </st-form-element>
-
-
-                        <st-form-element label="{{'Status'|translate}}" field="status">
-
-                            <select ng-model="post.status" class="form-control">
-                                <option value="4">{{'Published'|translate}}</option>
-                                <!--option value="6">Відкладена публікація</option-->
-                                <option value="2">{{'On moderation'|translate}}</option>
-                                <option value="1">{{'Draft'|translate}}</option>
-                            </select>
-
-                        </st-form-element>
-
-                        <!--st-form-element label="{{'Date of publishing'|translate}}" field="category.id"
-                                         ng-show="post.status == '6'">
-
-                            <div class="input-group date" style="margin-bottom: 5px">
-                                <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
-
-                                <input class="col-lg-4 form-control" size="16" type="text" data-date-format="dd.MM.yyyy"
-                                       data-date-start-view="0" data-date-type="number" data-min-date="today"
-                                       data-autoclose="1" bs-datepicker ng-model="post.publish_date" name="publish_date"
-                                       data-template="/themes/default/views/modules/news/edit/datepicker.html"/>
-
-                                <div ng-include="'/themes/default/views/modules/news/edit/datepicker.html'"></div>
-                            </div>
-
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                <input type="text" class="form-control" size="5" ng-model="post.publish_date"
-                                       name="time" bs-timepicker
-                                       data-template="/themes/default/views/modules/news/edit/timepicker.html">
-
-                            </div>
-
-                        </st-form-element-->
-
-
-                        <div class="form-group checkbox">
-                            <label>
-                                <input type="checkbox" ng-model="post.isTop"/>
-                                {{'Is top'|translate}}
-                            </label>
-                        </div>
-
-
-                        <div class="form-group checkbox">
-                            <label>
-                                <input type="checkbox" ng-model="post.isHighlight"/>
-                                {{'Is highlight'|translate}}
-                            </label>
-                        </div>
-
-                        <!--div ng-include="$config.templateUrl('views/modules/news/block-properties.html')()"></div-->
-                    </div>
-                </div>
-
-
-                <div class="hpanel hblue">
-                    <div class="panel-heading">
-                        {{'Checklist'|translate}}
-                    </div>
-                    <div class="panel-body">
-
-                        <st-checklist-item label="{{'Write article title'|translate}}"
-                                           description="{{'Title must be at least 100 symbols' |translate}}"
-                                           warning-description="{{'Title must have at least 6 words'|translate}}"
-                                           success="countWords(post.title)>=6" warning="post.title.length"></st-checklist-item>
-
-                        <st-checklist-item label="{{'Upload images'|translate}}"
-                                           description="{{'Title must be at least 100 symbols'|translate}}"
-                                           success="post.files.length"></st-checklist-item>
-
-                    </div>
-                </div>
-
-
-                <div class="hpanel">
-                    <div class="panel-heading">
-                        {{'Auto keywords'|translate}}
-                    </div>
-                    <div class="panel-body">
-
-                        <div ng-repeat="keyword in post.keywords">
-                            <strong>{{keyword.word}}</strong> - {{keyword.importance}}
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
         </div>
+        <div class="col-lg-3">
+
+          <st-panel is-primary="true" title="{{'Publication'|translate}}">
+
+            <st-form-element label="{{'Author'|translate}}" field="account">
+
+              <users-select-box account="post.account"></users-select-box>
+
+            </st-form-element>
+
+            <st-form-element label="{{'Category'|translate}}" field="category._id">
+
+              <select ng-model="post.category._id" st-tree-select="categories" class="form-control" name="category"
+                      required></select>
+
+            </st-form-element>
 
 
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <st-form-element label="{{'Status'|translate}}" field="status">
 
-                <div class="hpanel"
-                     ng-class="{'hred': !post.files.length, 'hyellow': post.files.length && !post.coverFile}">
-                    <div class="panel-heading">
-                        {{'Attached images'|translate}}
-                    </div>
-                    <div class="panel-body clearfix" editor-select-images="post.files">
+              <select ng-model="post.status" class="form-control">
+                <option value="4">{{'Published'|translate}}</option>
+                <option value="6">Відкладена публікація</option>
+                <option value="2">{{'On moderation'|translate}}</option>
+                <option value="1">{{'Draft'|translate}}</option>
+              </select>
 
-                        <div class="alert alert-danger" ng-if="!post.files.length">
-                            <span class="fa fa-picture-o"></span> {{'Upload one or more images'|translate}}
-                        </div>
-                        <div class="alert alert-warning" ng-if="post.files.length && !post.coverFile">
-                            <span class="fa fa-flag"></span> {{'Select the cover image'|translate}}
-                        </div>
+            </st-form-element>
 
-                        <div>
+            <st-form-element label="{{'Date of publishing'|translate}}" field="publishedDate"
+                             ng-show="post.status == '6'">
 
-                            <div class="checkbox">
-                                <label>
-                                    <input ng-model="post.ownPhoto" type="checkbox"/> {{'Own photos'|translate}}
-                                </label>
-                            </div>
+              <div ng-if="post.publishedDate" date-picker="post.publishedDate" view="minutes"></div>
+              <div ng-if="!post.publishedDate" date-picker="post.publishedDate" view="hours"></div>
 
-                            <div ng-if="post.ownPhoto" class="alert alert-info" ng-if="!post.files.length">
-                                <span class="fa fa-puzzle-piece"></span>
-                                {{'The photos will have watermark of website'|translate}}
-                            </div>
-                            <div ng-if="!post.ownPhoto">
-                                <st-form-element label="{{'Source of photo'|translate}}" field="photoSource">
+            </st-form-element>
 
-                                    <input type="text" id="cs-form-element-photoSource" class="form-control"
-                                           ng-model="post.photoSource"/>
 
-                                </st-form-element>
-                            </div>
-
-                            <hr/>
-
-                            <cs-file-upload resource-id="{{post._id}}" collection-name="posts" files="post.files"
-                                            cover-file="post.coverFile" has-cover-select="true">
-                            </cs-file-upload>
-                        </div>
-
-                    </div>
-                </div>
-
+            <div class="form-group">
+              <label>
+                <input icheck type="checkbox" ng-model="post.isTop"/>
+                {{'Is top'|translate}}
+              </label>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
-
-                <div class="hpanel">
-                    <div class="panel-heading">{{'Additional information'|translate}}</div>
-                    <div class="panel-body clearfix">
-
-                        <st-form-element label="{{'Tags'|translate}}" field="tags">
-
-                            <ui-select multiple tagging="toTag"
-                                       ng-model="post.tags" theme="bootstrap" sortable="true">
-                                <ui-select-match>{{$item.title}}</ui-select-match>
-                                <ui-select-choices repeat="item in tags"
-                                                   refresh="loadTags($select.search)" refresh-delay="100">
-                                    <div ng-bind-html="trustAsHtml((item.title | highlight: $select.search))"></div>
-                                </ui-select-choices>
-                            </ui-select>
-
-                        </st-form-element>
-
-
-                        <st-form-element label="{{'Source'|translate}}" field="title">
-
-                            <ui-select ng-model="post.source" theme="bootstrap" on-select="selectSource($item, $model)">
-                                <ui-select-match>{{$select.selected}}</ui-select-match>
-                                <ui-select-choices repeat="item in sources track by item.title"
-                                                   refresh="loadSources($select.search)" refresh-delay="100">
-                                    <div ng-bind-html="trustAsHtml((item.title | highlight: $select.search))"></div>
-                                </ui-select-choices>
-                            </ui-select>
-
-                        </st-form-element>
-
-                        <div class="form-group checkbox">
-                            <label>
-                                <input type="checkbox" ng-model="post.isAllowComments"/>
-                                {{'Allow comments'|translate}}
-                            </label>
-                        </div>
-
-                        <!--div class="form-group checkbox">
-                            <label>
-                                <input type="checkbox" ng-model="post.is_poll"/>
-                                {{'Прикрепить голосование'|translate}}
-                            </label>
-
-                            <div ng-if="post.is_poll">
-                                <select ng-model="post.poll_id" class="form-control">
-                                    <option value="{{poll.id}}" ng-repeat="poll in polls">{{poll.title}}</option>
-                                </select>
-                            </div>
-                        </div-->
-
-                    </div>
-                </div>
-
-                <div class="hpanel">
-                    <div class="panel-heading">
-                        {{'Meta tags'|translate}}
-                    </div>
-                    <div class="panel-body">
-
-                        <div base-meta-edit="post"></div>
-
-                    </div>
-                </div>
+            <div class="form-group">
+              <label>
+                <input icheck type="checkbox" ng-model="post.isHighlight"/>
+                {{'Is highlight'|translate}}
+              </label>
             </div>
+
+            <div class="form-group">
+              <label>
+                <input icheck type="checkbox" ng-model="post.isEditorChoose"/>
+                {{'Choose of editorship'|translate}}
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input icheck type="checkbox" ng-model="post.isInterview"/>
+                {{'Interview'|translate}}
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input icheck type="checkbox" ng-model="post.isAdvertising"/>
+                {{'Advertising'|translate}}
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input icheck type="checkbox" ng-model="post.isPoliticalAdvertising"/>
+                {{'Political Advertising'|translate}}
+              </label>
+            </div>
+
+            <!--div ng-include="$config.templateUrl('views/modules/news/block-properties.html')()"></div-->
+
+          </st-panel>
+
+
+          <!--div class="hpanel hblue">
+              <div class="panel-heading">
+                  {{'Checklist'|translate}}
+              </div>
+              <div class="panel-body">
+
+                  <st-checklist-item label="{{'Write article title'|translate}}"
+                                     description="{{'Title must be at least 100 symbols' |translate}}"
+                                     warning-description="{{'Title must have at least 6 words'|translate}}"
+                                     success="countWords(post.title)>=6" warning="post.title.length"></st-checklist-item>
+
+                  <st-checklist-item label="{{'Upload images'|translate}}"
+                                     description="{{'Title must be at least 100 symbols'|translate}}"
+                                     success="post.files.length"></st-checklist-item>
+
+              </div>
+          </div-->
+
+
+          <!--div class="hpanel">
+              <div class="panel-heading">
+                  {{'Auto keywords'|translate}}
+              </div>
+              <div class="panel-body">
+
+                  <div ng-repeat="keyword in post.keywords">
+                      <strong>{{keyword.word}}</strong> - {{keyword.importance}}
+                  </div>
+
+              </div>
+          </div-->
+
         </div>
+      </div>
 
-</div>
+      <br/>
 
-</st-form>
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+          <st-panel title="{{'Attached images'|translate}}" is-red="!post.files.length"
+                    is-yellow="post.files.length && !post.coverFile">
+
+            <div editor-select-images="post.files">
+
+              <div class="alert alert-danger" ng-if="!post.files.length">
+                <span class="fa fa-picture-o"></span> {{'Upload one or more images'|translate}}
+              </div>
+              <div class="alert alert-warning" ng-if="post.files.length && !post.coverFile">
+                <span class="fa fa-flag"></span> {{'Select the cover image'|translate}}
+              </div>
+
+              <div>
+
+                <div>
+                  <label>
+                    <input icheck ng-model="post.ownPhoto" type="checkbox"/> {{'Own photos'|translate}}
+                  </label>
+                </div>
+
+                <div ng-if="post.ownPhoto" class="alert alert-info" ng-if="!post.files.length">
+                  <span class="fa fa-puzzle-piece"></span>
+                  {{'The photos will have watermark of website'|translate}}
+                </div>
+                <div ng-if="!post.ownPhoto">
+                  <st-form-element label="{{'Source of photo'|translate}}" field="photoSource">
+
+                    <input type="text" id="cs-form-element-photoSource" class="form-control"
+                           ng-model="post.photoSource"/>
+
+                  </st-form-element>
+                </div>
+
+                <hr/>
+
+                <cs-file-upload resource-id="{{post._id}}" collection-name="posts" files="post.files"
+                                cover-file="post.coverFile" has-cover-select="true">
+                </cs-file-upload>
+              </div>
+
+            </div>
+          </st-panel>
+
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+
+          <st-panel title="{{'Additional information'|translate}}">
+
+            <st-form-element label="{{'Tags'|translate}}" field="tags">
+
+              <ui-select multiple tagging="toTag"
+                         ng-model="post.tags" theme="bootstrap" sortable="true">
+                <ui-select-match>{{$item.title}}</ui-select-match>
+                <ui-select-choices repeat="item in tags"
+                                   refresh="loadTags($select.search)" refresh-delay="100">
+                  <div ng-bind-html="trustAsHtml((item.title | highlight: $select.search))"></div>
+                </ui-select-choices>
+              </ui-select>
+
+            </st-form-element>
+
+
+            <st-form-element label="{{'Source'|translate}}" field="title">
+
+              <ui-select ng-model="post.source" theme="bootstrap" on-select="selectSource($item, $model)">
+                <ui-select-match>{{$select.selected}}</ui-select-match>
+                <ui-select-choices repeat="item in sources track by item.title"
+                                   refresh="loadSources($select.search)" refresh-delay="100">
+                  <div ng-bind-html="trustAsHtml((item.title | highlight: $select.search))"></div>
+                </ui-select-choices>
+              </ui-select>
+
+            </st-form-element>
+
+            <div class="form-group">
+              <label>
+                <input icheck type="checkbox" ng-model="post.isAllowComments"/>
+                {{'Allow comments'|translate}}
+              </label>
+            </div>
+
+            <!--div class="form-group checkbox">
+                <label>
+                    <input type="checkbox" ng-model="post.is_poll"/>
+                    {{'Прикрепить голосование'|translate}}
+                </label>
+
+                <div ng-if="post.is_poll">
+                    <select ng-model="post.poll_id" class="form-control">
+                        <option value="{{poll.id}}" ng-repeat="poll in polls">{{poll.title}}</option>
+                    </select>
+                </div>
+            </div-->
+
+          </st-panel>
+
+          <div class="hpanel" ng-if="post.postType != 'news'">
+            <div class="panel-heading">
+              {{'Meta tags'|translate}}
+            </div>
+            <div class="panel-body">
+
+              <div base-meta-edit="post"></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </st-form>
 </div>

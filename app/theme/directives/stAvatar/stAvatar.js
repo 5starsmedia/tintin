@@ -21,9 +21,18 @@ export default
       function getAvatar() {
         if ($scope.account) {
           if ($scope.account.coverFile && $scope.account.coverFile._id) {
-            return '/api/files/' + $scope.account.coverFile._id;//, {width: $scope.width, height: $scope.height};
+            var url = '/api/files/' + $scope.account.coverFile._id + '?i';
+            if ($scope.width) {
+              url += '&width=' + $scope.width;
+            }
+            if ($scope.height) {
+              url += '&height=' + $scope.height;
+            }
+            return url;
           } else if ($scope.account.imageUrl) {
             return $scope.account.imageUrl;
+          } else {
+            return 'assets/img/defaultuser.jpg';
           }
         }
       }

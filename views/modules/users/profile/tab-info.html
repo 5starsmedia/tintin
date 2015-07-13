@@ -1,238 +1,87 @@
 <st-form model="user" state="error" submit="saveItem(user)">
 
-    <div class="content" animate-panel effect="fadeIn" delay="0">
+  <div class="row">
+    <div class="col-sm-9">
 
-        <st-form-element label="{{'E-mail'|translate}}" field="username">
+      <st-form-element label="{{'Username *'|translate}}" field="username">
 
-            <input disabled class="form-control input-lg" name="username" type="text" required
-                   ng-model="user.username"/>
+        <input disabled class="form-control input-lg" name="username" type="text" required
+               ng-model="user.username"/>
 
-        </st-form-element>
+      </st-form-element>
 
-        <st-form-element label="{{'Last name'|translate}}" field="username">
+      <st-form-element label="{{'E-mail *'|translate}}" field="email">
 
-            <input class="form-control input-lg" name="lastname" type="text" required
+        <input class="form-control" name="email" type="text" required
+               ng-model="user.email"/>
+
+      </st-form-element>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <st-form-element label="{{'Last name *'|translate}}" field="profile.lastName">
+
+            <input class="form-control" name="lastname" type="text" required
                    ng-model="user.profile.lastName"/>
 
-        </st-form-element>
+          </st-form-element>
+        </div>
+        <div class="col-sm-4">
+          <st-form-element label="{{'First name *'|translate}}" field="profile.firstName">
 
-        <st-form-element label="{{'First name'|translate}}" field="username">
-
-            <input class="form-control input-lg" name="firstname" type="text" required
+            <input class="form-control" name="firstname" type="text" required
                    ng-model="user.profile.firstName"/>
 
-        </st-form-element>
-
-        <st-form-element label="{{'E-mail'|translate}}" field="email">
-
-            <input class="form-control input-lg" name="email" type="text" required
-                   ng-model="user.email"/>
-
-        </st-form-element>
-
-
-        <div>
-            <div class="checkbox" ng-repeat="role in roles">
-                <label>
-                    <input type="checkbox" checklist-model="user.roles" checklist-value="role" checklist-comparator="compareRole">
-                    <strong>{{role.title}}</strong>
-                    <br/>
-                    <small>{{role.description}}</small>
-                </label>
-            </div>
+          </st-form-element>
         </div>
+        <div class="col-sm-4">
+          <st-form-element label="{{'Middle name'|translate}}" field="profile.middleName">
 
+            <input class="form-control" name="middleName" type="text" ng-model="user.profile.middleName"/>
 
-        <div class="form-actions">
-            <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
-                {{'Save'|translate}}
-            </button>
-            <a ui-sref="users.list" class="btn btn-default">
-                {{'Cancel'|translate}}
-            </a>
+          </st-form-element>
         </div>
+      </div>
+
+      <st-form-element label="{{'Location'|translate}}" field="profile.location">
+
+        <input class="form-control" name="country" type="text" ng-model="user.profile.location"/>
+
+      </st-form-element>
+
+      <st-form-element label="{{'About'|translate}}" field="profile.about">
+
+        <textarea class="form-control" name="about" ng-model="user.profile.about"></textarea>
+
+      </st-form-element>
 
     </div>
+    <div class="col-sm-3">
+
+      <st-form-element label="{{'Roles'|translate}}" field="roles">
+
+        <div ng-repeat="role in roles">
+          <label>
+            <input type="checkbox" icheck checklist-model="user.roles" checklist-value="role"
+                   checklist-comparator="compareRole">
+            <strong tooltip-placement="left"
+                    tooltip="{{role.description}}">{{role.title}}</strong>
+          </label>
+        </div>
+
+      </st-form-element>
+
+    </div>
+  </div>
+
+
+  <div class="panel-footer">
+    <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+      {{'Save'|translate}}
+    </button>
+    <a ui-sref="users.list" class="btn btn-default">
+      {{'Cancel'|translate}}
+    </a>
+  </div>
+
 </st-form>
-
-<!--div>
-    <strong>Lorem ipsum dolor sit amet, consectetuer adipiscing</strong>
-
-    <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of
-        existence in this spot, which was created for the bliss of souls like mine.</p>
-
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-
-                <th>#</th>
-                <th>Project </th>
-                <th>Name </th>
-                <th>Phone </th>
-                <th>Company </th>
-                <th>Completed </th>
-                <th>Task</th>
-                <th>Date</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>Project <small>This is example of project</small></td>
-                <td>Patrick Smith</td>
-                <td>0800 051213</td>
-                <td>Inceptos Hymenaeos Ltd</td>
-                <td><pie-chart data="PieChart5.data" options="PieChart5.options"></pie-chart></td>
-                <td>20%</td>
-                <td>Jul 14, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Alpha project</td>
-                <td>Alice Jackson</td>
-                <td>0500 780909</td>
-                <td>Nec Euismod In Company</td>
-                <td><pie-chart data="PieChart4.data" options="PieChart4.options"></pie-chart></td>
-                <td>40%</td>
-                <td>Jul 16, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Betha project</td>
-                <td>John Smith</td>
-                <td>0800 1111</td>
-                <td>Erat Volutpat</td>
-                <td><pie-chart data="PieChart3.data" options="PieChart3.options"></pie-chart></td>
-                <td>75%</td>
-                <td>Jul 18, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Gamma project</td>
-                <td>Anna Jordan</td>
-                <td>(016977) 0648</td>
-                <td>Tellus Ltd</td>
-                <td><pie-chart data="PieChart6.data" options="PieChart6.options"></pie-chart></td>
-                <td>18%</td>
-                <td>Jul 22, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Alpha project</td>
-                <td>Alice Jackson</td>
-                <td>0500 780909</td>
-                <td>Nec Euismod In Company</td>
-                <td><pie-chart data="PieChart.data" options="PieChart.options"></pie-chart></td>
-                <td>40%</td>
-                <td>Jul 16, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Project <small>This is example of project</small></td>
-                <td>Patrick Smith</td>
-                <td>0800 051213</td>
-                <td>Inceptos Hymenaeos Ltd</td>
-                <td><pie-chart data="PieChart4.data" options="PieChart4.options"></pie-chart></td>
-                <td>20%</td>
-                <td>Jul 14, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Gamma project</td>
-                <td>Anna Jordan</td>
-                <td>(016977) 0648</td>
-                <td>Tellus Ltd</td>
-                <td><pie-chart data="PieChart3.data" options="PieChart3.options"></pie-chart></td>
-                <td>18%</td>
-                <td>Jul 22, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Project <small>This is example of project</small></td>
-                <td>Patrick Smith</td>
-                <td>0800 051213</td>
-                <td>Inceptos Hymenaeos Ltd</td>
-                <td><pie-chart data="PieChart2.data" options="PieChart2.options"></pie-chart></td>
-                <td>20%</td>
-                <td>Jul 14, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Alpha project</td>
-                <td>Alice Jackson</td>
-                <td>0500 780909</td>
-                <td>Nec Euismod In Company</td>
-                <td><pie-chart data="PieChart6.data" options="PieChart6.options"></pie-chart></td>
-                <td>40%</td>
-                <td>Jul 16, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Betha project</td>
-                <td>John Smith</td>
-                <td>0800 1111</td>
-                <td>Erat Volutpat</td>
-                <td><pie-chart data="PieChart5.data" options="PieChart5.options"></pie-chart></td>
-                <td>75%</td>
-                <td>Jul 18, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Gamma project</td>
-                <td>Anna Jordan</td>
-                <td>(016977) 0648</td>
-                <td>Tellus Ltd</td>
-                <td><pie-chart data="PieChart4.data" options="PieChart4.options"></pie-chart></td>
-                <td>18%</td>
-                <td>Jul 22, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Alpha project</td>
-                <td>Alice Jackson</td>
-                <td>0500 780909</td>
-                <td>Nec Euismod In Company</td>
-                <td><pie-chart data="PieChart.data" options="PieChart.options"></pie-chart></td>
-                <td>40%</td>
-                <td>Jul 16, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Project <small>This is example of project</small></td>
-                <td>Patrick Smith</td>
-                <td>0800 051213</td>
-                <td>Inceptos Hymenaeos Ltd</td>
-                <td><pie-chart data="PieChart3.data" options="PieChart3.options"></pie-chart></td>
-                <td>20%</td>
-                <td>Jul 14, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Gamma project</td>
-                <td>Anna Jordan</td>
-                <td>(016977) 0648</td>
-                <td>Tellus Ltd</td>
-                <td><pie-chart data="PieChart2.data" options="PieChart2.options"></pie-chart></td>
-                <td>18%</td>
-                <td>Jul 22, 2013</td>
-                <td><a href="#"><i class="fa fa-check text-success"></i></a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div-->

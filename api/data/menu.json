@@ -1,39 +1,39 @@
 [
   {
     "sref": "cabinet.dashboard",
-    "title": "Dashboard",
+    "title": {"en-US": "Dashboard", "ru-RU": "Панель"},
     "permissions": []
   },
   {
     "sref": "sites",
-    "title": "Site",
+    "title": {"en-US": "Site", "ru-RU": "Сайт"},
     "permissions": ["sites"],
     "items": [
       {
         "sref": "sites.settings",
-        "title": "Site settings",
+        "title": {"en-US": "Site settings", "ru-RU": "Налаштування сайту"},
         "permissions": ["sites"]
       },
       {
         "sref": "sites.domains",
-        "title": "List of sites",
+        "title": {"en-US": "List of sites", "ru-RU": "Список сайтів"},
         "permissions": ["sites"]
       }
     ]
   },
   {
     "sref": "news",
-    "title": "Articles",
+    "title": {"en-US": "Articles", "ru-RU": "Новини"},
     "permissions": ["posts"],
     "items": [
       {
         "sref": "news.posts",
-        "title": "List of articles",
+        "title": {"en-US": "List of articles", "ru-RU": "Список статей"},
         "permissions": ["posts"]
       },
       {
         "sref": "news.categories",
-        "title": "Categories",
+        "title": {"en-US": "Categories", "ru-RU": "Категорії"},
         "permissions": ["posts"]
       }
     ]

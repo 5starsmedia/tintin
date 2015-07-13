@@ -6,7 +6,8 @@ export default
     }, {
       'get': {method: 'GET'},
       'save': {method: 'PUT'},
-      'create': {method: 'POST'}
+      'create': {method: 'POST'},
+      'getStatistic': {method: 'GET', params: { method: 'statistic' } }
     });
     resource.prototype.getDate = function() {
       return moment(this.createDate).format('DD MMMM YYYY');

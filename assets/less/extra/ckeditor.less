@@ -1,8 +1,47 @@
 .cke_contents {
 
   a {
-    color: @color-blue;
+    color: @btn-primary-bg;
     text-decoration: underline;
   }
 
+}
+.cke.cke_chrome {
+
+  border: 1px solid @input-border !important;
+  border-radius: @input-border-radius;
+
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+
+  .cke_top, .cke_bottom {
+    background: #fefefe;
+    border-color: @input-border !important;
+  }
+}
+figure.caption {
+  text-align: center;
+}
+.cke_contents img { //отступ для картинок
+  margin: 5px;
+}
+.cke_contents .b-ad-place {
+  background: #eee;
+  text-indent: -100%;
+  overflow: hidden;
+  height: 50px;
+  position: relative;
+}
+.cke_contents .b-ad-place:before {
+  display: block;
+  position: absolute;
+  content: 'Banner';
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  text-indent: 0;
+  margin: -25px 0 0 -50px;
 }

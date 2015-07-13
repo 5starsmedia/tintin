@@ -1,0 +1,206 @@
+/*
+ * Forms
+ */
+.form-control{
+  .border-radius(@theme-border-radius);
+  .box-shadow(none);
+  border: solid 1px @form-control-border;
+  &:focus{
+    .box-shadow(0 0 3px rgba(102, 175, 233, 0.6));
+  }
+}
+.control-label .star {
+    color: @form-has-error-color;
+}
+.help-block{
+  font-weight: 300;
+}
+
+label{
+  font-weight: 600;
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control{
+  background-color: #FAFAFA;
+}
+/*
+ * Input group
+ */
+.input-group-btn>.btn{
+  padding: 8px 12px;
+}
+.input-group-addon{
+  border-radius: 2px;
+  border: 1px solid @form-control-border;
+}
+.input-group .form-control:first-child,
+.input-group-addon:first-child,
+.input-group-btn:first-child>.btn,
+.input-group-btn:first-child>.dropdown-toggle,
+.input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle){
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.input-group .form-control:last-child,
+.input-group-addon:last-child,
+.input-group-btn:last-child>.btn,
+.input-group-btn:last-child>.dropdown-toggle,
+.input-group-btn:first-child>.btn:not(:first-child){
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+/*
+ * Validation styles
+ */
+
+/* Has Success */
+.has-success .form-control {
+  border-color: @form-has-success-border;
+  .box-shadow(none);
+  &:focus,
+  &.select2-container.select2-dropdown-open,
+  &.select2-container.select2-container-active{
+    border-color: @form-has-success-border;
+    @shadow: 0 0 3px @form-has-success-border;
+    .box-shadow(@shadow);
+  }
+}
+.has-success .help-block,
+.has-success .control-label,
+.has-success .radio,
+.has-success .checkbox,
+.has-success .radio-inline,
+.has-success .checkbox-inline {
+  color: @form-has-success-color;
+}
+.has-success .input-group-addon {
+  border-color: @form-has-success-border;
+}
+
+/* Has Warning */
+.has-warning .form-control {
+  border-color: @form-has-warning-border;
+  .box-shadow(none);
+  &:focus,
+  &.select2-container.select2-dropdown-open,
+  &.select2-container.select2-container-active{
+    border-color: @form-has-warning-border;
+    @shadow: 0 0 3px @form-has-warning-border;
+    .box-shadow(@shadow);
+  }
+}
+.has-warning .help-block,
+.has-warning .control-label,
+.has-warning .radio,
+.has-warning .checkbox,
+.has-warning .radio-inline,
+.has-warning .checkbox-inline {
+  color: @form-has-warning-color;
+}
+.has-warning .input-group-addon {
+  border-color: @form-has-warning-border;
+}
+
+/* Has Info */
+.has-info .form-control {
+  border-color: @form-has-info-border;
+  .box-shadow(none);
+  &:focus,
+  &.select2-container.select2-dropdown-open,
+  &.select2-container.select2-container-active{
+    border-color: @form-has-info-border;
+    @shadow: 0 0 3px @form-has-info-border;
+    .box-shadow(@shadow);
+  }
+}
+.has-info .help-block,
+.has-info .control-label,
+.has-info .radio,
+.has-info .checkbox,
+.has-info .radio-inline,
+.has-info .checkbox-inline {
+  color: @form-has-info-color;
+}
+.has-info .input-group-addon {
+  border-color: @form-has-info-border;
+}
+
+/* Has Error */
+.has-error .form-control {
+  border-color: @form-has-error-border;
+  .box-shadow(none);
+  &:focus,
+  &.select2-container.select2-dropdown-open,
+  &.select2-container.select2-container-active{
+    border-color: @form-has-error-border;
+    @shadow: 0 0 3px @form-has-error-border;
+    .box-shadow(@shadow);
+  }
+}
+.has-error .help-block,
+.has-error .control-label,
+.has-warning .radio,
+.has-error .checkbox,
+.has-error .radio-inline,
+.has-error .checkbox-inline {
+  color: @form-has-error-color;
+}
+.has-error .input-group-addon {
+  border-color: @form-has-error-border;
+}
+
+/*
+ * Uniform styles
+ */
+/*
+input[type="radio"], input[type="checkbox"]{
+  visibility: hidden;
+}
+.radiobox, .checkbox, .radio-inline, .checkbox-inline{
+  padding-left: 0px;
+}
+.radiobox{
+  display: block;
+  min-height: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  vertical-align: middle;
+  label{
+    display: inline;
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+  }
+}
+div.checker span{
+  font-family: FontAwesome;
+  font-size: 16px;
+  line-height: 20px;
+  color: #666;
+  background-image: none;
+}
+div.checker span:before {
+  content: "\f096";
+  margin-left: 0px;
+}
+div.checker span.checked:before {
+  content: "\f046";
+  margin-left: 2px;
+}
+div.radio span{
+  font-family: FontAwesome;
+  font-size: 16px;
+  line-height: 20px;
+  color: #666;
+  background-image: none;
+}
+div.radio span:before {
+  content: "\f10c";
+}
+div.radio span.checked:before {
+  content: "\f192";
+}
+*/

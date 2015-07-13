@@ -59,10 +59,11 @@ module.config(function ($stateProvider) {
 
           defer.resolve(new NewsPostModel({
             isAllowComments: true,
-            //own_photo: false,
+            postType: 'news',
+            ownPhoto: false,
             //user_id: bzUser.id,
-            status: 1,
-            //publish_date: date
+            status: 4,
+            publishedDate: date
           }));
           return defer.promise;
         }

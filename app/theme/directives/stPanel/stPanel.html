@@ -1,0 +1,9 @@
+<div class="panel"
+     ng-class="{'panel-default': !isRed && !isYellow && !isGreen && !isPrimary,
+                'panel-primary': isPrimary,
+                'panel-danger': isRed,
+                'panel-warning': isYellow,
+                'panel-success': isGreen}">
+    <div class="panel-heading" ng-bind="title"></div>
+    <div class="panel-body clearfix" ng-transclude></div>
+</div>

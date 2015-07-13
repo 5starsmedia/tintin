@@ -3,9 +3,6 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
-  id: {type: Number, required: true, default: 0},
-
-  // Назва
   title: {type: String, required: true},
   description: String,
 

@@ -8,25 +8,16 @@ module.exports = function createdByPlugin(schema, options) {
     options = {};
   }
   _.defaults(options, {
-    isRequired: false,
     UserSchema: {
-      _id: { type: mongoose.Schema.Types.ObjectId, required: true },
-      title: { type: String, required: true },
+      _id: { type: mongoose.Schema.Types.ObjectId, required: options.isRequired || false },
+      title: { type: String, required: options.isRequired || false },
       imageUrl: { type: String },
       coverFile: { _id: mongoose.Schema.Types.ObjectId }
     }
   });
 
-  if (!options.defaultUser) {
-    options.defaultUser = null;
-  }
-
   schema.add({
-    createdBy: {
-      type: options.UserSchema,
-      "default": options.defaultUser,
-      required: options.isRequired
-    }
+    createdBy: options.UserSchema
   });
 
   schema.pre('save', function (next) {

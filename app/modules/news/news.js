@@ -1,5 +1,6 @@
 import posts from './posts/posts';
 import categories from './categories/categories';
+import dashboard from './dashboard/dashboard';
 
 import editorSelectImages from './ckeditor_plugins/selectImage/plugin.js';
 
@@ -8,7 +9,8 @@ var appName = 'module.news';
 var module = angular.module(appName, [
   editorSelectImages,
   posts,
-  categories
+  categories,
+  dashboard
 ]);
 
 import mediaembed from './ckeditor_plugins/mediaembed/plugin.js';

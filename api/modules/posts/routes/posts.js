@@ -65,6 +65,70 @@ router.get('/source-complete', function (req, res, next) {
   }
 });
 
+router.get('/statistic', function (req, res, next) {
+  if (req.auth.isGuest) {
+    res.status(401).end();
+  } else {
+
+    var startDate = new Date(),
+      endDate = new Date();
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(23, 59, 59, 59);
+
+    var days = {
+      today: {
+        start: startDate,
+        end: endDate
+      },
+      yesterday: {
+        start: moment(startDate).subtract(1, 'days').toDate(),
+        end: moment(endDate).subtract(1, 'days').toDate()
+      },
+      month: {
+        start: moment(startDate).startOf('month').toDate(),
+        end: moment(endDate).endOf('month').toDate()
+      },
+      prevMonth: {
+        start: moment(startDate).subtract(1, 'month').startOf('month').toDate(),
+        end: moment(endDate).subtract(1, 'month').endOf('month').toDate()
+      },
+      all: {}
+    }, result = {};
+
+    async.forEachOf(days, function (value, key, next) {
+      var match = {
+        'site._id': req.site._id, removed: {$exists: false}
+      };
+
+      if (value.start) {
+        match.createDate = { $gte: value.start, $lt: value.end }
+      }
+
+      req.app.models.posts.aggregate([
+        { '$match' : match },
+        { '$group' : { '_id' : { createdBy: '$createdBy' }, 'count' : { '$sum' : 1 } }}
+      ], function(err, data) {
+        if (err) { return next(err); }
+
+        _.forEach(data, function(item) {
+          var account = item._id.createdBy;
+          result[account._id] = result[account._id] || {
+            account: account
+          };
+          result[account._id][key] = item.count;
+        });
+        next();
+      });
+
+    }, function (err, data) {
+      if (err) { return next(err); }
+
+      return res.json(result);
+    });
+
+  }
+});
+
 router.get('/:id/suggest', function (req, res, next) {
   async.auto({
     'item': function(next) {

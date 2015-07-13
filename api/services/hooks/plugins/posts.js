@@ -88,7 +88,9 @@ exports['put.posts'] = function (req, data, cb) {
       }
 
       if (res.category) {
-        data['category.alias'] = res.category.alias;
+        if (res.category.alias) {
+          data['category.alias'] = res.category.alias;
+        }
         if (res.category.parentAlias) {
           data['category.parentAlias'] = res.category.parentAlias;
         }

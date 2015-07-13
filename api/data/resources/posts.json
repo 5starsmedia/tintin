@@ -37,15 +37,20 @@
     "viewsCount": {
       "get": ["*"],
       "get?category._id": "*",
+      "get?account._id": ["posts"],
+      "get?createdBy._id": ["posts"],
       "get?_id": ["*"]
     },
     "commentsCount": {
       "get": ["*"],
+      "get?account._id": ["posts"],
+      "get?createdBy._id": ["posts"],
       "get?_id": ["*"]
     },
     "*": {
       "get": "*",
-      "get?activated": ["admin"],
+      "get?account._id": ["posts"],
+      "get?createdBy._id": ["posts"],
       "get?published": "*",
       "get?_id": "*",
       "get?tags": "*",

@@ -72,7 +72,7 @@ export default
         };
         $scope.fileRemove = function ($event, fileId) {
           $event.preventDefault();
-          if ($scope.coverFile._id == fileId) {
+          if ($scope.coverFile && $scope.coverFile._id == fileId) {
             $scope.coverFile = { _id: null };
           }
           _.remove($scope.files, {_id: fileId});

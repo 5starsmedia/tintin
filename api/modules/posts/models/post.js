@@ -15,7 +15,7 @@ var schema = new mongoose.Schema({
   // Короткий опис
   tizer: String,
   // Текст
-  body: {type: String, required: true},
+  body: String,
   // Дата публікації
   createDate: {type: Date, required: true, default: Date.now},
   // Дата зміни
@@ -49,9 +49,16 @@ var schema = new mongoose.Schema({
 
   isTop: Boolean,
   isHighlight: Boolean,
+  isEditorChoose: Boolean,
   hasPhotoreport: Boolean,
   isInterview: Boolean,
   isBlog: Boolean,
+  isAdvertising: Boolean,
+  isPoliticalAdvertising: Boolean,
+
+  poll: {
+    _id: mongoose.Schema.Types.ObjectId
+  },
 
   ownPhoto: Boolean,
   isAllowComments: Boolean,

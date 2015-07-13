@@ -16,6 +16,7 @@
     "gulp": "^3.8.11",
     "gulp-angular-htmlify": "^2.1.1",
     "gulp-angular-templatecache": "^1.5.0",
+    "gulp-angular-translate": "^0.1.4",
     "gulp-angular-translate-extractor": "^1.0.0",
     "gulp-concat": "^2.5.2",
     "gulp-copy": "0.0.2",

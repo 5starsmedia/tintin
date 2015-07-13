@@ -1,0 +1,140 @@
+/*
+ * Gallery Section
+ */
+.gallery {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    .item {
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        margin: 10px;
+        float: left;
+        position: relative;
+        border-radius: 2px;
+        padding-right: 15px;
+        padding-left: 15px;
+        cursor: pointer;
+
+        label input {
+            opacity: 0;
+        }
+
+        &.active, &.is_main {
+            margin: 6px;
+            border: 4px solid @btn-primary-border;
+            position: relative;
+
+            &:before {
+                content: "\f00c";
+                font-family: FontAwesome;
+                color: white;
+                display: block;
+                position: absolute;
+                right: 3px;
+                top: 2px;
+                z-index: 101;
+            }
+            &:after {
+                z-index: 100;
+                display: block;
+                position: absolute;
+                content: ' ';
+                right: 0;
+                top: 0;
+                border-right: 15px solid @btn-primary-border;
+                border-top: 15px solid @btn-primary-border;
+                border-left: 15px solid transparent;
+                border-bottom: 15px solid transparent;
+            }
+        }
+
+        img {
+            position: absolute;
+            left: -100%;
+            right: -100%;
+            top: -100%;
+            bottom: -100%;
+            margin: auto;
+            max-height: 100%;
+            min-width: 100%;
+            background: white;
+        }
+        .details {
+            background-color: rgba(0, 0, 0, 0.3);
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            padding-top: 30px;
+            .action {
+                background-color: fade(@theme-secondary-color, 80%);
+                border-radius: 50%;
+                font-size: 22px;
+                color: #FFF;
+                width: 40px;
+                height: 40px;
+                text-align: center;
+                display: inline-block;
+                padding: 3px 0 0 0;
+                vertical-align: middle;
+                &:hover {
+                    background-color: fade(lighten(@theme-secondary-color, 3%), 90%);
+                }
+            }
+        }
+        &:hover {
+            .details {
+                display: block;
+            }
+        }
+
+        &.fileinput-new .fileinput-exists,
+        &.fileinput-exists .fileinput-new {
+            display: none;
+        }
+        &.fileinput-new {
+            .details {
+                background-color: fade(@theme-secondary-color, 5%);
+                border: dashed 1px fade(@theme-secondary-color, 35%);
+                display: block;
+                padding-top: 0px;
+                .action.btn-file {
+                    background-color: transparent;
+                    width: 100%;
+                    padding-top: 60px;
+                    height: 100%;
+                    font-size: 12px;
+                    display: block;
+                    border-radius: 0;
+                    > input {
+                        height: 100%;
+                    }
+                    &:hover {
+                        text-decoration: none;
+                    }
+                    .action-file {
+                        background-color: fade(@theme-secondary-color, 80%);
+                        border-radius: 50%;
+                        font-size: 22px;
+                        color: #FFF;
+                        width: 40px;
+                        height: 40px;
+                        text-align: center;
+                        display: inline-block;
+                        padding: 3px 0 0 0;
+                    }
+                    > p {
+                        color: #888;
+                        margin: 5px 25px 0 25px;
+                    }
+                }
+            }
+        }
+
+    }
+}

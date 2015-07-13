@@ -1,85 +1,61 @@
-<div class="content" animate-panel effect="zoomIn" delay="0">
+<div animate-panel effect="zoomIn" delay="0">
+
+
+  <div class="sticky-header">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2 class="font-light m-b-xs">{{account.title}}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="content">
 
     <div class="row page-profile">
-        <div class="col-lg-4">
-            <div class="hpanel hgreen">
-                <div class="panel-body">
-                    <div class="pull-right text-right">
-                        <div class="btn-group">
-                            <i class="fa fa-facebook btn btn-default btn-xs"></i>
-                            <i class="fa fa-twitter btn btn-default btn-xs"></i>
-                            <i class="fa fa-linkedin btn btn-default btn-xs"></i>
-                        </div>
-                    </div>
+      <div class="col-sm-2">
 
-                    <div class="b-profile__block m-b m-t-md">
-                        <img ng-if="account.imageUrl" ng-src="{{account.imageUrl}}" class="img-circle"/>
-                        <span class="b-profile__icon pe-7s-id"></span>
-                    </div>
-                    <h3>{{account.title}}</h3>
-
-                    <div class="text-muted font-bold m-b-xs">California, LA</div>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
-                        accumsan.
-                    </p>
-                    <progressbar value="65" type="success"
-                                 class="progress-small full progress-striped active"></progressbar>
-                </div>
-                <div class="border-right border-left">
-                    <!--section id="map" ng-controller="googleMapCtrl">
-                        <div ui-map="myMap" ui-options="mapOptions" style="height: 200px"></div>
-                    </section-->
-                </div>
-                <div class="panel-body">
-                    <dl>
-                        <dt>Description lists</dt>
-                        <dd>A description list is perfect for defining terms.</dd>
-                        <dt>Euismod</dt>
-                        <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
-                        <dd>Donec id elit non mi porta gravida at eget metus.</dd>
-                        <dt>Malesuada porta</dt>
-                        <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
-                    </dl>
-                </div>
-                <div class="panel-footer contact-footer">
-                    <div class="row">
-                        <div class="col-md-4 border-right">
-                            <div class="contact-stat"><span>Projects: </span> <strong>200</strong></div>
-                        </div>
-                        <div class="col-md-4 border-right">
-                            <div class="contact-stat"><span>Messages: </span> <strong>300</strong></div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="contact-stat"><span>Views: </span> <strong>400</strong></div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+        <div class="pull-right text-right">
+          <div class="btn-group">
+            <a ng-href="{{account.profile.facebookUrl}}" ng-if="account.profile.facebookUrl" target="_blank"
+               class="fa fa-facebook btn btn-default btn-sm"></a>
+            <a ng-href="{{account.profile.vkUrl}}" ng-if="account.profile.vkUrl" target="_blank"
+               class="fa fa-vk btn btn-default btn-sm"></a>
+          </div>
         </div>
-        <div class="col-lg-8">
-            <div class="hpanel">
-                <div class="hpanel">
-                    <tabset>
-                        <tab ui-sref=".info" ui-sref-active="active">
-                            <tab-heading>Info</tab-heading>
-                        </tab>
-                        <tab ui-sref=".log" ui-sref-active="active">
-                            <tab-heading>Log</tab-heading>
-                        </tab>
-                        <tab ui-sref=".password" ui-sref-active="active">
-                            <tab-heading>Change password</tab-heading>
-                        </tab>
-                    </tabset>
-                    <div class="tab-pane">
-                        <div class="panel-body">
-                            <div ui-view animate-panel></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+        <div class="b-profile__block m-b m-t-md">
+          <st-form>
+            <st-form-element label="{{'Avatar'|translate}}">
+
+              <div class="clearfix"></div>
+
+              <div bz-loading-container="loading">
+                <cs-single-file-upload resource-id="{{account._id}}" collection-name="accounts" file="account.coverFile"
+                                       allowed-extensions="png,gif,jpg,jpeg" loading="loading" best-width="250"
+                                       best-height="250"></cs-single-file-upload>
+              </div>
+
+
+            </st-form-element>
+          </st-form>
         </div>
+
+        <div class="text-muted font-bold m-b-xs" ng-if="account.profile.location" title="{{'Location'|translate}}">
+          {{account.profile.location}}
+        </div>
+        <p>{{account.profile.about}}</p>
+
+        <div class="btn-group btn-block btn-group-vertical">
+          <a ui-sref=".info" ui-sref-active="active" class="btn btn-default">{{'Information'|translate}}</a>
+          <a ui-sref=".log" ui-sref-active="active" class="btn btn-default">{{'Activity log'|translate}}</a>
+          <a ui-sref=".password" ui-sref-active="active" class="btn btn-default">{{'Change password'|translate}}</a>
+        </div>
+
+      </div>
+      <div class="col-sm-10">
+        <div ui-view animate-panel></div>
+      </div>
     </div>
+
+  </div>
 
 </div>
