@@ -112,6 +112,9 @@ router.get('/statistic', function (req, res, next) {
 
         _.forEach(data, function(item) {
           var account = item._id.createdBy;
+          if (!account || !account._id) {
+            return;
+          }
           result[account._id] = result[account._id] || {
             account: account
           };
