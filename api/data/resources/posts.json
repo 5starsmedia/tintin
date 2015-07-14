@@ -39,12 +39,14 @@
       "get?category._id": "*",
       "get?account._id": ["posts"],
       "get?createdBy._id": ["posts"],
+      "get?status": "*",
       "get?_id": ["*"]
     },
     "commentsCount": {
       "get": ["*"],
       "get?account._id": ["posts"],
       "get?createdBy._id": ["posts"],
+      "get?status": "*",
       "get?_id": ["*"]
     },
     "*": {
@@ -56,6 +58,7 @@
       "get?_id": "*",
       "get?tags": "*",
       "get?alias": "*",
+      "get?status": "*",
       "get?alias&category._id": "*",
       "get?tags.title": "*",
       "get?category._id": "*",

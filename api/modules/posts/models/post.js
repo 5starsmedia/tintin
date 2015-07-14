@@ -72,6 +72,7 @@ var schema = new mongoose.Schema({
 
   editorNotes: String,
   extModerationId: String,
+  extCheckResult: mongoose.Schema.Types.Mixed,
   keywords: [
     {
       word: String,

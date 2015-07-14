@@ -21,7 +21,7 @@ class NewsPostsCtrl {
         $location.search(params.url());
 
         $scope.loading = true;
-        NewsPostModel.query(BaseAPIParams({ fields: 'title,likesCount,viewsCount,status,createDate,account,seo,createdBy,publishedDate' }, params), function (logs, headers) {
+        NewsPostModel.query(BaseAPIParams({ status: [1,2,4,6], fields: 'title,likesCount,viewsCount,status,createDate,account,seo,createdBy,publishedDate' }, params), function (logs, headers) {
           $scope.loading = false;
           $scope.logs = logs;
           $defer.resolve(logs);

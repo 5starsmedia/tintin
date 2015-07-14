@@ -14,7 +14,10 @@ var schema = new mongoose.Schema({
     'finded',
     'completed',
     'assign',// видно у редактора
-    'inwork' // в роботі у автора
+    'inwork', // в роботі у автора
+    'moderation',
+    'failedModeration',
+    'success'
   ]},
 
   category: {

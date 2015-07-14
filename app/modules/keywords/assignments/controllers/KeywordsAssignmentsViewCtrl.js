@@ -45,12 +45,19 @@ class KeywordsAssignmentsViewCtrl {
       delete item.viewsCount;
       delete item.commentsCount;
       save.call(item, (data) => {
-        $scope.loading = false;
-        notify({
-          message: $filter('translate')('Article saved!'),
-          classes: 'alert-success'
+
+        group.status = 'moderation';
+        group.$save((data) => {
+          $scope.loading = false;
+          notify({
+            message: $filter('translate')('On moderation'),
+            classes: 'alert-success'
+          });
+          $state.go('^.assignments');
+        }, (err) => {
+          $scope.loading = false;
         });
-        $state.go('^.assignments');
+
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;
