@@ -15,7 +15,7 @@ class KeywordsAssignmentsCtrl {
     }, {
       getData: function ($defer, params) {
         $scope.loading = true;
-        KeywordsGroupModel.query(BaseAPIParams({ fields: 'title,createDate,status,result', 'result.account._id': payload._id, status: ['assign','inwork','moderation'] }, params), function (projects, headers) {
+        KeywordsGroupModel.query(BaseAPIParams({ fields: 'title,createDate,status,result', 'result.account._id': payload._id, status: ['assign','inwork','moderation', 'failedModeration'] }, params), function (projects, headers) {
           $scope.loading = false;
           $scope.projects = projects;
           $defer.resolve(projects);
