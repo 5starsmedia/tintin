@@ -29,7 +29,7 @@
         <div class="hpanel">
           <div class="panel-body">
 
-            <div ng-if="group.status == 'inwork'">
+            <div ng-if="group.status == 'inwork' || group.status == 'failedModeration'">
 
               <st-form model="post" state="error" submit="savePost(post)">
 
