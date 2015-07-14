@@ -178,7 +178,7 @@
                 <label class="control-label">{{'Keywords'|translate}}</label>
 
                 <table class="table table-condensed" style="table-layout: fixed;">
-                  <tr ng-repeat="keyword in keywords track by keyword._id">
+                  <tr ng-repeat="(n, keyword) in keywords track by n">
                     <td style="table-layout: fixed" class="text-overflow">
                       {{keyword}}
                     </td>
