@@ -1,6 +1,7 @@
 var appName = 'module.keywords.projects';
 
 import models from '../models/models.js';
+import newsModels from '../../news/models/models.js';
 
 let module = angular.module(appName, [
   'base',
@@ -10,7 +11,8 @@ let module = angular.module(appName, [
   'ui.select',
   'ngSanitize',
   'sticky',
-  models
+  models,
+  newsModels
 ]);
 
 // controllers
@@ -48,7 +50,7 @@ module.config(function ($stateProvider) {
     .state('keywords.projectView', {
       url: "/keywords/:id",
       controller: 'KeywordsGroupsCtrl',
-      templateUrl: "views/modules/keywords/page-edit.html",
+      templateUrl: "views/modules/keywords/page-project-view.html",
       data: {
         pageTitle: 'News',
         pageDesc: 'Test',

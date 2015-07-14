@@ -13,8 +13,15 @@ var schema = new mongoose.Schema({
     'scaned',
     'finded',
     'completed',
-    'inwork' // видно у редактора
+    'assign',// видно у редактора
+    'inwork' // в роботі у автора
   ]},
+
+  category: {
+    _id: mongoose.Schema.Types.ObjectId,
+    title: String,
+    alias: String
+  },
 
   project: {
     _id: mongoose.Schema.Types.ObjectId,
@@ -26,7 +33,13 @@ var schema = new mongoose.Schema({
     text: String,
     account: {
       _id: mongoose.Schema.Types.ObjectId,
-      title: String
+      username: String,
+      title: String,
+      imageUrl: String,
+      coverFile: {
+        _id: mongoose.Schema.Types.ObjectId,
+        title: String
+      }
     },
     dueDate: Date,
     urls: [{

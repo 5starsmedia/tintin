@@ -1,7 +1,7 @@
 export default
 class KeywordsBlockGroupsCtrl {
   /*@ngInject*/
-  constructor($scope, KeywordsSeoTaskModel, notify, $filter, NgTableParams, BaseAPIParams, KeywordsSeoStatHistoryModel, $timeout) {
+  constructor($scope, KeywordsSeoTaskModel, notify, $filter, NgTableParams, BaseAPIParams, KeywordsSeoStatHistoryModel, $timeout, KeywordsGroupModel) {
 
     $scope.engineName = 'google';
 
@@ -142,6 +142,13 @@ class KeywordsBlockGroupsCtrl {
     loadData();
 
     $scope.$watch('engineName', loadData);
+
+
+
+
+    KeywordsGroupModel.get({ _id: $scope.post.keywordGroup._id }, (data) => {
+      $scope.group = data;
+    });
 
     $scope.tableParams = new NgTableParams({
       page: 1,

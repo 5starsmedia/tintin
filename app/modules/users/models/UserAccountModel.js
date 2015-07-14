@@ -7,7 +7,7 @@ export default
       'getAccountInfo': {
         method: 'GET',
         params: {
-          'fields': 'title,username,imageUrl,roles'
+          'fields': 'title,username,imageUrl,coverFile,roles'
         }
       },
       'changeRole': { method: 'PUT', url: '/api/auth/changeRole' },

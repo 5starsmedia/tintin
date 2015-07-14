@@ -1,0 +1,109 @@
+<div>
+
+  <div>
+
+
+    <st-header title="{{group.title}}">
+
+      <button ng-if="group.status == 'assign'" type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('inwork')"
+              class="btn btn-primary">{{'Get in work'|translate}}
+      </button>
+      <button ng-if="group.status == 'inwork'" type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="savePost(post)"
+              class="btn btn-success">{{'Complete'|translate}}
+      </button>
+      <a ui-sref="keywords.specifications" class="btn btn-default">
+        {{'Cancel'|translate}}
+      </a>
+
+      <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('inwork')"
+              class="btn btn-warning">{{'Refuse'|translate}}
+      </button>
+
+    </st-header>
+
+    <div class="content" animate-panel effect="zoomIn">
+
+      <div class="row">
+      <div class="col-md-9">
+
+        <div class="hpanel">
+          <div class="panel-body">
+
+            <div ng-if="group.status == 'inwork'">
+
+              <st-form model="post" state="error" submit="savePost(post)">
+
+                <st-form-element label="{{'Category'|translate}}" field="category._id">
+
+                  <select ng-model="post.category._id" st-tree-select="categories" class="form-control" name="category"
+                          required></select>
+
+                </st-form-element>
+
+                <st-form-element label="{{'Body'|translate}}" field="body">
+
+                                <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
+                                          ng-model="post.body"></textarea>
+
+                </st-form-element>
+
+
+                <st-panel title="{{'Attached images'|translate}}" is-red="!post.files.length"
+                          is-yellow="post.files.length && !post.coverFile">
+
+                  <div editor-select-images="post.files">
+
+                    <div class="alert alert-danger" ng-if="!post.files.length">
+                      <span class="fa fa-picture-o"></span> {{'Upload one or more images'|translate}}
+                    </div>
+                    <div class="alert alert-warning" ng-if="post.files.length && !post.coverFile">
+                      <span class="fa fa-flag"></span> {{'Select the cover image'|translate}}
+                    </div>
+
+                    <div>
+
+                      <cs-file-upload resource-id="{{post._id}}" collection-name="posts" files="post.files"
+                                      cover-file="post.coverFile" has-cover-select="true">
+                      </cs-file-upload>
+                    </div>
+
+                  </div>
+                </st-panel>
+
+              </st-form>
+
+            </div>
+
+            <div ng-include="'views/modules/keywords/page-group-preview.html'"></div>
+
+          </div>
+        </div>
+
+
+        <st-panel title="{{'Comments'|translate}}">
+
+          <div comments-box collection-name="keywordGroups" place-holder="Комментарий..." resource-id="{{group._id}}"></div>
+
+        </st-panel>
+
+      </div>
+      <div class="col-md-3">
+
+        <st-panel title="{{'Assigment'|translate}}">
+
+          <div ng-if="group.result.dueDate">
+
+            {{group.result.dueDate}}
+
+          </div>
+
+        </st-panel>
+
+      </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+

@@ -27,6 +27,7 @@ import stAvatar from './directives/stAvatar/stAvatar.js';
 
 import stForm from './directives/stForm/stForm.js';
 import stPanel from './directives/stPanel/stPanel.js';
+import stHeader from './directives/stHeader/stHeader.js';
 import stFormElement from './directives/stFormElement/stFormElement.js';
 import stTreeSelect from './directives/stTreeSelect/stTreeSelect.js';
 import stChecklistItem from './directives/stChecklistItem/stChecklistItem.js';
@@ -42,6 +43,7 @@ module.directive('stAvatar', stAvatar);
 
 module.directive('stForm', stForm)
       .directive('stPanel', stPanel)
+      .directive('stHeader', stHeader)
       .directive('stFormElement', stFormElement)
       .directive('stConfirm', stConfirm)
       .directive('stChecklistItem', stChecklistItem);

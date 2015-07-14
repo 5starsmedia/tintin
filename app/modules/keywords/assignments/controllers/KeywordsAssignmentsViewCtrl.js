@@ -1,37 +1,56 @@
 export default
-class KeywordsSpecificationViewCtrl {
+class KeywordsAssignmentsViewCtrl {
   /*@ngInject*/
-  constructor($scope, $state, group, notify, $filter) {
+  constructor($scope, $state, group, notify, $filter, NewsPostModel, NewsCategoryModel) {
     $scope.group = group;
+
+    NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
+      $scope.categories = data;
+    });
+
+    $scope.post = new NewsPostModel({
+      title: group.title,
+      status: 2,
+      postType: 'post',
+      category: group.category,
+      keywordGroup: {
+        _id: group._id
+      },
+      account: {
+        _id: group.result.account._id,
+        title: group.result.account.title
+      }
+    });
 
     $scope.back = (status) => {
       $scope.loading = true;
       group.status = status;
       group.$save((data) => {
         $scope.loading = false;
-        if (status == 'completed') {
+        if (status == 'inwork') {
           notify({
-            message: $filter('translate')('Group back!'),
+            message: $filter('translate')('Get in work!'),
             classes: 'alert-success'
           });
-          $state.go('^.specifications');
+          $state.go('^.assignments');
         }
       }, (err) => {
         $scope.loading = false;
       });
     };
 
-    $scope.saveItem = (item) => {
+    $scope.savePost = (item) => {
       $scope.loading = true;
       let save = item._id ? item.$save : item.$create;
-      item.status = 'assign';
+      delete item.viewsCount;
+      delete item.commentsCount;
       save.call(item, (data) => {
         $scope.loading = false;
         notify({
-          message: $filter('translate')('Specifications saved!'),
+          message: $filter('translate')('Article saved!'),
           classes: 'alert-success'
         });
-        $state.go('^.specifications');
+        $state.go('^.assignments');
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;

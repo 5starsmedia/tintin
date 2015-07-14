@@ -1,7 +1,7 @@
 export default
 class KeywordsProjectEditCtrl {
   /*@ngInject*/
-  constructor($scope, $state, $filter, $stateParams, project, notify, $http, $sce) {
+  constructor($scope, $state, $filter, project, notify) {
 
     $scope.project = project;
     $scope.item = project;

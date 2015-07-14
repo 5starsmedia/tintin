@@ -2,47 +2,19 @@
 
   <st-form model="group" state="error" submit="saveItem(group)">
 
-    <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled"
-         class="normalheader transition animated fadeIn small-header">
-      <div class="hpanel" bz-loading-container="loading">
-        <div class="panel-body">
 
-          <div class="row">
-            <div class="col-lg-9">
 
-              <a ui-sref="keywords.projects" class="back-btn">
-                <span class="pe-7s-angle-left"></span>
-              </a>
+    <st-header title="{{group._id ? group.title : 'New group'}}">
 
-              <h2 class="font-light m-b-xs">
-                <a ui-sref="keywords.projectView({ id: project._id })">{{project.title}}</a> >
-                <span>{{group.title}}</span>
-              </h2>
+      <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
+              type="submit">
+        {{'Save'|translate}}
+      </button>
+      <a ui-sref="keywords.projectView({ id: project._id })" class="btn btn-default">
+        {{'Cancel'|translate}}
+      </a>
 
-              <small>
-                {{'Project created:'|translate}}
-                {{project.createDate|date:'dd.MM.yyyy'}}
-                {{'at'|translate}}
-                {{project.createDate|date:'HH:mm'}}
-              </small>
-
-            </div>
-            <div class="col-lg-3">
-
-              <div class="form-actions">
-                <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
-                        type="submit">
-                  {{'Save'|translate}}
-                </button>
-                <a ui-sref="keywords.projectEdit({ id: project._id })" class="btn btn-default">
-                  {{'Cancel'|translate}}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </st-header>
 
     <div class="content" animate-panel effect="zoomIn">
 
@@ -78,6 +50,13 @@
           </st-form-element>
 
           <div ng-if="!group.status || group.status == 'new'">
+
+            <st-form-element label="{{'Category'|translate}}" field="category._id">
+
+              <select ng-model="group.category._id" st-tree-select="categories" class="form-control" name="category"
+                      required></select>
+
+            </st-form-element>
 
             <st-form-element label="{{'Keywords'|translate}}" field="keywords">
 

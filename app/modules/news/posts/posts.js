@@ -50,18 +50,23 @@ module.config(function ($stateProvider) {
         hideTitle: true
       },
       resolve: {
-        post: ($stateParams, $q, NewsPostModel) => {
+        post: ($stateParams, $q, NewsPostModel, $auth) => {
           var defer = $q.defer();
           var date = new Date();
           date.setHours(date.getHours() + (date.getMinutes() < 50 ? 1 : 2));
           date.setMinutes(0);
           date.setSeconds(0);
 
+          var payload = $auth.getPayload();
           defer.resolve(new NewsPostModel({
             isAllowComments: true,
-            postType: 'news',
+            postType: 'post',
+            //postType: 'news',
             ownPhoto: false,
             //user_id: bzUser.id,
+            account: {
+              _id: payload._id
+            },
             status: 4,
             publishedDate: date
           }));

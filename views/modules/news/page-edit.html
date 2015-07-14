@@ -6,46 +6,22 @@
            auto-save-mode="interval"
            auto-save-interval="30000">
 
-    <div sticky
-         sticky-class="sticky-element"
-         body-class="sticky-enabled"
-         class="sticky-header" bz-loading-container="loading">
+    <st-header title="{{post._id ? 'Editing of article' : 'New article'}}">
 
-      <div class="row">
-        <div class="col-lg-9">
-          <h2 class="font-light m-b-xs">
-            <span ng-if="!post._id" style="line-height: 30px;">{{'New article'|translate}}</span>
-            <span ng-if="post._id">{{'Editing of article'|translate}}</span>
-          </h2>
+      <a ng-href="/preview/posts/{{post._id}}" ng-if="post._id"
+         class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left"
+         tooltip="{{'Open on site'|translate}}" target="_blank">
+        <span class="fa fa-external-link"></span>
+      </a>
+      <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
+              type="submit">
+        {{'Save'|translate}}
+      </button>
+      <a ui-sref="news.posts" class="btn btn-default">
+        {{'Cancel'|translate}}
+      </a>
 
-          <!--small ng-if="post._id">
-              {{'Article created:'|translate}}
-              {{post.createDate|date:'dd.MM.yyyy'}}
-              {{'at'|translate}}
-              {{post.createDate|date:'HH:mm'}}
-          </small-->
-
-        </div>
-        <div class="col-lg-3">
-
-          <div class="form-actions">
-            <a ng-href="/preview/posts/{{post._id}}" ng-if="post._id"
-               class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left"
-               tooltip="{{'Open on site'|translate}}" target="_blank">
-              <span class="fa fa-external-link"></span>
-            </a>
-            <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
-                    type="submit">
-              {{'Save'|translate}}
-            </button>
-            <a ui-sref="news.posts" class="btn btn-default">
-              {{'Cancel'|translate}}
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    </st-header>
 
     <div class="content" animate-panel effect="zoomIn">
 
@@ -80,7 +56,7 @@
               </div>
             </tab>
 
-            <tab ng-if="post._id && post.postType != 'news'">
+            <tab ng-if="post._id && post.postType != 'news' && post.keywordGroup">
               <tab-heading>{{'SEO'|translate}}</tab-heading>
 
               <div ng-include="'views/modules/news/page-seo.html'"></div>
@@ -97,13 +73,13 @@
               </div>
             </tab>
 
-            <tab ng-if="post._id && post.postType != 'news'">
+            <!--tab ng-if="post._id && post.postType != 'news'">
               <tab-heading>
                 {{'Uniqueness'|translate}}
               </tab-heading>
 
               <div ng-include="'views/modules/news/page-uniqueness.html'"></div>
-            </tab>
+            </tab-->
           </tabset>
 
         </div>
@@ -159,32 +135,34 @@
               </label>
             </div>
 
-            <div class="form-group">
-              <label>
-                <input icheck type="checkbox" ng-model="post.isEditorChoose"/>
-                {{'Choose of editorship'|translate}}
-              </label>
-            </div>
+            <div ng-if="post.postType == 'news'">
+              <div class="form-group">
+                <label>
+                  <input icheck type="checkbox" ng-model="post.isEditorChoose"/>
+                  {{'Choose of editorship'|translate}}
+                </label>
+              </div>
 
-            <div class="form-group">
-              <label>
-                <input icheck type="checkbox" ng-model="post.isInterview"/>
-                {{'Interview'|translate}}
-              </label>
-            </div>
+              <div class="form-group">
+                <label>
+                  <input icheck type="checkbox" ng-model="post.isInterview"/>
+                  {{'Interview'|translate}}
+                </label>
+              </div>
 
-            <div class="form-group">
-              <label>
-                <input icheck type="checkbox" ng-model="post.isAdvertising"/>
-                {{'Advertising'|translate}}
-              </label>
-            </div>
+              <div class="form-group">
+                <label>
+                  <input icheck type="checkbox" ng-model="post.isAdvertising"/>
+                  {{'Advertising'|translate}}
+                </label>
+              </div>
 
-            <div class="form-group">
-              <label>
-                <input icheck type="checkbox" ng-model="post.isPoliticalAdvertising"/>
-                {{'Political Advertising'|translate}}
-              </label>
+              <div class="form-group">
+                <label>
+                  <input icheck type="checkbox" ng-model="post.isPoliticalAdvertising"/>
+                  {{'Political Advertising'|translate}}
+                </label>
+              </div>
             </div>
 
             <!--div ng-include="$config.templateUrl('views/modules/news/block-properties.html')()"></div-->

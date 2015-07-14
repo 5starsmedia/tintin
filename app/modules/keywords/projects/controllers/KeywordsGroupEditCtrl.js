@@ -1,11 +1,16 @@
 export default
 class KeywordsGroupEditCtrl {
   /*@ngInject*/
-  constructor($scope, $state, project, group, notify, $filter, KeywordsUrlPreview, $timeout) {
+  constructor($scope, $state, project, group, notify, $filter, KeywordsUrlPreview, $timeout, NewsCategoryModel) {
     $scope.project = project;
     $scope.group = group;
 
     $scope.keywords = (group.keywords || '').split("\n");
+
+
+    NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
+      $scope.categories = data;
+    });
 
     $scope.getLink = () => {
       return location.origin + '/preview/keyword-group/' + group._id;

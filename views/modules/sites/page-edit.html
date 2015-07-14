@@ -3,50 +3,22 @@
 
 <st-form model="site" state="error" submit="saveItem(site)">
 
-<div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
-    <div class="hpanel" bz-loading-container="loading">
-        <div class="panel-body">
 
-            <div class="row">
-                <div class="col-lg-9">
+    <st-header title="{{site._id ? 'Editing of domain' : 'New domain'}}">
 
-                    <a ui-sref="sites.domains" class="back-btn">
-                        <span class="pe-7s-angle-left"></span>
-                    </a>
+        <a ng-href="http://{{site.domain}}" ng-if="site._id"
+           class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left" tooltip="{{'Open on site'|translate}}" target="_blank">
+            <span class="fa fa-external-link"></span>
+        </a>
 
-                    <h2 class="font-light m-b-xs">
-                        <span ng-if="!site._id" style="line-height: 30px;">{{'New domain'|translate}}</span>
-                        <span ng-if="site._id">{{'Editing of domain'|translate}}</span>
-                    </h2>
+        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+            {{'Save'|translate}}
+        </button>
+        <a ui-sref="sites.domains" class="btn btn-default">
+            {{'Cancel'|translate}}
+        </a>
 
-                    <small ng-if="site._id">
-                        {{'Domain created:'|translate}}
-                        {{site.createDate|date:'dd.MM.yyyy'}}
-                        {{'at'|translate}}
-                        {{site.createDate|date:'HH:mm'}}
-                    </small>
-
-                </div>
-                <div class="col-lg-3">
-
-                    <div class="form-actions">
-                        <a ng-href="http://{{site.domain}}" ng-if="site._id"
-                           class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left" tooltip="{{'Open on site'|translate}}" target="_blank">
-                            <span class="fa fa-external-link"></span>
-                        </a>
-
-                        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
-                            {{'Save'|translate}}
-                        </button>
-                        <a ui-sref="sites.domains" class="btn btn-default">
-                            {{'Cancel'|translate}}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    </st-header>
 
 <div class="content" animate-panel effect="zoomIn">
 

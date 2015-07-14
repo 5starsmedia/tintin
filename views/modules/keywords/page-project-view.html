@@ -2,45 +2,15 @@
 
 <st-form model="post" state="error" submit="saveItem(post)">
 
-<div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
-    <div class="hpanel" bz-loading-container="loading">
-        <div class="panel-body">
+    <st-header title="{{'Keywords Groups'|translate}}">
 
-            <div class="row">
-                <div class="col-lg-9">
-
-                    <a ui-sref="keywords.projects" class="back-btn">
-                        <span class="pe-7s-angle-left"></span>
-                    </a>
-
-                    <h2 class="font-light m-b-xs">
-                        <span>{{project.title}}</span>
-                    </h2>
-
-                    <small>
-                        {{'Project created:'|translate}}
-                        {{project.createDate|date:'dd.MM.yyyy'}}
-                        {{'at'|translate}}
-                        {{project.createDate|date:'HH:mm'}}
-                    </small>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="content" animate-panel effect="zoomIn">
-
-
-    <div class="pull-right">
         <a class="btn btn-success btn-outline" ui-sref="keywords.groupCreate({ projectId: project._id })">
             <i class="fa fa-plus"></i> {{'New group'|translate}}
         </a>
-    </div>
-    <h2 class="font-light m-b-xs ng-binding">
-        {{'Keywords Groups'|translate}}
-    </h2>
+
+    </st-header>
+
+<div class="content" animate-panel effect="zoomIn">
 
     <div class="hpanel">
         <div class="panel-body" bz-loading-container="loading">

@@ -2,46 +2,22 @@
 
   <st-form model="group" state="error" submit="saveItem(group)">
 
-    <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled"
-         class="normalheader transition animated fadeIn small-header">
-      <div class="hpanel" bz-loading-container="loading">
-        <div class="panel-body">
 
-          <div class="row">
-            <div class="col-lg-9">
+    <st-header title="{{group.title}}">
 
-              <a ui-sref="keywords.specifications" class="back-btn">
-                <span class="pe-7s-angle-left"></span>
-              </a>
+      <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
+              type="submit">
+        {{'Assign'|translate}}
+      </button>
+      <a ui-sref="keywords.specifications" class="btn btn-default">
+        {{'Cancel'|translate}}
+      </a>
 
-              <h2 class="font-light m-b-xs">
-                <span>{{group.title}}</span>
-              </h2>
+      <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('completed')"
+              class="btn btn-warning">{{'Back in work'|translate}}
+      </button>
 
-              <small>
-                {{'Specification created:'|translate}}
-                {{group.createDate|date:'dd.MM.yyyy'}}
-                {{'at'|translate}}
-                {{group.createDate|date:'HH:mm'}}
-              </small>
-
-            </div>
-            <div class="col-lg-3">
-
-              <div class="form-actions">
-                <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
-                        type="submit">
-                  {{'Save'|translate}}
-                </button>
-                <a ui-sref="keywords.specifications" class="btn btn-default">
-                  {{'Cancel'|translate}}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </st-header>
 
     <div class="content" animate-panel effect="zoomIn">
 
@@ -53,54 +29,35 @@
 
             <div ng-include="'views/modules/keywords/page-group-preview.html'"></div>
 
-            <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('completed')"
-                    class="btn btn-primary">Back
-            </button>
-
           </div>
         </div>
 
 
-        <div class="hpanel">
+        <st-panel title="{{'Comments'|translate}}">
 
-          <div class="panel-heading">
-            {{'Comments'|translate}}
-          </div>
+          <div comments-box collection-name="keywordGroups" place-holder="Комментарий..." resource-id="{{group._id}}"></div>
 
-          <div class="panel-body">
-
-            <div comments-box collection-name="keywordGroups" place-holder="Комментарий..." resource-id="{{group._id}}"></div>
-
-          </div>
-
-
-        </div>
+        </st-panel>
 
       </div>
       <div class="col-md-3">
 
-        <div class="hpanel hblue">
-          <div class="panel-heading">
-            {{'Assigment'|translate}}
-          </div>
-          <div class="panel-body">
+        <st-panel title="{{'Assigment'|translate}}">
 
+          <st-form-element label="{{'Assigned to'|translate}}" field="group.result.account">
 
-            <st-form-element label="{{'Assigned to'|translate}}" field="group.result.account">
+            <users-select-box account="group.result.account"></users-select-box>
 
-              <users-select-box account="group.result.account"></users-select-box>
+          </st-form-element>
 
-            </st-form-element>
+          <st-form-element label="{{'Due date'|translate}}" field="group.result.dueDate">
 
-            <st-form-element label="{{'Due date'|translate}}" field="group.result.dueDate">
+            <div ng-if="group.result.dueDate" date-picker="group.result.dueDate" min-view="date" view="date"></div>
+            <div ng-if="!group.result.dueDate" date-picker="group.result.dueDate" min-view="date"></div>
 
-              <div ng-if="group.result.dueDate" date-picker="group.result.dueDate" min-view="date" view="date"></div>
-              <div ng-if="!group.result.dueDate" date-picker="group.result.dueDate" min-view="date"></div>
+          </st-form-element>
 
-            </st-form-element>
-
-          </div>
-        </div>
+        </st-panel>
 
       </div>
       </div>

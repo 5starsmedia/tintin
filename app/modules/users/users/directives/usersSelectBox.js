@@ -10,7 +10,7 @@ export default
       },
       controller: /*@ngInject*/ ($scope, UserAccountModel) => {
         $scope.loading = true;
-        UserAccountModel.query({ page: 1, perPage: 100, fields: 'title,coverFile,imageUrl' }, function (res, headers) {
+        UserAccountModel.query({ page: 1, perPage: 100, fields: 'title,username,coverFile,imageUrl' }, function (res, headers) {
           $scope.loading = false;
 
           $scope.accounts = res;

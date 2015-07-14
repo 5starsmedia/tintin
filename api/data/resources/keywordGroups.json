@@ -9,6 +9,7 @@
       "get?_id": "*",
       "get?tags": "*",
       "get?status": ["keywords.specifications"],
+      "get?status&result.account._id": ["keywords.assignments"],
       "get?tags.title": "*",
       "get?project._id": "*",
       "get?category._id": "*",

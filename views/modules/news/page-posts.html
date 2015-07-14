@@ -51,7 +51,7 @@
                         </tr>
                         <tr ng-hide="group.$hideRows" ng-repeat="item in group.data">
                             <td style="width: 15%" class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
-                                <a class="text-info" ui-sref="news.edit({ id: item._id })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
+                                <a ui-sref="news.edit({ id: item._id })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
                                     <span ng-if="item.isTop" class="fa fa-star"></span>
 
                                     {{item.title}}

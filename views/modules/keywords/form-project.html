@@ -1,4 +1,4 @@
-<form name="field">
+<st-form name="field">
   <div class="color-line"></div>
   <div class="modal-header">
     <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -6,12 +6,11 @@
   </div>
   <div class="modal-body" bz-loading-container="loading">
 
-    <div class="form-group">
+      <st-form-element label="{{'Title'|translate}}" field="category._id">
 
-      <label>{{'Название'|translate}}</label>
-      <input class="form-control" type="text" ng-model="item.title"/>
+        <input class="form-control" type="text" ng-model="item.title"/>
 
-    </div>
+      </st-form-element>
 
   </div>
   <div class="modal-footer">
@@ -23,4 +22,4 @@
     <button type="submit" class="btn btn-primary" ng-click="saveItem(item)" ng-disabled="edit.$invalid">{{'Сохранить'|translate}}</button>
     <button type="button" class="btn btn-default" ng-click="close()" data-dismiss="modal">{{'Отмена'|translate}}</button>
   </div>
-</form>
+</st-form>
