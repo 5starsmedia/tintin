@@ -83,9 +83,6 @@ exports['seo.checkTextUniqueResult'] = function (app, msg, cb) {
           }
         } else {
           data.post.status = 2;
-          if (data.keywordGroup) {
-            data.keywordGroup.status = 'success';
-          }
         }
         if (data.keywordGroup) {
           data.keywordGroup.save(function(err) {
