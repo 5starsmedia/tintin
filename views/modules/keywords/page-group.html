@@ -3,17 +3,31 @@
   <st-form model="group" state="error" submit="saveItem(group)">
 
 
-
     <st-header title="{{group._id ? group.title : 'New group'}}">
 
+      <div ng-if="group.status && group.status == 'new'">
+        <button type="button" ng-if="group._id" ng-disabled="loadingScan" ng-class="{'m-progress': loadingScan}"
+                ng-click="runScan()"
+                class="btn btn-primary">
+          <span class="fa fa-search"></span>
+          {{'Scan'|translate}}
+        </button>
+      </div>
 
-      <button type="button" ng-if="group._id" ng-disabled="loadingScan" ng-class="{'m-progress': loadingScan}" ng-click="runScan()"
-              class="btn btn-primary">
-        <span class="fa fa-search"></span>
-        {{'Scan'|translate}}
-      </button>
+      <div ng-if="group.status && group.status == 'finded'">
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('scaned')"
+                class="btn btn-primary">
+          {{'Back'|translate}}
+        </button>
 
-      <button ng-disabled="loading" ng-if="!group._id" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()"
+                class="btn btn-primary">
+          {{'Next'|translate}}
+        </button>
+      </div>
+
+      <button ng-disabled="loading" ng-if="!group._id" ng-class="{'m-progress': loading}"
+              class="btn btn-primary btn-outline"
               type="submit">
         {{'Create'|translate}}
       </button>
@@ -109,7 +123,6 @@
 
           <div ng-if="group.status && group.status == 'finded'">
 
-
             <st-form-element label="{{'Body'|translate}}" field="group.result.text">
 
               <textarea id="text" class="form-control" name="text" ckeditor="editorOptions"
@@ -162,13 +175,6 @@
               <input type="number" step="100" class="form-control" ng-model="group.recomendation.minTextLength"/>
               <input type="number" step="100" class="form-control" ng-model="group.recomendation.maxTextLength"/>
             </div>
-            <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()"
-                    class="btn pull-right btn-primary">Next
-            </button>
-
-            <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('scaned')"
-                    class="btn btn-primary">Back
-            </button>
           </div>
 
           <div ng-if="group.status && group.status == 'scaned'">
@@ -192,16 +198,10 @@
                     <td style="table-layout: fixed" class="text-overflow">
                       <label class="text-overflow">
 
-
                         <div class="input-group input-group-sm">
-                                            <span ng-class="{'h-bg-green': site.isHttps}" class="input-group-addon"
-                                                  tooltip-placement="top"
-                                                  tooltip="{{'Secure protocol (HTTPS)'|translate}}">
-
-                                                            <input icheck ng-model="keyword.use" type="checkbox"/>
-                                            </span>
-
-
+                          <span class="input-group-addon">
+                            <input icheck ng-model="keyword.use" type="checkbox"/>
+                          </span>
                           <input type="text" class="form-control" ng-model="keyword.word"/>
                         </div>
                       </label>
@@ -261,7 +261,8 @@
 
       <st-panel title="{{'Comments'|translate}}">
 
-        <div comments-box collection-name="keywordGroups" place-holder="Комментарий..." resource-id="{{group._id}}"></div>
+        <div comments-box collection-name="keywordGroups" place-holder="Комментарий..."
+             resource-id="{{group._id}}"></div>
 
       </st-panel>
 
