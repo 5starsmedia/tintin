@@ -5,7 +5,7 @@
 
     <st-header title="{{group._id ? group.title : 'New group'}}">
 
-      <div ng-if="group.status && group.status == 'new'">
+      <div ng-if="group.status && group.status == 'new'" class="btn-group">
         <button type="button" ng-if="group._id" ng-disabled="loadingScan" ng-class="{'m-progress': loadingScan}"
                 ng-click="runScan()"
                 class="btn btn-primary">
@@ -14,9 +14,9 @@
         </button>
       </div>
 
-      <div ng-if="group.status && group.status == 'finded'">
+      <div ng-if="group.status && group.status == 'finded'" class="btn-group">
         <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('scaned')"
-                class="btn btn-primary">
+                class="btn btn-default">
           {{'Back'|translate}}
         </button>
 
@@ -26,9 +26,9 @@
         </button>
       </div>
 
-      <div ng-if="group.status && group.status == 'scaned'">
+      <div ng-if="group.status && group.status == 'scaned'" class="btn-group">
         <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('new')"
-                class="btn btn-primary">
+                class="btn btn-default">
           {{'Back'|translate}}
         </button>
         <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()"
