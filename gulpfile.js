@@ -61,6 +61,7 @@ var config = {
   entryFile: './app/init.js',
   outputDir: './build/',
   assetsDir: './assets/',
+  localeDir: './locale/',
   outputFile: 'app.js',
   views: './views/**/*.html'
 };
@@ -101,7 +102,7 @@ gulp.task('replace-base', ['usemin'], function(){
     .pipe(gulp.dest(config.outputDir));
 });
 
-gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'optimizeImages', 'replace-base', 'less'], function () {
+gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'copyLocale', 'optimizeImages', 'replace-base', 'less'], function () {
   process.exit(0);
 });
 
@@ -115,6 +116,10 @@ gulp.task('optimizeImages', ['clean'], function () {
 
 gulp.task('copyAssets', ['copyCkeditor', 'copyFavicon'], function () {
   return gulp.src(config.assetsDir + '**/*.{eot,ttf,woff,woff2,svg}')
+    .pipe(copy(config.outputDir));
+});
+gulp.task('copyLocale', ['copyCkeditor', 'copyFavicon'], function () {
+  return gulp.src(config.localeDir + '*.json')
     .pipe(copy(config.outputDir));
 });
 gulp.task('copyCkeditor', ['clean'], function () {
