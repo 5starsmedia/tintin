@@ -1,16 +1,16 @@
 export default
 class KeywordsAssignmentsViewCtrl {
   /*@ngInject*/
-  constructor($scope, $state, group, notify, $filter, NewsPostModel, NewsCategoryModel) {
+  constructor($scope, $state, group, notify, $filter, NewsPostModel, NewsCategoryModel, post) {
     $scope.group = group;
 
     NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
       $scope.categories = data;
     });
 
-    $scope.post = new NewsPostModel({
+    $scope.post = (post && post[0]) || new NewsPostModel({
       title: group.title,
-      status: 2,
+      status: 3,
       postType: 'post',
       category: group.category,
       keywordGroup: {

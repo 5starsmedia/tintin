@@ -55,7 +55,7 @@
   },
   {
     "sref": "keywords",
-    "title": {"en-US": "Keywords", "ru-RU": "Сео хрень"},
+    "title": {"en-US": "Keywords", "ru-RU": "Работа с ТЗ"},
     "permissions": [["keywords.projects"], ["keywords.specifications"], ["keywords.assignments"]],
     "items": [
       {

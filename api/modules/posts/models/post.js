@@ -38,6 +38,13 @@ var schema = new mongoose.Schema({
   attributes:  mongoose.Schema.Types.Mixed,
 
   status: {type: Number, required: true, default: 0},
+  // 7 Failed moderation
+  // 6 Deferred publication
+  // 5 Wait system moderation
+  // 4 Published
+  // 3 System moderation
+  // 2 On moderation
+  // 1 Draft
 
   viewsCount: {type: Number, required: true, default: 0},
   likesCount: {
@@ -63,6 +70,8 @@ var schema = new mongoose.Schema({
   ownPhoto: Boolean,
   isAllowComments: Boolean,
 
+  editorNotes: String,
+  extModerationId: String,
   keywords: [
     {
       word: String,

@@ -18,7 +18,6 @@ exports['seo.checkTextUnique'] = function (app, msg, cb) {
       app.services.html.clearHtml(data.post.body, function(err, text) {
         text = htmlToText.fromString(text, { wordwrap: 120, tables: false, ignoreHref: true, ignoreImage: true });
 
-        console.info(text.length, app.config.get('seo.text-ru.userkey'), text);
         var url = 'http://api.text.ru/post';
         request.post({
           url: url,
@@ -27,9 +26,14 @@ exports['seo.checkTextUnique'] = function (app, msg, cb) {
             userkey: app.config.get('seo.text-ru.userkey')
           }
         }, function (error, response, body) {
-          console.info(body);
-
-          next();
+          body = JSON.parse(body);
+          if (body.error_code) {
+            data.post.editorNotes = body.error_desc;
+            data.post.status = 7;
+          } else {
+            data.post.extModerationId = body.text_uid;
+          }
+          data.post.save(next);
         });
       });
     }]

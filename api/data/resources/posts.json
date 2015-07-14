@@ -51,6 +51,7 @@
       "get": "*",
       "get?account._id": ["posts"],
       "get?createdBy._id": ["posts"],
+      "get?keywordGroup._id": ["*"],
       "get?published": "*",
       "get?_id": "*",
       "get?tags": "*",

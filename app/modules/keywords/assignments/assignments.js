@@ -49,6 +49,9 @@ module.config(function ($stateProvider) {
       resolve: {
         group: function($stateParams, KeywordsGroupModel) {
           return KeywordsGroupModel.get({ _id: $stateParams.id }).$promise;
+        },
+        post: function($stateParams, NewsPostModel) {
+          return NewsPostModel.query({ 'keywordGroup._id': $stateParams.id, perPage: 1, page: 1 }).$promise;
         }
       }
     })

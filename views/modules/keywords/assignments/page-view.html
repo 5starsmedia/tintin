@@ -33,6 +33,16 @@
 
               <st-form model="post" state="error" submit="savePost(post)">
 
+                <div ng-if="post.status == 7" class="alert alert-warning">
+
+                  <st-form-element label="{{'Moderation notes'|translate}}" field="editorNotes">
+
+                    <textarea id="editorNotes" class="form-control" name="editorNotes" ng-model="post.editorNotes"></textarea>
+
+                  </st-form-element>
+
+                </div>
+
                 <st-form-element label="{{'Category'|translate}}" field="category._id">
 
                   <select ng-model="post.category._id" st-tree-select="categories" class="form-control" name="category"

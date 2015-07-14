@@ -39,20 +39,21 @@ router.get('/robots', function (req, res, next) {
 });
 
 router.get('/yandex', function (req, res, next) {
-  res.header('Content-Type', 'text/plain');
+  res.header('Content-Type', 'text/html');
 
   var file = req.site.yandexWebmasterTxt || '';
   file = file.replace('.html', '').replace('.txt', '').replace('yandex_', '');
 
   if (file != '' && req.query.id == file) {
-    res.end(req.site.yandexWebmasterTxt);
+    var content = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>Verification: ' + req.site.yandexWebmasterTxt + '</body></html>';
+    res.end(content);
   } else {
     res.status(404).end('Sorry!' + file);
   }
 });
 
 router.get('/google', function (req, res, next) {
-  res.header('Content-Type', 'text/plain');
+  res.header('Content-Type', 'text/html');
 
   var file = req.site.googleWebmasterTxt || '';
   file = file.replace('.html', '').replace('.txt', '').replace('google', '');
