@@ -45,7 +45,7 @@ router.get('/yandex', function (req, res, next) {
   file = file.replace('.html', '').replace('.txt', '').replace('yandex_', '');
 
   if (file != '' && req.query.id == file) {
-    var content = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>Verification: ' + req.site.yandexWebmasterTxt + '</body></html>';
+    var content = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>Verification: ' + file + '</body></html>';
     res.end(content);
   } else {
     res.status(404).end('Sorry!' + file);
