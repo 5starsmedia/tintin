@@ -70,7 +70,7 @@ a:focus {
   border-bottom: none;
   text-transform: uppercase;
 }
-.table > thead > tr > th:last-child {
+.table > thead > tr > th.actions {
   text-align: right;
 }
 .table > tbody > tr > td {
