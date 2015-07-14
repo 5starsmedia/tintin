@@ -6026,6 +6026,12 @@ iframe {
   color: #333333;
   background: #eee !important;
 }
+.text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+  white-space: nowrap;
+}
 small.timer {
   color: #d97572;
   font-weight: bold;
