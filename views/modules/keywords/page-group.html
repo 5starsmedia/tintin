@@ -6,13 +6,21 @@
 
     <st-header title="{{group._id ? group.title : 'New group'}}">
 
-      <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
+
+      <button type="button" ng-if="group._id" ng-disabled="loadingScan" ng-class="{'m-progress': loadingScan}" ng-click="runScan()"
+              class="btn btn-primary">
+        <span class="fa fa-search"></span>
+        {{'Scan'|translate}}
+      </button>
+
+      <button ng-disabled="loading" ng-if="!group._id" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
               type="submit">
-        {{'Save'|translate}}
+        {{'Create'|translate}}
       </button>
       <a ui-sref="keywords.projectView({ id: project._id })" class="btn btn-default">
         {{'Cancel'|translate}}
       </a>
+
 
     </st-header>
 
@@ -64,10 +72,6 @@
                               ng-model="group.keywords"></textarea>
 
             </st-form-element>
-
-            <button type="button" ng-disabled="loadingScan" ng-class="{'m-progress': loadingScan}" ng-click="runScan()"
-                    class="btn btn-primary">Scan
-            </button>
 
           </div>
 
@@ -122,7 +126,7 @@
                 <th style="width: 10%">Використовувати у ТЗ</th>
                 <th style="width: 20%">Тип входження</th>
               </tr>
-              <tr ng-repeat="keyword in group.recomendation.keywords">
+              <tr ng-repeat="keyword in group.recomendation.keywords track by keyword._id">
                 <td class="text-center">
                   <input icheck ng-model="keyword.required" type="checkbox"/>
                 </td>
@@ -255,21 +259,11 @@
       </div>
 
 
+      <st-panel title="{{'Comments'|translate}}">
 
-      <div class="hpanel">
+        <div comments-box collection-name="keywordGroups" place-holder="Комментарий..." resource-id="{{group._id}}"></div>
 
-        <div class="panel-heading">
-          {{'Comments'|translate}}
-        </div>
-
-        <div class="panel-body">
-
-          <div comments-box collection-name="keywordGroups" place-holder="Комментарий..." resource-id="{{group._id}}"></div>
-
-        </div>
-
-
-      </div>
+      </st-panel>
 
     </div>
 
