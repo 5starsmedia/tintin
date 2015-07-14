@@ -76,7 +76,7 @@ a:focus {
 .table > tbody > tr > td {
   border-top: solid 1px #EEE;
 }
-.table > tbody > tr > td:last-child {
+.table > tbody > tr > td.actions {
   text-align: right;
 }
 .table > tbody > tr:first-child > td {
