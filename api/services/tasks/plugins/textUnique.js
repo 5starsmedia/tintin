@@ -78,11 +78,16 @@ exports['seo.checkTextUniqueResult'] = function (app, msg, cb) {
         if (resp.result_json.unique < 90) {
           data.post.status = 7;
           data.post.editorNotes = 'Статья не уникальная. Уникальность: ' + resp.result_json.unique;
+          if (data.keywordGroup) {
+            data.keywordGroup.status = 'failedModeration';
+          }
         } else {
           data.post.status = 2;
+          if (data.keywordGroup) {
+            data.keywordGroup.status = 'success';
+          }
         }
         if (data.keywordGroup) {
-          data.keywordGroup.status = 'failedModeration';
           data.keywordGroup.save(function(err) {
             if (err) { return next(err); }
             data.post.save(next);
