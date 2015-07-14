@@ -46,7 +46,7 @@ exports['seo.checkTextUniqueResult'] = function (app, msg, cb) {
       app.models.posts.findOne({extModerationId: {$exists: true}, removed: {$exists: false}}, next);
     },
     'keywordGroup': ['post', function (next, data) {
-      if (!data.post.keywordGroup) {
+      if (!data.post || !data.post.keywordGroup) {
         return next();
       }
       app.models.keywordGroups.findById(data.post.keywordGroup._id, next);
@@ -85,8 +85,10 @@ exports['seo.checkTextUniqueResult'] = function (app, msg, cb) {
           data.post.status = 2;
         }
         if (data.keywordGroup) {
-          data.keywordGroup.save(function(err) {
-            if (err) { return next(err); }
+          data.keywordGroup.save(function (err) {
+            if (err) {
+              return next(err);
+            }
             data.post.save(next);
           })
         } else {
