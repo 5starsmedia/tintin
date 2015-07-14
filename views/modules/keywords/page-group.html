@@ -22,7 +22,18 @@
 
         <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()"
                 class="btn btn-primary">
-          {{'Next'|translate}}
+          {{'Create specification'|translate}}
+        </button>
+      </div>
+
+      <div ng-if="group.status && group.status == 'scaned'">
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('new')"
+                class="btn btn-primary">
+          {{'Back'|translate}}
+        </button>
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()"
+                class="btn btn-primary">
+          {{'Calculate keywords'|translate}}
         </button>
       </div>
 
@@ -245,9 +256,6 @@
                     <div class="b-html-preview" ng-bind-html="parsedData.text"></div>
                   </div>
                 </div>
-                <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()"
-                        class="btn btn-primary">Next
-                </button>
 
               </div>
             </div>
