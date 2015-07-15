@@ -14,8 +14,9 @@ var grid;
 
 var Grid = mongoose.mongo.Grid;
 
-var siteId = 3,
+var siteId = 1,//3,
   siteDomain = 'localhost',
+  sourceSite = 'http://news.vn.ua', //http://vinnitsaok.com.ua',
   users = {};
 
 var app = {};
@@ -311,7 +312,7 @@ var savePost = function (site, connection, item, next) {
 };
 
 var replaceImage = function(site, post, url, next) {
-  var shortUrl = url.replace('http://vinnitsaok.com.ua', '');
+  var shortUrl = url.replace(sourceSite, '');
 
   saveFile(site, post, 'posts', { id: post.id, url: shortUrl, is_main: post.files.length == 0, size: 1 }, function(err, file) {
     if (err) return next(err);
@@ -333,7 +334,7 @@ var saveAccount = function (site, connection, item, next) {
       account.salt = '';
       account.email = item.email;
       account.activated = item.is_active;
-      account.createDate = item.created_at;
+      account.createDate = item.created_at || new Date();
       account.activityDate = item.last_activity;
       account.title = item.firstname + ' ' + item.secondname;
       account.profile = {
@@ -376,7 +377,7 @@ var saveAccount = function (site, connection, item, next) {
             break;
           case 'photo':
             if (setting.value != '') {
-              account.imageUrl = setting.value.replace('http://vinnitsaok.com.ua/uploads', '');
+              account.imageUrl = setting.value.replace(sourceSite + '/uploads', '');
             }
             break;
           default:
@@ -467,9 +468,9 @@ var saveFile = function(site, post, collectionName, image, next) {
       }
       async.auto({
         'downloadImage': function(next) {
-          var link = 'http://vinnitsaok.com.ua/uploads' + image.url.replace('/uploads', '');
+          var link = sourceSite + '/uploads' + image.url.replace('/uploads', '');
           if (image.url.substring(1, 11) == 'wp-content') {
-            link = 'http://vinnitsaok.com.ua' + image.url;
+            link = sourceSite + image.url;
           }
           var options = url.parse(link);
 
@@ -538,8 +539,8 @@ async.auto({
   'connection': function (next) {
     var connection = mysql.createConnection({
       host: '5starsmedia.com.ua',
-      port: 33101,
-      user: 'admin',
+      port: 33110,
+      user: 'root',
       password: 'gjhndtqy777',
       database: 'collaborator_prod'
     });
@@ -575,7 +576,7 @@ async.auto({
       async.eachSeries(rows, _.partial(saveCategory, data.site, data.connection), next);
     });
   }],
-  'getNews': ['deletePosts', 'getUsers', 'connection', 'mongoConnection', function(next, data) {
+  'getNews': ['deletePosts', 'getCategories', 'getUsers', 'connection', 'mongoConnection', function(next, data) {
     data.connection.query('SELECT COUNT(*) AS cnt FROM com_news_posts WHERE site_id = ' + siteId, function (err, rows, fields) {
       if (err) throw err;
 

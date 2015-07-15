@@ -13,6 +13,7 @@ PostsModule.prototype.initModels = function () {
 };
 
 PostsModule.prototype.initRoutes = function () {
+  this.app.server.use('/api/posts/feed', require('./routes/feed.js'));
   this.app.server.use('/api/posts', require('./routes/posts.js'));
   this.app.server.use('/api/categories', nestedSet('categories'));
 };
