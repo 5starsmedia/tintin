@@ -37,6 +37,7 @@
     "viewsCount": {
       "get": ["*"],
       "get?category._id": "*",
+      "get?status&category._id": ["posts"],
       "get?account._id": ["posts"],
       "get?createdBy._id": ["posts"],
       "get?status": "*",
@@ -54,6 +55,7 @@
       "get?account._id": ["posts"],
       "get?createdBy._id": ["posts"],
       "get?keywordGroup._id": ["*"],
+      "get?status&category._id": ["posts"],
       "get?published": "*",
       "get?_id": "*",
       "get?tags": "*",
@@ -66,9 +68,9 @@
       "get?hasPhotoreport&published": "*",
       "get?isInterview&published": "*",
       "get?isBlog&published": "*",
-      "put?_id": ["admin", "*:owner"],
-      "post": "admin",
-      "delete?_id": "admin"
+      "put?_id": ["posts", "*:owner"],
+      "post": "posts",
+      "delete?_id": "posts"
     }
   }
 }
