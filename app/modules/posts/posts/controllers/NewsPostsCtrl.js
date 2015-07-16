@@ -1,7 +1,9 @@
 export default
 class NewsPostsCtrl {
   /*@ngInject*/
-  constructor($scope, $location, $q, NewsPostModel, BaseAPIParams, NgTableParams, NewsCategoryModel, UserAccountModel) {
+  constructor($scope, $location, $q, NewsPostModel, BaseAPIParams, NgTableParams, NewsCategoryModel, UserAccountModel, postType) {
+
+    $scope.postType = postType;
 
     NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
       $scope.category = data;
@@ -21,7 +23,11 @@ class NewsPostsCtrl {
         $location.search(params.url());
 
         $scope.loading = true;
-        NewsPostModel.query(BaseAPIParams({ status: [1,2,4,6], fields: 'title,likesCount,viewsCount,status,createDate,account,seo,createdBy,publishedDate' }, params), function (logs, headers) {
+        NewsPostModel.query(BaseAPIParams({
+          status: [1,2,4,6],
+          postType: postType,
+          fields: 'title,likesCount,viewsCount,status,createDate,account,seo,createdBy,publishedDate'
+        }, params), function (logs, headers) {
           $scope.loading = false;
           $scope.logs = logs;
           $defer.resolve(logs);

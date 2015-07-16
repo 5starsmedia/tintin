@@ -22,17 +22,51 @@
     ]
   },
   {
-    "sref": "news",
+    "sref": "post",
     "title": {"en-US": "Articles", "ru-RU": "Публикации"},
     "permissions": ["posts"],
     "items": [
       {
-        "sref": "news.posts",
+        "sref": "post.posts",
         "title": {"en-US": "List of articles", "ru-RU": "Список публикаций"},
         "permissions": ["posts"]
       },
       {
+        "sref": "post.categories",
+        "title": {"en-US": "Categories", "ru-RU": "Категории"},
+        "permissions": ["posts"]
+      }
+    ]
+  },
+  {
+    "sref": "news",
+    "title": {"en-US": "News", "ru-RU": "Новости"},
+    "permissions": ["posts"],
+    "items": [
+      {
+        "sref": "news.posts",
+        "title": {"en-US": "List of articles", "ru-RU": "Список статей"},
+        "permissions": ["posts"]
+      },
+      {
         "sref": "news.categories",
+        "title": {"en-US": "Categories", "ru-RU": "Категории"},
+        "permissions": ["posts"]
+      }
+    ]
+  },
+  {
+    "sref": "page",
+    "title": {"en-US": "Pages", "ru-RU": "Страницы"},
+    "permissions": ["posts"],
+    "items": [
+      {
+        "sref": "page.posts",
+        "title": {"en-US": "List of pages", "ru-RU": "Список страниц"},
+        "permissions": ["posts"]
+      },
+      {
+        "sref": "page.categories",
         "title": {"en-US": "Categories", "ru-RU": "Категории"},
         "permissions": ["posts"]
       }

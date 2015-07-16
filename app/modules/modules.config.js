@@ -1,7 +1,7 @@
 import base from './base/base';
 import notifications from './notifications/notifications';
 import auth from './auth/auth';
-import news from './news/news';
+import posts from './posts/posts';
 import menu from './menu/menu';
 import users from './users/users';
 import sites from './sites/sites';
@@ -21,7 +21,7 @@ export default [
   notifications,
   auth,
   sites,
-  news,
+  posts,
   menu,
   users,
   ads,

@@ -13,8 +13,20 @@ var express = require('express'),
   S = require('string'),
   config = require('../config.js');
 
-function getRoot(req, collectionName, callback) {
-  req.app.models[collectionName].findOne({ 'site._id': req.site._id, parentId: null }, function(err, node) {
+function buildQuery(req, query, opts) {
+  if (opts.fields) {
+    _.forEach(opts.fields, function(field) {
+      if (req.query[field]) {
+        query[field] = req.query[field];
+      }
+    });
+  }
+  return query;
+}
+
+function getRoot(req, collectionName, opts, callback) {
+  console.info(buildQuery(req, { 'site._id': req.site._id, parentId: null }, opts))
+  req.app.models[collectionName].findOne(buildQuery(req, { 'site._id': req.site._id, parentId: null }, opts), function(err, node) {
     if (err) return callback(err);
 
     if (!node) {
@@ -42,22 +54,22 @@ function sortChildren(node) {
   return node.children;
 }
 
-function processGet(collectionName, req, res, next) {
+function processGet(collectionName, opts, req, res, next) {
 
   async.auto({
     'root': function(next) {
       if (req.params.id) {
         req.app.models[collectionName].findById(new mongoose.Types.ObjectId(req.params.id), next);
       } else {
-        getRoot(req, collectionName, next);
+        getRoot(req, collectionName, opts, next);
       }
     },
     'tree': ['root', function(next, data) {
       data.root.getArrayTree({
-        condition: {
+        condition: buildQuery(req, {
           'site._id': req.site._id,
           removed: {$exists: false}
-        }
+        }, opts)
       }, function(err, tree) {
         if (err) return next(err);
         next(undefined, tree[0]);
@@ -72,7 +84,7 @@ function processGet(collectionName, req, res, next) {
 
 };
 
-function processPost(collectionName, req, res, next) {
+function processPost(collectionName, opts, req, res, next) {
   async.auto({
     'before': function(next) {
       if (!req.query.before) {
@@ -98,7 +110,7 @@ function processPost(collectionName, req, res, next) {
         return next(null, data.before._w);
       }
       if (req.query.insert) {
-        req.app.models[collectionName].collection.update({ parentId: data.parent._id }, { $inc: { _w: 1 } }, { multi: true }, function(err, data) {
+        req.app.models[collectionName].collection.update(buildQuery(req, { parentId: data.parent._id }, opts), { $inc: { _w: 1 } }, { multi: true }, function(err, data) {
           if (err) return next(err);
 
           return next(undefined, 1);
@@ -147,7 +159,7 @@ function processPost(collectionName, req, res, next) {
 
 }
 
-function processPut(collectionName, req, res, next) {
+function processPut(collectionName, opts, req, res, next) {
 
   async.auto({
     'element': function(next) {
@@ -161,20 +173,20 @@ function processPut(collectionName, req, res, next) {
         return next();
       }
       // remove after on old position
-      req.app.models[collectionName].collection.update({
+      req.app.models[collectionName].collection.update(buildQuery(req, {
         _id: { $ne: data.element._id },
         parentId: data.element.parentId,
         'site._id': req.site._id,
         _w: { $gt: data.element._w }
-      }, { $inc: { _w: -1 } }, { multi: true }, function(err) {
+      }, opts), { $inc: { _w: -1 } }, { multi: true }, function(err) {
         if (err) return next(err);
 
         // add after to new position
-        req.app.models[collectionName].collection.update({
+        req.app.models[collectionName].collection.update(buildQuery(req, {
           _id: { $ne: data.element._id },
           parentId: new mongoose.Types.ObjectId(req.body.parentId),
           _w: {$gte: parseInt(req.query.position)}
-        }, { $inc: { _w: 1 } }, { multi: true }, next);
+        }, opts), { $inc: { _w: 1 } }, { multi: true }, next);
 
       });
     }],
@@ -196,13 +208,15 @@ function processPut(collectionName, req, res, next) {
 
 }
 
-module.exports = function (collectionName) {
+module.exports = function (collectionName, opts) {
   var router = express.Router();
 
-  router.get('/tree', _.partial(processGet, collectionName));
-  router.get('/:id/tree', _.partial(processGet, collectionName));
-  router.post('/:id', _.partial(processPost, collectionName));
-  router.put('/:id', _.partial(processPut, collectionName));
+  opts = _.extend({}, opts);
+
+  router.get('/tree', _.partial(processGet, collectionName, opts));
+  router.get('/:id/tree', _.partial(processGet, collectionName, opts));
+  router.post('/:id', _.partial(processPost, collectionName, opts));
+  router.put('/:id', _.partial(processPut, collectionName, opts));
 
   return router;
 };

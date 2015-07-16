@@ -1,8 +1,9 @@
 export default
 class NewsEditCategoryCtrl {
   /*@ngInject*/
-  constructor($scope, item, $state, NewsCategoryModel, $modal, notify, $filter, $q) {
+  constructor($scope, item, $state, NewsCategoryModel, $modal, notify, $filter, postType) {
     $scope.item = item;
+    $scope.postType = postType;
 
     $scope.$watch('tree', function(tree) {
       if (angular.isUndefined(tree)) {
@@ -55,7 +56,7 @@ class NewsEditCategoryCtrl {
 
     $scope.cancel = function () {
       $scope.editedItem._id = null;
-      $state.go('news.categories');
+      $state.go(postType + '.categories');
     };
   }
 }

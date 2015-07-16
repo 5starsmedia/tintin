@@ -1,13 +1,15 @@
 export default
 class NewsCategoriesCtrl {
   /*@ngInject*/
-  constructor($scope, $state, $filter, $stateParams, NewsCategoryModel) {
+  constructor($scope, $state, $filter, $stateParams, NewsCategoryModel, postType) {
+
+    $scope.postType = postType;
 
     $scope.loading = true;
     $scope.editedItem = { _id: null };
 
     var loadData = () => {
-      NewsCategoryModel.getTree(function (res) {
+      NewsCategoryModel.getTree({ postType: postType }, function (res) {
         $scope.loading = false;
         $scope.tree = res;
       });
@@ -60,7 +62,7 @@ class NewsCategoriesCtrl {
 
     $scope.setActive = function(item) {
       $scope.selectedItem = item;
-      $state.go('news.categories.edit', { id: item._id });
+      $state.go(postType + '.categories.edit', { id: item._id });
     }
   }
 }

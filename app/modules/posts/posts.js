@@ -4,7 +4,7 @@ import dashboard from './dashboard/dashboard';
 
 import editorSelectImages from './ckeditor_plugins/selectImage/plugin.js';
 
-var appName = 'module.news';
+var appName = 'module.posts';
 
 var module = angular.module(appName, [
   editorSelectImages,

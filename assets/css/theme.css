@@ -4806,7 +4806,7 @@ body.cover {
 }
 .nav-nested.editable li .panel-heading {
   position: relative;
-  padding-left: 46px;
+  padding: 7px 15px 7px 46px;
   display: block;
 }
 .nav-nested.editable li .panel-primary .drag-handle,

@@ -6,6 +6,8 @@ var mongoose = require('mongoose'),
 var schema = new mongoose.Schema({
   id: Number,
 
+  postType: {type: String, default: 'news', enum: ['news', 'post', 'page', 'announce']},
+
   // Назва
   title: {type: String, required: true},
   alias: String,

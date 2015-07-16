@@ -28,7 +28,7 @@
         <div class="col-md-9">
 
             <div class="pull-right">
-                <a class="btn btn-success btn-outline" ui-sref="news.create">
+                <a class="btn btn-success btn-outline" ui-sref="{{postType}}.create">
                     <i class="fa fa-plus"></i> {{'New article'|translate}}
                 </a>
             </div>
@@ -75,14 +75,14 @@
 
                                 </span>
                             </td>
-                            <!--td style="width: 5%" data-title="'Positions'|translate" sortable="'seo.google'" class="text-center">
+                            <td ng-show="postType == 'post'" style="width: 5%" data-title="'Positions'|translate" sortable="'seo.google'" class="text-center">
 
                                 <div popover-template="'seo-info.html'" popover-placement="bottom">
                                     <span ng-if="item.seo.google">G: {{item.seo.google}}</span><span ng-if="item.seo.google && item.seo.yandex">,</span>
                                     <span ng-if="item.seo.yandex">Y: {{item.seo.yandex}}</span>
                                 </div>
 
-                            </td-->
+                            </td>
                             <td style="width: 5%" data-title="'Views'|translate" sortable="'viewsCount'" class="text-center">
                                 <span class="fa fa-eye"></span> {{item.viewsCount}}
                             </td>

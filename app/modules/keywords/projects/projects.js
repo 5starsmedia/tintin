@@ -1,7 +1,7 @@
 var appName = 'module.keywords.projects';
 
 import models from '../models/models.js';
-import newsModels from '../../news/models/models.js';
+import newsModels from '../../posts/models/models.js';
 
 let module = angular.module(appName, [
   'base',
