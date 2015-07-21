@@ -1,12 +1,15 @@
 export default
 class KeywordsGroupEditCtrl {
   /*@ngInject*/
-  constructor($scope, $state, project, group, notify, $filter, KeywordsUrlPreview, $timeout, NewsCategoryModel) {
+  constructor($scope, $state, project, group, notify, $filter, KeywordsUrlPreview, $timeout, NewsCategoryModel, SiteDomainModel) {
     $scope.project = project;
     $scope.group = group;
 
     $scope.keywords = (group.keywords || '').split("\n");
 
+    SiteDomainModel.getCurrent((site) => {
+      $scope.site = site;
+    });
 
     NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
       $scope.categories = data;
@@ -37,7 +40,7 @@ class KeywordsGroupEditCtrl {
       group.status = status;
       group.$save((data) => {
         $scope.loading = false;
-        if (status == 'inwork') {
+        if (status == 'editorValidation') {
           notify({
             message: $filter('translate')('Group submitted to the work!'),
             classes: 'alert-success'

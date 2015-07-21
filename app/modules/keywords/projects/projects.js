@@ -29,6 +29,10 @@ module.controller('KeywordsProjectsCtrl', KeywordsProjectsCtrl)
   .controller('KeywordsProjectEditCtrl', KeywordsProjectEditCtrl);
 
 
+import keywordsStatus from './directives/keywordsStatus.js';
+
+module.directive('keywordsStatus', keywordsStatus);
+
 // config
 module.config(function ($stateProvider) {
   $stateProvider

@@ -11,7 +11,7 @@ class KeywordsSpecificationsCtrl {
     }, {
       getData: function ($defer, params) {
         $scope.loading = true;
-        KeywordsGroupModel.query(BaseAPIParams({ fields: 'title,createDate,status,result', status: ['assign','inwork'] }, params), function (projects, headers) {
+        KeywordsGroupModel.query(BaseAPIParams({ fields: 'title,createDate,status,result', status: ['editorValidation', 'assign','inwork', 'moderation'] }, params), function (projects, headers) {
           $scope.loading = false;
           $scope.projects = projects;
           $defer.resolve(projects);

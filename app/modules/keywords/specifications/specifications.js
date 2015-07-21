@@ -17,9 +17,11 @@ let module = angular.module(appName, [
 // controllers
 import KeywordsSpecificationsCtrl from './controllers/KeywordsSpecificationsCtrl.js';
 import KeywordsSpecificationViewCtrl from './controllers/KeywordsSpecificationViewCtrl.js';
+import KeywordsReturnTaskCtrl from './controllers/KeywordsReturnTaskCtrl.js';
 
 module.controller('KeywordsSpecificationsCtrl', KeywordsSpecificationsCtrl);
 module.controller('KeywordsSpecificationViewCtrl', KeywordsSpecificationViewCtrl);
+module.controller('KeywordsReturnTaskCtrl', KeywordsReturnTaskCtrl);
 
 
 // config

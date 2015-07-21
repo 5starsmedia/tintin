@@ -13,7 +13,17 @@ class KeywordsGroupsCtrl {
     }, {
       getData: function ($defer, params) {
         $scope.loading = true;
-        KeywordsGroupModel.query(BaseAPIParams({ 'project._id': project._id }, params), function (groups, headers) {
+        KeywordsGroupModel.query(BaseAPIParams({
+          'project._id': project._id,
+          status: [
+            'new',
+            'inprocess',
+            'scaned',
+            'finded',
+            'completed',
+            'returned'
+          ]
+        }, params), function (groups, headers) {
           $scope.loading = false;
           $scope.groups = groups;
           $defer.resolve(groups);

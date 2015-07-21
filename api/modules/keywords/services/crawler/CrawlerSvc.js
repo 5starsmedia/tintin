@@ -50,8 +50,11 @@ CrawlerSvc.prototype.getUrlContent = function (requestUrl, userAgent, next) {
           bodyEncoding = null;
         }
         if (bodyEncoding) {
-          var iconv = new Iconv(bodyEncoding, 'utf-8');
-          body = iconv.convert(new Buffer(body)).toString();
+          try {
+            var iconv = new Iconv(bodyEncoding, 'utf-8');
+            body = iconv.convert(new Buffer(body)).toString();
+          } catch (e) {
+          }
         }
 
         var urlObj = new app.models.crawledUrls();

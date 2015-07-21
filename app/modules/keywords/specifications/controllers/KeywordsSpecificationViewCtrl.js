@@ -1,8 +1,12 @@
 export default
 class KeywordsSpecificationViewCtrl {
   /*@ngInject*/
-  constructor($scope, $state, group, notify, $filter) {
+  constructor($scope, $state, group, notify, $filter, SiteDomainModel, $modal) {
     $scope.group = group;
+
+    SiteDomainModel.getCurrent((site) => {
+      $scope.site = site;
+    });
 
     $scope.back = (status) => {
       $scope.loading = true;
@@ -35,6 +39,38 @@ class KeywordsSpecificationViewCtrl {
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;
+      });
+    };
+
+    $scope.returnToAuthor = () => {
+      var modalInstance = $modal.open({
+        templateUrl: 'views/modules/keywords/specifications/form-backToAuthor.html',
+        controller: 'KeywordsReturnTaskCtrl',
+        resolve: {
+          item: () => {
+            return $scope.group;
+          }
+        }
+      });
+
+      $scope.loading = true;
+      modalInstance.result.then(function (item) {
+        $scope.loading = false;
+
+        item.status = 'failedModeration';
+        item.$save(() => {
+          $scope.loading = false;
+          notify({
+            message: $filter('translate')('Return to author!'),
+            classes: 'alert-success'
+          });
+          $state.go('^.specifications');
+        }, (res) => {
+          $scope.loading = false;
+          $scope.error = res.data;
+        });
+      }, function () {
+        $scope.loading = false;
       });
     };
 

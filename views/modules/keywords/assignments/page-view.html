@@ -8,7 +8,7 @@
       <button ng-if="group.status == 'assign'" type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('inwork')"
               class="btn btn-primary">{{'Get in work'|translate}}
       </button>
-      <button ng-if="group.status == 'inwork'" type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="savePost(post)"
+      <button ng-if="group.status == 'inwork' || group.status == 'failedModeration'" type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('moderation')"
               class="btn btn-success">{{'Complete'|translate}}
       </button>
       <a ui-sref="keywords.specifications" class="btn btn-default">
@@ -31,13 +31,16 @@
 
             <div ng-if="group.status == 'inwork' || group.status == 'failedModeration'">
 
-              <st-form model="post" state="error" submit="savePost(post)">
+              <st-form model="group" state="error" submit="back('moderation')">
 
-                <div ng-if="post.status == 7" class="alert alert-warning">
+                <div ng-if="group.status == 'failedModeration'" class="alert alert-warning">
 
-                  <st-form-element label="{{'Moderation notes'|translate}}" field="editorNotes">
+                  <strong>{{'Comment of editor'|translate}}</strong>
+                  <div ng-bind="group.result.editorNotes"></div>
 
-                    <textarea id="editorNotes" class="form-control" name="editorNotes" ng-model="post.editorNotes"></textarea>
+                  <st-form-element label="{{'Your comment'|translate}}" field="authorNotes">
+
+                    <textarea id="editorNotes" class="form-control" name="authorNotes" ng-model="group.result.authorNotes"></textarea>
 
                   </st-form-element>
 
@@ -45,7 +48,7 @@
 
                 <st-form-element label="{{'Category'|translate}}" field="category._id">
 
-                  <select ng-model="post.category._id" st-tree-select="categories" class="form-control" name="category"
+                  <select ng-model="group.category._id" st-tree-select="categories" class="form-control" name="category"
                           required></select>
 
                 </st-form-element>
@@ -53,27 +56,27 @@
                 <st-form-element label="{{'Body'|translate}}" field="body">
 
                                 <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
-                                          ng-model="post.body"></textarea>
+                                          ng-model="group.result.text"></textarea>
 
                 </st-form-element>
 
 
                 <st-panel title="{{'Attached images'|translate}}" is-red="!post.files.length"
-                          is-yellow="post.files.length && !post.coverFile">
+                          is-yellow="group.result.files.length && !post.coverFile">
 
-                  <div editor-select-images="post.files">
+                  <div editor-select-images="group.result.files">
 
-                    <div class="alert alert-danger" ng-if="!post.files.length">
+                    <div class="alert alert-danger" ng-if="!group.result.files.length">
                       <span class="fa fa-picture-o"></span> {{'Upload one or more images'|translate}}
                     </div>
-                    <div class="alert alert-warning" ng-if="post.files.length && !post.coverFile">
+                    <div class="alert alert-warning" ng-if="group.result.files.length && !group.result.coverFile">
                       <span class="fa fa-flag"></span> {{'Select the cover image'|translate}}
                     </div>
 
                     <div>
 
-                      <cs-file-upload resource-id="{{post._id}}" collection-name="posts" files="post.files"
-                                      cover-file="post.coverFile" has-cover-select="true">
+                      <cs-file-upload resource-id="{{group._id}}" collection-name="keywordGroups" files="group.result.files"
+                                      cover-file="group.result.coverFile" has-cover-select="true">
                       </cs-file-upload>
                     </div>
 
@@ -103,7 +106,8 @@
 
           <div ng-if="group.result.dueDate">
 
-            {{group.result.dueDate}}
+            {{'Due date'|translate}}:
+            {{group.result.dueDate|date:'dd.MM.yyyy'}}
 
           </div>
 

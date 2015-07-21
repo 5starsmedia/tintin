@@ -13,7 +13,8 @@ var schema = new mongoose.Schema({
     'scaned',
     'finded',
     'completed',
-    'assign',// видно у редактора
+    'editorValidation',// видно у редактора
+    'returned',// редактор вернул на доработку
     'inwork', // в роботі у автора
     'moderation',
     'failedModeration',
@@ -33,7 +34,21 @@ var schema = new mongoose.Schema({
   createDate: {type: Date, required: true, default: Date.now},
 
   result: {
-    text: String,
+    coverFile: {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String
+    },
+    files: [
+      {
+        _id: mongoose.Schema.Types.ObjectId,
+        title: String,
+        ordinal: Number
+      }
+    ],
+    text: String, // готовая статья
+    editorNotes: String, // комментарий редактора
+    creatorNotes: String, // комментарий компоновщика
+    authorNotes: String, // комментарий автора
     account: {
       _id: mongoose.Schema.Types.ObjectId,
       username: String,

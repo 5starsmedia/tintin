@@ -1,13 +1,17 @@
 export default
 class KeywordsAssignmentsViewCtrl {
   /*@ngInject*/
-  constructor($scope, $state, group, notify, $filter, NewsPostModel, NewsCategoryModel, post) {
+  constructor($scope, $state, group, notify, $filter, NewsPostModel, NewsCategoryModel, post, SiteDomainModel) {
     $scope.group = group;
+
+    SiteDomainModel.getCurrent((site) => {
+      $scope.site = site;
+    });
 
     NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
       $scope.categories = data;
     });
-
+/*
     $scope.post = (post && post[0]) || new NewsPostModel({
       title: group.title,
       status: 3,
@@ -20,7 +24,7 @@ class KeywordsAssignmentsViewCtrl {
         _id: group.result.account._id,
         title: group.result.account.title
       }
-    });
+    });*/
 
     $scope.back = (status) => {
       $scope.loading = true;
@@ -41,26 +45,16 @@ class KeywordsAssignmentsViewCtrl {
 
     $scope.savePost = (item) => {
       $scope.loading = true;
-      let save = item._id ? item.$save : item.$create;
-      delete item.viewsCount;
-      delete item.commentsCount;
-      save.call(item, (data) => {
-
-        group.status = 'moderation';
-        group.$save((data) => {
-          $scope.loading = false;
-          notify({
-            message: $filter('translate')('On moderation'),
-            classes: 'alert-success'
-          });
-          $state.go('^.assignments');
-        }, (err) => {
-          $scope.loading = false;
-        });
-
-      }, (res) => {
+      group.status = 'moderation';
+      group.$save((data) => {
         $scope.loading = false;
-        $scope.error = res.data;
+        notify({
+          message: $filter('translate')('On moderation'),
+          classes: 'alert-success'
+        });
+        $state.go('^.assignments');
+      }, (err) => {
+        $scope.loading = false;
       });
     };
 

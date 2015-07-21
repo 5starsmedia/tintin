@@ -12,6 +12,7 @@
       "get?status&result.account._id": ["keywords.assignments"],
       "get?tags.title": "*",
       "get?project._id": "*",
+      "get?project._id&status": "*",
       "get?category._id": "*",
       "put?_id": ["admin", "*:owner"],
       "put?_id&position": ["admin", "*:owner"],

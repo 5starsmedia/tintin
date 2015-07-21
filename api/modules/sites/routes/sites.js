@@ -7,7 +7,24 @@ var express = require('express'),
   router = express.Router();
 
 router.get('/current', function (req, res, next) {
-  res.json(req.site);
+  async.auto({
+    'site': function(next) {
+      next(null, req.site);
+    },
+    'text': function(next) {
+      req.app.services.data.getResource('tz', next)
+    },
+    'checkText': ['site', 'text', function (next, data) {
+      if (!_.get(data.site, 'tz.defaultText')) {
+        _.set(data.site, 'tz.defaultText', data.text['default-tz-text']);
+      }
+      next(null, data.site);
+    }]
+  }, function(err, data) {
+    if (err) { return next(err); }
+
+    res.json(data.checkText);
+  });
 });
 
 router.get('/settings', function (req, res, next) {

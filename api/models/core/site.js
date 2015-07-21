@@ -42,6 +42,10 @@ var schema = new mongoose.Schema({
     structureLevel: {type: Number, required: true, default: 2}
   },
 
+  tz: {
+    defaultText: String
+  },
+
   yandexXml: String,
   yandexCName: String,
   yandexWebmasterTxt: String,
