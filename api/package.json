@@ -51,6 +51,7 @@
     "pwd": "0.0.4",
     "request": "^2.53.0",
     "request-context": "^0.1.5",
+    "rss": "^1.1.1",
     "sanitize-html": "^1.6.1",
     "sentence-tokenizer": "0.0.7",
     "serve-static": "^1.8.1",
