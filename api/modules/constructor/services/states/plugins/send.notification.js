@@ -39,6 +39,9 @@ function sendFeedbackNotification(app, state, args, next) {
       app.models.accounts.findById(state.settings.userId, next);
     },
     'sendNotification': ['account', 'feedback', function (next, data) {
+      if (!data.account) {
+        return next();
+      }
       var opts = {
         title: 'New feedback',
         text: 'New feedback',

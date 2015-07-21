@@ -5,7 +5,7 @@ class NewsPostsCtrl {
 
     $scope.postType = postType;
 
-    NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
+    NewsCategoryModel.getTree({ postType: postType, page: 1, perPage: 100 }, (data) => {
       $scope.category = data;
     });
 

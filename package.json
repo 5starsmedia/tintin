@@ -18,6 +18,7 @@
     "gulp-angular-templatecache": "^1.5.0",
     "gulp-angular-translate": "^0.1.4",
     "gulp-angular-translate-extractor": "^1.0.0",
+    "gulp-apidoc": "^0.1.4",
     "gulp-concat": "^2.5.2",
     "gulp-copy": "0.0.2",
     "gulp-imagemin": "^2.2.1",
@@ -36,5 +37,15 @@
     "rimraf": "~2.2.8",
     "vinyl-source-stream": "^1.0.0",
     "watchify": "^2.6.0"
+  },
+  "apidoc": {
+    "name": "Paphos CMS",
+    "version": "0.0.1",
+    "description": "",
+    "title": "API Documentation of Paphos CMS",
+    "template": {
+      "withCompare": true,
+      "withGenerator": true
+    }
   }
 }

@@ -24,7 +24,7 @@ module.exports = function createdByPlugin(schema, options) {
     var account = contextService.get('request:account'),
       keys =  _.keys(options.UserSchema);
 
-    if (!this.createdBy && account) {
+    if (!this.createdBy || !this.createdBy._id && account) {
       this.createdBy = _.pick(account, keys);
     }
     next();

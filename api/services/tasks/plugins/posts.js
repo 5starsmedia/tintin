@@ -50,3 +50,21 @@ exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb
     }]
   }, cb);
 };
+
+
+
+exports['posts.deferredPublication'] = function (app, msg, cb) {
+  async.auto({
+    'posts': function(next) {
+      app.models.posts.find({ status: 6, publishedDate: { $lt: new Date() } }, next);
+    },
+    'generateKeywords': ['posts', function(next, res) {
+
+      async.eachLimit(res.posts, 5, function(item, next){
+        item.createDate = item.publishedDate;
+        item.status = 4;
+        item.save(next);
+      }, next);
+    }]
+  }, cb);
+};

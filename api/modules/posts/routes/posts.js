@@ -6,6 +6,13 @@ var express = require('express'),
   async = require('async'),
   router = express.Router();
 
+/**
+ * @api {get} /api/posts Получить список постов
+ * @apiName posts
+ * @apiGroup posts
+ * @apiVersion 0.0.1
+ */
+
 router.get('/import', function (req, res, next) {
   return;
   _.forEach(data, function(item) {
@@ -26,6 +33,14 @@ router.get('/import', function (req, res, next) {
   });
 });
 
+/**
+ * @api {get} /api/posts/tags-complete?term=:term Автокомплит тегов
+ * @apiName tags-complete
+ * @apiGroup posts
+ * @apiVersion 0.0.1
+ *
+ * @apiParam {String} [term] Строка поиска
+ */
 router.get('/tags-complete', function (req, res, next) {
   if (req.auth.isGuest) {
     res.status(401).end();

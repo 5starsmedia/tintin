@@ -23,6 +23,7 @@ var gulp = require('gulp'),
   htmlify = require('gulp-angular-htmlify'),
   ngAnnotate = require('gulp-ng-annotate'),
   replace = require('gulp-replace'),
+  apidoc = require('gulp-apidoc'),
   extractTranslate = require('gulp-angular-translate-extractor'),
   url = require('url'),
   fs = require('fs'),
@@ -227,6 +228,14 @@ gulp.task('watch', ['build-persistent'], function () {
 
   getBundler().on('update', function () {
     gulp.start('build-persistent')
+  });
+});
+
+gulp.task('doc', function() {
+  apidoc.exec({
+    src: "api/",
+    dest: "docs/",
+    excludeFilters: ["node_modules/"]
   });
 });
 

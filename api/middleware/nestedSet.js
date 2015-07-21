@@ -25,18 +25,15 @@ function buildQuery(req, query, opts) {
 }
 
 function getRoot(req, collectionName, opts, callback) {
-  console.info(buildQuery(req, { 'site._id': req.site._id, parentId: null }, opts))
   req.app.models[collectionName].findOne(buildQuery(req, { 'site._id': req.site._id, parentId: null }, opts), function(err, node) {
     if (err) return callback(err);
 
     if (!node) {
-      node = new req.app.models[collectionName]();
+      node = new req.app.models[collectionName](buildQuery(req, { lft: 1, rgt: 2 }, opts));
       node.title = 'root';
       node.site = {
         _id: req.site._id
       };
-      node.lft = 1;
-      node.rgt = 2;
       node.save(function(err) {
         if (err) return callback(err);
         callback(undefined, node);
