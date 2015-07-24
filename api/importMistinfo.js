@@ -16,6 +16,44 @@ app.log = require('./log.js');
 app.config = require('./config.js');
 app.models = require('./models');
 
+var PostsModule = require('./modules/posts'),
+  CommentsModule = require('./modules/comments'),
+  KeywordsModule = require('./modules/keywords'),
+  EcommerceModule = require('./modules/ecommerce'),
+  UploadsModule = require('./modules/uploads'),
+  MenuModule = require('./modules/menu'),
+  WikiModule = require('./modules/wiki'),
+  AdsModule = require('./modules/ads'),
+  UsersModule = require('./modules/users'),
+  SitesModule = require('./modules/sites'),
+  SitemapModule = require('./modules/sitemap');
+
+app.modules = {
+  posts: new PostsModule(app),
+  comments: new CommentsModule(app),
+  keywords: new KeywordsModule(app),
+  ecommerce: new EcommerceModule(app),
+  uploads: new UploadsModule(app),
+  menu: new MenuModule(app),
+  wiki: new WikiModule(app),
+  ads: new AdsModule(app),
+  users: new UsersModule(app),
+  sites: new SitesModule(app),
+  sitemap: new SitemapModule(app),
+
+  each: function(callFunc) {
+    _.forEach(app.modules, function(obj, name) {
+      if (typeof obj == 'object') {
+        callFunc(obj);
+      }
+    });
+  }
+};
+app.modules.each(function(moduleObj) {
+  moduleObj.initModels();
+});
+
+
 var categoriesId2_Id = {};
 var brandsId2_Id = {};
 
@@ -25,7 +63,7 @@ var saveItem = function(site, connection, item, next) {
     if (!product) {
       product = new app.models.products({ id: id, site: { _id: site._id } });
     }
-    product.title = item.title;
+    product.title = item.title || '-';
     product.body = item.description;
     product.code = item.code;
     product.createDate = moment(item.created_at).toDate();
@@ -38,15 +76,20 @@ var saveItem = function(site, connection, item, next) {
     product.isHit = item.hit;
     product.inStockCount = item.count;
     product.ordinal = item.order;
-    product.category = {
-      _id: categoriesId2_Id[item.category_id]._id,
-      title: categoriesId2_Id[item.category_id].title,
-      alias: categoriesId2_Id[item.category_id].alias
-    };
-    product.brand = {
-      _id: brandsId2_Id[item.brand_id]._id,
-      title: brandsId2_Id[item.brand_id].title
-    };
+    console.info('product category', item.category_id)
+    if (item.category_id) {
+      product.category = {
+        _id: categoriesId2_Id[item.category_id]._id,
+        title: categoriesId2_Id[item.category_id].title,
+        alias: categoriesId2_Id[item.category_id].alias
+      };
+    }
+    if (item.brand_id) {
+      product.brand = {
+        _id: brandsId2_Id[item.brand_id]._id,
+        title: brandsId2_Id[item.brand_id].title
+      };
+    }
 
     product.save(function (err){
       if (err) return next(err);
@@ -74,6 +117,7 @@ var saveCategoryItem = function(site, connection, item, next) {
     category.save(function (err){
       if (err) return next(err);
       categoriesId2_Id[id] = category;
+      console.info('save category', id)
       next();
     });
   });
@@ -162,7 +206,7 @@ var saveFile = function(site, product, image, next) {
   });
 }
 
-var siteId = 822,
+var siteId = 822, companyId = 6813,
   siteDomain = 'lgz.5stars.link';
 async.auto({
   'mongoConnection': function(next) {
@@ -203,8 +247,8 @@ async.auto({
   }],
   'getCategories': ['deleteCategories', 'connection', 'mongoConnection', function(next, data) {
     data.connection.query('SELECT * FROM com_ecommerce_categories AS p LEFT JOIN com_ecommerce_categories_locale AS pl ON '+
-                          ' p.id = pl.id WHERE lft > 1 AND pl.lang_id = 1 AND site_id = ' + siteId +
-                          ' ORDER BY p.lft', function (err, rows, fields) {
+                          ' p.id = pl.id WHERE lft > 1 AND pl.lang_id = 2 AND (company_id = ' + companyId + ' OR company_id = ' + siteId +
+                          ') ORDER BY p.lft', function (err, rows, fields) {
       if (err) throw err;
       async.each(rows, _.partial(saveCategoryItem, data.site, data.connection), next);
     });
