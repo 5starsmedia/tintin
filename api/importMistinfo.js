@@ -162,8 +162,8 @@ var saveFile = function(site, product, image, next) {
   });
 }
 
-var siteId = 849,
-  siteDomain = 'seasons.5stars.link';
+var siteId = 822,
+  siteDomain = 'lgz.5stars.link';
 async.auto({
   'mongoConnection': function(next) {
     app.log.debug('Connecting to mongodb...');
