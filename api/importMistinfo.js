@@ -18,7 +18,6 @@ app.models = require('./models');
 
 var PostsModule = require('./modules/posts'),
   CommentsModule = require('./modules/comments'),
-  KeywordsModule = require('./modules/keywords'),
   EcommerceModule = require('./modules/ecommerce'),
   UploadsModule = require('./modules/uploads'),
   MenuModule = require('./modules/menu'),
@@ -31,7 +30,6 @@ var PostsModule = require('./modules/posts'),
 app.modules = {
   posts: new PostsModule(app),
   comments: new CommentsModule(app),
-  keywords: new KeywordsModule(app),
   ecommerce: new EcommerceModule(app),
   uploads: new UploadsModule(app),
   menu: new MenuModule(app),
