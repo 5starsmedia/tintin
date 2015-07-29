@@ -5,8 +5,6 @@
 
 var express = require('express'),
   http = require('http'),
-//responseTime = require('response-time'),
-//serveFavicon = require('serve-favicon'),
   serveStatic = require('serve-static'),
   _ = require('lodash'),
   bodyParser = require('body-parser'),
@@ -26,8 +24,6 @@ var express = require('express'),
   socket = require('./services/socket'),
   config = require('./config.js'),
   contextService = require('request-context');
-//robots = require('robots.txt'),
-//sm = require('sitemap');
 
 var app = {};
 app.log = require('./log.js');
@@ -38,43 +34,8 @@ app.contextService = contextService;
 app.server.use(contextService.middleware('request')); // for createdBy plugin
 
 app.models = require('./models');
-var PostsModule = require('./modules/posts'),
-  CommentsModule = require('./modules/comments'),
-  KeywordsModule = require('./modules/keywords'),
-  EcommerceModule = require('./modules/ecommerce'),
-  UploadsModule = require('./modules/uploads'),
-  MenuModule = require('./modules/menu'),
-  WikiModule = require('./modules/wiki'),
-  AdsModule = require('./modules/ads'),
-  UsersModule = require('./modules/users'),
-  SitesModule = require('./modules/sites'),
-  SitemapModule = require('./modules/sitemap'),
-  ServersModule = require('./modules/servers'),
-  NotificationModule = require('./modules/notifications'),
-  ConstructorModule = require('./modules/constructor'),
-  IssueModule = require('./modules/issues'),
-  ContactsModule = require('./modules/contacts'),
-  VotingModule = require('./modules/voting');
 
 app.modules = {
-  posts: new PostsModule(app),
-  comments: new CommentsModule(app),
-  keywords: new KeywordsModule(app),
-  ecommerce: new EcommerceModule(app),
-  uploads: new UploadsModule(app),
-  menu: new MenuModule(app),
-  wiki: new WikiModule(app),
-  ads: new AdsModule(app),
-  users: new UsersModule(app),
-  sites: new SitesModule(app),
-  sitemap: new SitemapModule(app),
-  servers: new ServersModule(app),
-  notifications: new NotificationModule(app),
-  constructor: new ConstructorModule(app),
-  issues: new IssueModule(app),
-  contacts: new ContactsModule(app),
-  voting: new VotingModule(app),
-
   each: function(callFunc) {
     _.forEach(app.modules, function(obj, name) {
       if (typeof obj == 'object') {
@@ -83,10 +44,15 @@ app.modules = {
     });
   }
 };
+
+var modules = config.get('modules');
+_.forEach(modules, function(moduleName) {
+  var module = require('./modules/' + moduleName);
+  app.modules[moduleName] = new module(app);
+});
 app.modules.each(function(moduleObj) {
   moduleObj.initModels();
 });
-
 
 app.services = {
   social: require('./services/social'),

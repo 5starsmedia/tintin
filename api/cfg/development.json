@@ -1,9 +1,28 @@
 {
-  "mongodb": "mongodb://localhost:27017/5stars?auto_reconnect=true",
+  "mongodb": "mongodb://127.0.0.1:27017/5stars?auto_reconnect=true",
   "http": {
     "port": 8080
   },
   "url": "http://127.0.0.1:8080",
+  "modules": [
+    "posts",
+    "comments",
+    "keywords",
+    "ecommerce",
+    "uploads",
+    "menu",
+    "wiki",
+    "ads",
+    "users",
+    "sites",
+    "sitemap",
+    "servers",
+    "notifications",
+    "constructor",
+    "issues",
+    "contacts",
+    "voting"
+  ],
   "auth": {
     "tokenSecret": "secret",
     "maxTokensCount": 5,

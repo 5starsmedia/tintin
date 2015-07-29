@@ -5,6 +5,9 @@ export default
 
     $httpProvider.interceptors.push('UnknownDomainInterceptor');
 
+    $httpProvider.defaults.headers.common["Accept-Language"] = 'uk_UA';
+
+
     // Optimize load start with remove binding information inside the DOM element
     //$compileProvider.debugInfoEnabled(false);
 

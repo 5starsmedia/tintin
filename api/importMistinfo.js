@@ -16,29 +16,7 @@ app.log = require('./log.js');
 app.config = require('./config.js');
 app.models = require('./models');
 
-var PostsModule = require('./modules/posts'),
-  CommentsModule = require('./modules/comments'),
-  EcommerceModule = require('./modules/ecommerce'),
-  UploadsModule = require('./modules/uploads'),
-  MenuModule = require('./modules/menu'),
-  WikiModule = require('./modules/wiki'),
-  AdsModule = require('./modules/ads'),
-  UsersModule = require('./modules/users'),
-  SitesModule = require('./modules/sites'),
-  SitemapModule = require('./modules/sitemap');
-
 app.modules = {
-  posts: new PostsModule(app),
-  comments: new CommentsModule(app),
-  ecommerce: new EcommerceModule(app),
-  uploads: new UploadsModule(app),
-  menu: new MenuModule(app),
-  wiki: new WikiModule(app),
-  ads: new AdsModule(app),
-  users: new UsersModule(app),
-  sites: new SitesModule(app),
-  sitemap: new SitemapModule(app),
-
   each: function(callFunc) {
     _.forEach(app.modules, function(obj, name) {
       if (typeof obj == 'object') {
@@ -47,6 +25,12 @@ app.modules = {
     });
   }
 };
+
+var modules = app.config.get('modules');
+_.forEach(modules, function(moduleName) {
+  var module = require('./modules/' + moduleName);
+  app.modules[moduleName] = new module(app);
+});
 app.modules.each(function(moduleObj) {
   moduleObj.initModels();
 });
@@ -57,68 +41,154 @@ var brandsId2_Id = {};
 
 var saveItem = function(site, connection, item, next) {
   var id = parseInt(item.id);
-  app.models.products.findOne({ id: id }, function(err, product) {
-    if (!product) {
-      product = new app.models.products({ id: id, site: { _id: site._id } });
-    }
-    product.title = item.title || '-';
-    product.body = item.description;
-    product.code = item.code;
-    product.createDate = moment(item.created_at).toDate();
-    product.price = parseFloat(item.price);
-    product.isPublished = item.publish;
-    product.isLatest = item.is_latest;
-    product.isDiscount = item.is_discount;
-    product.isCanOrder = item.can_order;
-    product.isInStock = item.in_stock;
-    product.isHit = item.hit;
-    product.inStockCount = item.count;
-    product.ordinal = item.order;
-    console.info('product category', item.category_id)
-    if (item.category_id) {
-      product.category = {
-        _id: categoriesId2_Id[item.category_id]._id,
-        title: categoriesId2_Id[item.category_id].title,
-        alias: categoriesId2_Id[item.category_id].alias
-      };
-    }
-    if (item.brand_id) {
-      product.brand = {
-        _id: brandsId2_Id[item.brand_id]._id,
-        title: brandsId2_Id[item.brand_id].title
-      };
-    }
 
-    product.save(function (err){
-      if (err) return next(err);
+  async.auto({
+    'locale': function (next) {
+      connection.query('SELECT * FROM com_ecommerce_products_locale WHERE lang_id = 2 AND id = ' + id, function (err, rows) {
+        if (err) {
+          return next(err);
+        }
+        next(null, rows[0]);
+      });
+    },
+    'categories': function (next) {
+      connection.query('SELECT * FROM com_ecommerce_products_categories WHERE product_id = ' + id, next);
+    },
+    'product': function (next) {
+      app.models.products.findOne({ id: id }, next);
+    },
+    'save': ['product', 'locale', 'categories', function (next, data) {
+
+      var product = data.product;
+      if (!product) {
+        product = new app.models.products({ id: id, site: { _id: site._id, domain: site.domain } });
+      }
+      product.title = data.locale.title || '-';
+      product.body = data.locale.description;
+      product.code = item.code;
+      product.createDate = moment(item.created_at).toDate();
+      product.price = parseFloat(item.price);
+      product.isPublished = item.publish;
+      product.isLatest = item.is_latest;
+      product.isDiscount = item.is_discount;
+      product.isCanOrder = item.can_order;
+      product.isInStock = item.in_stock;
+      product.isHit = item.hit;
+      product.inStockCount = item.count;
+      product.ordinal = item.order;
+
+      _.forEach(data.categories[0], function(cat) {
+        if (categoriesId2_Id[cat.category_id]) {
+          var category = categoriesId2_Id[cat.category_id];
+          product.category = {
+            _id: category._id,
+            title: category.title,
+            alias: category.alias
+          };
+        }
+      });
+      if (item.brand_id) {
+        product.brand = {
+          _id: brandsId2_Id[item.brand_id]._id,
+          title: brandsId2_Id[item.brand_id].title
+        };
+      }
+
+      data.product = product;
+      data.product.save(next);
+    }],
+    'files': ['product', 'save', function(next, data) {
       connection.query('SELECT * FROM com_ecommerce_products_images WHERE product_id = ' + id, function (err, rows, fields) {
         if (err) throw err;
-        product.files = [];
-        async.each(rows, _.partial(saveFile, site, product), function(err, data) {
+        data.product.files = [];
+        async.each(rows, _.partial(saveFile, site, data.product), function(err) {
           if (err) return next(err);
-          product.save(next);
+          if (data.product.files.length) {
+            data.product.coverFile = data.product.files[0];
+          }
+          data.product.save(next);
         });
       });
-    });
-  });
+    }]
+  }, next);
 };
 
-var saveCategoryItem = function(site, connection, item, next) {
+var categories = [], wCategories = {};
+var saveCategoryItem = function (site, connection, item, next) {
   var id = parseInt(item.id);
-  app.models.productCategories.findOne({ id: id }, function(err, category) {
-    if (!category) {
-      category = new app.models.productCategories({ id: id, site: { _id: site._id } });
-    }
-    category.title = item.title;
-    category.isPublished = true;
 
-    category.save(function (err){
-      if (err) return next(err);
-      categoriesId2_Id[id] = category;
-      console.info('save category', id)
-      next();
-    });
-  });
+  async.auto({
+    'locale': function (next) {
+      connection.query('SELECT * FROM com_ecommerce_categories_locale WHERE lang_id = 2 AND id = ' + id, function (err, rows) {
+        if (err) {
+          return next(err);
+        }
+        next(null, rows[0]);
+      });
+    },
+    'category': function (next) {
+      app.models.productCategories.findOne({id: id, 'site._id': site._id}, function (err, category) {
+        if (err) {
+          return next(err);
+        }
+        if (!category) {
+          category = new app.models.productCategories({id: id, site: {_id: site._id, domain: site.domain}});
+        }
+        next(null, category);
+      });
+    },
+    'rootCategory': function (next) {
+      app.models.productCategories.findOne({parentId: null, 'site._id': site._id}, function (err, node) {
+        if (err) return next(err);
+
+        if (!node) {
+          node = new app.models.productCategories();
+          node.title = 'root';
+          node.removed = Date.now();
+          node.site = {
+            _id: site._id,
+            domain: site.domain
+          };
+          node.save(function (err) {
+            if (err) return next(err);
+            next(undefined, node);
+          });
+          return;
+        }
+        next(undefined, node);
+      });
+    },
+    'save': ['category', 'rootCategory', 'locale', function (next, data) {
+      var category = data.category;
+
+      var parent = _.find(categories, function(itm) {
+        return itm.lft < item.lft && itm.rgt > item.rgt && itm.depth == item.depth - 1;
+      });
+
+      if (data.locale) {
+        category.title = data.locale.title;
+        category.isPublished = true;
+        category.description = data.locale.description;
+      }
+      category.parentId = !parent ? data.rootCategory._id : parent._id;
+      category.markModified('parentId');
+
+      if (wCategories[parent]) {
+        category._w = ++wCategories[parent];
+      } else {
+        category._w = wCategories[parent] = 1;
+      }
+      console.info('Import category', id);
+      category.save(function (err, category) {
+        if (err) return next(err);
+
+        item._id = category._id;
+        categoriesId2_Id[item.id] = category;
+        categories.push(item);
+        next();
+      });
+    }]
+  }, next);
 };
 
 var saveBrandItem = function(site, connection, item, next) {
@@ -232,37 +302,46 @@ async.auto({
       if (!data) {
         data = new app.models.sites({ domain: siteDomain });
       }
+      data.allowLocales = [{ code: 'en_GB', title: 'English' }];
+      console.info('site', data)
       data.save(function(err, site) {
         next(err, site);
       });
     });
   }],
   'deleteCategories': ['site', 'connection', 'mongoConnection', function(next, data) {
+    console.info('deleteCategories')
     app.models.productCategories.remove({ 'site._id': data.site._id }, next);
   }],
   'deleteBrands': ['site', 'connection', 'mongoConnection', function(next, data) {
+    console.info('deleteBrands')
     app.models.productBrands.remove({ 'site._id': data.site._id }, next);
   }],
+  'deleteProducts': ['site', 'connection', 'mongoConnection', function(next, data) {
+    console.info('deleteBrands')
+    app.models.products.remove({ 'site._id': data.site._id }, next);
+  }],
   'getCategories': ['deleteCategories', 'connection', 'mongoConnection', function(next, data) {
-    data.connection.query('SELECT * FROM com_ecommerce_categories AS p LEFT JOIN com_ecommerce_categories_locale AS pl ON '+
-                          ' p.id = pl.id WHERE lft > 1 AND pl.lang_id = 2 AND (company_id = ' + companyId + ' OR company_id = ' + siteId +
-                          ') ORDER BY p.lft', function (err, rows, fields) {
+    console.info('getCategories')
+    data.connection.query('SELECT * FROM com_ecommerce_categories AS p WHERE lft > 1 AND (company_id = ' + companyId +
+      ' OR site_id = ' + siteId + ') ORDER BY p.lft', function (err, rows, fields) {
       if (err) throw err;
-      async.each(rows, _.partial(saveCategoryItem, data.site, data.connection), next);
+      async.eachLimit(rows, 1, _.partial(saveCategoryItem, data.site, data.connection), next);
     });
   }],
   'getBrands': ['deleteBrands', 'connection', 'mongoConnection', function(next, data) {
+    console.info('getCategories')
     data.connection.query('SELECT * FROM com_ecommerce_brands '+
                           'WHERE site_id = ' + siteId, function (err, rows, fields) {
       if (err) throw err;
       async.each(rows, _.partial(saveBrandItem, data.site, data.connection), next);
     });
   }],
-  'getProducts': ['connection', 'mongoConnection', 'getCategories', 'getBrands', function(next, data) {
-    data.connection.query('SELECT * FROM com_ecommerce_products AS p LEFT JOIN com_ecommerce_products_locale AS pl ON '+
-                          ' p.id = pl.id WHERE site_id = ' + siteId, function (err, rows, fields) {
+  'getProducts': ['connection', 'mongoConnection', 'deleteProducts', 'getCategories', 'getBrands', function(next, data) {
+    console.info('getProducts')
+    data.connection.query('SELECT * FROM com_ecommerce_products AS p WHERE  (company_id = ' + companyId + ' OR site_id = ' + siteId + ')', function (err, rows, fields) {
       if (err) throw err;
-      async.each(rows, _.partial(saveItem, data.site, data.connection), next);
+      async.eachLimit(rows, 1, _.partial(saveItem, data.site, data.connection), next);
     });
   }]
 }, function (err, data) {

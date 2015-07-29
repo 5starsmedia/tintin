@@ -17,6 +17,12 @@ var schema = new mongoose.Schema({
   isHttps: Boolean,
   isCorsEnabled: Boolean,
 
+  defaultLocale: {type: String, required: true, default: 'en_GB'},
+  /*allowLocales: [{
+    title: String,
+    code: String
+  }],*/
+
   meta: {
     title: String,
     keywords: String,
