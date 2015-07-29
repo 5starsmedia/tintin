@@ -71,11 +71,11 @@ export default
         getCurrent: (callback) => {
           var defer = $q.defer();
           defer.promise.then(callback || angular.noop);
-          if (currentPermissions != null) {
+          /*if (currentPermissions != null) {
             $log.debug('Return cached permissions', currentPermissions);
             defer.resolve(currentPermissions);
             return defer.promise;
-          }
+          }*/
           $log.debug('Load new permissions');
 
           service.getPermissions((permissions) => {
