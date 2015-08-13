@@ -140,7 +140,8 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
   // this.app.log.info(JSON.stringify(request.edns_options[0].data));
   // this.app.log.info(request.edns_options[0].data);
 
-  var Record = this.app.services.dns;
+  var Record = this.app.services.dns,
+    self = this;
 
   var name = request.question[0].name,
     type = consts.qtypeToName(request.question[0].type),
@@ -226,7 +227,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
             minimum: content[6],
             ttl: SOAresult[0].ttl || defaultTtl
           }));
-          this.authorityNS(response, tldname, function () {
+          self.authorityNS(response, tldname, function () {
             response.send();
           });
           break;
@@ -244,7 +245,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                   ttl: record.ttl || defaultTtl
                 }));
               });
-              this.authorityNS(response, tldname, function () {
+              self.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -280,7 +281,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                     break;
                 }
               });
-              this.authorityNS(response, tldname, function () {
+              self.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -310,7 +311,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                         break;
                     }
                   });
-                  this.authorityNS(response, tldname, function () {
+                  self.authorityNS(response, tldname, function () {
                     return response.send();
                   });
                 } else {
@@ -351,7 +352,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                                 break;
                             }
                           });
-                          this.authorityNS(response, tldname, function () {
+                          self.authorityNS(response, tldname, function () {
                             return response.send();
                           });
                         }
@@ -395,7 +396,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                     break;
                 }
               });
-              this.authorityNS(response, tldname, function () {
+              self.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -440,7 +441,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                         break;
                     }
                   });
-                  this.authorityNS(response, tldname, function () {
+                  self.authorityNS(response, tldname, function () {
                     return response.send();
                   });
                 } else {
@@ -498,7 +499,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                                 break;
                             }
                           });
-                          this.authorityNS(response, tldname, function () {
+                          self.authorityNS(response, tldname, function () {
                             return response.send();
                           });
                         }
@@ -531,7 +532,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                   ttl: record.ttl || defaultTtl
                 }));
               });
-              this.authorityNS(response, tldname, function () {
+              self.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -549,7 +550,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                       ttl: record.ttl || defaultTtl
                     }));
                   });
-                  this.authorityNS(response, tldname, function () {
+                  self.authorityNS(response, tldname, function () {
                     return response.send();
                   });
                 } else {
@@ -580,7 +581,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                               ttl: docResult.ttl || defaultTtl
                             }));
                           });
-                          this.authorityNS(response, tldname, function () {
+                          self.authorityNS(response, tldname, function () {
                             return response.send();
                           });
                         }
@@ -611,7 +612,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                   ttl: record.ttl || defaultTtl
                 }));
               });
-              this.authorityNS(response, tldname, function () {
+              self.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -636,7 +637,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                   ttl: record.ttl || defaultTtl
                 }));
               });
-              this.authorityNS(response, tldname, function () {
+              self.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -657,7 +658,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                   ttl: record.ttl || defaultTtl
                 }));
               });
-              this.authorityNS(response, tldname, function () {
+              self.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
