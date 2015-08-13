@@ -13,7 +13,7 @@ var numCPUs = require('os').cpus().length;
 
 var Record = require('./record-mongodb.js'),
   defaultTtl = config.get('dns.default-ttl');
-
+console.info(Record);
 // GeoIP setup
 /*var country = new geoip.Country(config.GeoDB),
  country_v6 = new geoip.Country6(config.GeoDB6),
@@ -156,7 +156,6 @@ function minimoedns(request, response) {
 
   // EDNS options
   // TODO IPv6 support.
-  console.info(request)
   if (request.edns_options[0]) {
     // response.edns_version = request.edns_version;
     var tempip = request.edns_options[0].data.slice(4);
