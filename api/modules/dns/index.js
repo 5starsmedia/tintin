@@ -1,92 +1,82 @@
-// Configuration
-var config = require('../config.js');
+'use strict';
 
-// DNS Server settings.
 var dns = require('native-dns'),
   consts = require('native-dns-packet').consts,
   tld = require('tldjs'),
+  _ = require('lodash'),
   async = require('async');
-//geoip = require('geoip');
+var nestedSet = require('../../middleware/nestedSet.js'),
+  dnsSvc = require('./services/dns');
 
-var cluster = require('cluster');
-var numCPUs = require('os').cpus().length;
+function DnsModule(app) {
+  this.app = app;
+}
 
-var Record = require('./record-mongodb.js'),
-  defaultTtl = config.get('dns.default-ttl');
-console.info(Record);
-// GeoIP setup
-/*var country = new geoip.Country(config.GeoDB),
- country_v6 = new geoip.Country6(config.GeoDB6),
- isp = new geoip.Org(config.GeoISP);
- *//*
- setInterval(function() {
- country.update(config.GeoDB);
- country_v6.update(config.GeoDB6);
- isp.update(config.GeoISP);
- // console.log('GeoIP Data updated.');
- }, 86400000);
- */
 
-if (cluster.isMaster) {
-  console.log("Starting master process...");
+DnsModule.prototype.initModels = function () {
+  this.app.models.dnsRecords = require('./models/dnsRecord.js');
+  this.app.models.dnsDomains = require('./models/dnsDomain.js');
+};
 
-  // Fork workers.
-  for (var i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
-  /*
-   cluster.on('listening', function(worker, address){
-   console.log('listening: worker ' + worker.process.pid + ', Address: ' + address.address + ":" + address.port);
-   });
+DnsModule.prototype.initServices = function () {
+  this.app.services.dns = new dnsSvc.DnsSvc(this.app);
+};
 
-   cluster.on('exit', function(worker, code, signal) {
-   console.log('worker ' + worker.process.pid + ' exited.');
-   });*/
-} else {
+DnsModule.prototype.initRoutes = function () {
+//  this.app.server.use('/api/issues', require('./routes/issues.js'));
+};
 
-  var ip = config.get('dns.ip'),
-    port = config.get('dns.port');
-// Start servers
+DnsModule.prototype.initServer = function () {
+
+  var ip = this.app.config.get('dns.ip'),
+    port = this.app.config.get('dns.port');
+
+  this.defaultTtl = this.app.config.get('dns.default-ttl');
+
+  // Start servers
   var UDPserver = dns.createServer({dgram_type: 'udp4'});
   UDPserver.serve(port, ip);
 
-// TCP server
-  if (config.get('dns.enable-tcp')) {
+  // TCP server
+  if (this.app.config.get('dns.enable-tcp')) {
     var TCPserver = dns.createTCPServer();
-    if (config.get('dns.enable-v6')) {
+    if (this.app.config.get('dns.enable-v6')) {
       TCPserver.serve(port, '::');
     } else {
       TCPserver.serve(port, ip);
     }
   }
 
-// IPv6
-  if (config.get('dns.enable-v6')) {
+  var log = this.app.log;
+  // IPv6
+  if (this.app.config.get('dns.enable-v6')) {
     var UDPserver6 = dns.createUDPServer({dgram_type: 'udp6'});
     UDPserver6.serve(port);
-    UDPserver6.on('request', minimoedns);
+    UDPserver6.on('request', _.bind(this.onDnsRequest, this));
     UDPserver6.on('error', function (err, buff, req, res) {
-      console.log('UDP6 Server ERR:\n');
-      console.log(err);
+      log.error('UDP6 Server ERR:\n');
+      log.error(err);
     });
   }
 
-  console.log('DNS Server started at port ' + ip + ':' + port + '.');
+  this.app.log.info('DNS Server started at port ' + ip + ':' + port + '.');
 
-// Query events...
-  UDPserver.on('request', minimoedns);
-  TCPserver.on('request', minimoedns);
+  // Query events...
+  UDPserver.on('request', _.bind(this.onDnsRequest, this));
+  TCPserver.on('request', _.bind(this.onDnsRequest, this));
 
   UDPserver.on('error', function (err, buff, req, res) {
-    console.log('UDP Server ERR:\n');
-    console.log(err);
+    log.error('UDP Server ERR:\n');
+    log.error(err);
   });
   TCPserver.on('error', function (err, buff, req, res) {
-    console.log('TCP Server ERR:\n');
-    console.log(err);
+    log.error('TCP Server ERR:\n');
+    log.error(err);
   });
+};
 
-}
+
+
 
 // Functions
 function randomOrder() {
@@ -98,7 +88,7 @@ function authorityNS(res, queryName, callback) {
     nameservers = config.get('dns.nameservers');
   // Send authority NS records.
 
-  for (nameserver in nameservers) {
+  for (var nameserver in nameservers) {
     if (!nameservers.hasOwnProperty(nameserver)) {
       continue;
     }
@@ -144,10 +134,12 @@ function notfound(res, SOA) {
   return res.send();
 }
 
-function minimoedns(request, response) {
-   //console.log(request);
-  // console.log(JSON.stringify(request.edns_options[0].data));
-  // console.log(request.edns_options[0].data);
+DnsModule.prototype.onDnsRequest = function (request, response) {
+  //this.app.log.info(request);
+  // this.app.log.info(JSON.stringify(request.edns_options[0].data));
+  // this.app.log.info(request.edns_options[0].data);
+
+  var Record = this.app.services.dns;
 
   var name = request.question[0].name,
     type = consts.qtypeToName(request.question[0].type),
@@ -159,7 +151,7 @@ function minimoedns(request, response) {
   if (request.edns_options[0]) {
     // response.edns_version = request.edns_version;
     var tempip = request.edns_options[0].data.slice(4);
-    // console.log(request.edns_options[0].data.toJSON())
+    // this.app.log.info(request.edns_options[0].data.toJSON())
     if (request.edns_options[0].data.toJSON()[1] === 1) {
       // client is IPv4
       tempip = tempip.toJSON().join('.');
@@ -169,7 +161,7 @@ function minimoedns(request, response) {
         }
       }
       sourceIP = tempip;
-      // console.log(sourceIP);
+      // this.app.log.info(sourceIP);
       response.edns_options.push(request.edns_options[0]);
       response.additional.push({
         name: '',
@@ -184,21 +176,21 @@ function minimoedns(request, response) {
   }
 
   // Get source IP
-  // console.log(sourceIP);
+  // this.app.log.info(sourceIP);
   var sourceDest = '',//country.lookupSync(sourceIP),
     sourceISP = '';//isp.lookupSync(sourceIP);
   if (!sourceDest) {
     sourceDest = '';//country_v6.lookupSync(sourceIP)
   }
-  // console.log(sourceDest);
-  // console.log(sourceISP);
+  // this.app.log.info(sourceDest);
+  // this.app.log.info(sourceISP);
 
   if (!tld.isValid(name)) {
     response.header.rcode = consts.NAME_TO_RCODE.NOTFOUND;
     return response.send();
   }
 
-  console.log(sourceIP + ' requested ' + name + ' for ' + type);
+  this.app.log.info(sourceIP + ' requested ' + name + ' for ' + type);
 
   // return version if quested version.bind
   if (name === 'version.bind' && type === 'TXT') {
@@ -208,12 +200,12 @@ function minimoedns(request, response) {
       ttl: 5
     }));
     response.answer[0].class = 3;
-    // console.log(response);
+    // this.app.log.info(response);
     return response.send();
   }
   Record.querySOA(tldname, function (err, SOAresult) {
     if (err) {
-      console.log(err);
+      this.app.log.info(err);
     } else if (!SOAresult[0]) {
       response.header.rcode = consts.NAME_TO_RCODE.NOTFOUND;
       response.send();
@@ -240,7 +232,7 @@ function minimoedns(request, response) {
         case "NS":
           Record.queryNS(name, function (err, res) {
             if (err) {
-              return console.log('MiniMoeDNS ERR:\n' + err + '\n');
+              return this.app.log.info('MiniMoeDNS ERR:\n' + err + '\n');
             }
             if (res[0]) {
               res = res.sort(randomOrder);
@@ -264,7 +256,7 @@ function minimoedns(request, response) {
           // GeoDNS for A record is supported. Processing with edns-client-subnet support
           Record.queryGeo(name, type, sourceDest, sourceISP, sourceIP, function (err, georecords) {
             if (err) {
-              console.log(err);
+              this.app.log.info(err);
             }
             if (georecords[0]) {
               // Geo Records found, sending optimized responses..
@@ -294,9 +286,9 @@ function minimoedns(request, response) {
               // Geo record not found, sending all available records...
               Record.queryA(name, function (err, result) {
                 if (err) {
-                  return console.log('MiniMoeDNS ERR:\n' + err + '\n');
+                  return this.app.log.info('MiniMoeDNS ERR:\n' + err + '\n');
                 }
-                // console.log(result);
+                // this.app.log.info(result);
                 if (result[0]) {
                   result = result.sort(randomOrder);
                   result.forEach(function (record) {
@@ -332,11 +324,11 @@ function minimoedns(request, response) {
                       return !tld.getSubdomain(queryName);
                     }, function (callback) {
                       queryName = queryName.substr(queryName.indexOf('.') + 1);
-                      // console.log(queryName);
+                      // this.app.log.info(queryName);
                       Record.queryA('*.' + queryName, function (err, doc) {
-                        // console.log(doc)
+                        // this.app.log.info(doc)
                         if (err) {
-                          console.log(err);
+                          this.app.log.info(err);
                         }
                         if (doc[0]) {
                           doc = doc.sort(randomOrder);
@@ -377,9 +369,9 @@ function minimoedns(request, response) {
         case "AAAA":
           // GeoDNS for AAAA record is supported. Processing WITHOUT edns-client-subnet support
           Record.queryGeo(name, type, sourceDest, sourceISP, sourceIP, function (err, georecords) {
-            // console.log(georecords);
+            // this.app.log.info(georecords);
             if (err) {
-              console.log(err);
+              this.app.log.info(err);
             }
             if (georecords[0]) {
               // Geo Records found, sending optimized responses..
@@ -409,7 +401,7 @@ function minimoedns(request, response) {
               // Geo record not found, sending all available records...
               Record.queryAAAA(name, function (err, result) {
                 if (err) {
-                  return console.log('MiniMoeDNS ERR:\n' + err + '\n');
+                  return this.app.log.info('MiniMoeDNS ERR:\n' + err + '\n');
                 }
                 if (result[0]) {
                   result = result.sort(randomOrder);
@@ -463,11 +455,11 @@ function minimoedns(request, response) {
                       return !tld.getSubdomain(queryName);
                     }, function (callback) {
                       queryName = queryName.substr(queryName.indexOf('.') + 1);
-                      // console.log(queryName);
+                      // this.app.log.info(queryName);
                       Record.queryAAAA('*.' + queryName, function (err, doc) {
-                        // console.log(doc)
+                        // this.app.log.info(doc)
                         if (err) {
-                          console.log(err);
+                          this.app.log.info(err);
                         }
                         if (doc[0]) {
                           doc = doc.sort(randomOrder);
@@ -524,9 +516,9 @@ function minimoedns(request, response) {
         case "CNAME":
           // GeoDNS for CNAME record is supported. Processing with edns-client-subnet support
           Record.queryGeo(name, type, sourceDest, sourceISP, sourceIP, function (err, georecords) {
-            // console.log(georecords);
+            // this.app.log.info(georecords);
             if (err) {
-              console.log(err);
+              this.app.log.info(err);
             }
             if (georecords[0]) {
               // Geo Records found, sending optimized responses..
@@ -545,7 +537,7 @@ function minimoedns(request, response) {
               // Geo record not found, sending all available records...
               Record.queryCNAME(name, function (err, result) {
                 if (err) {
-                  return console.log('MiniMoeDNS ERR:\n' + err + '\n');
+                  return this.app.log.info('MiniMoeDNS ERR:\n' + err + '\n');
                 }
                 if (result[0]) {
                   result = result.sort(randomOrder);
@@ -572,11 +564,11 @@ function minimoedns(request, response) {
                       return !tld.getSubdomain(queryName);
                     }, function (callback) {
                       queryName = queryName.substr(queryName.indexOf('.') + 1);
-                      // console.log(queryName);
+                      // this.app.log.info(queryName);
                       Record.queryCNAME('*.' + queryName, function (err, doc) {
-                        // console.log(doc)
+                        // this.app.log.info(doc)
                         if (err) {
-                          console.log(err);
+                          this.app.log.info(err);
                         }
                         if (doc[0]) {
                           doc = doc.sort(randomOrder);
@@ -606,7 +598,7 @@ function minimoedns(request, response) {
         case "MX":
           Record.queryMX(name, function (err, res) {
             if (err) {
-              return console.log('MiniMoeDNS ERR:\n' + err + '\n');
+              return this.app.log.info('MiniMoeDNS ERR:\n' + err + '\n');
             }
             if (res[0]) {
               res = res.sort(randomOrder);
@@ -629,7 +621,7 @@ function minimoedns(request, response) {
         case "SRV":
           Record.querySRV(name, function (err, res) {
             if (err) {
-              return console.log('MiniMoeDNS ERR:\n' + err + '\n');
+              return this.app.log.info('MiniMoeDNS ERR:\n' + err + '\n');
             }
             if (res[0]) {
               res.forEach(function (record) {
@@ -654,7 +646,7 @@ function minimoedns(request, response) {
         case "TXT":
           Record.queryTXT(name, function (err, res) {
             if (err) {
-              return console.log('MiniMoeDNS ERR:\n' + err + '\n');
+              return this.app.log.info('MiniMoeDNS ERR:\n' + err + '\n');
             }
             if (res[0]) {
               res.forEach(function (record) {
@@ -678,5 +670,6 @@ function minimoedns(request, response) {
       }
     }
   });
-}
+};
 
+module.exports = DnsModule;

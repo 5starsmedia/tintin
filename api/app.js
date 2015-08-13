@@ -2,6 +2,8 @@
  * Copyright 2015 5starsmedia.com.ua
  */
 'use strict';
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
 
 var log = require('./log.js');
 

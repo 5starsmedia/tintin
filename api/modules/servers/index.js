@@ -9,8 +9,6 @@ function ServersModule(app) {
 
 ServersModule.prototype.initModels = function () {
   this.app.models.nodeServers = require('./models/nodeServer.js');
-  this.app.models.dnsRecords = require('./models/dnsRecord.js');
-  this.app.models.dnsDomains = require('./models/dnsDomain.js');
 };
 
 ServersModule.prototype.initRoutes = function () {

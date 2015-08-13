@@ -291,6 +291,13 @@ exports.start = function (cb) {
       app.log.debug('Http server starting at', config.get('http.port'), '...');
       app.httpServer.listen(config.get('http.port'), next);
     },
+    function (next) {
+      app.modules.each(function(moduleObj) {
+        if (moduleObj.initServer) {
+          moduleObj.initServer();
+        }
+      });
+    },
     //_.bind(app.services.tasks.start, app.services.tasks, {}),
     //_.bind(app.services.states.start, app.services.states, {})
   ], function (err) {
