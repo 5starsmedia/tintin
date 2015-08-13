@@ -6,7 +6,8 @@ var dns = require('native-dns'),
   _ = require('lodash'),
   async = require('async');
 var nestedSet = require('../../middleware/nestedSet.js'),
-  dnsSvc = require('./services/dns');
+  dnsSvc = require('./services/dns'),
+  defaultTtl = 360;
 
 function DnsModule(app) {
   this.app = app;
@@ -31,7 +32,7 @@ DnsModule.prototype.initServer = function () {
   var ip = this.app.config.get('dns.ip'),
     port = this.app.config.get('dns.port');
 
-  this.defaultTtl = this.app.config.get('dns.default-ttl');
+  defaultTtl = this.app.config.get('dns.default-ttl');
 
   // Start servers
   var UDPserver = dns.createServer({dgram_type: 'udp4'});
