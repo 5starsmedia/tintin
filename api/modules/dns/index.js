@@ -84,9 +84,9 @@ function randomOrder() {
   return (Math.round(Math.random()) - 0.5);
 }
 
-function authorityNS(res, queryName, callback) {
+DnsModule.prototype.authorityNS = function(res, queryName, callback) {
   var testv4 = new RegExp(/\d\d?\d?\.\d\d?\d?\.\d\d?\d?\.\d\d?\d?/),
-    nameservers = config.get('dns.nameservers');
+    nameservers = this.app.config.get('dns.nameservers');
   // Send authority NS records.
 
   for (var nameserver in nameservers) {
@@ -197,7 +197,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
   if (name === 'version.bind' && type === 'TXT') {
     response.answer.push(dns.TXT({
       name: 'version.bind',
-      data: config.get('dns.version'),
+      data: this.app.config.get('dns.version'),
       ttl: 5
     }));
     response.answer[0].class = 3;
@@ -226,7 +226,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
             minimum: content[6],
             ttl: SOAresult[0].ttl || defaultTtl
           }));
-          authorityNS(response, tldname, function () {
+          this.authorityNS(response, tldname, function () {
             response.send();
           });
           break;
@@ -244,7 +244,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                   ttl: record.ttl || defaultTtl
                 }));
               });
-              authorityNS(response, tldname, function () {
+              this.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -280,7 +280,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                     break;
                 }
               });
-              authorityNS(response, tldname, function () {
+              this.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -310,7 +310,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                         break;
                     }
                   });
-                  authorityNS(response, tldname, function () {
+                  this.authorityNS(response, tldname, function () {
                     return response.send();
                   });
                 } else {
@@ -351,7 +351,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                                 break;
                             }
                           });
-                          authorityNS(response, tldname, function () {
+                          this.authorityNS(response, tldname, function () {
                             return response.send();
                           });
                         }
@@ -395,7 +395,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                     break;
                 }
               });
-              authorityNS(response, tldname, function () {
+              this.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -440,7 +440,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                         break;
                     }
                   });
-                  authorityNS(response, tldname, function () {
+                  this.authorityNS(response, tldname, function () {
                     return response.send();
                   });
                 } else {
@@ -498,7 +498,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                                 break;
                             }
                           });
-                          authorityNS(response, tldname, function () {
+                          this.authorityNS(response, tldname, function () {
                             return response.send();
                           });
                         }
@@ -531,7 +531,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                   ttl: record.ttl || defaultTtl
                 }));
               });
-              authorityNS(response, tldname, function () {
+              this.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -549,7 +549,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                       ttl: record.ttl || defaultTtl
                     }));
                   });
-                  authorityNS(response, tldname, function () {
+                  this.authorityNS(response, tldname, function () {
                     return response.send();
                   });
                 } else {
@@ -580,7 +580,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                               ttl: docResult.ttl || defaultTtl
                             }));
                           });
-                          authorityNS(response, tldname, function () {
+                          this.authorityNS(response, tldname, function () {
                             return response.send();
                           });
                         }
@@ -611,7 +611,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                   ttl: record.ttl || defaultTtl
                 }));
               });
-              authorityNS(response, tldname, function () {
+              this.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -636,7 +636,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                   ttl: record.ttl || defaultTtl
                 }));
               });
-              authorityNS(response, tldname, function () {
+              this.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
@@ -657,7 +657,7 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
                   ttl: record.ttl || defaultTtl
                 }));
               });
-              authorityNS(response, tldname, function () {
+              this.authorityNS(response, tldname, function () {
                 return response.send();
               });
             } else {
