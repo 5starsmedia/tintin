@@ -156,7 +156,7 @@ function minimoedns(request, response) {
 
   // EDNS options
   // TODO IPv6 support.
-  console.info(request.edns_options)
+  console.info(request)
   if (request.edns_options[0]) {
     // response.edns_version = request.edns_version;
     var tempip = request.edns_options[0].data.slice(4);
