@@ -26,7 +26,7 @@ function createRecords(app, domain, next) {
     ip = app.config.get('dns.default-ip');
   async.auto({
     'SOA': function(next) {
-      createRecord(app, domain, 'SOA', '@', null, 'ns1.5stars.link admin.mistinfo.com. 2015052801 10800 7200 604800 86400', next);
+      createRecord(app, domain, 'SOA', '@', null, 'ns1.5stars.link admin.5stars.link. ' + moment().format("YYYYMMDDHH") + ' 3600 600 1209600 3600', next);
     },
     'NS': function(next) {
       async.map(nameservers, _.partial(createRecord, app, domain, 'NS', '@', null), next);
