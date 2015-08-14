@@ -1,57 +1,27 @@
 <div>
 
 
-<st-form model="item" state="error" submit="saveItem(item)">
+  <st-form model="item" state="error" submit="saveItem(item)">
 
-<div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
-    <div class="hpanel" bz-loading-container="loading">
-        <div class="panel-body">
+    <st-form model="item" state="error" submit="saveItem(item)">
 
-            <div class="row">
-                <div class="col-lg-9">
+      <st-header title="{{item._id ? 'Editing of the brand' : 'New brand'}}">
 
-                    <a ui-sref="ecommerce.brands" class="back-btn">
-                        <span class="pe-7s-angle-left"></span>
-                    </a>
+        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
+                type="submit">
+          {{'Save'|translate}}
+        </button>
+        <a ui-sref="ecommerce.brands" class="btn btn-default">
+          {{'Cancel'|translate}}
+        </a>
 
-                    <h2 class="font-light m-b-xs">
-                        <span ng-if="!item._id" style="line-height: 30px;">{{'New brand'|translate}}</span>
-                        <span ng-if="item._id">{{'Editing of the brand'|translate}}</span>
-                    </h2>
+      </st-header>
 
-                    <small ng-if="item._id">
-                        {{'Brand created:'|translate}}
-                        {{item.createDate|date:'dd.MM.yyyy'}}
-                        {{'at'|translate}}
-                        {{item.createDate|date:'HH:mm'}}
-                    </small>
+      <div class="content" animate-panel effect="zoomIn">
 
-                </div>
-                <div class="col-lg-3">
+        <div ng-include="'views/modules/ecommerce/brands/form-brand.html'"></div>
 
-                    <div class="form-actions">
-                        <!--a ng-href="{{item.createDate|date:'/yyyy/MM/dd/'}}{{item.id}}" ng-if="item.id"
-                           class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left" tooltip="{{'Open on site'|translate}}" target="_blank">
-                            <span class="fa fa-external-link"></span>
-                        </a-->
-                        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
-                            {{'Save'|translate}}
-                        </button>
-                        <a ui-sref="ecommerce.brands" class="btn btn-default">
-                            {{'Cancel'|translate}}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+      </div>
 
-<div class="content" animate-panel effect="zoomIn">
-
-<div ng-include="'views/modules/ecommerce/brands/form-brand.html'"></div>
-
-</div>
-
-</st-form>
+    </st-form>
 </div>

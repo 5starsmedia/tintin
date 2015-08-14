@@ -110,8 +110,6 @@ module.exports = function (config) {
         }
         return locale;
       });
-      console.info(req.locale);
-
       next();
     });
   };

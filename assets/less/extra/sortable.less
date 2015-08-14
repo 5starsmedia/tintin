@@ -1,6 +1,5 @@
 .drag-handle {
   &, & span {
-    display: block;
     width: 20px;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
@@ -14,7 +13,8 @@
     height: 4px;
   }
   & {
-    position: absolute;
+    display: inline-block;
+    //position: absolute;
     left: 3px;
     top: 50%;
     margin-top: -5px;

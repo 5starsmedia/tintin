@@ -4,5 +4,10 @@ export default {
   },
   vk: {
     clientId: '3439885'
+  },
+  languages: {
+    uk: 'Українська',
+    ru: 'Русский',
+    en: 'English'
   }
 };

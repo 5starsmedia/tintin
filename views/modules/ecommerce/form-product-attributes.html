@@ -1,82 +1,95 @@
 <form name="attributes">
 
+  <div class="alert alert-warning" ng-if="!types.children.length">
+
+    {{'Нет ни одного типа продукта, для испрользования атрибутов'|translate}}
+    <a href="" ui-sref="ecommerce.types">{{'создайте тип продукта'|translate}}</a>
+
+  </div>
+  <div ng-if="types.children.length">
+
+
     <div class="form-group">
 
-        <label>{{'Product type'|translate}}</label>
+      <label>{{'Product type'|translate}}</label>
 
-        <select ng-model="item.productType._id" st-tree-select="types" class="form-control" name="category" required></select>
+      <select ng-model="item.productType._id" st-tree-select="types" class="form-control" name="category"
+              required></select>
 
     </div>
 
     <div ng-if="!item.productType._id" class="alert alert-info">
-        <span class="fa fa-arrow-up"></span> {{'Для редактирования атрибутов продукта сначала выберите его тип'|translate}}
+      <span class="fa fa-arrow-up"></span>
+      {{'Для редактирования атрибутов продукта сначала выберите его тип'|translate}}
     </div>
 
     <div bz-loading-container="loading" class="form-group" ng-repeat="(id, field) in item.productFields">
 
-        <h3 ng-if="field.fieldType == 'separator'">{{field.title}}</h3>
+      <h3 ng-if="field.fieldType == 'separator'">{{field.title}}</h3>
 
-        <div ng-if="field.fieldType != 'separator'">
-            <div class="control-label checkbox">
-                <label>
-                    <input type="checkbox" ng-model="field.isFilled"/>
-                    {{field.title}}
-                    <span class="star" ng-if="field.isRequired">*</span>
-                </label>
-            </div>
+      <div ng-if="field.fieldType != 'separator'">
+        <div class="control-label checkbox">
+          <label>
+            <input type="checkbox" ng-model="field.isFilled"/>
+            {{field.title}}
+            <span class="star" ng-if="field.isRequired">*</span>
+          </label>
+        </div>
 
-            <div ng-if="!field.isFilled" class="control-group">
+        <div ng-if="!field.isFilled" class="control-group">
 
-                <span class="text-muted">{{'Not set'|translate}}</span>
+          <span class="text-muted">{{'Not set'|translate}}</span>
 
-            </div>
-            <div ng-if="field.isFilled" class="radio control-group" ng-switch="field.fieldType">
+        </div>
+        <div ng-if="field.isFilled" class="radio control-group" ng-switch="field.fieldType">
 
-                <!-- Bool -->
-                <div ng-switch-when="checkbox">
-                    <label><input name="field{{field._id}}" ng-model="field.value" type="radio" value="1"/>
-                        {{'Yes'|translate}}</label>
-                    <label><input name="field{{field._id}}" ng-model="field.value" type="radio" value="0"/>
-                        {{'No'|translate}}</label>
-                </div>
+          <!-- Bool -->
+          <div ng-switch-when="checkbox">
+            <label><input name="field{{field._id}}" ng-model="field.value" type="radio" value="1"/>
+              {{'Yes'|translate}}</label>
+            <label><input name="field{{field._id}}" ng-model="field.value" type="radio" value="0"/>
+              {{'No'|translate}}</label>
+          </div>
 
-                <!-- String -->
-                <div ng-switch-when="text">
-                    <input type="text" class="form-control" ng-model="field.value"/>
-                </div>
+          <!-- String -->
+          <div ng-switch-when="text">
+            <input type="text" class="form-control" ng-model="field.value"/>
+          </div>
 
-                <!-- Number -->
-                <div ng-switch-when="number">
-                    <input type="number" class="form-control" ng-model="field.value"/>
-                </div>
+          <!-- Number -->
+          <div ng-switch-when="number">
+            <input type="number" class="form-control" ng-model="field.value"/>
+          </div>
 
-                <!-- Set -->
-                <div ng-switch-when="list">
-                    <select class="form-control" ng-model="field.value">
-                        <option value="">-</option>
-                        <option value="{{variant.title}}" ng-selected="field.value == variant.title" ng-repeat="variant in fieldData[field._id]|orderBy:'ordinal'">
-                            {{variant.title}}
-                        </option>
-                    </select>
-                </div>
+          <!-- Set -->
+          <div ng-switch-when="list">
+            <select class="form-control" ng-model="field.value">
+              <option value="">-</option>
+              <option value="{{variant.title}}" ng-selected="field.value == variant.title"
+                      ng-repeat="variant in fieldData[field._id]|orderBy:'ordinal'">
+                {{variant.title}}
+              </option>
+            </select>
+          </div>
 
-                <!-- Bool set -->
-                <div ng-switch-when="checkbox-list">
+          <!-- Bool set -->
+          <div ng-switch-when="checkbox-list">
 
-                    <div ng-repeat="variant in fieldData[field._id]|orderBy:'ordinal'" class="checkbox">
+            <div ng-repeat="variant in fieldData[field._id]|orderBy:'ordinal'" class="checkbox">
 
-                        <label>
-                            <input type="checkbox" checklist-value="variant" checklist-model="field.values" />
-                            {{variant.title}}
-                        </label>
-
-                    </div>
-
-                </div>
+              <label>
+                <input type="checkbox" checklist-value="variant" checklist-model="field.values"/>
+                {{variant.title}}
+              </label>
 
             </div>
+
+          </div>
 
         </div>
 
+      </div>
+
     </div>
+  </div>
 </form>

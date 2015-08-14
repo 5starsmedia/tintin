@@ -5,6 +5,7 @@ export default
       '_id': '@_id'
     }, {
       'getCurrent': {method: 'GET', params: { method: 'current' }},
+      'getLocales': {method: 'GET', params: { method: 'locales' }, isArray: true },
       'save': {method: 'PUT'},
       'create': {method: 'POST'}
     });

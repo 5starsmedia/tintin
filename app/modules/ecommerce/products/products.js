@@ -67,7 +67,8 @@ module.config(function ($stateProvider, basePermissionsSetProvider) {
           var defer = $q.defer();
           defer.resolve(new EcommerceProductModel({
             price: 1,
-            inStockCount: 1
+            inStockCount: 1,
+            isPublished: true
           }));
           return defer.promise;
         },

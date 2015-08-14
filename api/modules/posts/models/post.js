@@ -26,6 +26,19 @@ var schema = new mongoose.Schema({
 
   published: Boolean,
 
+  translates: {
+    title: {
+      'uk-UA': String,
+      'ru-RU': String,
+      'en-GB': String
+    },
+    body: {
+      'uk-UA': String,
+      'ru-RU': String,
+      'en-GB': String
+    }
+  },
+
   source: String,
   photoSource: String,
 

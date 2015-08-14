@@ -11,6 +11,8 @@ seo.checkTextUniqueResult - перевірка унікальності текс
 posts.deferredPublication - відкладена публікація
 
 NODE_ENV=production forever start app.js
+NODE_ENV=production forever restart app.js
+NODE_ENV=production forever stop app.js
 
 export MONGOLAB_URI="mongodb://masterdb.5stars.link:27017,slave1.5stars.link:27018/prerender?replicaSet=5stars&auto_reconnect=true"
 

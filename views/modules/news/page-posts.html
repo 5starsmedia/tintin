@@ -51,7 +51,7 @@
                         </tr>
                         <tr ng-hide="group.$hideRows" ng-repeat="item in group.data">
                             <td style="width: 15%" class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
-                                <a ui-sref="news.edit({ id: item._id })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
+                                <a ui-sref="{{postType}}.edit({ id: item._id })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
                                     <span ng-if="item.isTop" class="fa fa-star"></span>
 
                                     {{item.title}}
@@ -88,7 +88,7 @@
                             </td>
                             <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">
 
-                                <a ui-sref="news.edit({ id: item._id })" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
+                                <a ui-sref="{{postType}}.edit({ id: item._id })" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
                                 <a href="" st-confirm="remove(item)" title="{{'Delete article'|translate}}"
                                    message-title="'Delete'|translate" message="'Are you realy want to delete this article?'|translate">
                                     <span class="fa fa-times text-danger"></span>
