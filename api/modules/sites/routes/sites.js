@@ -23,6 +23,9 @@ router.get('/current', function (req, res, next) {
   }, function(err, data) {
     if (err) { return next(err); }
 
+    if (req.query.fields) {
+
+    }
     res.json(data.checkText);
   });
 });
@@ -80,6 +83,18 @@ router.get('/google', function (req, res, next) {
   } else {
     res.status(404).end('Sorry!' + file);
   }
+});
+
+router.get('/locales', function (req, res, next) {
+  async.auto({
+    'locales': function(next) {
+      req.app.services.data.getResource('locales', next)
+    }
+  }, function(err, data) {
+    if (err) { return next(err); }
+
+    res.json(data.locales);
+  });
 });
 
 module.exports = router;
