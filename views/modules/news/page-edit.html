@@ -36,8 +36,8 @@
               <div class="panel-body">
                 <st-form-element label="{{'Title'|translate}}" field="title">
 
-                  <input id="title" bz-localizable="post.title" class="form-control input-lg" name="title" type="text" required
-                         ng-model="post.translates.title[$contentLanguage.code]"/>
+                  <input id="title" class="form-control input-lg" name="title" type="text" required
+                         ng-model="post.title"/>
 
                 </st-form-element>
 
@@ -49,8 +49,8 @@
 
                 <st-form-element label="{{'Body'|translate}}" field="body">
 
-                  <textarea id="body" bz-localizable="post.body" class="form-control" name="body" ckeditor="editorOptions"
-                            ng-model="post.translates.body[$contentLanguage.code]"></textarea>
+                                <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
+                                          ng-model="post.body"></textarea>
 
                 </st-form-element>
               </div>

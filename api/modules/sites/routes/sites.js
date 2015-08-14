@@ -24,7 +24,7 @@ router.get('/current', function (req, res, next) {
     if (err) { return next(err); }
 
     if (req.query.fields) {
-      return res.json(_.pick(data.checkText, req.query.fields.split(',')));
+
     }
     res.json(data.checkText);
   });

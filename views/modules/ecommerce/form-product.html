@@ -12,8 +12,8 @@
 
                         <st-form-element label="{{'Title'|translate}}" field="title">
 
-                            <input id="title" bz-localizable="item.title" class="form-control input-lg" name="title" type="text" required
-                                   ng-model="item.translates.title[$contentLanguage.code]"/>
+                            <input id="title" class="form-control input-lg" name="title" type="text" required
+                                   ng-model="item.title"/>
 
                         </st-form-element>
 
@@ -49,30 +49,19 @@
                     </div>
                     <div class="col-xs-6">
 
-                        <br/>
-                        <div class="alert-warning alert" ng-if="!brands.length">
-
-                            {{'Нет ни одного бренда.'|translate}}
-                            <a href="" ui-sref="ecommerce.brandCreate">{{'Создать бренд'|translate}}</a>
-
-
-                        </div>
-                        <div ng-if="brands.length">
                         <st-form-element label="{{'Brand'|translate}}" field="brand_id">
 
                             <select class="form-control" ng-model="item.brand._id"
                                     ng-options="item._id as item.title for item in brands"></select>
 
                         </st-form-element>
-                        </div>
 
                     </div>
                 </div>
 
                 <st-form-element label="{{'Description'|translate}}" field="body">
 
-                    <textarea class="form-control" bz-localizable="item.body" ckeditor="editorOptions"
-                              ng-model="item.translates.body[$contentLanguage.code]"></textarea>
+                    <textarea class="form-control" ckeditor="editorOptions" ng-model="item.body"></textarea>
 
                 </st-form-element>
 
@@ -126,85 +115,88 @@
 </div>
 <div class="col-xs-3">
 
-    <st-panel title="{{'Additional info'|translate}}" is-primary="true">
-
-        <st-form-element label="{{'Product code'|translate}}" field="code">
-
-            <input class="form-control" name="code" type="text" ng-model="item.code"/>
-
-        </st-form-element>
-
-        <div class="form-group">
-
-            <label class="control-label">
-
-                <input icheck type="checkbox" ng-model="item.isPublished"/>
-                {{'Published'|translate}}
-
-            </label>
+    <div class="hpanel hblue">
+        <div class="panel-heading">
+            {{'Attributes'|translate}}
         </div>
+        <div class="panel-body"
+             ng-controller="EcommerceEditAttributesCtrl"
+             ng-include="'views/modules/ecommerce/form-product-attributes.html'"></div>
+    </div>
 
-        <div class="form-group">
-
-            <label class="control-label">
-
-                <input icheck type="checkbox" ng-model="item.isCanOrder"/>
-                {{'Can order'|translate}}
-
-            </label>
+    <div class="hpanel">
+        <div class="panel-heading">
+            {{'Additional info'|translate}}
         </div>
+        <div class="panel-body">
 
-        <div class="form-group">
+            <st-form-element label="{{'Product code'|translate}}" field="code">
 
-            <label class="control-label">
+                <input class="form-control" name="code" type="text" ng-model="item.code"/>
 
-                <input icheck type="checkbox" ng-model="item.isInStock"/>
-                {{'In stock'|translate}}
+            </st-form-element>
 
-            </label>
+            <div class="form-group checkbox">
 
-            <div ng-if="item.isInStock">
-                <input type="number" placeholder="{{'Count'|translate}}" class="form-control"
-                       ng-model="item.inStockCount"/>
+                <label class="control-label">
+
+                    <input type="checkbox" ng-model="item.isCanOrder"/>
+                    {{'Can order'|translate}}
+
+                </label>
+            </div>
+
+            <div class="form-group checkbox">
+
+                <label class="control-label">
+
+                    <input type="checkbox" ng-model="item.isInStock"/>
+                    {{'In stock'|translate}}
+
+                </label>
+
+                <div ng-if="item.isInStock">
+                    <input type="number" placeholder="{{'Count'|translate}}" class="form-control"
+                           ng-model="item.inStockCount"/>
+                </div>
+            </div>
+
+
+            <div class="form-group checkbox">
+
+                <label class="control-label">
+
+                    <input type="checkbox" ng-model="item.isHit"/>
+                    {{'Hit'|translate}}
+
+                </label>
+            </div>
+
+            <div class="form-group checkbox">
+
+                <label class="control-label">
+
+                    <input type="checkbox" ng-model="item.isLatest"/>
+                    {{'Latest'|translate}}
+
+                </label>
+            </div>
+
+            <div class="form-group checkbox">
+
+                <label class="control-label">
+
+                    <input type="checkbox" ng-model="item.isDiscount"/>
+                    {{'Discount'|translate}}
+
+                </label>
             </div>
         </div>
 
-
-        <div class="form-group">
-
-            <label class="control-label">
-
-                <input icheck type="checkbox" ng-model="item.isHit"/>
-                {{'Hit'|translate}}
-
-            </label>
-        </div>
-
-        <div class="form-group">
-
-            <label class="control-label">
-
-                <input icheck type="checkbox" ng-model="item.isLatest"/>
-                {{'Latest'|translate}}
-
-            </label>
-        </div>
-
-        <div class="form-group">
-
-            <label class="control-label">
-
-                <input icheck type="checkbox" ng-model="item.isDiscount"/>
-                {{'Discount'|translate}}
-
-            </label>
-        </div>
-
-
-        <div class="panel-footer" style="margin: 0 -15px -15px;" ng-if="item._id">
+        <div class="panel-footer" ng-if="item._id">
             <div ng-if="!item.productVariations.length && !item.variationProduct">
 
-                <button class="btn btn-inverse btn-sm btn-block" type="button" ng-click="createVariationFromProduct()">
+                <button class="btn btn-default" type="button" ng-click="createVariationFromProduct()">
                     {{'Convert product to variation'|translate}}
                 </button>
 
@@ -212,22 +204,15 @@
 
             <div ng-if="!item.productVariations.length && item.variationProduct">
 
-                <a class="btn btn-inverse btn-sm btn-block"
-                   st-confirm="createProductFromVariation(item)"
-                   message-title="'Convert to product'|translate" message="'Are you realy want to convert this variation to product?'|translate">
+                <a class="btn btn-default"
+                        st-confirm="createProductFromVariation(item)"
+                        message-title="'Convert to product'|translate" message="'Are you realy want to convert this variation to product?'|translate">
                     {{'Convert variation to product'|translate}}
                 </a>
 
             </div>
         </div>
-    </st-panel>
-
-    <st-panel title="{{'Attributes'|translate}}">
-
-        <div ng-controller="EcommerceEditAttributesCtrl"
-             ng-include="'views/modules/ecommerce/form-product-attributes.html'"></div>
-
-    </st-panel>
+    </div>
 
 </div>
 </div>

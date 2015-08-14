@@ -22,19 +22,6 @@ var schema = new mongoose.Schema({
 
   removed: {type: Date},
 
-  translates: {
-    title: {
-      'uk-UA': String,
-      'ru-RU': String,
-      'en-GB': String
-    },
-    body: {
-      'uk-UA': String,
-      'ru-RU': String,
-      'en-GB': String
-    }
-  },
-
 
   isPublished: Boolean,
 

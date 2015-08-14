@@ -18,10 +18,10 @@ var schema = new mongoose.Schema({
   isCorsEnabled: Boolean,
 
   defaultLocale: {type: String, required: true, default: 'en_GB'},
-  allowLocales: [{
+  /*allowLocales: [{
     title: String,
     code: String
-  }],
+  }],*/
 
   meta: {
     title: String,

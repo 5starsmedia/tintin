@@ -22,19 +22,6 @@ var schema = new mongoose.Schema({
 
   isPublished: Boolean,
 
-  translates: {
-    title: {
-      'uk-UA': String,
-      'ru-RU': String,
-      'en-GB': String
-    },
-    body: {
-      'uk-UA': String,
-      'ru-RU': String,
-      'en-GB': String
-    }
-  },
-
   viewsCount: {type: Number, required: true, default: 0},
   likesCount: {
     facebook: {type: Number, required: true, default: 0},
