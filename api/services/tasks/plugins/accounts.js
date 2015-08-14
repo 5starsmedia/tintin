@@ -9,7 +9,7 @@ exports['db.accounts.insert'] = exports['db.accounts.update'] = function (app, m
     'account': function (next) {
       app.models.accounts.findById(msg.body._id, next);
     },
-    'setZodiac': ['account', function (next, res) {
+    /*'setZodiac': ['account', function (next, res) {
       if (res.account.profile.dateOfBirth) {
         var tmp = moment.utc(res.account.profile.dateOfBirth);
         var birthDate = {month: tmp.get('month'), day: tmp.get('day')};
@@ -75,94 +75,10 @@ exports['db.accounts.insert'] = exports['db.accounts.update'] = function (app, m
       var fillingLevel = Math.round(filledFields * 100 / fieldsCount);
 
       app.models.accounts.update({_id: data.account._id}, {$set: {profileStrength: fillingLevel}}, next);
-    }]
+    }]*/
 
   }, function (err, res) {
     if (err) { return cb(err); }
     res.account.save(cb);
-  });
-};
-
-exports['db.newMessages.delete'] = exports['db.newMessages.insert'] = function (app, msg, next) {
-  async.auto({
-    newMessage: function (next) {
-      app.models.newMessages.findById(msg.body._id, next);
-    },
-    newMessagesCount: ['newMessage', function (next, data) {
-      app.models.newMessages.count({'account._id': data.newMessage.account._id, removed: {$exists: false}}, next);
-    }],
-    updateAccount: ['newMessage', 'newMessagesCount', function (next, data) {
-      app.models.accounts.update({_id: data.newMessage.account._id}, {
-        $set: {
-          newMessagesCount: data.newMessagesCount,
-          modifyDate: Date.now()
-        }
-      }, next);
-    }]
-  }, next);
-};
-
-exports['stat.accounts.relations'] = function (app, msg, next) {
-  var _id = msg.body._id;
-  async.auto({
-    followersCount: function (next) {
-      app.models.relations.count({'relatedAccount._id': _id, relationType: 'follow'}, next);
-    },
-    followingCount: function (next) {
-      app.models.relations.count({'account._id': _id, relationType: 'follow'}, next);
-    },
-    friendsCount: function (next) {
-      app.models.relations.count({'relatedAccount._id': _id, relationType: 'friend'}, next);
-    },
-    friendRequestsCount: function (next) {
-      app.models.relations.count({'relatedAccount._id': _id, relationType: 'friendRequest'}, next);
-    },
-    account: function (next) {
-      app.models.accounts.findById(_id, 'followersCount followingCount friendRequestsCount friendsCount', next);
-    }
-  }, function (err, data) {
-    if (err) { return next(err); }
-    data.account.followersCount = data.followersCount;
-    data.account.followingCount = data.followingCount;
-    data.account.friendsCount = data.friendsCount;
-    data.account.friendRequestsCount = data.friendRequestsCount;
-    data.account.save(next);
-  });
-};
-
-exports['stat.accounts.groups'] = function (app, msg, next) {
-  var _id = msg.body._id;
-  async.auto({
-    memberCount: function (next) {
-      app.models.groupMembers.count({'account._id': _id, memberType: 'member', removed: {$exists: false}}, next);
-    },
-    adminCount: function (next) {
-      app.models.groupMembers.count({'account._id': _id, memberType: 'admin', removed: {$exists: false}}, next);
-    },
-    ownerCount: function (next) {
-      app.models.groupMembers.count({'account._id': _id, memberType: 'owner', removed: {$exists: false}}, next);
-    },
-    moderatorCount: function (next) {
-      app.models.groupMembers.count({'account._id': _id, memberType: 'moderator', removed: {$exists: false}}, next);
-    },
-    requestCount: function (next) {
-      app.models.groupMembers.count({'account._id': _id, memberType: 'request', removed: {$exists: false}}, next);
-    },
-    inviteCount: function (next) {
-      app.models.groupMembers.count({'account._id': _id, memberType: 'invite', removed: {$exists: false}}, next);
-    },
-    account: function (next) {
-      app.models.accounts.findById(_id, 'groups', next);
-    }
-  }, function (err, data) {
-    if (err) { return next(err); }
-    data.account.groups.memberCount = data.memberCount;
-    data.account.groups.adminCount = data.adminCount;
-    data.account.groups.ownerCount = data.ownerCount;
-    data.account.groups.moderatorCount = data.moderatorCount;
-    data.account.groups.requestCount = data.requestCount;
-    data.account.groups.inviteCount = data.inviteCount;
-    app.services.socket.sendToAccount(_id, 'accounts.groups.change', data);
-    data.account.save(next);
   });
 };

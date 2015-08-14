@@ -14,8 +14,8 @@ var async = require('async'),
   moment = require('moment'),
   gender = require('../../models/user/gender.js'),
   sites = require('../../models/core/site.js'),
-  posts = require('../../models/post.js'),
-  categories = require('../../models/category.js'),
+  posts = require('../../modules/posts/models/post.js'),
+  categories = require('../../modules/posts/models/category.js'),
   account = require('../../models/core/account.js');
 
 exports.getInfo = function (cb) {

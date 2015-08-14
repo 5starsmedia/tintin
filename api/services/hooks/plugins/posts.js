@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
   _ = require('lodash'),
+  async = require('async'),
   moment = require('moment');
 
 function dateToString(dateStr) {
@@ -42,27 +43,65 @@ exports['post.posts'] = function (req, data, cb) {
 };
 
 exports['put.posts'] = function (req, data, cb) {
-  if (data.status == 4) {
-    data.published = true;
-  }
-
-  req.app.models.posts.findById(data._id, 'publishDate', function (err, blog) {
-    if (err) { return cb(err); }
-    if (data.published) {
-      data.publishDate = blog.publishDate || new Date();
-      data.publishDateStr = dateToString(data.publishDate);
-    }
-    req.app.services.html.clearHtml(data.body, function (err, text) {
-      if (err) { return cb(err); }
-      data.body = text;
-      req.app.services.url.aliasFor(req.app, data.title, {}, function (err, alias) {
-        if (err) { return cb(err); }
-        data.alias = alias;
-        cb();
+  async.auto({
+    'post': function(next) {
+      req.app.models.posts.findById(data._id, 'title body alias publishDate', next);
+    },
+    'category': ['post', function(next) {
+      req.app.models.categories.findById(data['category._id'], 'title alias parentAlias', next);
+    }],
+    'account': ['post', function(next, data) {
+      if (!data.post.account) {
+        data.post.account = req.auth.account;
+      }
+      req.app.models.accounts.findById(data.post.account._id, 'title coverFile imageUrl', next);
+    }],
+    /*'clearHtml' : ['post', function(next, res) {
+      req.app.services.html.clearHtml(data.body, function (err, text) {
+        if (err) { return next(err); }
+        data.body = text;
+        next();
       });
-    });
-  });
-  //cb();
+    }],*/
+    'aliasFor' : ['post', function(next, res) {
+      if (res.post.alias) {
+        return next();
+      }
+      req.app.services.url.aliasFor(req.app, data.title, {}, function (err, alias) {
+        if (err) { return next(err); }
+        data.alias = alias;
+        next();
+      });
+    }],
+    'updateInfo': ['post', 'category', 'account', function(next, res) {
+      if (data.status == 4) {
+        data.published = true;
+      }
+      if (res.account) {
+        data['account._id'] = res.account._id;
+        data['account.title'] = res.account.title;
+        data['account.coverFile'] = res.account.coverFile;
+
+        if (res.account.imageUrl) {
+          data['account.imageUrl'] = res.account.imageUrl;
+        }
+      }
+
+      if (res.category) {
+        if (res.category.alias) {
+          data['category.alias'] = res.category.alias;
+        }
+        if (res.category.parentAlias) {
+          data['category.parentAlias'] = res.category.parentAlias;
+        }
+      }
+      if (data.published) {
+        data.publishDate = res.post.publishDate || new Date();
+        data.publishDateStr = dateToString(data.publishDate);
+      }
+      next();
+    }]
+  }, cb);
 };
 
 exports['put.posts.tags'] = function (req, data, next) {

@@ -13,8 +13,11 @@ export default
       },
       'responseError': function (rejection) {
         if (rejection.status === 401) {
-          var $auth = $injector.get('$auth');
+          let $auth = $injector.get('$auth'),
+            $location = $injector.get('$location'),
+            $timeout = $injector.get('$timeout');
           $auth.logout();
+          $location.path('/auth/login');
         }
         return $q.reject(rejection);
       }

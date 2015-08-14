@@ -36,26 +36,45 @@
   "acl": {
     "viewsCount": {
       "get": ["*"],
+      "get?category._id": "*",
+      "get?status&category._id": ["posts"],
+      "get?status&category._id&postType": ["posts"],
+      "get?account._id": ["posts"],
+      "get?createdBy._id": ["posts"],
+      "get?status": "*",
+      "get?status&postType": "*",
       "get?_id": ["*"]
     },
     "commentsCount": {
       "get": ["*"],
-      "get?_id": ["*"]
-    },
-    "publishedDate": {
-      "get": ["*"],
+      "get?account._id": ["posts"],
+      "get?createdBy._id": ["posts"],
+      "get?status": "*",
       "get?_id": ["*"]
     },
     "*": {
       "get": "*",
-      "get?activated": ["admin"],
+      "get?account._id": ["posts"],
+      "get?createdBy._id": ["posts"],
+      "get?keywordGroup._id": ["*"],
+      "get?status&category._id": ["posts"],
+      "get?status&category._id&postType": ["posts"],
+      "get?published": "*",
       "get?_id": "*",
       "get?tags": "*",
+      "get?alias": "*",
+      "get?status": "*",
+      "get?status&postType": "*",
+      "get?alias&category._id": "*",
       "get?tags.title": "*",
       "get?category._id": "*",
-      "put?_id": ["admin", "*:owner"],
-      "post": "admin",
-      "delete?_id": "admin"
+      "get?category._id&published": "*",
+      "get?hasPhotoreport&published": "*",
+      "get?isInterview&published": "*",
+      "get?isBlog&published": "*",
+      "put?_id": ["posts", "*:owner"],
+      "post": "posts",
+      "delete?_id": "posts"
     }
   }
 }

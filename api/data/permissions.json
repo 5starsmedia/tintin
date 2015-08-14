@@ -1,0 +1,66 @@
+[
+  {
+    "name": "admin",
+    "title": "Just admin"
+  },
+  {
+    "name": "auth.login",
+    "title": "User can login"
+  },
+  {
+    "name": "ads",
+    "title": "Ads"
+  },
+  {
+    "name": "ecommerce",
+    "title": "Ecommerce"
+  },
+  {
+    "name": "servers",
+    "title": "Manage server"
+  },
+  {
+    "name": "posts",
+    "title": "Posts"
+  },
+  {
+    "name": "constructor",
+    "title": "constructor"
+  },
+  {
+    "name": "menus",
+    "title": "menus"
+  },
+  {
+    "name": "comments",
+    "title": "comments"
+  },
+  {
+    "name": "keywords.projects",
+    "title": "keywords.projects"
+  },
+  {
+    "name": "keywords.specifications",
+    "title": "keywords.specifications"
+  },
+  {
+    "name": "keywords.assignments",
+    "title": "keywords.assignments"
+  },
+  {
+    "name": "users",
+    "title": "users"
+  },
+  {
+    "name": "sites",
+    "title": "sites"
+  },
+  {
+    "name": "issues",
+    "title": "issues"
+  },
+  {
+    "name": "voting",
+    "title": "Polls"
+  }
+]

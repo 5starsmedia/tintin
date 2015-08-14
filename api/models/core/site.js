@@ -10,17 +10,58 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
   domain: {type: String, required: true},
+  port: {type: Number, required: true, default: 80},
+
   title: String,
 
   isHttps: Boolean,
   isCorsEnabled: Boolean,
 
+  defaultLocale: {type: String, required: true, default: 'en_GB'},
+  /*allowLocales: [{
+    title: String,
+    code: String
+  }],*/
+
+  meta: {
+    title: String,
+    keywords: String,
+    description: String
+  },
+
+  article: {
+    title: String,
+    body: String
+  },
+
+  settings: {
+    logo: {
+      _id: mongoose.Schema.Types.ObjectId
+    },
+    youtubeChannel: String,
+    subscribeChannel: String,
+    vkGroupId: String,
+    fbGroupId: String,
+    googleAnalytics: String,
+    yandexMetrika: String,
+    homepageTitle: String,
+    structureLevel: {type: Number, required: true, default: 2}
+  },
+
+  tz: {
+    defaultText: String
+  },
+
+  yandexXml: String,
+  yandexCName: String,
+  yandexWebmasterTxt: String,
+  
+  googleWebmasterTxt: String,
+
+  robotsTxt: { type: String, required: true, default: "User-agent: *\nAllow: /" },
+
   removed: {type: Date},
-  createDate: {type: Date, required: true, default: Date.now},
-  site: {
-    _id: mongoose.Schema.Types.ObjectId,
-    domain: String
-  }
+  createDate: {type: Date, required: true, default: Date.now}
 }, {
   strict: true,
   safe: true,

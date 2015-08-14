@@ -1,0 +1,45 @@
+{
+  "resource": "nodeServers",
+  "model": "NodeServer",
+  "options": {
+    "db.safe": 2,
+    "searchFields": [
+      {
+        "role": "admin",
+        "value": [
+          "title", "email", "username", "tickets.value", "accountType", "profile.interests", "profile.zodiac.title",
+          "profile.country.title", "profile.city", "profile.primaryLanguage.title", "profile.secondaryLanguage.title"
+        ]
+      },
+      {
+        "role": "*",
+        "value": [
+          "title"
+        ]
+      }
+    ],
+    "maxPerPage": [
+      {
+        "role": "*:owner",
+        "value": 300
+      },
+      {
+        "role": "admin",
+        "value": 200
+      },
+      {
+        "role": "*",
+        "value": 100
+      }
+    ]
+  },
+  "acl": {
+    "*": {
+      "get": "*",
+      "get?_id": "*",
+      "put?_id": ["admin", "*:owner"],
+      "post": "admin",
+      "delete?_id": "admin"
+    }
+  }
+}

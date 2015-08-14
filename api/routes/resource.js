@@ -116,6 +116,10 @@ function processGet(model, fieldsObj, schemaFields, req, res, next) {
       'alias': req.query.alias,
       'removed': {$exists: false}
     };
+
+    if (_.indexOf(schemaFields, 'site._id') != -1) {
+      parameter['site._id'] = req.site._id;
+    }
     model.findOne(parameter, zipFields, function (err, data) {
       if (err) {
         if (err.name === 'CastError') {
@@ -195,9 +199,13 @@ function processPost(model, fieldsObj, req, res, next) {
         }
         body._id = mongoose.Types.ObjectId();
         if (model.schema.paths['site._id']) {
-          body.site = req.site;
+          body.site = {
+            _id: req.site._id,
+            domain: req.site.domain
+          };
         }
-        model.create(body, function (err, obj) {
+        var item = new model(body);
+        item.save(function (err, obj) {
           if (err) {
             return next(err);
           }
@@ -270,6 +278,17 @@ function processPut(model, fieldsObj, req, res, next) {
         }
       });
     }],
+    /*updateAlias: ['update', 'resource', function (next, data) {
+      if (model.schema.paths['title'] && model.schema.paths['alias']) {
+        req.app.services.url.aliasFor(req.app, data.resource.title, {}, function (err, alias) {
+          if (err) { return next(err); }
+
+          data.resource.update({ $set: { alias: alias } }, next);
+        });
+      } else {
+        next();
+      }
+    }],*/
     eventPush: ['update', function (next) {
       req.app.services.mq.push(req.app, 'events', {
           name: 'db.' + req.params.resource + '.update',
@@ -339,7 +358,7 @@ module.exports = function processRequest(req, res, next) {
     }
 
     var fieldsObj = acl.compareAcl(schemaFields, resource.acl, {
-      roles: req.auth.roles,
+      roles: req.auth.permissions,
       modifiers: req.auth.modifiers,
       method: req.method.toLowerCase(),
       params: params,

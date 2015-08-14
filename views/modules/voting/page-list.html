@@ -1,0 +1,56 @@
+<div class="content" animate-panel effect="zoomIn">
+
+  <div class="row">
+
+    <div class="col-xs-12">
+
+      <div class="pull-right">
+        <a class="btn btn-success btn-outline" ui-sref="voting.create">
+          <i class="fa fa-plus"></i> {{'New poll'|translate}}
+        </a>
+      </div>
+      <h2 class="font-light m-b-xs ng-binding">
+        {{'Polls'|translate}}
+      </h2>
+
+      <div class="hpanel">
+        <div class="panel-body" bz-loading-container="loading">
+
+
+          <table ng-table="tableParams" class="table">
+            <tr ng-repeat="item in $data">
+              <td style="width: 15%" class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
+                <a class="text-info" ui-sref="voting.edit({ id: item._id })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
+                  <span ng-if="item.isTop" class="fa fa-star"></span>
+
+                  {{item.title}}
+                </a>
+              </td>
+              <td style="width: 5%" data-title="'Views'|translate" sortable="'viewsCount'" class="text-center">
+                <span class="fa fa-eye"></span> {{item.viewsCount}}
+              </td>
+              <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">
+
+                <a ui-sref="voting.edit({ id: item._id })"
+                   title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span>
+                </a>
+                <a href="" st-confirm="remove(item)" title="{{'Delete article'|translate}}"
+                   message-title="'Delete'|translate" message="'Are you realy want to delete this article?'|translate">
+                  <span class="fa fa-times text-danger"></span>
+                </a>
+
+              </td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+</div>

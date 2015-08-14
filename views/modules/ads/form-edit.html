@@ -1,0 +1,48 @@
+<st-form model="post" state="error" submit="createAd(code)">
+
+    <div class="row">
+        <div class="col-xs-6">
+
+            <st-form-element label="{{'Title'|translate}}" field="title">
+
+                <input id="title" class="form-control input-lg" name="title" type="text" required
+                       ng-model="code.title"/>
+
+            </st-form-element>
+
+            <st-form-element label="{{'Html code'|translate}}" field="htmlCode">
+
+                <textarea class="form-control" name="htmlCode" rows="10" required ng-model="code.htmlCode"></textarea>
+
+            </st-form-element>
+
+            <div>
+                <label class="control-label">{{'Places'|translate}}</label>
+
+                <div ng-repeat="place in places">
+                    <label>
+                        <input type="checkbox" icheck checklist-model="code.places" checklist-value="place"> {{place.title}}
+                    </label>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary" ng-disabled="loading" ng-class="{'m-progress': loading}">
+                <span ng-if="!code._id">{{'Create'|translate}}</span>
+                <span ng-if="code._id">{{'Save'|translate}}</span>
+            </button>
+
+        </div>
+        <div class="col-xs-6">
+
+            <strong>{{'Preview'|translate}}</strong>
+            <div ads-html-preview="code.htmlCode"></div>
+
+            <a ng-if="code._id" href="" class="btn btn-danger btn-outline pull-right" st-confirm="deleteItem(code)"
+               message-title="'Deleting...'|translate" ng-disabled="loadingDelete" ng-class="{'m-progress': loadingDelete}"
+               message="'Are you sure you want to delete?'|translate">
+                {{'Delete'| translate}}
+            </a>
+        </div>
+    </div>
+</st-form>

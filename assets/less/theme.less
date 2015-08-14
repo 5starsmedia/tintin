@@ -1,0 +1,95 @@
+@import "less/ark.less";
+
+//@import "less/theme.less";
+@border-radius-base: 0;
+
+@import "../../bower_components/font-awesome/less/font-awesome";
+@import (reference)"../../bower_components/bootstrap/less/glyphicons";
+@import "extra/ng-table";
+@import "extra/bz-loading";
+@import "extra/csFileUpload";
+@import "extra/ng-editable-tree";
+@import "extra/ckeditor";
+@import "extra/b-splash";
+@import "extra/popupNotifications";
+@import "extra/constructorTree";
+@import "extra/icheck";
+@import "extra/b-html-preview";
+
+@import "base";
+@import "pie-timer";
+@import "datepicker";
+@import "timepicker";
+@import "dashboard";
+@import "courses-list";
+@import "block-cources";
+@import "airbnb";
+@import "dangle";
+@import "breadcrumb";
+@import "admin-site";
+@import "bz-localizable";
+@import "bz-mobile-menu";
+@import "code-highlight";
+@import "wiki";
+@import "ladda";
+@import "superbox";
+
+@import "select2-ui";
+@import (inline)"./video-js.css";
+@import "fancybox.less";
+@import "toaster.less";
+@import "liqpay.less";
+
+.daterangepicker.dropdown-menu {
+  width: 670px;
+}
+
+.icon-arrow-left {
+  .glyphicon;
+  .glyphicon-arrow-left;
+}
+
+.icon-arrow-right {
+  .glyphicon;
+  .glyphicon-arrow-right;
+}
+
+.checkboxMenu {
+  text-align: left;
+  font-size: 12px;
+}
+
+.checkboxMenuElement {
+  cursor: pointer;
+}
+
+.answerPreview {
+  float: left;
+  margin-right: 5px;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+/* ng-table */
+@table-border-color: #ccc;
+
+/* Кнопки */
+@btn-primary-color: #fff;
+@btn-primary-bg: #67a6e5;
+@btn-primary-border: #2273c4;
+
+/* Верхнее меню */
+@navbar-title-color: #000;
+@navbar-height: 35px;
+@nav-link-padding: 5px 10px;
+
+/* Верхняя шапка после меню .header */
+@header-bg: #62cb31;
+@header-bg-secondary: lighten(@header-bg, 30%);
+@header-text-color: #fff;
+@header-height: 135px;
+@logo: url('../img/logo.png');
+@logo-width: 304px;
+@logo-height: 64px;

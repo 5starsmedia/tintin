@@ -3,63 +3,82 @@ export default
   function () {
 
     return {
-      templateUrl: 'app/theme/directives/stFileUpload/csSingleFileUpload.html',
+      templateUrl: function (elem, attrs) {
+        if (attrs.compactMode) {
+          return 'app/theme/directives/stFileUpload/csSingleFileUploadCompact.html';
+        }
+        return 'app/theme/directives/stFileUpload/csSingleFileUpload.html';
+      },
       restrict: 'E',
       replace: true,
+      transclude: true,
       scope: {
-        resourceId: '@',
-        collectionName: '@',
         file: '=',
+        allowedExtensions: '@',
         bestWidth: '@',
-        bestHeight: '@'
+        bestHeight: '@',
+        loading: '='
       },
-      controller: /*@ngInject*/ ($scope, $timeout, $log) => {
+      controller: /*@ngInject*/ ($scope, $auth, $timeout, $log) => {
         $scope.file = $scope.file || {};
-        $scope.getStr = function(){
+
+        $scope.getStr = function () {
           return '(' + $scope.bestWidth + 'px x ' + $scope.bestHeight + 'px)';
         };
 
+        $scope.url = {
+          imageUrl: (_id, opts) => {
+            if (!_id) {return null;}
+            opts = angular.extend({}, opts);
+            var allowedQuery = _.pick(opts, ['width', 'height']);
+            var queryStr = _.map(allowedQuery, (val, key) => { return key + '=' + encodeURIComponent(val); }).join('&');
+
+            return '/api/files/' + _id + (queryStr && queryStr.length > 0 ? '?' + queryStr : '');
+          }
+        };
+
         $scope.getSettings = function () {
-          var headers = {};
-          headers[CS_AUTH_HEADER] = authSvc.getAuth().token;
-          return {
-            headers: headers,
-            singleFile: true,
-            query: (!$scope.resourceId || !$scope.collectionName)
-              ? {isTemp: true}
-              : {resourceId: $scope.resourceId, collectionName: $scope.collectionName}
+          var headers = {
+            'Authorization': 'Bearer ' + $auth.getToken()
           };
+          var opts = {
+            //target: '/api/keywordProjects',
+            headers: headers,
+            simultaneousUploads: 1,
+            singleFile: true,
+            query: { isTemp: true }
+          };
+          return opts;
         };
         $scope.fileError = function (event, $flow, flowFile, $message) {
           $log.error($message);
-          trackSvc.trackEvent('upload', 'error', 'upload.error.serverError', $message);
-          interactionSvc.warnAlert('Error', $message);
         };
         $scope.fileAdded = function (event, $flow, flowFile) {
-          var allowedExtensions = {png: 1, gif: 1, jpg: 1, jpeg: 1};
+          var allowedExtensions = $scope.allowedExtensions.split(',');//{xmind: 1,txt:1};
           var ext = flowFile.getExtension().toLowerCase();
-          if (!allowedExtensions[ext]) {
-            var msgExt = 'Unsupported file extension ' + ext + ' (allowed png, gif, jpg, jpeg)';
+          if (_.indexOf(allowedExtensions, ext) == -1) {
+            var msgExt = 'Unsupported file extension ' + ext + ' (allowed ' + allowedExtensions.join(',') + ')';
             $log.error(msgExt);
-            interactionSvc.warnAlert('Error', msgExt);
-            trackSvc.trackEvent('upload', 'error', 'upload.error.invExt', ext);
             return false;
           }
           if (flowFile.size > 10 * 1024 * 1024) {
             var msgSize = 'File ' + flowFile.name + ' is too big - ' + flowFile.size + ' bytes (max allowed 10Mb)';
             $log.error(msgSize);
-            trackSvc.trackEvent('upload', 'error', 'upload.error.tooBig', flowFile.size);
-            interactionSvc.warnAlert('Error', msgSize);
             return false;
           }
+          $scope.$apply(() => {
+            $scope.loading = true;
+          });
           return true;
         };
         $scope.fileSuccess = function (event, flow, file) {
           flow.removeFile(file);
-          var fileId = JSON.parse(_.first(file.chunks).xhr.response)['file._id'];
-          $scope.file._id = fileId;
-          $log.debug('File ' + fileId + ' uploaded');
-          trackSvc.trackEvent('upload', 'success', 'upload.success');
+          $scope.loading = false;
+          let file = JSON.parse(_.last(file.chunks).xhr.response);
+          $scope.file = {
+            _id: file['file._id'],
+            title: file['file.title']
+          };
         };
       }
     };

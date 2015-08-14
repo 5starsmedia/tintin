@@ -1,0 +1,51 @@
+.panel.panel-black {
+    position: absolute;
+    top: 70px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 0 none;
+    z-index: 10;
+    margin: 0;
+    &>.panel-heading, .panel-body {
+        background: black;
+        color: white;
+    }
+    .panel-body {
+        font-family: Courier New;
+        font-size: 12px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: auto;
+        position: absolute;
+        top: 42px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
+
+.panel-theme-edit {
+    position: relative;
+
+    .btn-success {
+        z-index: 100;
+    }
+}
+
+.panel-admin-theme {
+
+    .panel-body .btn-upload .btn:not(.btn-block) {
+        margin-bottom: 10px;
+    }
+
+    .logo-preview {
+        height: 70px;
+        margin: -15px -15px 10px -15px;
+
+        img {
+            max-width: 200px;
+            margin: 10px;
+        }
+    }
+}

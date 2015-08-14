@@ -91,54 +91,18 @@ var accountSchema = new mongoose.Schema({
   profileStrength: {type: Number, required: true, default: 0},
   profile: {
     facebookUrl: {type: String},
+    vkUrl: {type: String},
     dateOfBirth: {type: Date},
     age: Number,
-    gender: {
-      _id: mongoose.Schema.Types.ObjectId,
-      title: String
-    },
-    country: {
-      _id: mongoose.Schema.Types.ObjectId,
-      title: String,
-      shortTitle: String
-    },
-    state: {
-      _id: mongoose.Schema.Types.ObjectId,
-      title: String,
-      shortTitle: String
-    },
+    gender:  {type: String, default: 'unknown', enum: ['unknown', 'male', 'female']},
     city: String,
-    zodiac: {
-      _id: mongoose.Schema.Types.ObjectId,
-      title: String,
-      cssClass: String
-    },
-    ageCategory: {
-      _id: mongoose.Schema.Types.ObjectId,
-      title: String,
-      cssClass: String
-    },
-    address: {
-      country: {type: String},
-      street: {type: String}
-    },
-    phone: {type: String},
-    firstName: {type: String},
-    middleName: {type: String},
-    lastName: {type: String},
-    interests: {type: String},
-    primaryLanguage: {
-      _id: mongoose.Schema.Types.ObjectId,
-      title: String,
-      alias: String,
-      code: String
-    },
-    secondaryLanguage: {
-      _id: mongoose.Schema.Types.ObjectId,
-      title: String,
-      alias: String,
-      code: String
-    }
+    phone: String,
+    firstName: String,
+    middleName: String,
+    lastName: String,
+    about: String,
+    interests: String,
+    location: String
   },
   tokens: [
     {
@@ -153,9 +117,8 @@ var accountSchema = new mongoose.Schema({
   ],
   roles: [
     {
-      createDate: {type: Date, required: true, default: Date.now},
-      title: {type: String, required: true},
-      name: {type: String, required: true}
+      _id: mongoose.Schema.Types.ObjectId,
+      title: {type: String, required: true}
     }
   ],
   coverFile: {

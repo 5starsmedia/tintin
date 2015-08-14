@@ -1,23 +1,32 @@
-<form name="field" bz-loading-container="loading">
+<div class="hpanel">
 
-    <div class="form-group">
+    <div class="panel-body">
 
-        <label for="title">{{'Название'|translate}}</label>
-        <input class="form-control" id="title" name="title" type="text" ng-model="item.title"/>
+        <st-form-element label="{{'Title'|translate}}" field="title">
+
+            <input class="form-control input-lg" name="title" type="text" required ng-model="item.title"/>
+
+        </st-form-element>
+
+        <st-form-element label="{{'Description'|translate}}" field="title">
+
+            <textarea class="form-control" name="description" ckeditor="editorOptions" ng-model="item.body"></textarea>
+        </st-form-element>
 
     </div>
 
-    <div class="form-group">
+</div>
 
-        <label for="description">{{'Описание'|translate}}</label>
-        <textarea class="form-control" id="description" name="description" ckeditor ng-model="item.description"></textarea>
+<div class="hpanel"
+     ng-class="{'hred': !item.files.length, 'hyellow': item.files.length && !item.coverFile}">
+    <div class="panel-heading">
+        {{'Attached images'|translate}}
+    </div>
+    <div class="panel-body clearfix" editor-select-images="item.files">
+
+        <cs-file-upload resource-id="{{item._id}}" collection-name="productBrands" files="item.files"
+                        cover-file="item.coverFile" has-cover-select="true">
+        </cs-file-upload>
 
     </div>
-
-    <div class="form-actions">
-        <button class="btn btn-primary" ng-click="saveItem(item)">
-            {{'Сохранить'| translate}}
-        </button>
-    </div>
-
-</form>
+</div>

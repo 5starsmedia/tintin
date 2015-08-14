@@ -1,0 +1,51 @@
+<div class="content" animate-panel effect="zoomIn" delay="0">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="pull-right">
+                <a class="btn btn-success btn-outline" ui-sref="ecommerce.currencyCreate">
+                    <i class="fa fa-plus"></i> {{'New currency'|translate}}
+                </a>
+            </div>
+            <h2 class="font-light m-b-xs ng-binding">
+                {{'Currencies'|translate}}
+            </h2>
+
+            <div class="hpanel">
+                <div class="panel-body" bz-loading-container="loading">
+
+
+                    <table ng-table="tableParams" show-filter="true" class="table">
+                        <tr ng-repeat="item in $data">
+                            <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
+                                <a ui-sref="ecommerce.currencyEdit({_id: item._id})">{{item.title}}</a>
+                            </td>
+                            <td data-title="'Actiond'|translate" class="actions text-right">
+
+                                <a ui-sref="ecommerce.currencyEdit({_id: item._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
+
+                                <a href="" st-confirm="remove(item)" title="{{'Delete brand'|translate}}"
+                                   message-title="'Delete'|translate" message="'Are you realy want to delete this brand?'|translate">
+                                    <span class="fa fa-times text-danger"></span>
+                                </a>
+
+                            </td>
+                        </tr>
+                        <tr ng-if="!$data.length">
+                            <td colspan="{{$columns.length}}" class="text-center">{{'No data'|translate}}</td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>

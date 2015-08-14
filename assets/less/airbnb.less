@@ -1,0 +1,130 @@
+@media (max-width: @screen-sm-max) {
+
+.perspective {
+    background: #aaa;
+    position: relative;
+}
+
+.course-container {
+    background: #fff;
+    min-height: 100%;
+    position: relative;
+    outline: 0 none;
+    z-index: 10;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 0px;
+        opacity: 0;
+        background: rgba(0, 0, 0, 0.2);
+        /* the transition delay of the height needs to be synced with the container transition time */
+        -webkit-transition: opacity 0.4s, height 0s 0.4s;
+        transition: opacity 0.4s, height 0s 0.4s;
+    }
+}
+
+.wrapper {
+    position: relative;
+}
+
+.component {
+    margin: 0 auto;
+    width: 60%;
+    text-align: justify;
+    font-size: 1.5em;
+}
+
+/* Modal view */
+.perspective.modalview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-perspective: 1500px;
+    perspective: 1500px;
+
+    .panel {
+        &.panel-primary, .panel-heading, .list-group, .list-group-item, .list-group-item a {
+            border: 0 none;
+            background: transparent;
+        }
+        .panel-heading {
+            font-weight: bold;
+            text-align: center;
+        }
+    }
+}
+
+.modalview .container {
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.modalview .wrapper {
+    -webkit-transform: translateZ(-1px); /* solves a rendering bug in Chrome on Windows */
+}
+
+.animate .container::after {
+    opacity: 1;
+    height: 101%;
+    -webkit-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+}
+
+/* Outer Nav */
+.outer-nav {
+    max-height: 100%;
+    position: absolute;
+    height: auto;
+    overflow-y: auto;
+    top: 0;
+    left: 10px;
+    width: 60% !important;
+
+    .effect-airbnb & {
+        opacity: 0;
+        -webkit-transform: translateX(-150px);
+        transform: translateX(-150px);
+        -webkit-transition: -webkit-transform 0.4s, opacity 0.4s;
+        transition: transform 0.4s, opacity 0.4s;
+    }
+
+    .effect-airbnb.animate & {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+/* Effect airbnb */
+.effect-airbnb {
+    background: #b8b6b4;
+}
+
+.effect-airbnb .course-container {
+    -webkit-transition: -webkit-transform 0.4s;
+    transition: transform 0.4s;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+}
+
+.effect-airbnb.animate .course-container {
+    -webkit-transform: translateZ(-1500px) translateX(100%) rotateY(-45deg);
+    transform: translateZ(-1500px) translateX(100%) rotateY(-45deg);
+}
+
+.no-csstransforms3d .effect-airbnb.animate .course-container {
+    left: 75%;
+}
+
+}

@@ -10,10 +10,12 @@ function padNumberString(number, padStr) {
 
 exports['post.comments'] = function (req, data, next) {
   if (data.isAnonymous) {
-    data['realAccount._id'] = req.auth.account._id;
+    if (req.auth.account) {
+      data['realAccount._id'] = req.auth.account._id;
+    }
     data.isAnonymous = true;
     data.account = null;
-  } else {
+  } else if (req.auth.account) {
     data['account._id'] = req.auth.account._id;
     data['account.title'] = req.auth.account.title;
     data['account.coverFile'] = req.auth.account.coverFile;

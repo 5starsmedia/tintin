@@ -33,7 +33,7 @@ module.config(function ($stateProvider, $httpProvider, $authProvider) {
     })
     .state('auth.login', {
       url: '/login',
-      templateUrl: 'views/common_app/login.html',
+      templateUrl: 'views/modules/auth/page-login.html',
       controller: 'AuthLoginCtrl'
     })
     .state('signup', {
@@ -71,7 +71,7 @@ module.config(function ($stateProvider, $httpProvider, $authProvider) {
   $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
     event.preventDefault();
     if (error.status == '403') {
-      $state.go('auth.login');
+      $state.go('users.permissions');
     }
   });
 });

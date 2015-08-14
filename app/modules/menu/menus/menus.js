@@ -27,7 +27,8 @@ module.config(function ($stateProvider) {
   $stateProvider
     .state('menu', {
       abstract: true,
-      templateUrl: "views/common/content_small.html"
+      parent: 'cabinet',
+      template: '<div ui-view></div>'
     })
     .state('menu.menus', {
       url: "/menu",

@@ -1,0 +1,123 @@
+<div>
+
+  <div>
+
+
+    <st-header title="{{group.title}}">
+
+      <button ng-if="group.status == 'assign'" type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('inwork')"
+              class="btn btn-primary">{{'Get in work'|translate}}
+      </button>
+      <button ng-if="group.status == 'inwork' || group.status == 'failedModeration'" type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('moderation')"
+              class="btn btn-success">{{'Complete'|translate}}
+      </button>
+      <a ui-sref="keywords.specifications" class="btn btn-default">
+        {{'Cancel'|translate}}
+      </a>
+
+      <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('inwork')"
+              class="btn btn-warning">{{'Refuse'|translate}}
+      </button>
+
+    </st-header>
+
+    <div class="content" animate-panel effect="zoomIn">
+
+      <div class="row">
+      <div class="col-md-9">
+
+        <div class="hpanel">
+          <div class="panel-body">
+
+            <div ng-if="group.status == 'inwork' || group.status == 'failedModeration'">
+
+              <st-form model="group" state="error" submit="back('moderation')">
+
+                <div ng-if="group.status == 'failedModeration'" class="alert alert-warning">
+
+                  <strong>{{'Comment of editor'|translate}}</strong>
+                  <div ng-bind="group.result.editorNotes"></div>
+
+                  <st-form-element label="{{'Your comment'|translate}}" field="authorNotes">
+
+                    <textarea id="editorNotes" class="form-control" name="authorNotes" ng-model="group.result.authorNotes"></textarea>
+
+                  </st-form-element>
+
+                </div>
+
+                <st-form-element label="{{'Category'|translate}}" field="category._id">
+
+                  <select ng-model="group.category._id" st-tree-select="categories" class="form-control" name="category"
+                          required></select>
+
+                </st-form-element>
+
+                <st-form-element label="{{'Body'|translate}}" field="body">
+
+                                <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
+                                          ng-model="group.result.text"></textarea>
+
+                </st-form-element>
+
+
+                <st-panel title="{{'Attached images'|translate}}" is-red="!post.files.length"
+                          is-yellow="group.result.files.length && !post.coverFile">
+
+                  <div editor-select-images="group.result.files">
+
+                    <div class="alert alert-danger" ng-if="!group.result.files.length">
+                      <span class="fa fa-picture-o"></span> {{'Upload one or more images'|translate}}
+                    </div>
+                    <div class="alert alert-warning" ng-if="group.result.files.length && !group.result.coverFile">
+                      <span class="fa fa-flag"></span> {{'Select the cover image'|translate}}
+                    </div>
+
+                    <div>
+
+                      <cs-file-upload resource-id="{{group._id}}" collection-name="keywordGroups" files="group.result.files"
+                                      cover-file="group.result.coverFile" has-cover-select="true">
+                      </cs-file-upload>
+                    </div>
+
+                  </div>
+                </st-panel>
+
+              </st-form>
+
+            </div>
+
+            <div ng-include="'views/modules/keywords/page-group-preview.html'"></div>
+
+          </div>
+        </div>
+
+
+        <st-panel title="{{'Comments'|translate}}">
+
+          <div comments-box collection-name="keywordGroups" place-holder="Комментарий..." resource-id="{{group._id}}"></div>
+
+        </st-panel>
+
+      </div>
+      <div class="col-md-3">
+
+        <st-panel title="{{'Assigment'|translate}}">
+
+          <div ng-if="group.result.dueDate">
+
+            {{'Due date'|translate}}:
+            {{group.result.dueDate|date:'dd.MM.yyyy'}}
+
+          </div>
+
+        </st-panel>
+
+      </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+

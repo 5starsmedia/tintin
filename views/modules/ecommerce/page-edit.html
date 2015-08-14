@@ -13,12 +13,23 @@
                             <span class="pe-7s-angle-left"></span>
                         </a>
 
-                        <h2 class="font-light m-b-xs">
-                            <span ng-if="!item.id" style="line-height: 30px;">{{'Добавление продукта'|translate}}</span>
-                            <span ng-if="item.id">{{'Редактирование продукта'|translate}}</span>
+                        <h2 class="font-light m-b-xs" ng-if="!item.variationProduct">
+                            <span ng-if="!item._id" style="line-height: 30px;">{{'Добавление продукта'|translate}}</span>
+                            <span ng-if="item._id">{{'Редактирование продукта'|translate}}</span>
                         </h2>
 
-                        <small ng-if="item.id">
+                        <h2 class="font-light m-b-xs" ng-if="item.variationProduct">
+                            <a ui-sref="ecommerce.edit({id: item.variationProduct._id})">
+                                {{item.variationProduct.title}}
+                            </a>
+
+                            >
+
+                            <span ng-if="!item._id" style="line-height: 30px;">{{'Добавление вариации продукта'|translate}}</span>
+                            <span ng-if="item._id">{{'Редактирование вариации продукта'|translate}}</span>
+                        </h2>
+
+                        <small ng-if="item._id">
                             {{'Product created:'|translate}}
                             {{item.createDate|date:'dd.MM.yyyy'}}
                             {{'at'|translate}}
@@ -32,7 +43,10 @@
                             <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
                                 {{'Save'|translate}}
                             </button>
-                            <a ui-sref="ecommerce.products" class="btn btn-default">
+                            <a ng-if="!item.isVariation" ui-sref="ecommerce.products" class="btn btn-default">
+                                {{'Cancel'|translate}}
+                            </a>
+                            <a ng-if="item.isVariation" ui-sref="ecommerce.edit({id: item.variationProduct._id})" class="btn btn-default">
                                 {{'Cancel'|translate}}
                             </a>
                         </div>

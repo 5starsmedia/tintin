@@ -7,12 +7,15 @@ class EcommerceList {
 
     $scope.tableParams = new ngTableParams({
       page: 1,            // show first page
-      count: 10           // count per page
+      count: 10,          // count per page
+      sorting: {
+        'createDate': 'desc'
+      }
     }, {
       getData: function ($defer, params) {
 
         $scope.loading = true;
-        EcommerceProductModel.query(BaseAPIParams({}, params), function (res, headers) {
+        EcommerceProductModel.query(BaseAPIParams({ isVariation: false }, params), function (res, headers) {
           $scope.loading = false;
           params.total(headers('x-total-count'));
           $defer.resolve(res);

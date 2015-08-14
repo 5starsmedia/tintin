@@ -1,0 +1,40 @@
+global
+  maxconn 45000 # Max simultaneous connections from an upstream server
+  spread-checks 5 # Distribute health checks with some randomness
+  log 127.0.0.1 local0
+  log 127.0.0.1 local1 notice
+  #debug # Uncomment for verbose logging
+
+defaults # Apply to all services
+  log global
+  mode http
+  balance roundrobin
+  option abortonclose # abort request if client closes output channel while waiting
+  option httpclose # add "Connection:close" header if it is missing
+  option forwardfor # nsert x-forwarded-for header so that app servers can see both proxy and client IPs
+  option redispatch # any server can handle any session
+  timeout client 60s
+  timeout connect 2s
+  timeout server 30s
+  timeout check 5s
+  stats enable
+  stats uri /stats # Real path redacted
+  stats realm Haproxy\ Statistics
+  stats auth username:password # Real credentials redacted
+  monitor-uri /monitor # Returns 200 if we're up; real path redacted
+#  errorfile 503 /etc/haproxy/errors/503.http
+
+  userlist shareaholic_admins
+    user myuser insecure-password mypass # Real auth redacted
+
+  #stats socket {{haproxySocketPath}} level admin
+
+{{#each frontends}}
+frontend {{@key}}
+  {{frontendHelper this}}
+{{/each}}
+
+{{#each backends}}
+backend {{@key}}
+  {{backendHelper this}}
+{{/each}}

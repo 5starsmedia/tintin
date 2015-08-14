@@ -1,4 +1,4 @@
-@import (reference)'bower_components/bootstrap/less/bootstrap';
+@import (reference)'../theme.less';
 
 .nav-nested {
   margin: 4px 0 4px -6px;
@@ -99,10 +99,15 @@
 
     .panel-heading {
       position: relative;
-      padding-left: 46px;
+      padding: 7px 15px 7px 46px;
       display: block;
     }
 
+    .panel-primary {
+      .drag-handle, .drag-handle span {
+        border-color: @btn-primary-border;
+      }
+    }
     .drag-handle {
       &, & span {
         display: inline-block;

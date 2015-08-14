@@ -4,6 +4,6 @@ import theme from './theme/main.js';
 
 let appName = 'app';
 
-angular.module(appName, [base, theme, 'views'].concat(modules));
+angular.module(appName, [base, theme].concat(modules));
 
 export default appName;

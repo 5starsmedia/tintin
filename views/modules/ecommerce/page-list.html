@@ -19,48 +19,62 @@
 
                     <table ng-table="tableParams" ng-table-filters-manager show-filter="false" class="table">
                         <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
-                            <td data-title="'Заголовок'|translate" sortable="'title'" filter="{'title': 'text'}">
-                                <a ui-sref="ecommerce.edit({id: item._id})">{{item.title}}</a>
+                            <td data-title="'Code'|translate" sortable="'code'" style="width: 50px" product-images-preview>
+                                <a ui-sref="ecommerce.edit({id: item._id})">
+                                    <span ng-if="item.code" class="font-bold">{{item.code}}</span>
+                                </a>
+                                <br/>
+                                <a ng-if="item.coverFile" ng-href="/api/files/{{item.coverFile._id}}">
+                                    <img ng-src="/api/files/{{item.coverFile._id}}?width=40" alt="{{item.title}} ({{item.code}})" image-with-preview />
+                                </a>
                             </td>
-                            <td data-title="'Цена'|translate" sortable="'price'">
+                            <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
+                                <a ui-sref="ecommerce.edit({id: item._id})">
+                                    {{item.title}}
+                                </a>
+                            </td>
+                            <td data-title="'Variations'|translate" style="width: 80px">
+                                <ng-pluralize count="item.variationCount" when="{ 0: 'No variations', one: '{} variation', other: '{} variations' }"></ng-pluralize>
+                            </td>
+                            <td data-title="'Price'|translate" style="width: 80px" sortable="'price'">
                                 <div bz-loading-container="item.$loading">
                                     <input type="number" ng-model="item.price" ng-blur="updateItem(item)" class="form-control" />
                                 </div>
                             </td>
-                            <td data-title="'Наличие'|translate" sortable="'count'">
+                            <td data-title="'Availability'|translate" sortable="'inStockCount'">
 
-                                <span class="label label-default" ng-if="!item.isInStock">{{'Нет в наличии'|translate}}</span>
+                                <span class="label label-default" ng-if="!item.isInStock">{{'Not available'|translate}}</span>
                             <span class="label label-success" ng-if="item.isInStock">
-                                {{'В наличии:'|translate}}
+                                {{'In stock:'|translate}}
                                 {{item.inStockCount}}
                             </span>
 
                             </td>
-                            <td data-title="'Дата добавления'|translate" sortable="'created_at'">
+                            <td data-title="'Date of creation'|translate" sortable="'createDate'">
 
                                 {{item.createDate|date:'yyyy-MM-dd'}}<br/>
                                 {{item.createDate|date:'HH:mm:ss'}}
 
                             </td>
-                            <td width="50" data-title="'Порядок'|translate" sortable="'order'">
+                            <td width="50" data-title="'Order'|translate" sortable="'ordinal'">
                                 <div bz-loading-container="item.$loading">
                                     <input type="number" ng-model="item.ordinal" ng-blur="updateItem(item)" class="form-control" />
                                 </div>
                             </td>
-                            <td data-title="'Действия'|translate" class="actions text-right">
+                            <td data-title="'Actions'|translate" class="actions text-right">
 
                                 <div class="btn-group">
 
                                     <a href="" data-ng-click="item.isPublished = !item.isPublished; updateItem(item)">
-                                        <span ng-if="!item.isPublished" title="{{'Снять с публикации'|translate}}">
+                                        <span ng-if="!item.isPublished" title="{{'Unpublish'|translate}}">
                                             <i class="fa fa-lock"></i>
                                         </span>
-                                        <span ng-if="item.isPublished" title="{{'Опубликовано'|translate}}">
+                                        <span ng-if="item.isPublished" title="{{'Publish'|translate}}">
                                             <i class="fa fa-unlock"></i>
                                         </span>
                                     </a>
 
-                                    <a ui-sref="ecommerce.edit({id: item.id})" title="{{'Редактировать'|translate}}"><span class="fa fa-pencil"></span></a>
+                                    <a ui-sref="ecommerce.edit({id: item._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
 
                                     <a href="" st-confirm="remove(item)" title="{{'Delete product'|translate}}"
                                        message-title="'Delete'|translate" message="'Are you realy want to delete this product?'|translate">
@@ -71,7 +85,7 @@
                             </td>
                         </tr>
                         <tr ng-if="!$data.length">
-                            <td colspan="{{$columns.length}}" class="text-center">{{'Нет данных'|translate}}</td>
+                            <td colspan="{{$columns.length}}" class="text-center">{{'No products'|translate}}</td>
                         </tr>
                     </table>
 

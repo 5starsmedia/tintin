@@ -1,0 +1,10 @@
+[
+  {
+    "eventType": "comment.add",
+    "title": "New comment"
+  },
+  {
+    "eventType": "contacts.feedback",
+    "title": "Contacts feedback"
+  }
+]

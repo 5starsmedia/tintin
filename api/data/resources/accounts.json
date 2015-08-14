@@ -35,11 +35,18 @@
     ]
   },
   "acl": {
+    "__v": false,
+    "extToken": false,
+    "extUser": false,
+    "passwordResetDate": false,
+    "passwordResetToken": false,
+    "randomField": false,
     "salt": false,
-    "username": {
+    "_id": {
       "get?activated": ["admin"],
       "get?_id": ["admin", "*:owner"],
       "get": ["admin", "*:owner"],
+      "get?username": ["admin", "*:owner"],
       "put?_id": ["admin"],
       "post": "admin"
     },
@@ -73,6 +80,15 @@
     "title": {
       "get": ["*"],
       "get?_id": ["*"],
+      "get?username": ["admin", "*:owner"],
+      "get?activated": ["admin"],
+      "put?_id": ["admin", "*:owner"],
+      "post": "admin"
+    },
+    "username": {
+      "get": ["*"],
+      "get?_id": ["*"],
+      "get?username": ["admin", "*:owner"],
       "get?activated": ["admin"],
       "put?_id": ["admin", "*:owner"],
       "post": "admin"
@@ -80,6 +96,7 @@
     "*": {
       "get": ["admin", "*:owner", "user"],
       "get?activated": ["admin"],
+      "get?username": ["admin", "*:owner"],
       "get?_id": ["admin", "*:owner", "user"],
       "put?_id": ["admin", "*:owner"],
       "post": "admin",

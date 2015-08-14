@@ -1,0 +1,36 @@
+.b-html-preview {
+  //white-space: pre-line;
+
+  h6, h5, h4, h3, h2, h1, blockquote, address, pre, div, p, li {
+    background-position: top left;
+    padding-left: 8px;
+    margin: 0;
+
+    background-repeat: no-repeat;
+    border: 1px dotted gray;
+    padding-top: 8px;
+    margin-bottom: 5px;
+  }
+
+  h1 { background-image: url(../ckeditor/plugins/showblocks/images/block_h1.png); }
+  h2 { background-image: url(../ckeditor/plugins/showblocks/images/block_h2.png); }
+  h3 { background-image: url(../ckeditor/plugins/showblocks/images/block_h3.png); }
+  h4 { background-image: url(../ckeditor/plugins/showblocks/images/block_h4.png); }
+  h5 { background-image: url(../ckeditor/plugins/showblocks/images/block_h5.png); }
+  h6 { background-image: url(../ckeditor/plugins/showblocks/images/block_h6.png); }
+
+  p { background-image: url(../ckeditor/plugins/showblocks/images/block_p.png); }
+  li { background-image: url(../ckeditor/plugins/showblocks/images/block_li.png); }
+  blockquote { background-image: url(../ckeditor/plugins/showblocks/images/block_blockquote.png); }
+  address { background-image: url(../ckeditor/plugins/showblocks/images/block_address.png); }
+
+  @baseFontSize: 11px;
+  p, li, blockquote, address { font-size: @baseFontSize; font-weight: normal; font-style: normal; }
+  h1 { font-size: @baseFontSize + 12; }
+  h2 { font-size: @baseFontSize + 10; }
+  h3 { font-size: @baseFontSize + 8; }
+  h4 { font-size: @baseFontSize + 6; }
+  h5 { font-size: @baseFontSize + 4; }
+  h6 { font-size: @baseFontSize + 2; }
+
+}

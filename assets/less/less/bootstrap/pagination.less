@@ -1,0 +1,122 @@
+//
+// Pagination (multiple pages)
+// --------------------------------------------------
+.pagination {
+  border-radius: 2px;
+
+  > li {
+    > a,
+    > span {
+      background-color: @pagination-bg;
+      border: 1px solid @btn-default-bg-hcolor;
+    }
+    &:first-child {
+      > a,
+      > span {
+        .border-left-radius(2px);
+      }
+    }
+    &:last-child {
+      > a,
+      > span {
+        .border-right-radius(2px);
+      }
+    }
+  }
+
+  > li > a,
+  > li > span {
+    &:hover,
+    &:focus {
+      background-color: @btn-default-bg-color;
+    }
+  }
+
+  > .active > a,
+  > .active > span {
+    &,
+    &:hover,
+    &:focus {
+      background-color: @btn-primary-bg-color;
+      border-color: @btn-primary-bg-color;
+    }
+  }
+
+  > .disabled {
+    > span,
+    > span:hover,
+    > span:focus,
+    > a,
+    > a:hover,
+    > a:focus {
+      color: @pagination-disabled-color;
+      background-color: @pagination-bg;
+      border-color: @btn-default-bg-hcolor;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Sizing
+// --------------------------------------------------
+
+// Large
+.pagination-lg {
+  .pagination-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; 2px);
+}
+
+// Small
+.pagination-sm {
+  .pagination-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; 2px);
+}
+
+
+//
+// Pager pagination
+// --------------------------------------------------
+
+
+.pager {
+  li {
+    > a,
+    > span {
+      display: inline-block;
+      padding: 5px 14px;
+      background-color: @pagination-bg;
+      border: 1px solid @btn-default-bg-hcolor;
+      border-radius: 2px;
+    }
+
+    > a:hover,
+    > a:focus {
+      text-decoration: none;
+      background-color: @btn-default-bg-color;
+    }
+  }
+
+  .next {
+    > a,
+    > span {
+      float: right;
+    }
+  }
+
+  .previous {
+    > a,
+    > span {
+      float: left;
+    }
+  }
+
+  .disabled {
+    > a,
+    > a:hover,
+    > a:focus,
+    > span {
+      color: @pager-disabled-color;
+      background-color: @pagination-bg;
+      cursor: not-allowed;
+    }
+  }
+
+}

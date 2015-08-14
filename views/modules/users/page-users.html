@@ -1,0 +1,87 @@
+<div class="content" animate-panel effect="zoomIn" delay="0">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="pull-right">
+                <a class="btn btn-success btn-outline" ui-sref="users.create">
+                    <i class="fa fa-plus"></i> {{'New user'|translate}}
+                </a>
+            </div>
+            <h2 class="font-light m-b-xs ng-binding">
+                {{'Users'|translate}}
+            </h2>
+
+            <div class="hpanel">
+                <div class="panel-body" bz-loading-container="loading">
+
+
+                    <table ng-table="tableParams" ng-table-filters-manager show-filter="true" class="table">
+                        <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
+                            <td width="300" data-title="'Title'|translate" class="table-preview" sortable="'profile.lastName'" filter="{'search': 'text'}">
+                                <a class="name" ui-sref="profile.user.info({username: item.username})">
+                                    <st-avatar width="120" height="120" account="item"></st-avatar>
+
+                                    {{item.profile.lastName}}
+                                    <span class="secondary">{{item.profile.firstName}}</span>
+                                </a>
+                            </td>
+                            <td width="150" data-title="'Roles'|translate" sortable="'roles'">
+
+                                <span ng-repeat="role in item.roles">
+                                    {{role.title}}<br ng-if="!$last">
+                                </span>
+
+                            </td>
+                            <td data-title="'Date of creation'|translate" sortable="'createDate'">
+
+                                {{item.createDate|date:'yyyy-MM-dd'}}<br/>
+                                {{item.createDate|date:'HH:mm:ss'}}
+
+                            </td>
+                            <td data-title="'Actions'|translate" class="actions text-right">
+
+                                <div class="btn-group" bz-loading-container="item.$loading">
+
+                                    <a href="" data-ng-click="item.activated = !item.activated; updateItem(item)">
+                                        <span ng-if="!item.activated" title="{{'Unpublish'|translate}}">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                        <span ng-if="item.activated" title="{{'Publish'|translate}}">
+                                            <i class="fa fa-unlock"></i>
+                                        </span>
+                                    </a>
+
+                                    <a ui-sref="profile.user.info({username: item.username})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
+
+                                    <a href="" st-confirm="remove(item)" title="{{'Delete product'|translate}}"
+                                       message-title="'Delete'|translate" message="'Are you realy want to delete this product?'|translate">
+                                        <span class="fa fa-times text-danger"></span>
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr ng-if="!$data.length">
+                            <td colspan="{{$columns.length}}" class="text-center">{{'No users'|translate}}</td>
+                        </tr>
+                    </table>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <!--div class="col-md-3">
+
+            <div ng-include="'views/modules/ecommerce/block-tree.html'"></div>
+
+        </div-->
+
+
+    </div>
+
+
+</div>

@@ -1,0 +1,45 @@
+.datepicker {
+    .btn.btn-default {
+        background: transparent;
+    }
+    .btn {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+    .btn:not(.btn-block) {
+        margin: 0;
+    }
+    td, th {
+        width: auto;
+    }
+    .text-strong {
+        font-weight: bold;
+    }
+
+    thead tr:first-child th:hover,
+    tfoot tr th:hover {
+        background: transparent;
+    }
+    table tr td span {
+        width: auto;
+        line-height: 100%;
+        height: 100%;
+        float: none;
+        margin: 0;
+
+        &:hover {
+            background: transparent;
+        }
+    }
+}
+.datepicker table tr td span.active:active, .datepicker table tr td span.active:hover:active, .datepicker table tr td span.active.disabled:active, .datepicker table tr td span.active.disabled:hover:active, .datepicker table tr td span.active.active, .datepicker table tr td span.active:hover.active, .datepicker table tr td span.active.disabled.active, .datepicker table tr td span.active.disabled:hover.active {
+    background: @btn-primary-bg;
+}
+
+.datepicker table tr {
+  vertical-align: top;
+}
+
+.datepicker .btn.btn-default {
+  background: transparent;
+}

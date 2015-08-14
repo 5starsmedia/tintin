@@ -1,0 +1,41 @@
+<st-form model="item" state="error" submit="saveItem(item)">
+  <div class="color-line"></div>
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" ng-if="!item._id">{{'New choise'|translate}}</h4>
+    <h4 class="modal-title" ng-if="item._id">{{'Editing of choise'|translate}}</h4>
+  </div>
+  <div class="modal-body" bz-loading-container="loading">
+
+    <st-form-element label="{{'Title'|translate}}" field="title">
+
+      <input id="title" class="form-control input-lg" name="title" type="text" required
+             ng-model="item.title"/>
+
+    </st-form-element>
+
+    <st-form-element label="{{'Body'|translate}}" field="body">
+
+      <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
+                ng-model="item.body"></textarea>
+
+    </st-form-element>
+
+    <cs-file-upload files="item.files"
+                    cover-file="item.coverFile" has-cover-select="true">
+    </cs-file-upload>
+
+  </div>
+  <div class="modal-footer">
+    <!--div class="pull-left">
+        <button type="submit" class="btn btn-danger" ng-click="saveItem()" ng-disabled="edit.$invalid">
+            {{'Удалить'|translate}}
+        </button>
+    </div-->
+    <button type="submit" class="btn btn-primary" ng-disabled="edit.$invalid">
+      {{'Save'|translate}}
+    </button>
+    <button type="button" class="btn btn-default" ng-click="close()" data-dismiss="modal">{{'Cancel'|translate}}
+    </button>
+  </div>
+</st-form>

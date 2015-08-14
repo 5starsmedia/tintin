@@ -1,0 +1,261 @@
+<div>
+
+  <st-form model="group" state="error" submit="saveItem(group)">
+
+
+    <st-header title="{{group._id ? group.title : 'New group'}}">
+
+      <div ng-if="group.status && group.status == 'new'" class="btn-group">
+        <button type="button" ng-if="group._id" ng-disabled="loadingScan" ng-class="{'m-progress': loadingScan}"
+                ng-click="runScan()"
+                class="btn btn-primary">
+          <span class="fa fa-search"></span>
+          {{'Analyze'|translate}}
+        </button>
+      </div>
+
+      <div ng-if="group.status && group.status == 'finded'" class="btn-group">
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('scaned')"
+                class="btn btn-default">
+          {{'Back'|translate}}
+        </button>
+
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()"
+                class="btn btn-primary">
+          {{'Create specification'|translate}}
+        </button>
+      </div>
+
+      <div ng-if="group.status && group.status == 'scaned'" class="btn-group">
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('new')"
+                class="btn btn-default">
+          {{'Back'|translate}}
+        </button>
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()"
+                class="btn btn-primary">
+          {{'Сalculate occurrence'|translate}}
+        </button>
+      </div>
+
+      <div ng-if="group.status && group.status == 'completed'" class="btn-group">
+
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('finded')"
+                class="btn btn-default">
+          {{'Back'|translate}}
+        </button>
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('editorValidation')"
+                class="btn btn-primary">
+          {{'Pass to the editor'|translate}}
+        </button>
+      </div>
+
+      <button ng-disabled="loading" ng-if="!group._id" ng-class="{'m-progress': loading}"
+              class="btn btn-primary btn-outline"
+              type="submit">
+        {{'Create'|translate}}
+      </button>
+      <a ui-sref="keywords.projectView({ id: project._id })" class="btn btn-default">
+        {{'Cancel'|translate}}
+      </a>
+
+
+    </st-header>
+
+    <div class="content" animate-panel effect="zoomIn">
+
+
+      <div class="hpanel">
+        <div class="panel-body">
+
+          <div ng-if="!group.status || group.status == 'new'">
+
+            <div ng-if="error" class="alert alert-block alert-danger">
+              {{error}}
+            </div>
+
+            <st-form-element label="{{'Title'|translate}}" field="title">
+
+              <input id="title" class="form-control input-lg" name="title" type="text" required ng-model="group.title"/>
+
+            </st-form-element>
+
+            <st-form-element label="{{'Category'|translate}}" field="category._id">
+
+              <select ng-model="group.category._id" st-tree-select="categories" class="form-control" name="category"
+                      required></select>
+
+            </st-form-element>
+
+            <st-form-element label="{{'Keywords'|translate}}" field="keywords">
+
+                    <textarea id="body" class="form-control" rows="15" name="keywords"
+                              ng-model="group.keywords"></textarea>
+
+            </st-form-element>
+
+          </div>
+
+
+          <div ng-if="group.status && group.status == 'completed'">
+
+            <div ng-include="'views/modules/keywords/page-group-preview.html'"></div>
+
+          </div>
+
+          <div ng-if="group.status && group.status == 'finded'">
+
+            <div ng-bind-html="site.tz.defaultText"></div>
+
+            <table class="table table-condensed">
+              <tr>
+                <th>Обов'язкові</th>
+                <th style="width: 50%">Ключове слово</th>
+                <th style="width: 10%">Топ 3</th>
+                <th style="width: 10%">Топ 10</th>
+                <th style="width: 10%">Використовувати у ТЗ</th>
+                <th style="width: 20%">Тип входження</th>
+              </tr>
+              <tr ng-repeat="(n,keyword) in group.recomendation.keywords track by n">
+                <td class="text-center">
+                  <input icheck ng-model="keyword.required" type="checkbox"/>
+                </td>
+                <td>
+                  <input type="text" class="form-control" ng-model="keyword.keyword"/>
+                </td>
+                <td class="text-center">{{keyword.entryInTop3}}</td>
+                <td class="text-center">{{keyword.entry}}</td>
+                <td>
+                  <input type="number" class="form-control" ng-model="keyword.useEntry"/>
+                </td>
+                <td>
+                  <label>
+                    <input type="radio" ng-model="keyword.useType" value="exact"/>
+                    Точне
+                  </label>
+                  <br/>
+                  <label>
+                    <input type="radio" ng-model="keyword.useType" value="inexact"/>
+                    Розбавлене
+                  </label>
+                  <br/>
+                  <label>
+                    <input type="radio" ng-model="keyword.useType" value="both"/>
+                    На вибір
+                  </label>
+                </td>
+              </tr>
+            </table>
+
+            <div>
+              <label>
+                {{'Number of characters'|translate}}
+              </label>
+
+              <div class="row">
+                <div class="col-xs-3">
+                  <div class="input-group">
+                    <span class="input-group-addon">{{'Min'|translate}}</span>
+                    <input type="number" step="100" class="form-control" ng-model="group.recomendation.minTextLength"/>
+                  </div>
+                </div>
+                <div class="col-xs-3">
+                  <div class="input-group">
+                    <span class="input-group-addon">{{'Max'|translate}}</span>
+                    <input type="number" step="100" class="form-control" ng-model="group.recomendation.maxTextLength"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div ng-if="group.status && group.status == 'scaned'">
+
+            <div class="row">
+              <div class="col-xs-3">
+                <label class="control-label">{{'Keywords'|translate}}</label>
+
+                <table class="table table-condensed" style="table-layout: fixed;">
+                  <tr ng-repeat="(n, keyword) in keywords track by n">
+                    <td style="table-layout: fixed" class="text-overflow">
+                      {{keyword}}
+                    </td>
+                  </tr>
+                </table>
+
+                <label class="control-label">{{'Additinal words'|translate}}</label>
+
+                <table class="table table-condensed" style="table-layout: fixed;">
+                  <tr ng-repeat="(n,keyword) in group.result.additionalsWords track by n">
+                    <td style="table-layout: fixed" class="text-overflow">
+                      <label class="text-overflow">
+
+                        <div class="input-group input-group-sm">
+                          <span class="input-group-addon">
+                            <input icheck ng-model="keyword.use" type="checkbox"/>
+                          </span>
+                          <input type="text" class="form-control" ng-model="keyword.word"/>
+                        </div>
+                      </label>
+                    </td>
+                  </tr>
+                  <tr ng-if="!group.result.additionalsWords.length">
+                    <td class="text-center">{{'None'|translate}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-xs-3">
+                <label class="control-label">{{'Urls'|translate}}</label>
+
+                <table class="table table-condensed" style="table-layout: fixed;">
+                  <tr ng-repeat="(n,url) in group.result.urls track by n" ng-class="{'active': url.url == activeUrl}">
+                    <td style="table-layout: fixed">
+                      <label class="text-overflow">
+                        <input icheck ng-model="url.use" type="checkbox"/>
+                        <a href="" ng-click="previewUrl(url.url)">{{url.url}}</a>
+                      </label>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-xs-6">
+
+                <label class="control-label">{{'Preview'|translate}}</label>
+
+                <div class="well" bz-loading-container="loadingPreview">
+                  <div ng-if="parsedData">
+                    <p class="text-overflow">
+                      <strong>{{'URL:'|translate}}</strong>
+                      <span ng-if="parsedData.encoding">({{parsedData.encoding}})</span>
+                      <a ng-href="{{activeUrl}}" target="_blank" ng-bind="activeUrl"></a>
+
+                    <p><strong>{{'Page title:'|translate}}</strong> <span ng-bind="parsedData.title"></span>
+
+                    <p><strong>{{'Main text (autodetect):'|translate}}</strong> ({{'length:'|translate}}
+                      {{parsedData.text.length}})
+
+                    <div class="b-html-preview" ng-bind-html="parsedData.text"></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+
+
+      <st-panel title="{{'Comments'|translate}}">
+
+        <div comments-box collection-name="keywordGroups" place-holder="Комментарий..."
+             resource-id="{{group._id}}"></div>
+
+      </st-panel>
+
+    </div>
+
+  </st-form>
+</div>
+

@@ -1,0 +1,61 @@
+<div animate-panel effect="zoomIn" delay="0">
+
+
+  <div class="sticky-header">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2 class="font-light m-b-xs">{{account.title}}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="row page-profile">
+      <div class="col-sm-2">
+
+        <div class="pull-right text-right">
+          <div class="btn-group">
+            <a ng-href="{{account.profile.facebookUrl}}" ng-if="account.profile.facebookUrl" target="_blank"
+               class="fa fa-facebook btn btn-default btn-sm"></a>
+            <a ng-href="{{account.profile.vkUrl}}" ng-if="account.profile.vkUrl" target="_blank"
+               class="fa fa-vk btn btn-default btn-sm"></a>
+          </div>
+        </div>
+
+        <div class="b-profile__block m-b m-t-md">
+          <st-form>
+            <st-form-element label="{{'Avatar'|translate}}">
+
+              <div class="clearfix"></div>
+
+              <div bz-loading-container="loading">
+                <cs-single-file-upload resource-id="{{account._id}}" collection-name="accounts" file="account.coverFile"
+                                       allowed-extensions="png,gif,jpg,jpeg" loading="loading" best-width="250"
+                                       best-height="250"></cs-single-file-upload>
+              </div>
+
+
+            </st-form-element>
+          </st-form>
+        </div>
+
+        <div class="text-muted font-bold m-b-xs" ng-if="account.profile.location" title="{{'Location'|translate}}">
+          {{account.profile.location}}
+        </div>
+        <p>{{account.profile.about}}</p>
+
+        <div class="btn-group btn-block btn-group-vertical">
+          <a ui-sref=".info" ui-sref-active="active" class="btn btn-default">{{'Information'|translate}}</a>
+          <a ui-sref=".log" ui-sref-active="active" class="btn btn-default">{{'Activity log'|translate}}</a>
+          <a ui-sref=".password" ui-sref-active="active" class="btn btn-default">{{'Change password'|translate}}</a>
+        </div>
+
+      </div>
+      <div class="col-sm-10">
+        <div ui-view animate-panel></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

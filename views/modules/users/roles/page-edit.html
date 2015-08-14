@@ -1,0 +1,82 @@
+<div>
+
+
+<st-form model="item" state="error" submit="saveItem(item)">
+
+    <st-header title="{{item._id ? 'Editing of role' : 'New role'}}">
+
+        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+            {{'Save'|translate}}
+        </button>
+        <a ui-sref="users.roles" class="btn btn-default">
+            {{'Cancel'|translate}}
+        </a>
+
+    </st-header>
+
+<div class="content" animate-panel effect="zoomIn">
+
+<div class="row">
+    <div class="col-lg-9">
+
+        <st-form-element label="{{'Title'|translate}}" field="title">
+
+            <input id="title" class="form-control input-lg" name="title" type="text" required
+                   ng-model="item.title"/>
+
+        </st-form-element>
+
+        <st-form-element label="{{'Description'|translate}}" field="description">
+
+            <textarea id="description" rows="5" class="form-control" name="description" ng-model="item.description"></textarea>
+
+        </st-form-element>
+
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>{{'Role'|translate}}</th>
+                    <th>{{'Description'|translate}}</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="permission in permissions">
+                    <td width="250">
+                        <label>
+                            <input type="checkbox" icheck checklist-model="item.permissions" checklist-value="permission" checklist-comparator="comparePermission">
+                            <strong>{{permission.name}}</strong>
+                        </label>
+                    </td>
+                    <td class="text-left">
+                        {{permission.title}}
+                    </td>
+                    <td width="5">&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="col-lg-3">
+
+        <st-panel title="{{'Role settings'|translate}}">
+
+            <div class="form-group">
+                <label>
+                    <input icheck type="checkbox" ng-model="item.isDefaultRole"/>
+                    {{'Default role'|translate}}
+                </label>
+            </div>
+
+        </st-panel>
+
+    </div>
+</div>
+
+
+</div>
+
+</st-form>
+</div>

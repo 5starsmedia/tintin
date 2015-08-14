@@ -10,19 +10,5 @@ exports.accounts = require('./core/account.js');
 
 exports.genders = require('./user/gender.js');
 
-exports.posts = require('./post.js');
-exports.categories = require('./category.js');
 exports.queueMessages = require('./queueMessages.js');
-
-exports.files = require('./files.js');
-exports.fileChunks = require('./fileChunks.js');
-
-exports.visaDates = require('./visaDate.js');
-
-exports.products = require('./product/product.js');
-exports.productTypes = require('./product/productType.js');
-exports.productFields = require('./product/productField.js');
-exports.productBrands = require('./product/productBrand.js');
-exports.productCategories = require('./product/productCategory.js');
-
-exports.menuElements = require('./menu/menuElements.js');
+exports.sequences = require('./sequences.js');

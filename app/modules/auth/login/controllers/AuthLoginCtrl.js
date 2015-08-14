@@ -2,13 +2,13 @@ export default
 class AuthLoginCtrl {
 
   /*@ngInject*/
-  constructor($scope, $location, $auth, basePermissionsSet) {
+  constructor($scope, $rootScope, $state, $auth, basePermissionsSet) {
     // загрузка данных, которые были сохранены при установле галочки "Запомнить меня"
     var localAuthData = angular.fromJson((localStorage || {}).authData || '{}');
 
-    var url = $location.url();
-    if ($auth.isAuthenticated() && url == '/auth/login') {
-      $location.url('/');
+    if ($auth.isAuthenticated() && $state.current.name == 'auth.login') {
+      $state.go('cabinet.dashboard');
+      return;
     }
 
     $scope.isLocked = !!localAuthData.email;
@@ -33,7 +33,8 @@ class AuthLoginCtrl {
       $auth.authenticate(provider).then(function () {
         basePermissionsSet.clearCache();
         $scope.loading = false;
-        $location.url('/');
+        $rootScope.$broadcast('authLoginSuccess');
+        $state.go('cabinet.dashboard');
       }).catch(function (res) {
         $scope.loading = false;
         if (res.status == 422) {
@@ -49,10 +50,11 @@ class AuthLoginCtrl {
       (localStorage || {}).authData = user.rememberMe ? angular.toJson(user) : '{}';
 
       $scope.loading = true;
-      $auth.login(user).then(function () {
+      $auth.login(user).then(function (data) {
         $scope.loading = false;
         basePermissionsSet.clearCache();
-        $location.url('/');
+        $rootScope.$broadcast('authLoginSuccess');
+        $state.go('cabinet.dashboard');
       }).catch(function (res) {
         $scope.loading = false;
         if (res.status == 422) {

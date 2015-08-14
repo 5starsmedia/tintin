@@ -1,0 +1,39 @@
+<div>
+    <div ng-bind-html="site.tz.defaultText"></div>
+
+    <p>
+        <strong>Text lenght:</strong>
+        {{group.recomendation.minTextLength}}-{{group.recomendation.maxTextLength}}
+        characters
+    </p>
+
+    <table class="table">
+        <tr class="active">
+            <td>Keyphrase</td>
+            <td>Number of occurrences</td>
+            <td>Type of occurrence</td>
+        </tr>
+        <tr ng-repeat="keyword in group.recomendation.keywords">
+            <td>
+                <strong>
+                    {{keyword.keyword}}
+                </strong>
+            </td>
+            <td>{{keyword.useEntry}}</td>
+            <td>
+                <span ng-if="keyword.useType == 'exact'">Exact entry</span>
+                <span ng-if="keyword.useType == 'inexact'">Diluted</span>
+                <span ng-if="keyword.useType == 'both'">Author's choose</span>
+            </td>
+        </tr>
+    </table>
+
+    <p><strong>Site examples:</strong></p>
+    <ol>
+        <li ng-repeat="url in group.result.urls" ng-if="url.use">
+            {{url.url}}
+        </li>
+    </ol>
+
+</div>
+

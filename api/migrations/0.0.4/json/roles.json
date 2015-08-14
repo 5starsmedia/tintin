@@ -1,0 +1,3 @@
+[
+  {"title": "Администратор", "permissions": [{"name": "admin"}, {"name": "auth.login"}]}
+]

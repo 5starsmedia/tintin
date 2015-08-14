@@ -1,0 +1,28 @@
+{
+  "resource": "seoTasks",
+  "model": "SeoTask",
+  "options": {
+    "searchFields": [
+      {
+        "role": "admin",
+        "value": ["msg", "hostname", "req.remoteAddress", "req.userAgent.browser", "req.userAgent.os"]
+      }
+    ],
+    "maxPerPage": [
+      {
+        "role": "admin",
+        "value": 200
+      }
+    ]
+  },
+  "acl": {
+    "*": {
+      "get": "*",
+      "get?url.collectionName&url.resourceId": "*",
+      "get?_id": "*",
+      "put?_id": ["admin", "*:owner"],
+      "post": "admin",
+      "delete?_id": "admin"
+    }
+  }
+}

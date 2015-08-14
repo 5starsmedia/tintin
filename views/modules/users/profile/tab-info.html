@@ -1,0 +1,87 @@
+<st-form model="user" state="error" submit="saveItem(user)">
+
+  <div class="row">
+    <div class="col-sm-9">
+
+      <st-form-element label="{{'Username *'|translate}}" field="username">
+
+        <input disabled class="form-control input-lg" name="username" type="text" required
+               ng-model="user.username"/>
+
+      </st-form-element>
+
+      <st-form-element label="{{'E-mail *'|translate}}" field="email">
+
+        <input class="form-control" name="email" type="text" required
+               ng-model="user.email"/>
+
+      </st-form-element>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <st-form-element label="{{'Last name *'|translate}}" field="profile.lastName">
+
+            <input class="form-control" name="lastname" type="text" required
+                   ng-model="user.profile.lastName"/>
+
+          </st-form-element>
+        </div>
+        <div class="col-sm-4">
+          <st-form-element label="{{'First name *'|translate}}" field="profile.firstName">
+
+            <input class="form-control" name="firstname" type="text" required
+                   ng-model="user.profile.firstName"/>
+
+          </st-form-element>
+        </div>
+        <div class="col-sm-4">
+          <st-form-element label="{{'Middle name'|translate}}" field="profile.middleName">
+
+            <input class="form-control" name="middleName" type="text" ng-model="user.profile.middleName"/>
+
+          </st-form-element>
+        </div>
+      </div>
+
+      <st-form-element label="{{'Location'|translate}}" field="profile.location">
+
+        <input class="form-control" name="country" type="text" ng-model="user.profile.location"/>
+
+      </st-form-element>
+
+      <st-form-element label="{{'About'|translate}}" field="profile.about">
+
+        <textarea class="form-control" name="about" ng-model="user.profile.about"></textarea>
+
+      </st-form-element>
+
+    </div>
+    <div class="col-sm-3">
+
+      <st-form-element label="{{'Roles'|translate}}" field="roles">
+
+        <div ng-repeat="role in roles">
+          <label>
+            <input type="checkbox" icheck checklist-model="user.roles" checklist-value="role"
+                   checklist-comparator="compareRole">
+            <strong tooltip-placement="left"
+                    tooltip="{{role.description}}">{{role.title}}</strong>
+          </label>
+        </div>
+
+      </st-form-element>
+
+    </div>
+  </div>
+
+
+  <div class="panel-footer">
+    <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+      {{'Save'|translate}}
+    </button>
+    <a ui-sref="users.list" class="btn btn-default">
+      {{'Cancel'|translate}}
+    </a>
+  </div>
+
+</st-form>

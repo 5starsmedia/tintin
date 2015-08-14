@@ -13,8 +13,8 @@
             <div class="fu-uploader__title hidden-mobile">Drag photo here</div>
             <div class="fu-uploader__text hidden-mobile">or, if you prefer...</div>
             <div class="fu-uploader__button">Select photo from your
-                <span class="hidden-mobile">c
-                    omputer</span><span class="hidden-desktop">device</span>
+                <span class="hidden-mobile">computer</span>
+                <span class="hidden-desktop">device</span>
             </div>
         </div>
 
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <ul class="fu-list row">
+        <ul class="fu-list row" ng-sortable="sortableConfig">
             <li class="fu-item col-sm-3 col-xs-6" ng-repeat="file in files"
                 ng-class="{'fu-item_selected':coverFile._id === file._id}">
                 <img ng-if="!hasFileSelect" class="fu-item__image"

@@ -1,0 +1,20 @@
+<st-form name="field">
+  <div class="color-line"></div>
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{{'Return to author'|translate}}</h4>
+  </div>
+  <div class="modal-body" bz-loading-container="loading">
+
+    <st-form-element label="{{'Reason'|translate}}" field="result.editorNotes">
+
+      <textarea class="form-control" required type="text" ng-model="item.result.editorNotes"></textarea>
+
+    </st-form-element>
+
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-click="saveItem(item)" ng-disabled="!item.result.editorNotes">{{'OK'|translate}}</button>
+    <button type="button" class="btn btn-default" ng-click="close()" data-dismiss="modal">{{'Cancel'|translate}}</button>
+  </div>
+</st-form>

@@ -1,0 +1,25 @@
+{
+  "resource": "keywordGroups",
+  "model": "KeywordGroup",
+  "options": {},
+  "acl": {
+    "*": {
+      "get": "*",
+      "get?activated": ["admin"],
+      "get?_id": "*",
+      "get?tags": "*",
+      "get?status": ["keywords.specifications"],
+      "get?status&result.account._id": ["keywords.assignments"],
+      "get?tags.title": "*",
+      "get?project._id": "*",
+      "get?project._id&status": "*",
+      "get?category._id": "*",
+      "put?_id": ["admin", "*:owner"],
+      "put?_id&position": ["admin", "*:owner"],
+      "post": "admin",
+      "delete?_id": "admin"
+    },
+    "_w": false,
+    "path": false
+  }
+}

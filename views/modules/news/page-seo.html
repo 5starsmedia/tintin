@@ -1,0 +1,98 @@
+<div class="panel-body" ng-controller="KeywordsSeoBlockCtrl">
+
+    <!--<select class="form-control" ng-model="post.keywordGroup._id" ng-options="group._id as group.title group by group.project.title for group in groups"></select>-->
+
+    <p>
+        {{'Group'|translate}}:
+    <a target="_blank" ui-sref="keywords.specificationsView({ id: group._id })">
+        {{group.title}}
+    </a>
+    </p>
+
+    <br/>
+
+    <div bz-loading-container="tableLoading">
+
+        <div class="form-group">
+
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" ng-click="engineName = 'google'" ng-class="{'active': engineName == 'google'}">
+                        <span class="fa fa-google text-info"></span>
+                        Google
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="engineName = 'yandex'" ng-class="{'active': engineName == 'yandex'}">
+                        <span class="fa fa-yahoo text-danger"></span>
+                        Yandex
+                    </button>
+                </div>
+                <div class="btn-group pull-right" role="group">
+                    <button type="button" ng-click="reloadLog()" class="btn btn-default">
+                        <span class="fa fa-refresh"></span>
+                        {{'Refresh'|translate}}
+                    </button>
+                </div>
+                <div class="btn-group pull-right" role="group" ng-if="post.keywordGroup._id && post._id && post.status == 4">
+                    <button class="btn btn-default btn-block" type="button" ng-click="updateSeoPositions()">{{'Grab positions'|translate}}</button>
+                </div>
+            </div>
+
+        </div>
+    <div style="overflow: auto" id="positionsDiv">
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th style="width: 200px">Date</th>
+            <th ng-repeat="(n, date) in dates track by n">{{date}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(keyword, row) in tableData">
+            <td style="width: 200px; white-space: nowrap;">{{keyword}}</td>
+            <td ng-repeat="item in row" ng-class="item.class">
+                {{item.value}}
+                <sup ng-if="item.diff > 0">
+                    +{{item.showDiff}}
+                </sup>
+                <sub ng-if="item.diff < 0">
+                    -{{item.showDiff}}
+                </sub>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+    </div>
+
+
+    <br/>
+
+    <div class="clearfix">
+
+        <!--nvd3 options="options" data="data"></nvd3-->
+
+    </div>
+
+
+
+    <div bz-loading-container="loading">
+
+    <table class="table table-condensed" ng-table="tableParams">
+        <tr ng-repeat="log in logs">
+            <td data-title="'Действие'" ng-switch="log.action">
+                <span ng-switch-when="get-yandex-position">Снятие позиций в Яндексе</span>
+                <span ng-switch-when="get-google-position">Снятие позиций в Google</span>
+            </td>
+            <td data-title="'Статус'">
+                <span class="label" ng-class="{'label-success': log.status == 'completed', 'label-danger': log.status == 'errored', 'label-warning': log.status == 'inprocess'}">{{log.status}}</span>
+            </td>
+            <td data-title="'Дата создания'">
+                {{log.createDate}}
+            </td>
+            <td width="25%" data-title="'Результат'">
+                <span ng-bind-html="log.resultString"></span>
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>

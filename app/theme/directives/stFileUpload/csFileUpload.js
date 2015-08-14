@@ -35,6 +35,17 @@ export default
               : {resourceId: $scope.resourceId, collectionName: $scope.collectionName}
           };
         };
+
+        $scope.sortableConfig = {
+          group: 'fields',
+          animation: 150,
+          onSort: (event) => {
+            _.forEach(event.models, (model, n) => {
+              model.ordinal = n;
+            });
+          }
+        };
+
         $scope.fileError = function (event, $flow, flowFile, $message) {
           $log.error($message);
           //trackSvc.trackEvent('upload', 'error', 'upload.error.serverError', $message);
@@ -61,7 +72,7 @@ export default
         };
         $scope.fileRemove = function ($event, fileId) {
           $event.preventDefault();
-          if ($scope.coverFile._id == fileId) {
+          if ($scope.coverFile && $scope.coverFile._id == fileId) {
             $scope.coverFile = { _id: null };
           }
           _.remove($scope.files, {_id: fileId});
@@ -72,10 +83,13 @@ export default
         };
         $scope.fileSuccess = function (event, flow, file) {
           flow.removeFile(file);
-          var fileId = JSON.parse(_.first(file.chunks).xhr.response)['file._id'];
+          var file = JSON.parse(_.first(file.chunks).xhr.response);
           $scope.files = $scope.files || [];
-          $scope.files.push({_id: fileId});
-          $log.debug('File ' + fileId + ' uploaded');
+          $scope.files.push({
+            _id: file['file._id'],
+            title: file['file.title']
+          });
+          $log.debug('File ' + file['file._id'] + ' uploaded');
           //trackSvc.trackEvent('upload', 'success', 'upload.success');
         };
       }

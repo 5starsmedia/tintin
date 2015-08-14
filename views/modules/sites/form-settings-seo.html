@@ -1,0 +1,19 @@
+<h3>{{'Meta tags'|translate}}</h3>
+
+<div base-meta-edit="site"></div>
+
+<h3>{{'Article'|translate}}</h3>
+
+<st-form-element label="{{'Title'|translate}}" field="title">
+
+    <input id="article_title" class="form-control input-lg" name="article_title" type="text" required
+           ng-model="site.article.title"/>
+
+</st-form-element>
+
+<st-form-element label="{{'Body'|translate}}" field="body">
+
+    <textarea id="article_body" class="form-control" name="article_body" ckeditor="editorOptions"
+              ng-model="site.article.body"></textarea>
+
+</st-form-element>

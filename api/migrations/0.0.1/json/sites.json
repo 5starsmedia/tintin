@@ -1,5 +1,6 @@
 [
   {
-    "domain": "tintin.5stars.link"
+    "domain": "localhost",
+    "port": 8080
   }
 ]

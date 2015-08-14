@@ -1,0 +1,69 @@
+<div>
+
+    <st-form model="item" state="error" submit="saveItem(item)">
+    <h2 class="font-light m-b-xs">
+        {{'Edit'|translate}}
+    </h2>
+
+
+    <div class="hpanel" bz-loading-container="loading">
+        <div class="panel-body no-bottom-border">
+
+            <st-form-element label="{{'Title'|translate}}" field="title">
+
+                <input id="title" class="form-control input-lg" name="title" type="text" required
+                       ng-model="item.title"/>
+
+            </st-form-element>
+
+            <st-form-element label="{{'URL'|translate}}" field="title">
+
+                <input class="form-control" name="alias" type="text" required ng-model="item.alias"/>
+
+            </st-form-element>
+
+            <st-form-element label="{{'CSS class'|translate}}" field="cssClass">
+
+                <input id="cssClass" class="form-control" name="cssClass" type="text" ng-model="item.cssClass"/>
+
+            </st-form-element>
+
+            <cs-file-upload resource-id="{{item._id}}" collection-name="categories" files="item.files"
+                            cover-file="item.coverFile" has-cover-select="true">
+            </cs-file-upload>
+
+
+            <st-form-element label="{{'Description'|translate}}" field="description">
+
+                <textarea id="description" class="form-control" name="description" ckeditor="editorOptions"
+                          ng-model="item.description"></textarea>
+
+            </st-form-element>
+
+            <hr/>
+
+            <h4>{{'Meta tags'|translate}}</h4>
+            <div base-meta-edit="item"></div>
+        </div>
+
+        <div class="panel-footer">
+
+            <a href="" class="btn btn-danger btn-outline pull-right" st-confirm="remove(child)"
+               message-title="'Удаление...'"
+               message="'Вы действительно хотите удалить?'">
+                {{'Delete'| translate}}
+            </a>
+
+            <button class="btn btn-primary" type="submit">
+                {{'Save'| translate}}
+            </button>
+
+            <a href="" class="btn btn-default" ng-click="cancel()">
+                {{'Cancel'| translate}}
+            </a>
+
+        </div>
+    </div>
+
+    </st-form>
+</div>

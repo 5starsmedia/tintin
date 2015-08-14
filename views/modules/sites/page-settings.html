@@ -1,0 +1,76 @@
+<div>
+
+    <st-form model="site" state="error" submit="saveItem(site)">
+
+
+        <st-header title="{{site._id ? 'Editing of domain' : 'New domain'}}">
+
+            <a ng-href="{{site.domain}}" ng-if="site._id"
+               class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left" tooltip="{{'Open on site'|translate}}" target="_blank">
+                <span class="fa fa-external-link"></span>
+            </a>
+
+            <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+                {{'Save'|translate}}
+            </button>
+            <a ui-sref="sites.domains" class="btn btn-default">
+                {{'Cancel'|translate}}
+            </a>
+
+        </st-header>
+
+        <div class="content" animate-panel effect="zoomIn">
+
+            <div class="row">
+                <div class="col-lg-9">
+
+                    <tabset class="hpanel">
+                        <tab>
+                            <tab-heading>{{'Main information'|translate}}</tab-heading>
+
+                            <div class="panel-body" ng-include="'views/modules/sites/form-settings-main.html'"></div>
+                        </tab>
+                        <tab>
+                            <tab-heading>{{'SEO'|translate}}</tab-heading>
+
+                            <div class="panel-body" ng-include="'views/modules/sites/form-settings-seo.html'"></div>
+                        </tab>
+                        <tab>
+                            <tab-heading>{{'Design'|translate}}</tab-heading>
+
+                            <div class="panel-body" ng-include="'views/modules/sites/form-settings-design.html'"></div>
+                        </tab>
+                        <tab>
+                            <tab-heading>{{'Specification'|translate}}</tab-heading>
+
+                            <div class="panel-body" ng-include="'views/modules/sites/form-settings-keywords.html'"></div>
+                        </tab>
+                    </tabset>
+
+                </div>
+                <div class="col-lg-3">
+
+                    <div class="hpanel hblue">
+                        <div class="panel-heading">
+                            {{'Publication'|translate}}
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="checkbox">
+                                <label>
+                                    <input ng-model="site.isCorsEnabled" type="checkbox"/> {{'Enable CORS'|translate}}
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </st-form>
+</div>

@@ -5,7 +5,11 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>TinTin CMS</title>
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+
+    <title>Paphos CMS</title>
+
+    <base href="/"/>
 
     <meta name="mobile-web-app-capable" content="yes">
 
@@ -23,15 +27,16 @@
     <link rel="stylesheet" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css" />
     <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.min.css" />
     <link rel="stylesheet" href="bower_components/ngprogress/ngProgress.css" />
+    <link rel="stylesheet" href="bower_components/highlightjs/styles/github.css" />
+    <link rel="stylesheet" href="libs/image-lightbox/lightbox.css" />
+    <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css" />
+    <link rel="stylesheet" href="bower_components/angular-datepicker/dist/index.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:css assets/styles/style.css -->
-    <link rel="stylesheet" href="assets/styles/pe-icon-7-stroke.css" />
-    <link rel="stylesheet" href="assets/styles/helper.css" />
-    <link rel="stylesheet" href="assets/styles/style.css">
+    <link rel="stylesheet" href="assets/css/theme.css">
     <!-- endbuild -->
-
 </head>
 <body ng-controller="appCtrl as globalCtrl" class="{{$state.current.data.specialClass}}" landing-scrollspy>
 
@@ -39,8 +44,11 @@
 <div class="splash">
     <div class="color-line"></div>
     <div class="splash-title">
-        <h1>TinTin CMS</h1>
-        <p class="ng-cloak">{{globalCtrl.quote[0]}}</p>
+        <h1>Paphos CMS</h1>
+        <p>
+          <span id="randQuote"></span><br/>
+          <strong id="randQuoteAuthor"></strong>
+        </p>
 
            <div class="sk-spinner sk-spinner-wave">
              <div class="sk-rect1"></div>
@@ -59,6 +67,42 @@
 
 <!-- Page view wrapper -->
 <div ui-view autoscroll="true"></div>
+<div base-popup-notifications></div>
+
+<script>
+    var quotes = [
+        ['Никогда не следует хорошо говорить о себе. Следует это печатать.', 'Жюль Валлес'],
+        ['Газета приучает читателя размышлять о том, чего он не знает, и знать то, что не понимает.', 'Василий Ключевский'],
+        ['Вечером семья собиралась у синего окна во вселенную.', 'Виктор Пелевин. Спи'],
+        ['Он нашел на свалке старый телевизор и поставил посреди комнаты как символ веры.', 'Мартен Паж. Как я стал идиотом'],
+        ['Газеты — секундные стрелки истории.', 'Артур Шопенгауэр'],
+        ['Но газетчику надо уметь видеть и мелкий виноград, а не только крупный арбуз.', 'Рэй Брэдбери. Вино из одуванчиков'],
+        ['Странные существа эти журналисты. Они должны быть невероятно высокого мнения о себе, чтобы оставаться способными делать свою работу.', 'Джеффри Линдсей. Деликатесы Декстера'],
+        ['Современные средства информации хороши тем, что дают нам возможность ворчать в глобальном масштабе.', 'Лоуренс Питер'],
+        ['Разносчиками малярии являются комары, а безумия — Средства массовой информации.', 'Бернар Миньер. Лёд'],
+        ['В настоящей журналистике есть и четко разделены: факт, комментарий, мнение. Когда все это «в одном флаконе» – это не журналистика, а пропаганда.', 'Александр Сергеевич Запесоцкий'],
+        ['Вообще говоря, прессу кормят несчастья.', 'Клемент Эттли'],
+        ['Где мифы сами не растут, там их активно насаждают.', 'Елена Ермолова'],
+        ['Средства массовой информации не менее опасны, чем средства массового уничтожения.', 'Петр Капица'],
+        ['Нападать на журналистов так же бессмысленно, как сражаться с женщинами. Если ты проигрываешь, то выглядишь глупо; если выигрываешь — глупо вдвойне.', 'Александр Лебедь'],
+        ['Свобода прессы работает таким образом, что от неё не остаётся никакой свободы.', 'Грейс Келли'],
+        ['Чем гласность отличается от свободы слова? Умением красноречиво промолчать.', 'Игорь Красновский'],
+        ['Твиттер - искусство заголовка.', 'Алексей Мухин'],
+        ['Политический обозреватель — это тот, кто способен сформулировать интересы власть имущих.', 'Генри Киссинджер'],
+        ['Пресса — это изобретение, позволяющее замалчивать определенные вещи при помощи разговора о совершенно других вещах.', 'Рудольф Рольфе'],
+        ['Если беспорядок на столе означает беспорядок в голове, то что же тогда означает пустой стол?', 'Альберт Эйнштейн'],
+        ['Никогда не верь в то, что печатаешь, и никогда не печатай того, во что веришь.', 'Стивен Кинг. Летающий в ночи'],
+        ['Редактор — это работник газеты, чье занятие — отделять зерна от плевел и следить за тем, чтобы плевелы попадали в печать.', 'Элберт Хаббард'],
+        ['Если вы сейчас бездействуете, то либо у вас впереди неопределенность, либо вы сожалеете о чем-то.', 'Джим Керри'],
+        ['Журналистика есть искусство превращения врагов в деньги.', 'Крейг Браун'],
+        ['Почему в новостях никогда не назовут ложь ложью, хотя все знают, что это ложь?', 'Уилл Макэвой'],
+        ['Чтобы захватить страну, достаточно подчинить себе связь.', 'Роберт Хайнлайн. Кукловоды'],
+    ],
+    getRandQuote = function() { return quotes[Math.floor((Math.random() * quotes.length))]; },
+    randQuote = getRandQuote();
+    document.getElementById('randQuote').innerHTML = randQuote[0];
+    document.getElementById('randQuoteAuthor').innerHTML = randQuote[1];
+</script>
 
 <!-- build:js(.) scripts/vendor.js -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -74,6 +118,7 @@
 <script src="bower_components/jquery-flot/jquery.flot.pie.js"></script>
 <script src="bower_components/flot.curvedlines/curvedLines.js"></script>
 <script src="bower_components/jquery.flot.spline/index.js"></script>
+<script src="bower_components/jquery-flot/jquery.flot.time.js"></script>
 <script src="bower_components/angular-flot/angular-flot.js"></script>
 <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
 <script src="bower_components/sweetalert/lib/sweet-alert.js"></script>
@@ -85,7 +130,6 @@
 <script src="bower_components/angular-peity/angular-peity.js"></script>
 <script src="bower_components/sweetalert/lib/sweet-alert.min.js"></script>
 <script src="bower_components/angular-notify/dist/angular-notify.min.js"></script>
-<script src="bower_components/chartjs/Chart.min.js"></script>
 <script src="bower_components/angles/angles.js"></script>
 <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
 <script src="bower_components/angular-ui-map/ui-map.js"></script>
@@ -109,11 +153,29 @@
 <script src="bower_components/ngSticky/dist/sticky.min.js"></script>
 <script src="bower_components/ngprogress/build/ngProgress.js"></script>
 <script src="libs/ng-editable-tree.js"></script>
+<script src="libs/image-lightbox/imagelightbox.js"></script>
 <script src="bower_components/Sortable/Sortable.js"></script>
 <script src="bower_components/Sortable/ng-sortable.js"></script>
 <script src="bower_components/br-validations/releases/br-validations.js"></script>
 <script src="bower_components/angular-input-masks/angular-input-masks.js"></script>
 <script src="bower_components/checklist-model/checklist-model.js"></script>
+<script src="bower_components/angular-showdown/showdown.js"></script>
+<script src="bower_components/showdown/src/ng-showdown.js"></script>
+<script src="bower_components/syncscroll/syncscroll.js"></script>
+<script src="bower_components/markdown-it/dist/markdown-it.js"></script>
+<script src="bower_components/highlightjs/highlight.pack.js"></script>
+
+<script src="bower_components/d3/d3.js"></script>
+<script src="bower_components/nvd3/nv.d3.js"></script>
+<script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
+<script src="bower_components/socket.io-client/socket.io.js"></script>
+<script src="bower_components/favico.js/favico.js"></script>
+<script src="bower_components/angular-notification/angular-notification.js"></script>
+<script src="bower_components/angular-datepicker/dist/index.js"></script>
+<script src="libs/tree/node.js"></script>
+<script src="libs/tree/layer.js"></script>
+<script src="libs/tree/arrows.js"></script>
+<script src="libs/tree/tree.js"></script>
 <!-- endbuild -->
 
 <script src="assets/ckeditor/ckeditor.js"></script>

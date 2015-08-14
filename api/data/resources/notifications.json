@@ -1,0 +1,35 @@
+{
+  "resource": "notifications",
+  "model": "notifications",
+  "options": {
+    "searchFields": [
+      {
+        "role": "*",
+        "value": ["title", "text"]
+      }
+    ],
+    "maxPerPage": [
+      {
+        "role": "*",
+        "value": 100
+      }
+    ]
+  },
+  "acl": {
+    "isPopupVisible": {
+      "get?account._id&isPopupVisible&isRead": "*:owner",
+      "get?account._id&isListVisible": "*:owner",
+      "put?_id": "*:owner"
+    },
+    "isRead": {
+      "get?account._id&isPopupVisible&isRead": "*:owner",
+      "get?account._id&isListVisible": "*:owner",
+      "put?_id": "*:owner"
+    },
+    "*": {
+      "get?account._id&isPopupVisible&isRead": "*:owner",
+      "get?account._id&isListVisible": "*:owner",
+      "delete?_id": "*:owner"
+    }
+  }
+}

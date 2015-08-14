@@ -1,0 +1,76 @@
+/*
+ * Tables
+ */
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    vertical-align: middle;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: @table-row-even-bg;
+}
+
+.table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
+    background-color: @table-row-hover;
+}
+
+.table {
+    .label {
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    a {
+        text-decoration: underline;
+    }
+    .table-preview {
+        img, .preview {
+            width: 60px;
+            margin-right: 10px;
+            float: left;
+            background-color: #c4c4c4;
+            box-shadow: 0px 0px 2px #c4c4c4;
+            border: 3px solid #fff;
+            height: 60px;
+        }
+        .name {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+            text-decoration: none;
+            //white-space: nowrap;
+
+            .secondary {
+                font-weight: normal;
+            }
+        }
+        .preview {
+            display: block;
+            height: 60px;
+            text-align: center;
+            font-size: 28px;
+            line-height: 52px;
+        }
+    }
+    .actions {
+        a {
+            color: #777;
+            font-size: 14px;
+            margin-right: 10px;
+            &:hover {
+                color: #555;
+            }
+            &:last-child {
+                margin-right: 5px;
+            }
+        }
+    }
+}
+
+.table + .pagination {
+    margin-top: 0px;
+}

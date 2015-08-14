@@ -1,0 +1,60 @@
+<section class="c-compact" id="comments">
+    <div class="c-compact__list" infinite-scroll='loadNextPage()' infinite-scroll-disabled='isBusy'
+         infinite-scroll-distance='1'>
+
+
+        <div class="media-demo" ng-repeat="comment in comments">
+            <div class="media">
+                <div class="pull-left">
+                    <a href="">
+                        <st-avatar account="subcomment.account"></st-avatar>
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        <span class="name">{{comment.account.title}}</span>
+                        написал
+                        <span class="time">{{comment.createDate|stTimeAgo}}</span>
+                    </h5>
+                    <div ng-bind-html="comment.text"></div>
+
+
+                    <div class="c-compact-item__b-meta">
+                        <a ng-show="comment._id" ng-if="!disablePost" ng-click="toggleReply($event, comment)">
+
+                            <span class="md-reply"></span>
+                            <span ng-if="comment.replyVisible">Отменить</span>
+                            <span ng-if="!comment.replyVisible">Ответить</span>
+                       </a>
+                    </div>
+                    <div comments-send ng-if="comment.replyVisible && !disablePost" resource-id="{{resourceId}}"
+                         collection-name="{{collectionName}}"
+                         compact-mode="{{compactMode}}" parent-comment="comment" comments="comments"
+                         sort="sort" on-post="onPost()"
+                         place-holder="Write a reply to {{comment.isAnonymous ? 'Anonymous' : comment.account.title}}"></div>
+
+                    <div class="media" ng-repeat="subcomment in comment.comments">
+                        <div class="pull-left">
+                            <a href="">
+                                <st-avatar account="subcomment.account"></st-avatar>
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-heading">
+                                <span class="name">{{subcomment.account.title}}</span>
+                                написал
+                                <span class="time">{{subcomment.createDate|stTimeAgo}}</span>
+                            </h5>
+                            <div ng-bind-html="subcomment.text"></div>
+                        </div>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+        </div>
+
+        <hr ng-if="comments.length" />
+        <div class="h4">Ваш комментарий:</div>
+    <div comments-send resource-id="{{resourceId}}" collection-name="{{collectionName}}"
+                 compact-mode="{{compactMode}}" comments="comments" sort="sort" ng-if="!disablePost"></div>
+</section>

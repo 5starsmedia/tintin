@@ -35,13 +35,14 @@ class EcommerceRelatedProductsCtrl {
           relatedIds.push(id);
 
           $scope.loading = true;
-          EcommerceProductModel.query(BaseAPIParams({}, params), function (data) {
+          EcommerceProductModel.query(BaseAPIParams({ isVariation: false }, params), function (data, headers) {
             $scope.loading = false;
 
             data = _.filter(data, (item) => {
               return _.indexOf(relatedIds, item._id) == -1;
             });
 
+            params.total(parseInt(headers('x-total-count')));
             $defer.resolve(data);
           }, function () {
             $scope.loading = false;

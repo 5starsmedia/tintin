@@ -1,0 +1,59 @@
+/**
+ * Calendar Section
+ */
+.fc-event{
+  background-color: @calendar-event;
+  border-color: @calendar-event;
+}
+a.fc-event:hover{
+  color: @calendar-event-link;
+  text-decoration: underline;
+}
+.fc-widget-header, .fc-widget-content{
+  border: solid 1px #EEE;
+}
+.fc-grid th{
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+}
+.fc-grid .fc-event-time{
+  font-weight: 600;
+}
+.fc-ltr .fc-event-hori.fc-event-end, .fc-rtl .fc-event-hori.fc-event-start{
+  border-top-right-radius: @theme-border-radius;
+  border-bottom-right-radius: @theme-border-radius;
+}
+.fc-ltr .fc-event-hori.fc-event-start, .fc-rtl .fc-event-hori.fc-event-end{
+  border-top-left-radius: @theme-border-radius;
+  border-bottom-left-radius: @theme-border-radius;
+}
+.fc-state-highlight{
+  background-color: @calendar-highlight;
+}
+.fc-border-separate tr.fc-last th{
+  border-width: 0 0 1px 0;
+}
+.fc-state-default{
+  background-color: @btn-primary-bg-color;
+  color: #FFF;
+  text-shadow: none;
+  background-image: none;
+  border:none;
+  .box-shadow(none);
+}
+.fc-state-hover{
+  background-color: darken(@btn-primary-bg-color, 3%);
+}
+.fc-state-active{
+  .box-shadow(inset 0 0px 15px rgba(0,0,0,0.1));
+  background-color: darken(@btn-primary-bg-color, 6%);
+}
+.fc-state-default.fc-corner-right{
+  border-top-right-radius: @theme-border-radius;
+  border-bottom-right-radius: @theme-border-radius;
+}
+.fc-state-default.fc-corner-left {
+  border-top-left-radius: @theme-border-radius;
+  border-bottom-left-radius: @theme-border-radius;
+}

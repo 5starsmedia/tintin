@@ -1,0 +1,28 @@
+{
+  "resource": "issues",
+  "model": "Issue",
+  "options": {
+    "searchFields": [
+      {
+        "role": "issues",
+        "value": ["msg", "hostname", "req.remoteAddress", "req.userAgent.browser", "req.userAgent.os"]
+      }
+    ],
+    "maxPerPage": [
+      {
+        "role": "issues",
+        "value": 200
+      }
+    ]
+  },
+  "acl": {
+    "*": {
+      "get": "issues",
+      "get?refs.resourceId&refs.collectionName": "issues",
+      "get?_id": ["issues", "*:owner"],
+      "put?_id": ["issues", "*:owner"],
+      "post": ["issues", "*:owner"],
+      "delete?_id": ["issues", "*:owner"]
+    }
+  }
+}

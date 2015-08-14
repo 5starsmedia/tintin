@@ -1,0 +1,67 @@
+<st-form-element label="{{'Title'|translate}}" field="title">
+
+    <input id="title" class="form-control input-lg" name="title" type="text" required
+           ng-model="site.title"/>
+
+</st-form-element>
+
+<st-form-element label="{{'Domain'|translate}}" field="title">
+
+    <div class="input-group">
+        <span ng-class="{'h-bg-green': site.isHttps}" class="input-group-addon">
+            <span ng-if="!site.isHttps">http://</span>
+            <span ng-if="site.isHttps"><span class="pe-7s-lock"></span> https://</span>
+        </span>
+
+        <input id="domain" disabled class="form-control" name="title" type="text" ng-model="site.domain"/>
+    </div>
+
+</st-form-element>
+
+<st-form-element label="{{'Yandex XML'|translate}}" field="yandexXml">
+
+    <input class="form-control" name="yandexXml" type="text" ng-model="site.yandexXml"/>
+
+</st-form-element>
+
+<st-form-element label="{{'Yandex Webmaster (name of html file)'|translate}}" field="yandexWebmasterTxt">
+
+    <input class="form-control" name="yandexWebmasterTxt" type="text" ng-model="site.yandexWebmasterTxt"/>
+
+</st-form-element>
+
+<st-form-element label="{{'Yandex Mail CNAME'|translate}}" field="yandexCName">
+
+    <input class="form-control" name="yandexCName" type="text" ng-model="site.yandexCName"/>
+
+</st-form-element>
+
+<st-form-element label="{{'Google Webmaster (name of html file)'|translate}}" field="googleWebmasterTxt">
+
+    <input class="form-control" name="googleWebmasterTxt" type="text" ng-model="site.googleWebmasterTxt"/>
+
+</st-form-element>
+
+<st-form-element label="{{'Quantity of levels'|translate}}" field="settings.structureLevel">
+
+    <div class="radio">
+    <label>
+        <input type="radio" value="1" name="structureLevel" ng-model="site.settings.structureLevel" />
+
+        {{'One level'|translate}}
+    </label>
+        <br/>
+    <label>
+        <input type="radio" value="2" name="structureLevel" ng-model="site.settings.structureLevel" />
+
+        {{'Two level'|translate}}
+    </label>
+    </div>
+
+</st-form-element>
+
+<st-form-element label="{{'Content of robots.txt'|translate}}" field="robotsTxt">
+
+    <textarea class="form-control" ng-model="site.robotsTxt" name="robotsTxt"></textarea>
+
+</st-form-element>

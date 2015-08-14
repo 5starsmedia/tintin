@@ -1,0 +1,140 @@
+.superbox :after, .superbox :before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility
+}
+
+.superbox-list {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  padding: 5px;
+  position: relative;
+  vertical-align: top;
+}
+
+.superbox-list.active:before {
+  content: "\f0d8";
+  font-family: FontAwesome;
+  display: block;
+  position: absolute;
+  left: 43%;
+  bottom: -42px;
+  z-index: 2;
+  text-align: center;
+  font-size: 45px;
+  color: #222
+}
+
+.superbox-img {
+  max-width: 100%;
+  width: 100%;
+  cursor: pointer
+}
+
+.btn-up {
+  position: relative;
+  overflow: hidden;
+
+  input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    font-size: 45px;
+  }
+}
+
+.superbox-list {
+  margin: 0 10px 10px;
+  width: 128px;
+
+  span.title {
+    padding: 3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+  }
+}
+.superbox-list span.preview {
+  //border: 1px solid #eee;
+  display: block;
+  width: 128px;
+  height: 128px;
+  overflow: hidden;
+  vertical-align: middle;
+  background: #222;
+  line-height: 126px;
+}
+
+.superbox-show {
+  text-align: left;
+  position: relative;
+  background-color: #222;
+  width: 100%;
+  float: left;
+  padding: 25px 0 12px 25px;
+  display: none;
+  margin: 5px 0
+}
+
+.superbox-current-img {
+  max-width: 100%;
+  float: left;
+  padding-right: 25px;
+  padding-bottom: 13px
+}
+
+.superbox-img:hover {
+  opacity: .8
+}
+
+.superbox-float {
+  float: left
+}
+
+.superbox-close {
+  opacity: .7;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  transition: all .1s linear 0s
+}
+
+.superbox-close:hover {
+  opacity: 1
+}
+
+.superbox-imageinfo {
+  display: inline-block;
+  max-width: 500px;
+  color: #fff;
+  padding: 0 25px 0 0
+}
+
+.superbox-imageinfo span {
+  font-size: 13px;
+  color: #a19994;
+  margin-right: -2px;
+  padding-top: 10px;
+  display: inline-block;
+  padding-bottom: 13px
+}
+
+.superbox-imageinfo > :first-child {
+  margin-bottom: 10px;
+  font-weight: 700
+}
+
+.superbox-imageinfo span p:last-child {
+  margin-top: 30px
+}

@@ -1,0 +1,72 @@
+<div ui-view>
+
+<div class="content" animate-panel effect="zoomIn" delay="0">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="pull-right">
+                <a class="btn btn-success btn-outline" ui-sref="users.roles.create">
+                    <i class="fa fa-plus"></i> {{'New role'|translate}}
+                </a>
+            </div>
+            <h2 class="font-light m-b-xs ng-binding">
+                {{'Roles'|translate}}
+            </h2>
+
+            <div class="hpanel">
+                <div class="panel-body" bz-loading-container="loading">
+
+
+                    <table ng-table="tableParams" ng-table-filters-manager show-filter="false" class="table">
+                        <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
+                            <td data-title="'Title'|translate" sortable="'title'" filter="{'search': 'text'}">
+                                <a ui-sref="users.roles.edit({_id: item._id})">
+                                    {{item.title}}
+                                </a>
+                            </td>
+                            <td data-title="'Date of creation'|translate" sortable="'createDate'">
+
+                                {{item.createDate|date:'yyyy-MM-dd'}}<br/>
+                                {{item.createDate|date:'HH:mm:ss'}}
+
+                            </td>
+                            <td data-title="'Actions'|translate" class="actions text-right">
+
+                                <div class="btn-group" bz-loading-container="item.$loading">
+
+                                    <a ui-sref="users.roles.edit({_id: item._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
+
+                                    <a href="" st-confirm="remove(item)" title="{{'Delete role'|translate}}"
+                                       message-title="'Delete'|translate" message="'Are you realy want to delete this role?'|translate">
+                                        <span class="fa fa-times text-danger"></span>
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr ng-if="!$data.length">
+                            <td colspan="{{$columns.length}}" class="text-center">{{'No roles'|translate}}</td>
+                        </tr>
+                    </table>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <!--div class="col-md-3">
+
+            <div ng-include="'views/modules/ecommerce/block-tree.html'"></div>
+
+        </div-->
+
+
+    </div>
+
+
+</div>
+
+</div>

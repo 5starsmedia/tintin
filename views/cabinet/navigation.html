@@ -1,0 +1,48 @@
+<div id="navigation" ng-controller="UsersProfileBlockCtrl">
+
+    <ul class="nav navbar-nav" id="side-menu">
+        <li ng-repeat="item in menu"
+            ng-class="{active: $state.includes(item.sref), 'dropdown': item.items.length}"
+            ng-show="_account.has(item.permissions)">
+            <a ng-show="!item.items.length" ui-sref="{{item.sref}}">
+                <span class="nav-label">{{item.title|translate}}</span>
+            </a>
+            <a ng-show="item.items.length" href="" data-toggle="dropdown" class="dropdown-toggle">
+                <span class="nav-label">{{item.title|translate}}</span>
+                <b ng-if="item.items.length" class="caret"></b></a>
+            </a>
+            <ul ng-show="$state.includes(item.sref) || item.items.length"
+                class="dropdown-menu nav-second-level" ng-class="{in: $state.includes(item.sref)}">
+                <li ui-sref-active="active" ng-repeat="subitem in item.items"
+                    ng-if="_account.has(subitem.permissions)">
+                    <a ui-sref="{{subitem.sref}}">{{subitem.title|translate}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+
+
+    <ul ng-if="_account" class="nav navbar-nav ng-cloak navbar-right">
+        <li class="dropdown dropdown-login">
+            <a href="" data-toggle="dropdown" class="dropdown-toggle">
+                <st-avatar account="_account"></st-avatar>
+                <span class="details">
+                    <span class="name">{{_account.title}} <b class="caret"></b></span>
+                    <span class="role">{{currentRole.title}}</span>
+                </span>
+            </a>
+            <ul class="dropdown-menu">
+                <li role="presentation"><a ui-sref="profile.user.info({ username: _account.username })">{{'Профиль'|translate}}</a></li>
+                <li role="presentation"><a href="profile/change-pass">{{'Сменить пароль'|translate}}</a></li>
+                <li ng-show="_account.roles.length > 1" role="presentation" class="dropdown-header">{{'Роли пользователя'|translate}}</li>
+                <li ng-show="_account.roles.length > 1" ng-repeat="role in _account.roles">
+                    <a href="" ng-click="changeRole(role._id)">{{role.title}}</a>
+                </li>
+                <li ng-show="_account.roles.length > 1" role="presentation" class="divider"></li>
+                <li role="presentation"><a ui-sref="auth.logout">{{'Logout'|translate}}</a></li>
+            </ul>
+        </li>
+    </ul>
+
+</div>

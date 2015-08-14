@@ -29,16 +29,20 @@
                     </div>
                 </div>
 
+                <st-form-element label="{{'Variation title'|translate}}" field="variationTitle">
+
+                    <input id="variationTitle" class="form-control" name="variationTitle" type="text"
+                           ng-model="item.variationTitle"/>
+
+                </st-form-element>
+
                 <div class="row">
                     <div class="col-xs-6">
 
 
                         <st-form-element label="{{'Category'|translate}}" field="category._id">
 
-                            <select class="form-control" ng-model="item.category._id">
-                                <option ng-repeat="category in categories" value="{{category._id}}"
-                                        ng-selected="item.category._id == category._id" ng-bind-html="category.title"></option>
-                            </select>
+                            <select ng-model="item.category._id" st-tree-select="categories" class="form-control" name="category" required></select>
 
                         </st-form-element>
 
@@ -69,7 +73,7 @@
                 <div class="panel-heading">
                     {{'Attached images'|translate}}
                 </div>
-                <div class="panel-body clearfix" editor-select-images="post.files">
+                <div class="panel-body clearfix" editor-select-images="item.files">
 
                     <cs-file-upload resource-id="{{item._id}}" collection-name="products" files="item.files"
                                     cover-file="item.coverFile" has-cover-select="true">
@@ -79,7 +83,7 @@
             </div>
 
         </tab>
-        <tab>
+        <tab ng-if="item._id">
             <tab-heading>
                 {{'Related products'|translate}}
                 <span class="label label-default" ng-if="item.relatedProducts.length">{{item.relatedProducts.length}}</span>
@@ -88,6 +92,16 @@
             <div class="panel-body"
                  ng-controller="EcommerceRelatedProductsCtrl"
                  ng-include="'views/modules/ecommerce/form-related-products.html'"></div>
+        </tab>
+        <tab ng-if="!item.variationProduct._id && item._id">
+            <tab-heading>
+                {{'Product variations'|translate}}
+                <span class="label label-default">{{item.variationCount}}</span>
+            </tab-heading>
+
+            <div class="panel-body"
+                 ng-controller="EcommerceVariationsCtrl"
+                 ng-include="'views/modules/ecommerce/form-variations.html'"></div>
         </tab>
         <!--tab>
             <tab-heading>{{'Отзывы'|translate}}<span ng-if="item.$reviews_count" class="label label-info arrowed arrow-left-in">{{item.$reviews_count}}</span></tab-heading>
@@ -176,6 +190,26 @@
                     {{'Discount'|translate}}
 
                 </label>
+            </div>
+        </div>
+
+        <div class="panel-footer" ng-if="item._id">
+            <div ng-if="!item.productVariations.length && !item.variationProduct">
+
+                <button class="btn btn-default" type="button" ng-click="createVariationFromProduct()">
+                    {{'Convert product to variation'|translate}}
+                </button>
+
+            </div>
+
+            <div ng-if="!item.productVariations.length && item.variationProduct">
+
+                <a class="btn btn-default"
+                        st-confirm="createProductFromVariation(item)"
+                        message-title="'Convert to product'|translate" message="'Are you realy want to convert this variation to product?'|translate">
+                    {{'Convert variation to product'|translate}}
+                </a>
+
             </div>
         </div>
     </div>

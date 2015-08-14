@@ -1,0 +1,56 @@
+<form name="editState">
+    <div class="color-line"></div>
+    <div class="modal-body" bz-loading-container="loading">
+
+        <tabset class="hpanel" ng-if="!item._id">
+            <tab ng-repeat="group in stateTypesGroups">
+                <tab-heading>{{group.title}}</tab-heading>
+
+                <div class="nodes-select">
+                    <div class="node" ng-click="setType(type)" ng-repeat="type in group.states" ng-class="{'active': item.stateType == type.name}">
+                        <div class="box">
+                            <div class="node-image">
+                                <img ng-src="assets/images/tree/{{type.name}}.png">
+                            </div>
+                            <div class="node-descr">{{type.title}}</div>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+        </tabset>
+
+        <input type="hidden" ng-model="item.stateType" required />
+
+        <div ng-if="item.stateType" ng-include="'views/modules/constructor/states/' + item.stateType + '.html'"></div>
+
+        <div ng-if="item.stateType">
+
+            <div class="form-group">
+
+                <label>
+                    <input type="checkbox" icheck ng-model="settings.haveComment" />
+                    {{'Comment'|translate}}
+                </label>
+
+                <textarea ng-show="settings.haveComment" ng-model="item.comment" rows="3" class="form-control"></textarea>
+
+            </div>
+
+        </div>
+
+        <div ng-if="!item.stateType" class="text-center">
+            {{'Choose state from list'|translate}}
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="pull-left" ng-if="item._id">
+            <a href="" class="btn btn-danger" st-confirm="remove(item)" title="{{'Delete state'|translate}}"
+                    message-title="'Delete'|translate" message="'Are you realy want to delete this state?'|translate">
+                {{'Удалить'|translate}}
+            </a>
+        </div>
+        <button type="submit" class="btn btn-primary" ng-click="saveItem()" ng-disabled="editState.$invalid">{{'Сохранить'|translate}}</button>
+        <button type="button" class="btn btn-default" ng-click="close()" data-dismiss="modal">{{'Отмена'|translate}}</button>
+    </div>
+</form>

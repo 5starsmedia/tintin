@@ -5,8 +5,6 @@
 
 var express = require('express'),
   http = require('http'),
-//responseTime = require('response-time'),
-//serveFavicon = require('serve-favicon'),
   serveStatic = require('serve-static'),
   _ = require('lodash'),
   bodyParser = require('body-parser'),
@@ -16,20 +14,46 @@ var express = require('express'),
   lynx = require('lynx'),
   lynxExpress = require('lynx-express'),
   useragent = require('express-useragent'),
-//compression = require('compression'),
+  compression = require('compression'),
   sites = require('./middleware/sites.js'),
   tasks = require('./services/tasks'),
-  config = require('./config.js');
-//phantom = require('node-phantom'),
-//robots = require('robots.txt'),
-//sm = require('sitemap');
+  notification = require('./services/notification'),
+  urlSvc = require('./services/url'),
+  sequence = require('./services/sequence'),
+  broadcast = require('./services/broadcast'),
+  socket = require('./services/socket'),
+  config = require('./config.js'),
+  contextService = require('request-context');
 
 var app = {};
 app.log = require('./log.js');
 app.server = express();
 app.config = config;
 
+app.contextService = contextService;
+app.server.use(contextService.middleware('request')); // for createdBy plugin
+
 app.models = require('./models');
+
+app.modules = {
+  each: function(callFunc) {
+    _.forEach(app.modules, function(obj, name) {
+      if (typeof obj == 'object') {
+        callFunc(obj);
+      }
+    });
+  }
+};
+
+var modules = config.get('modules');
+_.forEach(modules, function(moduleName) {
+  var module = require('./modules/' + moduleName);
+  app.modules[moduleName] = new module(app);
+});
+app.modules.each(function(moduleObj) {
+  moduleObj.initModels();
+});
+
 app.services = {
   social: require('./services/social'),
   mq: require('./services/mq'),
@@ -37,12 +61,22 @@ app.services = {
   data: require('./services/data'),
   hooks: require('./services/hooks'),
   html: new (require('./services/html'))(),
-  url: require('./services/url'),
+  url: new urlSvc.UrlSvc(app),
   sms: require('./services/sms'),
   mail: require('./services/mail'),
   validation: require('./services/validation'),
-  tasks: new tasks.TasksSvc(app)
+  notification: new notification.NotificationSvc(app),
+  sequence: new sequence.SequenceSvc(app),
+  tasks: new tasks.TasksSvc(app),
+  broadcast: new broadcast.BroadcastSvc(app),
+  socket: new socket.SocketSvc(app)
 };
+
+app.modules.each(function(moduleObj) {
+  if (moduleObj.initServices) {
+    moduleObj.initServices();
+  }
+});
 
 /* navigation: require('./services/navigation'),
  mail: require('./services/mail'),
@@ -54,7 +88,6 @@ app.services = {
  relation: new relation.RelationSvc(app)
  };
 
- app.server.use(compression());
 
  var botRegexp = /developers\.google\.com\/\+\/web\/snippet|google\.com\/webmasters\/tools\/richsnippets|linkedinbot|spider|tumblr|redditbot/i;
  app.server.use(function (req, res, next) {
@@ -67,6 +100,7 @@ app.services = {
  next();
  });
  */
+app.server.use(compression());
 app.server.use(useragent.express());
 //app.server.use(responseTime());
 function on_error(err) {
@@ -86,23 +120,29 @@ app.server.use(statsdMiddleware({timeByUrl: true}));
 
 app.errors = require('./errors');
 
-app.server.use(bodyParser.json());
+app.server.use(bodyParser.json({ limit: '50mb' }));
 app.server.use(function (req, res, next) {
-  var realIP = null;//req.header('x-real-ip');
+  var realIP = req.headers['x-real-ip'] ||
+    req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress;
+
   req.app = app;
   req.request = {
     id: mongoose.Types.ObjectId().toString('base64'),
     url: req.url,
     method: req.method,
-    remoteAddress: realIP || req.connection.remoteAddress,
+    remoteAddress: realIP,
     remotePort: req.connection.remotePort,
     userAgent: {
-      browser: req.useragent.Browser,
-      version: req.useragent.Version,
-      os: req.useragent.OS,
-      platform: req.useragent.Platform
+      browser: req.useragent.browser,
+      version: req.useragent.version,
+      os: req.useragent.os,
+      platform: req.useragent.platform
     }
   };
+
   req.logRecord = function (name, msg, level, account, next) {
     var log = new req.app.models.logRecords();
     log.account = account || req.auth.account;
@@ -110,6 +150,7 @@ app.server.use(function (req, res, next) {
     log.level = level;
     log.msg = msg;
     log.req = req.request;
+
     next = next || account; // if account is not set last parameter is callback
     log.save(function (err) {
       if (err) {
@@ -149,13 +190,20 @@ var corsOptionsDelegate = function(req, callback){
   if(site && site.isCorsEnabled){
     corsOptions.origin = true;
     corsOptions.credentials = true;
+    corsOptions.exposedHeaders = ['x-total-count'];
   }
   callback(null, corsOptions);
 };
 app.server.use(cors(corsOptionsDelegate));
 
 
+app.server.use(require('./middleware/auth.js')());
+
 var routes = require('./routes');
+app.modules.each(function(moduleObj) {
+  moduleObj.initRoutes();
+});
+
 routes.init(app);
 
 app.server.get('/*', serveStatic(__dirname + '/..', {etag: false}));
@@ -163,6 +211,7 @@ app.server.get('/*', serveStatic(__dirname + '/..', {etag: false}));
 app.server.use(function (err, req, res, next) {
   if (err) {
     var isDev = config.get('env') === 'development';
+
     req.log.error({err: {name: err.name, stack: err.stack}}, err.message);
     if (err.name === app.errors.NotFoundError.name) {
       var resultErr = {msg: err.message};
@@ -176,6 +225,9 @@ app.server.use(function (err, req, res, next) {
         r.fieldErrors = [{field: err.field, msg: err.msg}];
       } else {
         r.summaryErrors = [{msg: err.msg}];
+      }
+      if (err.errors) {
+        r.errors = err.errors;
       }
       return res.status(422).json(r);
     } else if (err.name === app.errors.OperationError.name) {
@@ -200,7 +252,9 @@ exports.start = function (cb) {
       _.partial(app.services.modifiers.loadPlugins, app),
       _.partial(app.services.validation.loadValidators, app),
       _.partial(app.services.hooks.loadPlugins, app),
-      app.services.tasks.init.bind(app.services.tasks)
+      app.services.broadcast.init.bind(app.services.broadcast),
+      app.services.tasks.init.bind(app.services.tasks),
+      app.services.states.init.bind(app.services.states)
     ]),
     function (next) {
       app.log.debug('Connecting to mongodb...');
@@ -230,27 +284,29 @@ exports.start = function (cb) {
       require('./migrations').migrateToActual(app, next);
     },
     function (next) {
-      app.log.debug('Http server starting at', config.get('http.port'), '...');
-      httpServer = http.createServer(app.server);
-      httpServer.listen(config.get('http.port'), next);
+      app.httpServer = http.createServer(app.server);
+      app.services.socket.init(next);
     },
     function (next) {
-      app.log.debug('Http server started successfully');
-      //refreshStrainsStats(app, next);
-      next();
+      app.log.debug('Http server starting at', config.get('http.port'), '...');
+      app.httpServer.listen(config.get('http.port'), next);
     },
-    _.bind(app.services.tasks.start, app.services.tasks)
+    function (next) {
+      app.modules.each(function(moduleObj) {
+        if (moduleObj.initServer) {
+          moduleObj.initServer();
+        }
+      });
+    },
+    //_.bind(app.services.tasks.start, app.services.tasks, {}),
+    //_.bind(app.services.states.start, app.services.states, {})
   ], function (err) {
-    if (err) {
-      return cb(err);
-    }
+    if (err) { return cb(err); }
+
+    app.services.tasks.start();
+    app.services.states.start();
+
     app.log.info('Configuration "' + config.get('env') + '" successfully loaded in', Date.now() - startDate, 'ms');
-
-
-    setInterval(function () {
-      app.services.mq.push(app, 'events', {name: 'visaDates.check'});
-    }, 10 * 60 * 1000);
-    app.services.mq.push(app, 'events', {name: 'visaDates.check'});
 
     /*setInterval(function () {
      app.services.mq.push(app, 'events', {name: 'content.unfresh'});
@@ -284,3 +340,5 @@ exports.stop = function (cb) {
     }
   ], cb);
 };
+
+exports.app = app;

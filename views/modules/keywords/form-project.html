@@ -1,0 +1,25 @@
+<st-form name="field">
+  <div class="color-line"></div>
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" ng-if="!item._id">{{'Create project'|translate}}</h4>
+  </div>
+  <div class="modal-body" bz-loading-container="loading">
+
+      <st-form-element label="{{'Title'|translate}}" field="category._id">
+
+        <input class="form-control" type="text" ng-model="item.title"/>
+
+      </st-form-element>
+
+  </div>
+  <div class="modal-footer">
+    <!--div class="pull-left">
+        <button type="submit" class="btn btn-danger" ng-click="saveItem()" ng-disabled="edit.$invalid">
+            {{'Удалить'|translate}}
+        </button>
+    </div-->
+    <button type="submit" class="btn btn-primary" ng-click="saveItem(item)" ng-disabled="edit.$invalid">{{'Сохранить'|translate}}</button>
+    <button type="button" class="btn btn-default" ng-click="close()" data-dismiss="modal">{{'Отмена'|translate}}</button>
+  </div>
+</st-form>

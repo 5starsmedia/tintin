@@ -27,7 +27,8 @@ module.config(function ($stateProvider) {
   $stateProvider
     .state('sites', {
       abstract: true,
-      templateUrl: "views/common/content_small.html"
+      parent: 'cabinet',
+      template: '<div ui-view></div>'
     })
     .state('sites.domains', {
       url: "/domains",

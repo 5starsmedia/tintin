@@ -1,10 +1,14 @@
 {
-  "name": "test_es6",
+  "name": "paphos_cms",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/username/repository.git"
+  },
   "devDependencies": {
     "babelify": "~5.0.3",
     "browser-sync": "^1.7.1",
@@ -12,6 +16,9 @@
     "gulp": "^3.8.11",
     "gulp-angular-htmlify": "^2.1.1",
     "gulp-angular-templatecache": "^1.5.0",
+    "gulp-angular-translate": "^0.1.4",
+    "gulp-angular-translate-extractor": "^1.0.0",
+    "gulp-apidoc": "^0.1.4",
     "gulp-concat": "^2.5.2",
     "gulp-copy": "0.0.2",
     "gulp-imagemin": "^2.2.1",
@@ -20,13 +27,25 @@
     "gulp-minify-html": "^1.0.1",
     "gulp-ng-annotate": "^0.5.2",
     "gulp-rename": "^1.2.0",
+    "gulp-replace": "^0.5.3",
     "gulp-rev": "^3.0.1",
     "gulp-uglify": "^1.1.0",
     "gulp-usemin": "^0.3.11",
     "htmlparser2": "^3.8.2",
     "lodash": "^2.4.1",
+    "proxy-middleware": "^0.11.1",
     "rimraf": "~2.2.8",
     "vinyl-source-stream": "^1.0.0",
     "watchify": "^2.6.0"
+  },
+  "apidoc": {
+    "name": "Paphos CMS",
+    "version": "0.0.1",
+    "description": "",
+    "title": "API Documentation of Paphos CMS",
+    "template": {
+      "withCompare": true,
+      "withGenerator": true
+    }
   }
 }

@@ -1,0 +1,15 @@
+<div ng-switch="status">
+  <div class="label label-success" ng-switch-when="new">Новая</div>
+  <div class="label label-success" ng-switch-when="inprocess">На сканировании</div>
+  <div class="label label-success" ng-switch-when="scaned">Анализ</div>
+  <div class="label label-success" ng-switch-when="finded">Подготовка</div>
+  <div class="label label-success" ng-switch-when="completed">Готовое</div>
+
+  <div class="label label-info" ng-switch-when="editorValidation">На проверке редактора</div>
+
+  <div class="label label-success" ng-switch-when="assign">Назначено</div>
+  <div class="label label-warning" ng-switch-when="inwork">{{'In work'|translate}}</div>
+  <div class="label label-info" ng-switch-when="moderation">{{'On moderation'|translate}}</div>
+  <div class="label label-danger" ng-switch-when="failedModeration">{{'Failed moderation'|translate}}</div>
+  <div class="label label-default" ng-switch-when="success">{{'Accept'|translate}}</div>
+</div>

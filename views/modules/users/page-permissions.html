@@ -1,0 +1,13 @@
+
+<div>
+    <p>{{'Ваш уровень привелегий не позволяет доступ к данному разделу'|translate}}</p>
+
+    <div class="text-left" ng-if="_account.roles.length > 1">
+        <p>{{'Также доступны роли:'|translate}}</p>
+        <div class="list-group">
+            <a href="" ng-click="changeRole(role._id)" class="list-group-item" ng-repeat="role in _account.roles" ng-if="currentRole._id != role._id">
+                {{role.title}}
+            </a>
+        </div>
+    </div>
+</div>
