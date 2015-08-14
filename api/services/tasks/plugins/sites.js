@@ -80,11 +80,11 @@ exports['db.sites.insert'] = exports['db.sites.update'] = function (app, msg, cb
       });
     }],
     'records': ['domain', function(next, data) {
-      app.models.dnsRecords.find({ 'domain._id': data.domain._id }, next);
+      //app.models.dnsRecords.find({ 'domain._id': data.domain._id }, next);
+      app.models.dnsRecords.remove({ 'domain._id': data.domain._id }, next);
     }],
     'saveRecords': ['records', 'domain', function(next, data) {
-      if (data.records.length) { return next(); }
-
+      //if (data.records.length) { return next(); }
       createRecords(app, data.domain, next);
     }],
     'saveMx': ['records', 'domain', function(next, data) {
