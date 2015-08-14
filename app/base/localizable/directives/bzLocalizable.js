@@ -27,7 +27,7 @@ function bzLocalizable($compile, $rootScope, SiteDomainModel) {
 
       languageDiv.addClass('input-group-btn bz-languages-language')
         .attr({
-          'ng-include': '"' + 'views/cabinet/bzLocalizable.html' + '"'
+          'ng-include': '"' + '/views/cabinet/bzLocalizable.html' + '"'
         });
 
       $compile(languageDiv)(scope);
