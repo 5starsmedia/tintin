@@ -17,7 +17,7 @@ class VotingPollEditCtrl {
           message: $filter('translate')('Poll saved!'),
           classes: 'alert-success'
         });
-        $state.go('^.edit', { id: data._id });
+        $state.go('^.edit', {id: data._id});
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;
@@ -31,18 +31,21 @@ class VotingPollEditCtrl {
       removePlugins: 'image,forms,youtube,autogrow,image2',
       allowedContent: true,
       toolbar: [
-        { name: 'controls', items: [ 'Undo', 'Redo' ] },
-        { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord' ] },
-        { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-        { name: 'editing', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-        { name: 'insert', items: [ 'Image', 'SelectImages', 'MediaEmbed', 'adInsert', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-        { name: 'special', items: [ 'Maximize', 'Source' ] },
+        {name: 'controls', items: ['Undo', 'Redo']},
+        {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord']},
+        {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
+        {name: 'editing', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+        {
+          name: 'insert',
+          items: ['Image', 'SelectImages', 'MediaEmbed', 'adInsert', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']
+        },
+        {name: 'special', items: ['Maximize', 'Source']},
         '/',
-        { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', 'Underline' ] },
-        { name: 'paragraph', items: [ 'BulletedList', 'NumberedList', 'Blockquote' ] },
-        { name: 'styles', items: [ 'Format', 'FontSize', 'RemoveFormat' ] },
-        { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-        { name: 'forms', items: [ 'Outdent', 'Indent', 'ShowBlocks' ] }
+        {name: 'basicstyles', items: ['Bold', 'Italic', 'Strike', 'Underline']},
+        {name: 'paragraph', items: ['BulletedList', 'NumberedList', 'Blockquote']},
+        {name: 'styles', items: ['Format', 'FontSize', 'RemoveFormat']},
+        {name: 'colors', items: ['TextColor', 'BGColor']},
+        {name: 'forms', items: ['Outdent', 'Indent', 'ShowBlocks']}
       ],
       height: 450
     };
@@ -67,6 +70,10 @@ class VotingPollEditCtrl {
         }
       });
 
+    };
+
+    $scope.remove = (choise) => {
+      $scope.item.choices = _.without($scope.item.choices, choise);
     };
   }
 }
