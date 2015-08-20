@@ -1,0 +1,16 @@
+<div ng-controller="SitesDnsCtrl">
+
+    <a href="" class="btn btn-success" ng-click="editRecord()">{{'Add record'|translate}}</a>
+
+    <table class="table">
+    <tr ng-repeat="record in records">
+        <td>
+            <a href="" ng-click="editRecord(record)">
+            {{record.type}}</a>
+        </td>
+        <td>{{record.host}}</td>
+        <td>{{record.content}}</td>
+    </tr>
+    </table>
+
+</div>

@@ -1,0 +1,42 @@
+<st-form model="site" state="error" submit="saveItem(site)">
+  <div class="color-line"></div>
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" ng-if="!item._id">{{'Add dns record'|translate}}</h4>
+    <h4 class="modal-title" ng-if="item._id">{{'Edit dns record'|translate}}</h4>
+  </div>
+  <div class="modal-body" bz-loading-container="loading">
+
+    <st-form-element label="{{'Type'|translate}}" field="type" ng-if="!item._id">
+
+      <select class="form-control" name="type" ng-model="item.type" ng-options="type as type for (n,type) in types"></select>
+
+    </st-form-element>
+
+    <st-form-element label="{{'Host'|translate}}" field="host">
+
+      <input class="form-control" name="host" type="text" ng-model="item.host"/>
+
+    </st-form-element>
+
+    <st-form-element label="{{'Content'|translate}}" field="content">
+
+      <input class="form-control" name="content" type="text" ng-model="item.content"/>
+
+    </st-form-element>
+
+  </div>
+  <div class="modal-footer">
+    <!--div class="pull-left">
+        <button type="submit" class="btn btn-danger" ng-click="saveItem()" ng-disabled="edit.$invalid">
+            {{'Удалить'|translate}}
+        </button>
+    </div-->
+    <button type="submit" class="btn btn-primary" ng-disabled="edit.$invalid">
+      {{'Save'|translate}}
+    </button>
+    <button type="button" class="btn btn-default" ng-click="close()" data-dismiss="modal">
+      {{'Cancel'|translate}}
+    </button>
+  </div>
+</st-form>
