@@ -34,8 +34,8 @@ fs.exists(uploadsFolder, function (exists) {
   }
 });
 
-var allowedCollections = ['products', 'posts', 'accounts', 'polls', 'choises', 'productBrands', 'categories'];
-var maxFileSize = 10 * 1024 * 1024;
+var allowedCollections = ['products', 'posts', 'accounts', 'polls', 'choises', 'productBrands', 'categories', 'issues'];
+var maxFileSize = 15 * 1024 * 1024;
 
 function assignFile(req, file, collectionName, resourceId, cb) {
   req.app.models[collectionName].findById(resourceId, function (err, resource) {
