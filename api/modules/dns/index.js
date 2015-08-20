@@ -4,6 +4,8 @@ var dns = require('native-dns'),
   consts = require('native-dns-packet').consts,
   tld = require('tldjs'),
   _ = require('lodash'),
+  url = require('url'),
+  psl = require('psl'),
   async = require('async');
 var nestedSet = require('../../middleware/nestedSet.js'),
   dnsSvc = require('./services/dns'),
@@ -205,7 +207,12 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
     // this.app.log.info(response);
     return response.send();
   }
-  Record.querySOA(tldname, function (err, SOAresult) {
+  var info = psl.parse(tldname),
+    domain = info.domain;
+  if (info.tld == 'localhost') {
+    domain = info.tld;
+  }
+  Record.querySOA(domain, function (err, SOAresult) {
     if (err) {
       this.app.log.info(err);
     } else if (!SOAresult[0]) {
