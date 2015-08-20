@@ -2,12 +2,24 @@ export default
 class IssuesEditCtrl {
 
   /*@ngInject*/
-  constructor($scope, $state, $filter, $stateParams, post, notify, NewsCategoryModel, $http, $sce) {
+  constructor($scope, $state, $filter, issue, notify, IssuesTypeModel) {
+    $scope.item = issue;
 
-    $scope.post = post;
+    IssuesTypeModel.query((data) => {
+      $scope.types = data;
+      if (issue.issueType) {
+        var type = _.find($scope.types, { title: issue.issueType.title });
+        if (type) {
+          $scope.statuses = type.statuses;
+        }
+      }
+    });
 
-    NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
-      $scope.categories = data;
+    $scope.$watch('item.issueType', (type) => {
+      if (!type) {
+        return;
+      }
+      $scope.statuses = type.statuses;
     });
 
     $scope.saveItem = (item) => {
@@ -19,7 +31,7 @@ class IssuesEditCtrl {
         $scope.loading = false;
         //$state.go('news.posts');
         notify({
-          message: $filter('translate')('Article saved!'),
+          message: $filter('translate')('Saved!'),
           classes: 'alert-success'
         });
         $state.go('^.edit', { id: data._id });
@@ -27,46 +39,6 @@ class IssuesEditCtrl {
         $scope.loading = false;
         $scope.error = res.data;
       });
-    }
-
-    $scope.tags = [];
-    $scope.loadTags = function (x) {
-      if (x == '') {
-        $scope.tags = [];
-        return;
-      }
-      $http.get('/api/posts/tags-complete?term=' + encodeURIComponent(x)).success(function (data) {
-        $scope.tags = data;
-      });
-    };
-    $scope.toTag = function (text) {
-      var item = {
-        title: text
-      };
-      return item;
-    };
-    $scope.trustAsHtml = function(value) {
-      return $sce.trustAsHtml(value);
-    };
-
-
-
-    $scope.sources = [];
-    $scope.loadSources = function (x) {
-      if (x == '') {
-        $scope.sources = [];
-        return;
-      }
-      $http.get('/api/posts/source-complete?term=' + encodeURIComponent(x)).success(function (data) {
-        $scope.sources = data;
-      });
-    };
-    $scope.selectSource = (item, model) => {
-      $scope.post.source = item.title;
-    };
-
-    $scope.countWords = (str) => {
-      return (str || '').split(/\s+/).length;
     };
 
     $scope.editorOptions = {

@@ -10,9 +10,6 @@ class IssuesListCtrl {
         createDate: 'desc'
       }
     }, {
-      groupBy: function(item) {
-        return item.getDate();
-      },
       getData: function ($defer, params) {
         $scope.loading = true;
         IssuesIssueModel.query(BaseAPIParams({}, params), function (list, headers) {

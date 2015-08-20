@@ -1,0 +1,27 @@
+{
+  "resource": "issueTypes",
+  "model": "IssueType",
+  "options": {
+    "searchFields": [
+      {
+        "role": "issues",
+        "value": ["msg", "hostname", "req.remoteAddress", "req.userAgent.browser", "req.userAgent.os"]
+      }
+    ],
+    "maxPerPage": [
+      {
+        "role": "issues",
+        "value": 200
+      }
+    ]
+  },
+  "acl": {
+    "*": {
+      "get": "issues",
+      "get?_id": ["issues", "*:owner"],
+      "put?_id": ["issues", "*:owner"],
+      "post": ["issues", "*:owner"],
+      "delete?_id": ["issues", "*:owner"]
+    }
+  }
+}

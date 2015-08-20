@@ -18,6 +18,7 @@
   "acl": {
     "*": {
       "get": "issues",
+      "get?issuePrefix&issueNumber": "issues",
       "get?refs.resourceId&refs.collectionName": "issues",
       "get?_id": ["issues", "*:owner"],
       "put?_id": ["issues", "*:owner"],

@@ -20,21 +20,19 @@
           <table ng-table="tableParams" show-filter="true" class="table">
             <tr ng-repeat="item in $data">
               <td style="width: 15%" class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
-                <a class="text-info" ui-sref="news.edit({ id: item._id })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
-                  <span ng-if="item.isTop" class="fa fa-star"></span>
-
+                <a class="text-info" ui-sref="issues.edit({ issuePrefix: item.issuePrefix, issueNumber: item.issueNumber })" ng-class="{'font-extra-bold': item.isHighlight || item.isTop}">
                   {{item.title}}
                 </a>
               </td>
-              <td style="width: 10%" data-title="'Author'|translate" sortable="'name'">
-                {{item.account.title}}
+              <td style="width: 10%" data-title="'Status'|translate" sortable="'status.title'">
+                {{item.status.title}}
               </td>
-              <td style="width: 5%" data-title="'Views'|translate" sortable="'viewsCount'" class="text-center">
-                <span class="fa fa-eye"></span> {{item.viewsCount}}
+              <td style="width: 10%" data-title="'Author'|translate" sortable="'createdBy.title'">
+                {{item.createdBy.title}}
               </td>
               <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">
 
-                <a ui-sref="news.edit({ id: item._id })"
+                <a ui-sref="issues.edit({ issuePrefix: item.issuePrefix, issueNumber: item.issueNumber })"
                    title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span>
                 </a>
                 <a href="" st-confirm="remove(item)" title="{{'Delete article'|translate}}"

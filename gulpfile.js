@@ -187,7 +187,8 @@ gulp.task('parseTranslate', function() {
   return gulp.src([
     'index.html',
     'views/**/*.html',
-    'app/**/*.js'
+    'app/**/*.js',
+    'app/**/*.html'
   ])
     .pipe(extractTranslate({
       defaultLang: 'en-US',         // default language

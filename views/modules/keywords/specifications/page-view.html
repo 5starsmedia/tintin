@@ -2,85 +2,56 @@
 
   <st-form model="group" state="error" submit="saveItem(group)">
 
-
-    <st-header title="{{group.title}}">
-
-      <a ui-sref="keywords.specifications" class="btn btn-default">
-        {{'Cancel'|translate}}
-      </a>
-
-      <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}"
-              class="btn btn-warning" ng-click="returnToAuthor()">{{'Back in work'|translate}}
-      </button>
-
-    </st-header>
+    <h2 class="font-light m-b-xs">{{group.title}}</h2>
 
     <div class="content" animate-panel effect="zoomIn">
 
-      <div class="row">
-        <div class="col-md-9">
 
-          <div class="hpanel">
-            <div class="panel-body">
+      <div ng-if="group.status == 'moderation'">
+        <div ng-if="group.result.authorNotes" class="alert-info alert">
 
-
-              <div ng-if="group.status == 'moderation'">
-                <div ng-if="group.result.authorNotes" class="alert-info alert">
-
-                  <div><strong>{{'Comment from author'|translate}}</strong></div>
-                  {{group.result.authorNotes}}
-
-                </div>
-                <strong>{{'Text on moderation'|translate}}</strong>
-
-                <div style="border: 1px dotted #000; padding: 10px 15px; margin-bottom: 10px">
-
-                  <div ng-bind-html="group.result.text"></div>
-
-                </div>
-              </div>
-
-
-              <div ng-include="'views/modules/keywords/page-group-preview.html'"></div>
-
-            </div>
-          </div>
-
-
-          <st-panel title="{{'Comments'|translate}}">
-
-            <div comments-box collection-name="keywordGroups" place-holder="Комментарий..."
-                 resource-id="{{group._id}}"></div>
-
-          </st-panel>
+          <div><strong>{{'Comment from author'|translate}}</strong></div>
+          {{group.result.authorNotes}}
 
         </div>
-        <div class="col-md-3">
+        <strong>{{'Text on moderation'|translate}}</strong>
 
-          <st-panel title="{{'Assigment'|translate}}">
+        <div style="border: 1px dotted #000; padding: 10px 15px; margin-bottom: 10px">
 
-            <st-form-element label="{{'Assigned to'|translate}}" field="group.result.account">
-
-              <users-select-box account="group.result.account"></users-select-box>
-
-            </st-form-element>
-
-            <st-form-element label="{{'Due date'|translate}}" field="group.result.dueDate">
-
-              <div ng-if="group.result.dueDate" date-picker="group.result.dueDate" min-view="date" view="date"></div>
-              <div ng-if="!group.result.dueDate" date-picker="group.result.dueDate" min-view="date"></div>
-
-            </st-form-element>
-
-            <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
-                    type="submit">
-              {{'Assign'|translate}}
-            </button>
-
-          </st-panel>
+          <div ng-bind-html="group.result.text"></div>
 
         </div>
       </div>
+
+
+      <div ng-include="'views/modules/keywords/page-group-preview.html'"></div>
+
+
+      <div class="text-center">
+
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}"
+                class="btn btn-success btn-lg" ng-click="back()">{{'Accept'|translate}}
+        </button>
+
+        <button type="button" ng-disabled="loadingBack" ng-class="{'m-progress': loadingBack}"
+                class="btn btn-warning" ng-click="returnToAuthor()">{{'Back in work'|translate}}
+        </button>
+
+        <a ui-sref="keywords.specifications" class="btn btn-default">
+          {{'Cancel'|translate}}
+        </a>
+
+
+      </div>
+
+      <br/>
+
+      <st-panel title="{{'Comments'|translate}}">
+
+        <div comments-box collection-name="keywordGroups" place-holder="Комментарий..."
+             resource-id="{{group._id}}"></div>
+
+      </st-panel>
 
     </div>
 

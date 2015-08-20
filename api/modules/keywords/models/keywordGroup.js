@@ -7,31 +7,19 @@ var schema = new mongoose.Schema({
   title: {type: String, required: true},
   keywords: {type: String, required: true},
 
-  status: {type: String, default: 'new', enum: [
-    'new',
-    'inprocess',
-    'scaned',
-    'finded',
-    'completed',
-    'editorValidation',// видно у редактора
-    'returned',// редактор вернул на доработку
-    'inwork', // в роботі у автора
-    'moderation',
-    'failedModeration',
-    'success'
-  ]},
-
   category: {
     _id: mongoose.Schema.Types.ObjectId,
     title: String,
     alias: String
   },
 
-  project: {
-    _id: mongoose.Schema.Types.ObjectId,
-    title: String
-  },
-  createDate: {type: Date, required: true, default: Date.now},
+  status: {type: String, default: 'new', enum: [
+    'new',
+    'inprocess',
+    'scaned',
+    'finded',
+    'completed'
+  ]},
 
   result: {
     coverFile: {
@@ -96,6 +84,7 @@ var schema = new mongoose.Schema({
     }]
   },
 
+  createDate: {type: Date, required: true, default: Date.now},
   removed: {type: Date}
 }, {
   strict: true,

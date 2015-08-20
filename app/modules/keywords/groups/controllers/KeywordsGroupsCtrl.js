@@ -1,8 +1,7 @@
 export default
 class KeywordsGroupsCtrl {
   /*@ngInject*/
-  constructor($scope, $state, project, KeywordsGroupModel, BaseAPIParams, NgTableParams) {
-    $scope.project = project;
+  constructor($scope, KeywordsGroupModel, BaseAPIParams, NgTableParams) {
 
     $scope.tableParams = new NgTableParams({
       page: 1,
@@ -14,7 +13,6 @@ class KeywordsGroupsCtrl {
       getData: function ($defer, params) {
         $scope.loading = true;
         KeywordsGroupModel.query(BaseAPIParams({
-          'project._id': project._id,
           status: [
             'new',
             'inprocess',

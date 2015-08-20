@@ -1,0 +1,41 @@
+<div bz-loading-container="loading">
+
+
+  <st-form model="item" state="error" submit="saveItem(item)">
+
+
+      <st-form-element label="{{'Title'|translate}}" field="title">
+
+        <input ng-model="item.title" class="form-control" name="title" required />
+
+      </st-form-element>
+
+
+      <div>
+
+        <ul ng-sortable="sortableConfig" class="list-group sortable">
+          <li class="list-group-item with-input" ng-repeat="(i,field) in item.statuses">
+            <span class="drag-handle"><span></span></span>
+            <div class="input-group">
+              <input class="form-control" type="text" ng-model="field.title"/>
+
+              <span class="input-group-btn">
+                <button class="btn btn-danger" ng-click="removeStatus(field)" type="button">
+                  <span class="fa fa-trash"></span>
+                </button>
+              </span>
+            </div>
+          </li>
+        </ul>
+        <a href="" class="btn btn-success" ng-click="addStatus(item)">Добавить</a>
+
+      </div>
+
+    <div>
+
+      <button type="submit" class="btn btn-primary">{{'Save'|translate}}</button>
+
+    </div>
+
+  </st-form>
+</div>

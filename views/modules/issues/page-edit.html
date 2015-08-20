@@ -3,150 +3,55 @@
 
   <st-form model="item" state="error" submit="saveItem(item)">
 
-    <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
-      <div class="hpanel" bz-loading-container="loading">
-        <div class="panel-body">
+    <st-header title="{{item._id ? 'Editing of issue' : 'New issue'}}">
 
-          <div class="row">
-            <div class="col-lg-9">
+      <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline"
+              type="submit">
+        {{'Save'|translate}}
+      </button>
+      <a ui-sref="issues.list" class="btn btn-default">
+        {{'Cancel'|translate}}
+      </a>
 
-              <a ui-sref="issues.list" class="back-btn">
-                <span class="pe-7s-angle-left"></span>
-              </a>
-
-              <h2 class="font-light m-b-xs">
-                <span ng-if="!item._id" style="line-height: 30px;">{{'New issue'|translate}}</span>
-                <span ng-if="item._id">{{'Editing of issue'|translate}}</span>
-              </h2>
-
-              <small ng-if="item._id">
-                {{'Issue created:'|translate}}
-                {{item.createDate|date:'dd.MM.yyyy'}}
-                {{'at'|translate}}
-                {{item.createDate|date:'HH:mm'}}
-              </small>
-
-            </div>
-            <div class="col-lg-3">
-
-              <div class="form-actions">
-                <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
-                  {{'Save'|translate}}
-                </button>
-                <a ui-sref="issues.list" class="btn btn-default">
-                  {{'Cancel'|translate}}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </st-header>
 
     <div class="content" animate-panel effect="zoomIn">
 
-      <div class="row">
-        <div class="col-lg-9">
+      <st-form-element label="{{'Coordinator'|translate}}" field="title">
 
+        <select class="form-control" name="coordinator" ng-model="item.issueType" required ng-disabled="item._id"
+                ng-options="type as type.title for type in types track by type._id"></select>
 
-          <tabset class="hpanel">
-            <tab>
-              <tab-heading>{{'Main information'|translate}}</tab-heading>
+      </st-form-element>
 
-              <div class="panel-body">
-                <st-form-element label="{{'Title'|translate}}" field="title">
+      <st-form-element label="{{'Title'|translate}}" field="title">
 
-                  <input id="title" class="form-control input-lg" name="title" type="text" required
-                         ng-model="item.title"/>
+        <input id="title" class="form-control" name="title" type="text" required
+               ng-model="item.title"/>
 
-                </st-form-element>
+      </st-form-element>
 
-                <st-form-element label="{{'Body'|translate}}" field="body">
+      <st-form-element label="{{'Status'|translate}}" field="title">
 
-                                <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
-                                          ng-model="item.body"></textarea>
+        <select class="form-control" name="status" ng-model="item.status" required ng-disabled="!item.issueType"
+                ng-options="status as status.title for status in statuses track by status.title"></select>
 
-                </st-form-element>
-              </div>
-            </tab>
+      </st-form-element>
 
-          </tabset>
-
-        </div>
-        <div class="col-lg-3">
-
-          <div class="hpanel hblue">
-            <div class="panel-heading">
-              {{'Assign'|translate}}
-            </div>
-            <div class="panel-body">
-
-              <st-form-element label="{{'Category'|translate}}" field="category._id">
-
-                <select ng-model="item.category._id" st-tree-select="categories" class="form-control" name="category" required></select>
-
-              </st-form-element>
-
-
-            </div>
-          </div>
-
-
+      <st-form-element label="{{'Body'|translate}}" field="body">
+        <div editor-select-images="item.files" collection-name="issues" item-id="{{item._id}}">
+          <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
+                    ng-model="item.body"></textarea>
 
         </div>
-      </div>
+      </st-form-element>
 
 
-      <div class="row">
-        <div class="col-xs-12">
+      <st-panel title="{{'Attachments'|translate}}">
 
-          <div class="hpanel"
-               ng-class="{'hred': !item.files.length, 'hyellow': item.files.length && !item.coverFile}">
-            <div class="panel-heading">
-              {{'Attachments'|translate}}
-            </div>
-            <div class="panel-body clearfix" editor-select-images="item.files">
+        <div issue-attachment="item.attachments"></div>
 
-              <div class="alert alert-danger" ng-if="!item.files.length">
-                <span class="fa fa-picture-o"></span> {{'Upload one or more images'|translate}}
-              </div>
-              <div class="alert alert-warning" ng-if="item.files.length && !item.coverFile">
-                <span class="fa fa-flag"></span> {{'Select the cover image'|translate}}
-              </div>
-
-              <div>
-
-                <div class="checkbox">
-                  <label>
-                    <input ng-model="item.ownPhoto" type="checkbox"/> {{'Own photos'|translate}}
-                  </label>
-                </div>
-
-                <div ng-if="item.ownPhoto" class="alert alert-info" ng-if="!item.files.length">
-                  <span class="fa fa-puzzle-piece"></span>
-                  {{'The photos will have watermark of website'|translate}}
-                </div>
-                <div ng-if="!item.ownPhoto">
-                  <st-form-element label="{{'Source of photo'|translate}}" field="photoSource">
-
-                    <input type="text" id="cs-form-element-photoSource" class="form-control"
-                           ng-model="item.photoSource"/>
-
-                  </st-form-element>
-                </div>
-
-                <hr/>
-
-                <cs-file-upload resource-id="{{item._id}}" collection-name="posts" files="item.files"
-                                cover-file="item.coverFile" has-cover-select="true">
-                </cs-file-upload>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
+      </st-panel>
 
     </div>
 

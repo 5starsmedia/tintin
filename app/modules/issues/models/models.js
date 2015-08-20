@@ -7,7 +7,9 @@ var module = angular.module(appName, [
 
 // models
 import IssuesIssueModel from './IssuesIssueModel.js';
+import IssuesTypeModel from './IssuesTypeModel.js';
 
-module.factory('IssuesIssueModel', IssuesIssueModel);
+module.factory('IssuesIssueModel', IssuesIssueModel)
+  .factory('IssuesTypeModel', IssuesTypeModel);
 
 export default appName;

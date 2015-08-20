@@ -5387,6 +5387,40 @@ body.constructor #wrapper {
 .b-html-preview h6 {
   font-size: 13px;
 }
+.drag-handle {
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  margin-top: -5px;
+}
+.drag-handle,
+.drag-handle span {
+  display: block;
+  width: 20px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  cursor: move;
+  line-height: 0;
+}
+.drag-handle span {
+  display: block;
+  width: 20px;
+  margin: 2px 0;
+  height: 4px;
+}
+.list-group.sortable .list-group-item {
+  padding-left: 38px;
+}
+.list-group.sortable .list-group-item .drag-handle {
+  left: 10px;
+}
+.list-group.sortable .list-group-item.with-input {
+  border: 0 none;
+  padding: 5px 0 5px 30px;
+}
+.list-group.sortable .list-group-item.with-input .drag-handle {
+  left: 3px;
+}
 .navbar.navbar-main {
   border-radius: 0;
   overflow: visible !important;
