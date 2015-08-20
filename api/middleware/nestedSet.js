@@ -119,10 +119,12 @@ function processPost(collectionName, opts, req, res, next) {
     }],
     'insertChildren': ['position', function(next, data) {
       delete req.body._id;
-      var node = new req.app.models[collectionName](req.body);
+      var node = new req.app.models[collectionName]({
+        site: req.site
+      });
       node._w = data.position;
       node.parentId = data.parent._id;
-      node.title = req.body.title || 'New node';
+      node.title = 'New node';
 
       if (req.app.models[collectionName].schema.paths['site._id']) {
         node.site = {
