@@ -37,7 +37,7 @@
         </button>
       </div>
 
-      <div ng-if="group.status && group.status == 'completed'" class="btn-group">
+      <div ng-if="group.status && group.status == 'completed' || group.status == 'returned'" class="btn-group">
 
         <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('finded')"
                 class="btn btn-default">
@@ -96,7 +96,21 @@
           </div>
 
 
-          <div ng-if="group.status && group.status == 'completed'">
+          <div ng-if="group.status && group.status == 'completed' || group.status == 'returned'">
+
+            <div ng-if="group.status == 'returned'" class="alert alert-warning">
+
+              <strong>{{'Comment of editor'|translate}}</strong>
+              <div ng-bind="group.result.editorNotes"></div>
+
+              <st-form-element label="{{'Your comment'|translate}}" field="authorNotes">
+
+                <textarea id="editorNotes" class="form-control" name="authorNotes" ng-model="group.result.authorNotes"></textarea>
+
+              </st-form-element>
+
+            </div>
+
 
             <div ng-include="'views/modules/keywords/page-group-preview.html'"></div>
 

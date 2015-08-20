@@ -1,0 +1,49 @@
+<form name="field">
+  <div class="color-line"></div>
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{{'Add attachment'|translate}}</h4>
+  </div>
+  <div class="modal-body" bz-loading-container="loading">
+
+
+    <tabset class="hpanel">
+      <tab>
+        <tab-heading>{{'Groups'|translate}}</tab-heading>
+
+        <div class="panel-body">
+
+
+          asdasd
+
+
+        </div>
+      </tab>
+      <tab>
+        <tab-heading>{{'Specifications'|translate}}</tab-heading>
+
+        <div class="panel-body">
+
+
+          asdasd
+
+
+        </div>
+      </tab>
+    </tabset>
+
+
+  </div>
+  <div class="modal-footer">
+    <!--div class="pull-left">
+        <button type="submit" class="btn btn-danger" ng-click="saveItem()" ng-disabled="edit.$invalid">
+            {{'Удалить'|translate}}
+        </button>
+    </div-->
+    <button type="submit" class="btn btn-primary" ng-click="addAttachment()" ng-disabled="edit.$invalid">
+      {{'Add'|translate}}
+    </button>
+    <button type="button" class="btn btn-default" ng-click="close()" data-dismiss="modal">{{'Cancel'|translate}}
+    </button>
+  </div>
+</form>

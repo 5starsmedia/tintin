@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Формирование ТЗ",
+    "systemType": "spec",
+    "statuses": [
+      {
+        "title": "Новое",
+        "statusType": "new"
+      },
+      {
+        "title": "В работе",
+        "statusType": "inprogress"
+      },
+      {
+        "title": "На проверке",
+        "statusType": "validation"
+      },
+      {
+        "title": "Готово",
+        "statusType": "done"
+      }
+    ]
+  },
+  {
+    "title": "Написание статьи",
+    "systemType": "article",
+    "statuses": [
+      {
+        "title": "Новая",
+        "statusType": "new"
+      },
+      {
+        "title": "Назначено",
+        "statusType": "inprogress"
+      },
+      {
+        "title": "В работе",
+        "statusType": "inprogress"
+      },
+      {
+        "title": "На проверке",
+        "statusType": "validation"
+      },
+      {
+        "title": "На проверке Експерта",
+        "statusType": "validation"
+      },
+      {
+        "title": "На проверке Редактора",
+        "statusType": "validation"
+      },
+      {
+        "title": "Готово",
+        "statusType": "done"
+      }
+    ]
+  },
+  {
+    "title": "Публикация",
+    "systemType": "publication",
+    "statuses": [
+      {
+        "title": "Новое",
+        "statusType": "new"
+      },
+      {
+        "title": "В работе",
+        "statusType": "inprogress"
+      },
+      {
+        "title": "На проверке",
+        "statusType": "validation"
+      },
+      {
+        "title": "Готово",
+        "statusType": "done"
+      }
+    ]
+  }
+]

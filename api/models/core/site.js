@@ -18,10 +18,10 @@ var schema = new mongoose.Schema({
   isCorsEnabled: Boolean,
 
   defaultLocale: {type: String, required: true, default: 'en_GB'},
-  /*allowLocales: [{
+  allowLocales: [{
     title: String,
     code: String
-  }],*/
+  }],
 
   meta: {
     title: String,
@@ -45,7 +45,9 @@ var schema = new mongoose.Schema({
     googleAnalytics: String,
     yandexMetrika: String,
     homepageTitle: String,
-    structureLevel: {type: Number, required: true, default: 2}
+    structureLevel: {type: Number, required: true, default: 2},
+
+    issuePrefix: String
   },
 
   tz: {

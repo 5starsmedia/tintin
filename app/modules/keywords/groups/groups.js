@@ -1,4 +1,4 @@
-var appName = 'module.keywords.projects';
+var appName = 'module.keywords.groups';
 
 import models from '../models/models.js';
 import newsModels from '../../posts/models/models.js';
@@ -16,17 +16,13 @@ let module = angular.module(appName, [
 ]);
 
 // controllers
-import KeywordsProjectsCtrl from './controllers/KeywordsProjectsCtrl.js';
-import KeywordsProjectEditCtrl from './controllers/KeywordsProjectEditCtrl.js';
 import KeywordsGroupEditCtrl from './controllers/KeywordsGroupEditCtrl.js';
 import KeywordsGroupsCtrl from './controllers/KeywordsGroupsCtrl.js';
 import KeywordsBlockGroupsCtrl from './controllers/KeywordsBlockGroupsCtrl.js';
 
-module.controller('KeywordsProjectsCtrl', KeywordsProjectsCtrl)
-  .controller('KeywordsGroupsCtrl', KeywordsGroupsCtrl)
+module.controller('KeywordsGroupsCtrl', KeywordsGroupsCtrl)
   .controller('KeywordsGroupEditCtrl', KeywordsGroupEditCtrl)
-  .controller('KeywordsBlockGroupsCtrl', KeywordsBlockGroupsCtrl)
-  .controller('KeywordsProjectEditCtrl', KeywordsProjectEditCtrl);
+  .controller('KeywordsBlockGroupsCtrl', KeywordsBlockGroupsCtrl);
 
 
 import keywordsStatus from './directives/keywordsStatus.js';
@@ -39,35 +35,21 @@ module.config(function ($stateProvider) {
     .state('keywords', {
       abstract: true,
       parent: 'cabinet',
-      template: '<div ui-view></div>'
+      templateUrl: 'views/modules/keywords/master-view.html'
+      //template: '<div ui-view></div>'
     })
-    .state('keywords.projects', {
-      url: "/keywords/projects",
-      controller: 'KeywordsProjectsCtrl',
-      templateUrl: "views/modules/keywords/page-projects.html",
-      data: {
-        pageTitle: 'News',
-        pageDesc: 'Test',
-        hideTitle: true
-      }
-    })
-    .state('keywords.projectView', {
-      url: "/keywords/:id",
+    .state('keywords.groups', {
+      url: "/keywords/groups",
       controller: 'KeywordsGroupsCtrl',
-      templateUrl: "views/modules/keywords/page-project-view.html",
+      templateUrl: "views/modules/keywords/page-groups.html",
       data: {
         pageTitle: 'News',
         pageDesc: 'Test',
         hideTitle: true
-      },
-      resolve: {
-        project: function($stateParams, KeywordsProjectModel) {
-          return KeywordsProjectModel.get({ _id: $stateParams.id }).$promise;
-        }
       }
     })
     .state('keywords.groupCreate', {
-      url: "/keywords/:projectId/new",
+      url: "/keywords/groups/new",
       controller: 'KeywordsGroupEditCtrl',
       templateUrl: "views/modules/keywords/page-group.html",
       data: {
@@ -76,14 +58,10 @@ module.config(function ($stateProvider) {
         hideTitle: true
       },
       resolve: {
-        project: function($stateParams, KeywordsProjectModel) {
-          return KeywordsProjectModel.get({ _id: $stateParams.projectId }).$promise;
-        },
         group: function($stateParams, $q, KeywordsGroupModel) {
           var defer = $q.defer();
 
           defer.resolve(new KeywordsGroupModel({
-            project: { _id: $stateParams.projectId },
             status: 'new'
           }));
           return defer.promise;
@@ -91,7 +69,7 @@ module.config(function ($stateProvider) {
       }
     })
     .state('keywords.groupEdit', {
-      url: "/keywords/:projectId/:id",
+      url: "/keywords/groups/:id",
       controller: 'KeywordsGroupEditCtrl',
       templateUrl: "views/modules/keywords/page-group.html",
       data: {
@@ -100,9 +78,6 @@ module.config(function ($stateProvider) {
         hideTitle: true
       },
       resolve: {
-        project: function($stateParams, KeywordsProjectModel) {
-          return KeywordsProjectModel.get({ _id: $stateParams.projectId }).$promise;
-        },
         group: function($stateParams, KeywordsGroupModel) {
           return KeywordsGroupModel.get({ _id: $stateParams.id }).$promise;
         }

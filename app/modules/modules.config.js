@@ -1,6 +1,7 @@
 import base from './base/base';
 import notifications from './notifications/notifications';
 import auth from './auth/auth';
+import issues from './issues/issues';
 import posts from './posts/posts';
 import menu from './menu/menu';
 import users from './users/users';
@@ -13,13 +14,13 @@ import comments from './comments/comments';
 import servers from './servers/servers';
 import constructor from './constructor/constructor';
 import dashboard from './dashboard/dashboard';
-import issues from './issues/issues';
 import voting from './voting/voting';
 
 export default [
   base,
   notifications,
   auth,
+  issues,
   sites,
   posts,
   menu,
@@ -32,6 +33,5 @@ export default [
   servers,
   constructor,
   dashboard,
-  issues,
   voting
 ];

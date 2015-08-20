@@ -19,11 +19,6 @@ module.controller('IssuesListCtrl', IssuesListCtrl)
 // config
 module.config(function ($stateProvider, basePermissionsSetProvider) {
   $stateProvider
-    .state('issues', {
-      abstract: true,
-      parent: 'cabinet',
-      template: '<div ui-view></div>'
-    })
     .state('issues.list', {
       url: "/issues",
       controller: 'IssuesListCtrl',
@@ -46,26 +41,17 @@ module.config(function ($stateProvider, basePermissionsSetProvider) {
         hideTitle: true
       },
       resolve: {
-        post: ($stateParams, $q, NewsPostModel) => {
+        issue: ($stateParams, $q, IssuesIssueModel) => {
           var defer = $q.defer();
-          var date = new Date();
-          date.setHours(date.getHours() + (date.getMinutes() < 50 ? 1 : 2));
-          date.setMinutes(0);
-          date.setSeconds(0);
-
-          defer.resolve(new NewsPostModel({
-            isAllowComments: true,
-            //own_photo: false,
-            //user_id: bzUser.id,
-            status: 4,
-            //publish_date: date
+          defer.resolve(new IssuesIssueModel({
+            issuePrefix: 'ISS'
           }));
           return defer.promise;
         }
       }
     })
     .state('issues.edit', {
-      url: "/issues/:id",
+      url: "/issues/:issuePrefix-:issueNumber",
       controller: 'IssuesEditCtrl',
       templateUrl: "views/modules/issues/page-edit.html",
       data: {
@@ -74,8 +60,18 @@ module.config(function ($stateProvider, basePermissionsSetProvider) {
         hideTitle: true
       },
       resolve: {
-        post: function($stateParams, NewsPostModel) {
-          return NewsPostModel.get({ _id: $stateParams.id }).$promise;
+        issue: ($q, $stateParams, IssuesIssueModel) => {
+          var defer = $q.defer();
+          IssuesIssueModel.query({ issuePrefix: $stateParams.issuePrefix, issueNumber: $stateParams.issueNumber }, (data) => {
+            if (data.length) {
+              defer.resolve(data[0]);
+            } else {
+              defer.reject({ error: 404 });
+            }
+          }, () => {
+            defer.reject({ error: 404 });
+          });
+          return defer.promise;
         }
       }
     });

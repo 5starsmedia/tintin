@@ -1,0 +1,56 @@
+<div class="content" animate-panel effect="zoomIn">
+
+  <div class="row">
+
+    <div class="col-md-9">
+
+      <div class="pull-right">
+        <a class="btn btn-success btn-outline" ui-sref="issues.types.create">
+          <i class="fa fa-plus"></i> {{'New issue'|translate}}
+        </a>
+      </div>
+      <h2 class="font-light m-b-xs ng-binding">
+        {{'Types of issues'|translate}}
+      </h2>
+
+      <div class="hpanel">
+        <div class="panel-body" bz-loading-container="loading">
+
+          <div class="row">
+
+            <div class="col-xs-6">
+
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="type in types">
+                  <a href="" ui-sref="issues.types.edit({ id: type._id })">
+                    {{type.title}}
+
+                    <a href="" class="pull-right" ng-if="!type.systemType">
+                      <span class="fa fa-trash text-danger"></span></a>
+                  </a>
+                </li>
+              </ul>
+
+            </div>
+            <div class="col-xs-6" ui-view></div>
+
+          </div>
+
+
+
+        </div>
+      </div>
+
+
+    </div>
+    <div class="col-md-3">
+
+
+
+    </div>
+
+
+  </div>
+
+
+</div>

@@ -1,11 +1,13 @@
 export default
 class SelectImageDialogCtrl {
   /*@ngInject*/
-  constructor($scope, $modalInstance, editor, editorImages, setData) {
+  constructor($scope, $modalInstance, editor, editorImages, setData, itemId, collectionName) {
     var widget = editor.widgets.focused;
     $scope.widgetData = ( widget && widget.name == 'SelectImages' ) ? widget.data : { width: 350 };
     $scope.widgetData.lock = true;
     $scope.isCustomWidth = false;
+    $scope.itemId = itemId;
+    $scope.collectionName = collectionName;
 
     let selectedId = ($scope.widgetData.src) ? $scope.widgetData.src.replace('/api/files/', '') : null,
       getHeight = (width) => {

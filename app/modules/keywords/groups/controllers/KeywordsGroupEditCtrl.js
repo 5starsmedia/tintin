@@ -1,8 +1,7 @@
 export default
 class KeywordsGroupEditCtrl {
   /*@ngInject*/
-  constructor($scope, $state, project, group, notify, $filter, KeywordsUrlPreview, $timeout, NewsCategoryModel, SiteDomainModel) {
-    $scope.project = project;
+  constructor($scope, $state, group, notify, $filter, KeywordsUrlPreview, $timeout, NewsCategoryModel, SiteDomainModel) {
     $scope.group = group;
 
     $scope.keywords = (group.keywords || '').split("\n");
@@ -14,10 +13,6 @@ class KeywordsGroupEditCtrl {
     NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
       $scope.categories = data;
     });
-
-    $scope.getLink = () => {
-      return location.origin + '/preview/keyword-group/' + group._id;
-    };
 
     $scope.runScan = () => {
       $scope.loadingScan = true;

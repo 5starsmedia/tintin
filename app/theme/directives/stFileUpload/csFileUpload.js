@@ -22,6 +22,8 @@ export default
         'coverFile': '='
       },
       controller: /*@ngInject*/ ($scope, $timeout, $log, $auth) => {
+        var maxFileSize = 15; // in Mb
+
         $scope.getSettings = function () {
           var headers = {
             'Authorization': 'Bearer ' + $auth.getToken()
@@ -46,12 +48,20 @@ export default
           }
         };
 
+        $scope.errors = [];
         $scope.fileError = function (event, $flow, flowFile, $message) {
           $log.error($message);
+
+          $scope.errors.push({
+            code: 'upload',
+            message: $message
+          });
           //trackSvc.trackEvent('upload', 'error', 'upload.error.serverError', $message);
           //interactionSvc.warnAlert('Error', $message);
         };
         $scope.fileAdded = function (event, $flow, flowFile) {
+          $scope.errors = [];
+
           var allowedExtensions = {png: 1, gif: 1, jpg: 1, jpeg: 1};
           var ext = flowFile.getExtension().toLowerCase();
           if (!allowedExtensions[ext]) {
@@ -59,13 +69,21 @@ export default
             $log.error(msgExt);
             //interactionSvc.warnAlert('Error', msgExt);
             //trackSvc.trackEvent('upload', 'error', 'upload.error.invExt', ext);
+            $scope.errors.push({
+              code: 'invExt',
+              message: msgExt
+            });
             return false;
           }
-          if (flowFile.size > 10 * 1024 * 1024) {
-            var msgSize = 'File ' + flowFile.name + ' is too big - ' + flowFile.size + ' bytes (max allowed 10Mb)';
+          if (flowFile.size > maxFileSize * 1024 * 1024) {
+            var msgSize = 'File ' + flowFile.name + ' is too big - ' + flowFile.size + ' bytes (max allowed ' + maxFileSize + 'Mb)';
             $log.error(msgSize);
             //trackSvc.trackEvent('upload', 'error', 'upload.error.tooBig', flowFile.size);
             //interactionSvc.warnAlert('Error', msgSize);
+            $scope.errors.push({
+              code: 'invExt',
+              message: msgSize
+            });
             return false;
           }
           return true;

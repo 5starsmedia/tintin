@@ -116,7 +116,9 @@ CKEDITOR.plugins.add('SelectImages', {
 });
 
 module.directive('editorSelectImages', ($modal) => {
-  let editorImages = [];
+  let editorImages = [],
+    itemId = null,
+    collectionName = null;
 
   execCommand = (editor) => {
     var modalInstance = $modal.open({
@@ -125,6 +127,8 @@ module.directive('editorSelectImages', ($modal) => {
       resolve: {
         editor: () => editor,
         editorImages: () => editorImages,
+        itemId: () => itemId,
+        collectionName: () => collectionName,
         setData: () => setData
       },
       windowClass: "hmodal-success"
@@ -143,6 +147,19 @@ module.directive('editorSelectImages', ($modal) => {
         }
         editorImages = newValue;
       }, true);
+
+      attrs.$observe('itemId', (newValue) => {
+        if (angular.isUndefined(newValue)) {
+          return;
+        }
+        itemId = newValue;
+      });
+      attrs.$observe('collectionName', (newValue) => {
+        if (angular.isUndefined(newValue)) {
+          return;
+        }
+        collectionName = newValue;
+      });
     }
   };
 });

@@ -6,21 +6,29 @@
          flow-file-error="fileError(event, $flow, $file, $message)"
          flow-file-success="fileSuccess(event, $flow, $file)">
 
+      <div ng-if="errors.length" class="alert alert-danger alert-block">
+
+        <div ng-repeat="error in errors">
+          {{error.message}}
+        </div>
+
+      </div>
+
         <div flow-drop flow-btn class="fu-uploader"
              flow-drag-enter="style={'background-color': 'rgba(0, 174, 239, 0.05)'}"
              flow-drag-leave="style={}"
              ng-style="style">
-            <div class="fu-uploader__title hidden-mobile">Drag photo here</div>
-            <div class="fu-uploader__text hidden-mobile">or, if you prefer...</div>
-            <div class="fu-uploader__button">Select photo from your
-                <span class="hidden-mobile">computer</span>
-                <span class="hidden-desktop">device</span>
+            <div class="fu-uploader__title hidden-mobile">{{'Drag photo here'|translate}}</div>
+            <div class="fu-uploader__text hidden-mobile">{{'or, if you prefer...'|translate}}</div>
+            <div class="fu-uploader__button">{{'Select photo from your'|translate}}
+                <span class="hidden-mobile">{{'computer'|translate}}</span>
+                <span class="hidden-desktop">{{'device'|translate}}</span>
             </div>
         </div>
 
         <div class="fu-progress" ng-repeat="file in $flow.files">
             <div class="fu-progress__wrap">
-                <div class="fu-progress__text">Loading {{(file.progress() * 100)|number:0}}%</div>
+                <div class="fu-progress__text">{{'Loading'|translate}} {{(file.progress() * 100)|number:0}}%</div>
                 <div class="fu-progress__name" ng-bind="file.name"></div>
                 <span class="fu-progress__line"
                       ng-style="{'width':(((file.progress()*100)|number:0)+'%')}">&nbsp;</span>
@@ -43,8 +51,8 @@
                     <span class="fu-item__select fa fa-save" ng-show="hasFileSelect"
                           ng-click="onFileSelect({$file:file})"></span>
                     <a title="Set as cover" class="fu-item__set-cover"
-                       ng-show="hasCoverSelect && coverFile._id !== file._id" ng-click="setAsCover($event, file)">Set as
-                        cover</a>
+                       ng-show="hasCoverSelect && coverFile._id !== file._id" ng-click="setAsCover($event, file)">
+                      {{'Set as cover'|translate}}</a>
                 </div>
             </li>
         </ul>

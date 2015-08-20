@@ -90,12 +90,12 @@
   {
     "sref": "keywords",
     "title": {"en-US": "Keywords", "ru-RU": "Работа с ТЗ"},
-    "permissions": [["keywords.projects"], ["keywords.specifications"], ["keywords.assignments"]],
+    "permissions": [["keywords.groups"], ["keywords.specifications"], ["keywords.assignments"]],
     "items": [
       {
-        "sref": "keywords.projects",
-        "title": {"en-US": "List of projects", "ru-RU": "Формирование ТЗ"},
-        "permissions": ["keywords.projects"]
+        "sref": "keywords.groups",
+        "title": {"en-US": "List of groups", "ru-RU": "Формирование ТЗ"},
+        "permissions": ["keywords.groups"]
       },
       {
         "sref": "keywords.specifications",
@@ -172,12 +172,17 @@
   },
   {
     "sref": "issues",
-    "title": "Issues",
+    "title": {"en-US": "Issues", "ru-RU": "Задачи"},
     "permissions": ["issues"],
     "items": [
       {
         "sref": "issues.list",
-        "title": "List of issues",
+        "title": {"en-US": "List of issues", "ru-RU": "Список задач"},
+        "permissions": []
+      },
+      {
+        "sref": "issues.types",
+        "title": {"en-US": "Types of issues", "ru-RU": "Типы задач"},
         "permissions": []
       }
     ]

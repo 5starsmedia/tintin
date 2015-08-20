@@ -9,6 +9,7 @@ function IssuesModule(app) {
 
 IssuesModule.prototype.initModels = function () {
   this.app.models.issues = require('./models/issue.js');
+  this.app.models.issueTypes = require('./models/issueType.js');
 };
 
 IssuesModule.prototype.initServices = function () {
