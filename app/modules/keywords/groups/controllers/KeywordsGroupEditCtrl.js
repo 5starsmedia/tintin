@@ -1,7 +1,8 @@
 export default
 class KeywordsGroupEditCtrl {
   /*@ngInject*/
-  constructor($scope, $state, group, notify, $filter, KeywordsUrlPreview, $timeout, NewsCategoryModel, SiteDomainModel) {
+  constructor($scope, $state, group, notify, $filter, KeywordsUrlPreview, $timeout,
+              NewsCategoryModel, SiteDomainModel, KeywordsGroupModel, IssuesSrc) {
     $scope.group = group;
 
     $scope.keywords = (group.keywords || '').split("\n");
@@ -12,21 +13,27 @@ class KeywordsGroupEditCtrl {
 
     NewsCategoryModel.getTree({ page: 1, perPage: 100 }, (data) => {
       $scope.categories = data;
+      console.info(data)
     });
 
     $scope.runScan = () => {
       $scope.loadingScan = true;
-      group.$runScan(() => {
-        $scope.loadingScan = false;
-      }, (err) => {
-        $scope.loadingScan = false;
-        if (err.status == 400) {
-          $scope.error = err.data.msg;
 
-          $timeout(() => {
-            $scope.error = null;
-          }, 4000)
-        }
+      IssuesSrc.setStatus(group.issue._id, 'inprogress', (issue) => {
+        $scope.$broadcast('updateIssue');
+
+        group.$runScan(() => {
+          $scope.loadingScan = false;
+        }, (err) => {
+          $scope.loadingScan = false;
+          if (err.status == 400) {
+            $scope.error = err.data.msg;
+
+            $timeout(() => {
+              $scope.error = null;
+            }, 4000)
+          }
+        });
       });
     };
 
@@ -40,18 +47,33 @@ class KeywordsGroupEditCtrl {
             message: $filter('translate')('Group submitted to the work!'),
             classes: 'alert-success'
           });
-          $state.go('^.projectView', { id: project._id });
+          $state.go('^.groups');
         }
       }, (err) => {
         $scope.loading = false;
       });
     };
 
-    $scope.nextStep = () => {
+    $scope.nextStep = (step) => {
       $scope.loading = true;
 
       if (group.status == 'finded') {
         group.status = 'completed';
+      }
+      if (step == 'complete') {
+        IssuesSrc.setStatus(group.issue._id, 'validation', (issue) => {
+          $scope.$broadcast('updateIssue');
+
+          group.$save(() => {
+            $scope.loading = false;
+            notify({
+              message: $filter('translate')('Saved!'),
+              classes: 'alert-success'
+            });
+            $state.go('^.groups');
+          });
+        });
+        return;
       }
       group.$save(() => {
         if (group.status == 'completed') {
@@ -77,7 +99,7 @@ class KeywordsGroupEditCtrl {
           message: $filter('translate')('Group saved!'),
           classes: 'alert-success'
         });
-        $state.go('^.groupEdit', { id: data._id, projectId: project._id });
+        $state.go('^.groupEdit', { id: data._id });
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;
@@ -92,8 +114,19 @@ class KeywordsGroupEditCtrl {
         $scope.loadingPreview = false;
         $scope.parsedData = data;
       });
-    }
+    };
 
+    $scope.$watch('group.issue', (newIssue, oldIssue) => {
+      if (!newIssue) {
+        return;
+      }
+
+      KeywordsGroupModel.save({
+        _id: $scope.group._id,
+        issue: newIssue
+      });
+      console.info(newIssue)
+    });
 
     $scope.editorOptions = {
       language: 'ru',

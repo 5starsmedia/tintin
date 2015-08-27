@@ -7,8 +7,8 @@
   var validators = {
     'keywordGroups.put': function (modelState, next) {
       modelState
-        .field('title').required().notNull().maxLength(500)
-        .field('keywords').required().notNull().maxLength(500)
+      //  .field('title').required().notNull().maxLength(500)
+      //  .field('keywords').required().notNull().maxLength(500)
       ;
       next();
     },

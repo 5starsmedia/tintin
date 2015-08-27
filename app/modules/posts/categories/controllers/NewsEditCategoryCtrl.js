@@ -12,7 +12,10 @@ class NewsEditCategoryCtrl {
       var parents = [], editedItem = NewsCategoryModel.find(tree, function (item) {
         return item._id == $scope.item._id;
       }, parents);
-      $scope.editedItem._id = editedItem._id;
+      $scope.editedItem = $scope.editedItem || {};
+      if (editedItem) {
+        $scope.editedItem._id = editedItem._id;
+      }
       parents.shift();
       _.forEach(parents, function (node) {
         node.$expanded = true;
@@ -55,7 +58,9 @@ class NewsEditCategoryCtrl {
     };
 
     $scope.cancel = function () {
-      $scope.editedItem._id = null;
+      if ($scope.editedItem) {
+        $scope.editedItem._id = null;
+      }
       $state.go(postType + '.categories');
     };
   }

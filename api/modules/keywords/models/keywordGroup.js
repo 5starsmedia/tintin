@@ -13,6 +13,13 @@ var schema = new mongoose.Schema({
     alias: String
   },
 
+  issue: {
+    _id: mongoose.Schema.Types.ObjectId,
+    title: String,
+    issuePrefix: String,
+    issueNumber: Number
+  },
+
   status: {type: String, default: 'new', enum: [
     'new',
     'inprocess',

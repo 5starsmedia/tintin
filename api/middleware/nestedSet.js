@@ -117,13 +117,14 @@ function processPost(collectionName, opts, req, res, next) {
 
       next(undefined, data.childrens.length + 1)
     }],
-    'insertChildren': ['position', function(next, data) {
+    'insertChildren': ['parent', 'position', function(next, data) {
       delete req.body._id;
       var node = new req.app.models[collectionName]({
         site: req.site
       });
       node._w = data.position;
       node.parentId = data.parent._id;
+      node.postType = data.parent.postType;
       node.title = 'New node';
 
       if (req.app.models[collectionName].schema.paths['site._id']) {

@@ -7,10 +7,19 @@ class IssuesEditCtrl {
 
     IssuesTypeModel.query((data) => {
       $scope.types = data;
+      if (issue.systemType) {
+        var type = _.find($scope.types, { systemType: issue.systemType });
+        if (type) {
+          issue.issueType = type;
+        }
+      }
       if (issue.issueType) {
         var type = _.find($scope.types, { title: issue.issueType.title });
         if (type) {
           $scope.statuses = type.statuses;
+          if (!issue.status) {
+            issue.status = _.find(type.statuses, { statusType: 'new' });
+          }
         }
       }
     });
@@ -27,6 +36,7 @@ class IssuesEditCtrl {
       let save = item._id ? item.$save : item.$create;
       delete item.viewsCount;
       delete item.commentsCount;
+      delete item.systemType;
       save.call(item, (data) => {
         $scope.loading = false;
         //$state.go('news.posts');
@@ -34,7 +44,11 @@ class IssuesEditCtrl {
           message: $filter('translate')('Saved!'),
           classes: 'alert-success'
         });
-        $state.go('^.edit', { id: data._id });
+        if ($scope.$close) {
+          $scope.$close({ _id: data._id });
+        } else {
+          $state.go('^.edit', {id: data._id});
+        }
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;

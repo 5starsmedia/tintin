@@ -1,0 +1,53 @@
+<div class="b-issue">
+
+  <div ng-if="!issue._id">
+
+    Нет задачи.
+
+    <a href="" ng-click="assign()">Назначить</a>
+
+  </div>
+
+  <div ng-if="issue._id">
+    <st-form>
+
+      <div class="row">
+        <div class="col-xs-4">
+          <label>{{'Issue'|translate}}</label>
+          <p>ISS-{{issue.issueNumber}}</p>
+        </div>
+        <div class="col-xs-4">
+
+          <st-form-element label="{{'Assigned'|translate}}" field="title">
+
+            <users-select-box account="issueData.assignAccount"></users-select-box>
+
+          </st-form-element>
+
+        </div>
+        <div class="col-xs-4">
+
+          <st-form-element label="{{'Status'|translate}}" field="title">
+
+            <select class="form-control" name="status" ng-model="issueData.status"
+                    ng-options="status as status.title for status in statuses track by status.title"></select>
+
+          </st-form-element>
+
+        </div>
+      </div>
+
+
+    </st-form>
+
+
+    <st-panel title="{{'Comments'|translate}}">
+
+      <div comments-box collection-name="issues" place-holder="Комментарий..."
+           resource-id="{{issue._id}}"></div>
+
+    </st-panel>
+  </div>
+
+
+</div>
