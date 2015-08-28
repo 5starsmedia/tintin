@@ -33,7 +33,7 @@ db.createUser( {
   });
 
 use admin
-db.auth("admin", "5stars");
+db.auth("adminUser", "5stars");
 
 use 5stars
 db.createUser(
@@ -44,7 +44,22 @@ db.createUser(
     [
       {
         role: "dbOwner",
-        db: "5stars"
+        db: "dev"
+      }
+    ]
+  }
+)
+
+use dev
+db.createUser(
+  {
+    user: "devUser",
+    pwd: "test",
+    roles:
+    [
+      {
+        role: "dbOwner",
+        db: "dev"
       }
     ]
   }

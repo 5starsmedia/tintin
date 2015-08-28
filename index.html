@@ -13,8 +13,7 @@
 
     <meta name="mobile-web-app-capable" content="yes">
 
-    <!-- build:css1(.) assets/styles/vendor.css -->
-    <!-- bower:css -->
+    <!-- build:vendorscss(.) assets/styles/vendor.css -->
     <link rel="stylesheet" href="bower_components/angular-notify/dist/angular-notify.min.css" />
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
     <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css" />
@@ -31,7 +30,6 @@
     <link rel="stylesheet" href="libs/image-lightbox/lightbox.css" />
     <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css" />
     <link rel="stylesheet" href="bower_components/angular-datepicker/dist/index.css" />
-    <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:css assets/styles/style.css -->
@@ -104,7 +102,7 @@
     document.getElementById('randQuoteAuthor').innerHTML = randQuote[1];
 </script>
 
-<!-- build:js(.) scripts/vendor.js -->
+<!-- build:vendorsjs(.) scripts/vendor.js -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
 <script src="bower_components/slimScroll/jquery.slimscroll.min.js"></script>
@@ -180,7 +178,7 @@
 
 <script src="assets/ckeditor/ckeditor.js"></script>
 
-<!-- build:js1 scripts/app.js -->
+<!-- build:js scripts/app.js -->
 <script>
 angular.module('views', []);
 </script>

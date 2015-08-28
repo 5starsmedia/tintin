@@ -38,46 +38,48 @@ frontend main
   option http-pretend-keepalive
   bind 0.0.0.0:443 ssl crt /root/.ssl/5starsmedia.com.ua.pem
   redirect scheme https if { hdr(Host) -i 5starsmedia.com.ua } !{ ssl_fc }
-  acl url_hkt9 hdr_end(host) test.news.vn.ua
-  use_backend backend_10_0_0_1 if url_hkt9
-  acl url_newmi hdr_end(host) dashboard-full.5stars.link
-  use_backend backend_10_0_0_50 if url_newmi
-  acl url_g4x6r hdr_end(host) vinnitsaok.5stars.link
-  use_backend backend_10_0_0_21 if url_g4x6r
-  acl url_a5rk9 hdr_end(host) dashboard.5stars.link
-  use_backend backend_10_0_0_50 if url_a5rk9
-  acl url_zuxr hdr_end(host) seasons.5stars.link
-  use_backend backend_10_0_0_53 if url_zuxr
-  acl url_gp66r hdr_end(host) 5starsmedia.com.ua
-  use_backend backend_10_0_0_1 if url_gp66r
-  acl url_ve7b9 hdr_end(host) putevoditel.in.ua
-  use_backend backend_10_0_0_64 if url_ve7b9
-  acl url_axlxr hdr_end(host) vinnitsaok.com.ua
-  use_backend backend_10_0_0_1 if url_axlxr
-  acl url_j8aor hdr_end(host) bugs.5stars.link
-  use_backend backend_10_0_0_61 if url_j8aor
-  acl url_lq5mi hdr_end(host) presspoint.in.ua
-  use_backend backend_10_0_0_11 if url_lq5mi
-  acl url_fgvi hdr_end(host) vibori2014.vn.ua
-  use_backend backend_10_0_0_1 if url_fgvi
-  acl url_b0529 hdr_end(host) lgz.5stars.link
-  use_backend backend_10_0_0_50 if url_b0529
-  acl url_rqkt9 hdr_end(host) broadway.vn.ua
-  use_backend backend_10_0_0_1 if url_rqkt9
-  acl url_2mx6r hdr_end(host) mixbox.in.ua
-  use_backend backend_10_0_0_1 if url_2mx6r
-  acl url_9pb9 hdr_end(host) news.vn.ua
-  use_backend backend_10_0_0_10 if url_9pb9
-  acl url_bpgb9 hdr_end(host) smov.vn.ua
-  use_backend backend_10_0_0_62 if url_bpgb9
-  acl url_ll3di hdr_end(host) bezprovodoff.com
-  use_backend backend_10_0_0_21 if url_ll3di
-  acl url_9 hdr_end(host) luxuryinterni.it
-  use_backend backend_10_0_0_63 if url_9
-  acl url_81tt9 hdr_end(host) webakcent.pro
-  use_backend backend_10_0_0_20 if url_81tt9
-  acl url_hm2t9 hdr_end(host) 5stars.link
-  use_backend backend_10_0_0_60 if url_hm2t9
+  acl url_rk9 hdr_end(host) test.news.vn.ua
+  use_backend backend_10_0_0_1 if url_rk9
+  acl url_p3nmi hdr_end(host) dashboard-full.5stars.link
+  use_backend backend_10_0_0_50 if url_p3nmi
+  acl url_pf1or hdr_end(host) vinnitsaok.5stars.link
+  use_backend backend_10_0_0_21 if url_pf1or
+  acl url_c9pb9 hdr_end(host) dashboard.5stars.link
+  use_backend backend_10_0_0_50 if url_c9pb9
+  acl url_b2o6r hdr_end(host) seasons.5stars.link
+  use_backend backend_10_0_0_53 if url_b2o6r
+  acl url_0qkt9 hdr_end(host) 5starsmedia.com.ua
+  use_backend backend_10_0_0_1 if url_0qkt9
+  acl url_kmx6r hdr_end(host) dev.webakcent.pro
+  use_backend backend_10_0_0_20 if url_kmx6r
+  acl url_vfgvi hdr_end(host) putevoditel.in.ua
+  use_backend backend_10_0_0_64 if url_vfgvi
+  acl url_layvi hdr_end(host) vinnitsaok.com.ua
+  use_backend backend_10_0_0_1 if url_layvi
+  acl url_njyvi hdr_end(host) bugs.5stars.link
+  use_backend backend_10_0_0_61 if url_njyvi
+  acl url_jemi hdr_end(host) presspoint.in.ua
+  use_backend backend_10_0_0_11 if url_jemi
+  acl url_p66r hdr_end(host) vibori2014.vn.ua
+  use_backend backend_10_0_0_1 if url_p66r
+  acl url_gb9 hdr_end(host) lgz.5stars.link
+  use_backend backend_10_0_0_50 if url_gb9
+  acl url_mcxr hdr_end(host) broadway.vn.ua
+  use_backend backend_10_0_0_1 if url_mcxr
+  acl url_rk9 hdr_end(host) mixbox.in.ua
+  use_backend backend_10_0_0_1 if url_rk9
+  acl url_vlsor hdr_end(host) news.vn.ua
+  use_backend backend_10_0_0_10 if url_vlsor
+  acl url_am7vi hdr_end(host) smov.vn.ua
+  use_backend backend_10_0_0_62 if url_am7vi
+  acl url_cg14i hdr_end(host) bezprovodoff.com
+  use_backend backend_10_0_0_21 if url_cg14i
+  acl url_rcnmi hdr_end(host) luxuryinterni.it
+  use_backend backend_10_0_0_63 if url_rcnmi
+  acl url_bt9 hdr_end(host) webakcent.pro
+  use_backend backend_10_0_0_20 if url_bt9
+  acl url_crf6r hdr_end(host) 5stars.link
+  use_backend backend_10_0_0_60 if url_crf6r
 
 backend backend_10_0_0_1
   mode http
@@ -95,6 +97,10 @@ backend backend_10_0_0_53
   mode http
   balance roundrobin
   server backend_10_0_0_53 10.0.0.53:80 check inter 2000
+backend backend_10_0_0_20
+  mode http
+  balance roundrobin
+  server backend_10_0_0_20 10.0.0.20:80 check inter 2000
 backend backend_10_0_0_64
   mode http
   balance roundrobin
@@ -119,10 +125,6 @@ backend backend_10_0_0_63
   mode http
   balance roundrobin
   server backend_10_0_0_63 10.0.0.63:80 check inter 2000
-backend backend_10_0_0_20
-  mode http
-  balance roundrobin
-  server backend_10_0_0_20 10.0.0.20:80 check inter 2000
 backend backend_10_0_0_60
   mode http
   balance roundrobin

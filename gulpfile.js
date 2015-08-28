@@ -15,7 +15,6 @@ var gulp = require('gulp'),
   rev = require('gulp-rev'),
   concat = require('gulp-concat'),
   less = require('gulp-less'),
-  imagemin = require('gulp-imagemin'),
   proxy = require('proxy-middleware'),
   copy = require('gulp-copy'),
   angularTranslate = require('gulp-angular-translate'),
@@ -109,9 +108,6 @@ gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'copyLocale', 'o
 
 gulp.task('optimizeImages', ['clean'], function () {
   return gulp.src(config.assetsDir + '**/*.{gif,jpg,png}')
-    .pipe(imagemin({
-      progressive: true
-    }))
     .pipe(gulp.dest(config.outputDir + 'assets'));
 });
 
@@ -172,11 +168,11 @@ gulp.task('concat', ['build-persistent', 'compileTemplates'], function() {
 gulp.task('usemin', ['build-persistent', 'concat'], function () {
   return gulp.src('./*.html')
     .pipe(usemin({
+      vendorscss: [minifyCss(), 'concat'],
       css: [minifyCss(), 'concat'],
-      css1: [minifyCss(), 'concat'],
       html: [minifyHtml({empty: true})],
-      js: [uglify()],
-      js1: [uglify(), rev()]
+      js: [uglify(), rev()],
+      vendorsjs: [uglify(), rev()]
     }))
     .pipe(gulp.dest('build/'));
 });
