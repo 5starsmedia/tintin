@@ -14,13 +14,26 @@ exports['db.products.insert'] = function (app, msg, cb) {
       }
       app.models.products.findById(data.product.variationProduct._id, next);
     }],
+
+    'category': ['product', function(next, data) {
+      if (!data.product.category) {
+        next();
+      }
+      app.models.productCategories.findById(data.product.category._id, next);
+    }],
+
     'removeVariation': ['product', 'variationProduct', function(next, data) {
       if (!data.variationProduct) {
         return next();
       }
       data.variationProduct.productVariations.push(data.product);
-      data.variationProduct.variationCount += 1;
+      data.variationProduct.variationCount = data.variationProduct.productVariations.length;
       data.variationProduct.save(next);
+    }],
+
+    'saveProduct': ['product', 'category', function(next, data) {
+      data.product.category = data.category;
+      data.product.save(next);
     }]
   }, cb);
 };
@@ -40,12 +53,23 @@ exports['db.products.update'] = function (app, msg, cb) {
       if (!data.variationProduct) {
         return next();
       }
-      data.variationProduct.productVariations = _.reject(data.variationProduct.productVariations, { _id: data.product._id });
+      data.variationProduct.productVariations = _.reject(data.variationProduct.productVariations, function(item) {
+        return item._id.toString() == data.product._id.toString();
+      });
       data.variationProduct.productVariations.push(data.product);
       data.variationProduct.variationCount = data.variationProduct.productVariations.length;
       data.variationProduct.save(next);
     }],
-    'saveProduct': ['product', 'variationProduct', function(next, data) {
+
+    'category': ['product', function(next, data) {
+      if (!data.product.category) {
+        next();
+      }
+      app.models.productCategories.findById(data.product.category._id, next);
+    }],
+
+    'saveProduct': ['product', 'category', 'variationProduct', function(next, data) {
+      data.product.category = data.category;
       data.product.isVariation = !!data.variationProduct;
       data.product.save(next);
     }]

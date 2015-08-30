@@ -1,6 +1,7 @@
 [
   { "domain": "webakcent.pro", "ip": "10.0.0.20" },
   { "domain": "dev.webakcent.pro", "ip": "10.0.0.20" },
+  { "domain": "esvit.name", "ip": "10.0.0.20" },
   { "domain": "putevoditel.in.ua", "ip": "10.0.0.64" },
   { "domain": "news.vn.ua", "ip": "10.0.0.10" },
   { "domain": "smov.vn.ua", "ip": "10.0.0.62" },

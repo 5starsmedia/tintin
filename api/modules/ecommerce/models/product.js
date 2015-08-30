@@ -57,6 +57,7 @@ var schema = new mongoose.Schema({
       }],
       fieldType: String,
       isFilled: Boolean,
+      isHidden: Boolean,
       ordinal: Number
     }
   ],

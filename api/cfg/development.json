@@ -104,6 +104,7 @@
     }
   },
   "broadcast": {
+    "enabled": true,
     "stomp": {
       "destination": "/topic/broadcast",
       "host": "localhost",

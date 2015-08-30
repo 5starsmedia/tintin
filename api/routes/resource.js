@@ -220,9 +220,8 @@ function processPost(model, fieldsObj, req, res, next) {
               _id: obj._id
             },
             function (err) {
-              if (err) {
-                return next(err);
-              }
+              if (err) { return next(err); }
+
               res.status(201).json({_id: obj._id, alias: obj.alias});
             });
         });

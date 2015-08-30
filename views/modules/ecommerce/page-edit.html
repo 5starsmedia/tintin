@@ -2,64 +2,25 @@
 
     <st-form model="item" state="error" submit="saveItem(item)">
 
-    <div style="height: 65px;z-index: 100" sticky sticky-class="sticky-element" body-class="sticky-enabled" class="normalheader transition animated fadeIn small-header">
-        <div class="hpanel" bz-loading-container="loading">
-            <div class="panel-body">
 
-                <div class="row">
-                    <div class="col-lg-9">
+        <st-header title="{{item._id ? 'Редактирование продукта' : 'Добавление продукта'}}">
 
-                        <a ui-sref="ecommerce.products" class="back-btn">
-                            <span class="pe-7s-angle-left"></span>
-                        </a>
+            <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+                {{'Save'|translate}}
+            </button>
+            <a ng-if="!item.isVariation" ui-sref="ecommerce.products" class="btn btn-default">
+                {{'Cancel'|translate}}
+            </a>
+            <a ng-if="item.isVariation" ui-sref="ecommerce.edit({id: item.variationProduct._id})" class="btn btn-default">
+                {{'Cancel'|translate}}
+            </a>
 
-                        <h2 class="font-light m-b-xs" ng-if="!item.variationProduct">
-                            <span ng-if="!item._id" style="line-height: 30px;">{{'Добавление продукта'|translate}}</span>
-                            <span ng-if="item._id">{{'Редактирование продукта'|translate}}</span>
-                        </h2>
+        </st-header>
 
-                        <h2 class="font-light m-b-xs" ng-if="item.variationProduct">
-                            <a ui-sref="ecommerce.edit({id: item.variationProduct._id})">
-                                {{item.variationProduct.title}}
-                            </a>
+        <div class="content" animate-panel effect="fadeIn" delay="0">
 
-                            >
+            <div ng-include="'views/modules/ecommerce/form-product.html'"></div>
 
-                            <span ng-if="!item._id" style="line-height: 30px;">{{'Добавление вариации продукта'|translate}}</span>
-                            <span ng-if="item._id">{{'Редактирование вариации продукта'|translate}}</span>
-                        </h2>
-
-                        <small ng-if="item._id">
-                            {{'Product created:'|translate}}
-                            {{item.createDate|date:'dd.MM.yyyy'}}
-                            {{'at'|translate}}
-                            {{item.createDate|date:'HH:mm'}}
-                        </small>
-
-                    </div>
-                    <div class="col-lg-3">
-
-                        <div class="form-actions">
-                            <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
-                                {{'Save'|translate}}
-                            </button>
-                            <a ng-if="!item.isVariation" ui-sref="ecommerce.products" class="btn btn-default">
-                                {{'Cancel'|translate}}
-                            </a>
-                            <a ng-if="item.isVariation" ui-sref="ecommerce.edit({id: item.variationProduct._id})" class="btn btn-default">
-                                {{'Cancel'|translate}}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
-
-    <div class="content" animate-panel effect="fadeIn" delay="0">
-
-        <div ng-include="'views/modules/ecommerce/form-product.html'"></div>
-
-    </div>
     </st-form>
 </div>

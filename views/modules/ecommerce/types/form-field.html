@@ -19,10 +19,10 @@
       <div class="col-xs-4">
 
 
-        <div class="form-group checkbox">
+        <div class="form-group">
 
           <label>
-            <input type="checkbox" ng-model="item.isRequired"/>
+            <input icheck type="checkbox" ng-model="item.isRequired"/>
             {{'Обязательное поле'|translate}}
           </label>
 
@@ -31,10 +31,10 @@
       <div class="col-xs-4">
 
 
-        <div class="form-group checkbox">
+        <div class="form-group">
 
           <label>
-            <input type="checkbox" ng-model="item.isFilter"/>
+            <input icheck type="checkbox" ng-model="item.isFilter"/>
             {{'Поле для фильтра'|translate}}
           </label>
 
@@ -42,11 +42,22 @@
       </div>
       <div class="col-xs-4">
 
-        <div class="form-group checkbox">
+        <div class="form-group">
 
           <label>
-            <input type="checkbox" ng-model="item.isPublished"/>
+            <input icheck type="checkbox" ng-model="item.isPublished"/>
             {{'Опубликовано'|translate}}
+          </label>
+
+        </div>
+      </div>
+      <div class="col-xs-4">
+
+        <div class="form-group">
+
+          <label>
+            <input icheck type="checkbox" ng-model="item.isHidden"/>
+            {{'Скрытое'|translate}}
           </label>
 
         </div>

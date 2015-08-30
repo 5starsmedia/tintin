@@ -62,6 +62,9 @@ function processGet(collectionName, opts, req, res, next) {
       }
     },
     'tree': ['root', function(next, data) {
+      if (!data.root) {
+        return next(null, []);
+      }
       data.root.getArrayTree({
         condition: buildQuery(req, {
           'site._id': req.site._id,
