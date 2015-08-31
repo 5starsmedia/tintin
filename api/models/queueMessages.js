@@ -10,7 +10,7 @@ var schema = new mongoose.Schema({
   lockDate: {type: Date},
   attemptsCount: {type: Number, required: true, default: 0}
 }, {
-  strict: true,
+  //strict: true,
   safe: true,
   collection: 'queueMessages',
   versionKey: false
