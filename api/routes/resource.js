@@ -204,6 +204,9 @@ function processPost(model, fieldsObj, req, res, next) {
             domain: req.site.domain
           };
         }
+        body = _.pick(body, function(item) {
+          return item !== null;
+        });
         var item = new model(body);
         item.save(function (err, obj) {
           if (err) {
@@ -237,9 +240,7 @@ function setAndUnsetQuery(query) {
       var value = query.$set[key];
       if (value === null) {
         delete query.$set[key];
-        if (!query.$unset) {
-          query.$unset = {};
-        }
+        query.$unset = query.$unset || {};
         query.$unset[key] = '';
       }
     }
@@ -272,7 +273,9 @@ function processPut(model, fieldsObj, req, res, next) {
               return next(err);
             }
             delete body._id;
-            data.resource.update(setAndUnsetQuery(_.extend(body, {'modifyDate': Date.now()})), next);
+            var fields = setAndUnsetQuery(_.extend(body, {'modifyDate': Date.now()}));
+            console.info(fields)
+            data.resource.update(fields, next);
           });
         }
       });

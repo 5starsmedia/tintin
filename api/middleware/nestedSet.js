@@ -63,7 +63,7 @@ function processGet(collectionName, opts, req, res, next) {
     },
     'tree': ['root', function(next, data) {
       if (!data.root) {
-        return next(null, []);
+        return next(new req.app.errors.NotFoundError('Not found'));
       }
       data.root.getArrayTree({
         condition: buildQuery(req, {

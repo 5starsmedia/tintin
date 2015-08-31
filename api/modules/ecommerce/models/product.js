@@ -22,17 +22,16 @@ var schema = new mongoose.Schema({
 
   removed: {type: Date},
 
+  isPublished: {type: Boolean, required: true, default: false},
 
-  isPublished: Boolean,
-
-  isLatest: Boolean,
-  isDiscount: Boolean,
-  isCanOrder: Boolean,
-  isHit: Boolean,
+  isLatest: {type: Boolean, required: true, default: false},
+  isDiscount: {type: Boolean, required: true, default: false},
+  isCanOrder: {type: Boolean, required: true, default: false},
+  isHit: {type: Boolean, required: true, default: false},
 
   isInStock: Boolean,
-  inStockCount: Number,
-  ordinal: Number,
+  inStockCount: {type: Number, required: true, default: 0},
+  ordinal: {type: Number, required: true, default: 0},
 
   price: {type: Number, required: true, default: 0},
 
