@@ -109,13 +109,13 @@ gulp.task('replace-base', ['usemin'], function(){
     .pipe(gulp.dest(config.outputDir));
 });
 
-gulp.task('replace-version', ['usemin'], function(){
+gulp.task('replace-version', ['build-persistent'], function(){
   gulp.src(config.outputDir + 'app.js')
     .pipe(replace('VERSION-dev', version))
     .pipe(gulp.dest(config.outputDir));
 });
 
-gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'copyLocale', 'optimizeImages', 'replace-version', 'replace-base', 'less'], function () {
+gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'copyLocale', 'optimizeImages', 'replace-base', 'less'], function () {
   process.exit(0);
 });
 
@@ -178,7 +178,7 @@ gulp.task('concat', ['build-persistent', 'compileTemplates'], function() {
     .pipe(gulp.dest(config.outputDir));
 });
 
-gulp.task('usemin', ['build-persistent', 'concat'], function () {
+gulp.task('usemin', ['build-persistent', 'replace-version', 'concat'], function () {
   return gulp.src('./*.html')
     .pipe(usemin({
       vendorscss: [minifyCss(), 'concat'],
