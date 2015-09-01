@@ -16,6 +16,14 @@ import IssuesEditCtrl from './controllers/IssuesEditCtrl.js';
 module.controller('IssuesListCtrl', IssuesListCtrl)
       .controller('IssuesEditCtrl', IssuesEditCtrl);
 
+import attachIssue from './directives/attachIssue.js';
+
+module.directive('attachIssue', attachIssue);
+
+import IssuesSrc from './services/IssuesSrc.js';
+
+module.service('IssuesSrc', IssuesSrc);
+
 // config
 module.config(function ($stateProvider, basePermissionsSetProvider) {
   $stateProvider

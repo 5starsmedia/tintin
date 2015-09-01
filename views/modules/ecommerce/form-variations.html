@@ -41,14 +41,8 @@
 
             <div class="btn-group">
 
-                <a href="" data-ng-click="product.isPublished = !product.isPublished; updateItem(item)">
-                    <span ng-if="!product.isPublished" title="{{'Unpublish'|translate}}">
-                        <i class="fa fa-lock"></i>
-                    </span>
-                    <span ng-if="product.isPublished" title="{{'Publish'|translate}}">
-                        <i class="fa fa-unlock"></i>
-                    </span>
-                </a>
+                <a href="" data-ng-click="product.isPublished = !product.isPublished; updateItem(product)">
+                    <span ng-if="!product.isPublished" title="{{'Unpublish'|translate}}"><i class="fa fa-lock"></i></span><span ng-if="product.isPublished" title="{{'Publish'|translate}}"><i class="fa fa-unlock"></i></span></a>
 
                 <a ui-sref="ecommerce.edit({id: product._id})" title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>
 

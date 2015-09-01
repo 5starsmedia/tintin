@@ -19,6 +19,7 @@ var schema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId
   },
   isPublished: {type: Boolean, required: true, default: true},
+  isSystem: {type: Boolean, required: true, default: false},
 
   isSpam: {type: Boolean, required: true, default: false},
   isAnonymous: {type: Boolean, required: true, default: false},
@@ -26,8 +27,6 @@ var schema = new mongoose.Schema({
   resourceId: {type: mongoose.Schema.Types.ObjectId, required: true},
   text: String,
   likesCount: {type: Number, required: true, default: 0},
-  contributionPoints: {type: Number, required: true, default: 0},
-  isContributionEnabled: {type: Boolean, required: true, default: true},
   indent: {type: Number, required: true, default: 0},
   cid: {type: String, required: true},
   parentComment: {

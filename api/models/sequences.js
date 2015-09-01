@@ -11,7 +11,7 @@ var schema = new mongoose.Schema({
 }, {
   versionKey: false,
   collection: 'sequences',
-  strict: true,
+  //strict: true,
   safe: true
 });
 

@@ -61,6 +61,7 @@ export default
         'onLeaveWarning': '=',
         'modelState': '=state',
         'model': '=',
+        'editForm': '=name',
         'submit': '&',
         'autoSave': '&',
         'autoSaveMode': '@',

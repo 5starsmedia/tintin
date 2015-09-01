@@ -1,5 +1,9 @@
-<div>
+<div ng-switch="resource.collectionName">
 
-  {{resource}}
+  <div ng-switch-case="keywordGroups">
+    {{'Keyword group'|translate}}:
+
+    <a href="" specification-preview-link="resource">{{resource.title}}</a>
+  </div>
 
 </div>

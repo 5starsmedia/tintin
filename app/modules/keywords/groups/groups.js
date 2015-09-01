@@ -26,8 +26,10 @@ module.controller('KeywordsGroupsCtrl', KeywordsGroupsCtrl)
 
 
 import keywordsStatus from './directives/keywordsStatus.js';
+import specificationPreviewLink from './directives/specificationPreviewLink.js';
 
 module.directive('keywordsStatus', keywordsStatus);
+module.directive('specificationPreviewLink', specificationPreviewLink);
 
 // config
 module.config(function ($stateProvider) {

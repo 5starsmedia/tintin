@@ -251,11 +251,15 @@ exports.start = function (cb) {
       _.partial(app.services.data.loadResources, app),
       _.partial(app.services.modifiers.loadPlugins, app),
       _.partial(app.services.validation.loadValidators, app),
-      _.partial(app.services.hooks.loadPlugins, app),
-      app.services.broadcast.init.bind(app.services.broadcast),
-      app.services.tasks.init.bind(app.services.tasks),
-      app.services.states.init.bind(app.services.states)
+      _.partial(app.services.hooks.loadPlugins, app)
     ]),
+    _.partial(async.parallel,
+      [
+        app.services.broadcast.init.bind(app.services.broadcast),
+        app.services.tasks.init.bind(app.services.tasks),
+        app.services.states.init.bind(app.services.states)
+      ]
+    ),
     function (next) {
       app.log.debug('Connecting to mongodb...');
       mongoose.connect(config.get('mongodb'), next);
@@ -297,7 +301,8 @@ exports.start = function (cb) {
           moduleObj.initServer();
         }
       });
-    },
+      next();
+    }
     //_.bind(app.services.tasks.start, app.services.tasks, {}),
     //_.bind(app.services.states.start, app.services.states, {})
   ], function (err) {

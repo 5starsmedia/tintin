@@ -208,7 +208,8 @@ DnsModule.prototype.onDnsRequest = function (request, response) {
     return response.send();
   }
   var info = psl.parse(tldname),
-    domain = info.domain;
+    domain = info.domain,
+    subdomain = info.subdomain;
   if (info.tld == 'localhost') {
     domain = info.tld;
   }

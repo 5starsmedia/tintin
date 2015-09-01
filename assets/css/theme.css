@@ -5421,6 +5421,11 @@ body.constructor #wrapper {
 .list-group.sortable .list-group-item.with-input .drag-handle {
   left: 3px;
 }
+.b-issue {
+  border: 1px solid #eee;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
 .navbar.navbar-main {
   border-radius: 0;
   overflow: visible !important;

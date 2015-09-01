@@ -37,7 +37,7 @@ class EcommerceEditTypeCtrl {
         },
         fieldData: [],
         fieldType: 'checkbox',
-        ordinal: 0
+        ordinal: $scope.fields.length
       });
 
       var modalInstance = $modal.open({

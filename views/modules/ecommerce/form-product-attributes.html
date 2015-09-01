@@ -17,9 +17,12 @@
         <h3 ng-if="field.fieldType == 'separator'">{{field.title}}</h3>
 
         <div ng-if="field.fieldType != 'separator'">
-            <div class="control-label checkbox">
+            <div class="control-label">
+                <a class="pull-right" href="" ng-click="editField(originalFields[field._id])">
+                    <i class="fa fa-pencil"></i></a>
+
                 <label>
-                    <input type="checkbox" ng-model="field.isFilled"/>
+                    <input icheck type="checkbox" ng-model="field.isFilled"/>
                     {{field.title}}
                     <span class="star" ng-if="field.isRequired">*</span>
                 </label>

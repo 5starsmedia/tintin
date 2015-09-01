@@ -1,0 +1,65 @@
+<st-form model="item" state="error" submit="saveItem(item)">
+  <div class="color-line"></div>
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{{'Add issue'|translate}}</h4>
+  </div>
+  <div class="modal-body" bz-loading-container="loading">
+
+    <st-form-element label="{{'Coordinator'|translate}}" field="title" ng-if="!item.systemType">
+
+      <select class="form-control" name="coordinator" ng-model="item.issueType" required ng-disabled="item._id"
+              ng-options="type as type.title for type in types track by type._id"></select>
+
+    </st-form-element>
+
+    <st-form-element label="{{'Title'|translate}}" field="title">
+
+      <input id="title" class="form-control" name="title" type="text" required
+             ng-model="item.title"/>
+
+    </st-form-element>
+
+    <st-form-element label="{{'Status'|translate}}" field="title">
+
+      <select class="form-control" name="status" ng-model="item.status" required ng-disabled="!item.issueType"
+              ng-options="status as status.title for status in statuses track by status.title"></select>
+
+    </st-form-element>
+
+    <st-form-element label="{{'Assigned'|translate}}" field="title">
+
+      <users-select-box account="item.assignAccount"></users-select-box>
+
+    </st-form-element>
+
+    <!--st-form-element label="{{'Body'|translate}}" field="body">
+      <div editor-select-images="item.files" collection-name="issues" item-id="{{item._id}}">
+          <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
+                    ng-model="item.body"></textarea>
+
+      </div>
+    </st-form-element-->
+
+
+    <st-panel title="{{'Attachments'|translate}}" ng-if="!item.systemType">
+
+      <div issue-attachment="item.attachments"></div>
+
+    </st-panel>
+
+
+  </div>
+  <div class="modal-footer">
+    <!--div class="pull-left">
+        <button type="submit" class="btn btn-danger" ng-click="saveItem()" ng-disabled="edit.$invalid">
+            {{'Удалить'|translate}}
+        </button>
+    </div-->
+    <button type="submit" class="btn btn-primary" ng-disabled="edit.$invalid">
+      {{'Save'|translate}}
+    </button>
+    <button type="button" class="btn btn-default" ng-click="$dismiss()" data-dismiss="modal">{{'Cancel'|translate}}
+    </button>
+  </div>
+</st-form>

@@ -54,7 +54,8 @@ export default
             collectionName: $scope.collectionName,
             account: $scope.account,
             text: $scope.comment.text,
-            isAnonymous: $scope.isAnonymous
+            isAnonymous: $scope.isAnonymous,
+            isSystem: true
           };
           var tempCid = CommentsCommentModel.getNexCid();
           if ($scope.hasParent) {

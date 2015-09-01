@@ -1,6 +1,6 @@
 <div>
 
-  <st-form model="group" state="error" submit="saveItem(group)">
+  <st-form name="editForm" model="group" state="error" submit="saveItem(group)">
 
 
     <st-header title="{{group._id ? group.title : 'New group'}}">
@@ -20,7 +20,7 @@
           {{'Back'|translate}}
         </button>
 
-        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep()"
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="nextStep('complete')"
                 class="btn btn-primary">
           {{'Create specification'|translate}}
         </button>
@@ -49,7 +49,7 @@
         </button>
       </div>
 
-      <button ng-disabled="loading" ng-if="!group._id" ng-class="{'m-progress': loading}"
+      <button ng-disabled="loading || editForm.$invalid" ng-if="!group._id" ng-class="{'m-progress': loading}"
               class="btn btn-primary btn-outline"
               type="submit">
         {{'Create'|translate}}
@@ -261,12 +261,7 @@
       </div>
 
 
-      <st-panel title="{{'Comments'|translate}}">
-
-        <div comments-box collection-name="keywordGroups" place-holder="Комментарий..."
-             resource-id="{{group._id}}"></div>
-
-      </st-panel>
+      <div ng-if="group._id" attach-issue="group.issue" attachment="group" attachment-name="keywordGroups"></div>
 
     </div>
 

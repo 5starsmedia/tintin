@@ -62,6 +62,9 @@ function processGet(collectionName, opts, req, res, next) {
       }
     },
     'tree': ['root', function(next, data) {
+      if (!data.root) {
+        return next(new req.app.errors.NotFoundError('Not found'));
+      }
       data.root.getArrayTree({
         condition: buildQuery(req, {
           'site._id': req.site._id,
@@ -117,12 +120,15 @@ function processPost(collectionName, opts, req, res, next) {
 
       next(undefined, data.childrens.length + 1)
     }],
-    'insertChildren': ['position', function(next, data) {
+    'insertChildren': ['parent', 'position', function(next, data) {
       delete req.body._id;
-      var node = new req.app.models[collectionName](req.body);
+      var node = new req.app.models[collectionName]({
+        site: req.site
+      });
       node._w = data.position;
       node.parentId = data.parent._id;
-      node.title = req.body.title || 'New node';
+      node.postType = data.parent.postType;
+      node.title = 'New node';
 
       if (req.app.models[collectionName].schema.paths['site._id']) {
         node.site = {

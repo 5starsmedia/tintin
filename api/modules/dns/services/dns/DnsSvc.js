@@ -7,10 +7,6 @@ function DnsSvc(app) {
 }
 
 DnsSvc.prototype.queryRecord = function (name, type, next) {
-  console.info({
-    'domain.name': name.toLowerCase(),
-    type: type
-  })
   this.app.models.dnsRecords.find({
     'domain.name': name.toLowerCase(),
     type: type

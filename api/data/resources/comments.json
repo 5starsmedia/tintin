@@ -19,7 +19,7 @@
     "realAccount":false,
     "*": {
       "get": "*",
-      "get?isSpam": "*",
+      "get?isSpam&isSystem": "*",
       "get?isPublished": "*",
       "get?isPublished&collectionName&resourceId": "*",
       "get?isPublished&isSpam&collectionName&resourceId": "*",

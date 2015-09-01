@@ -1,9 +1,9 @@
 {
-  "mongodb": "mongodb://127.0.0.1:27017/5stars?auto_reconnect=true",
+  "mongodb": "mongodb://admin5stars:5stars@db1.5stars.link:27001,db2.5stars.link:27002,db3.5stars.link:27003/5stars?replicaSet=production&auto_reconnect=true",
   "http": {
     "port": 8080
   },
-  "url": "http://127.0.0.1:8080",
+  "url": "http://localhost:8080",
   "modules": [
     "dns",
     "posts",
@@ -37,7 +37,7 @@
     }
   },
   "dns": {
-    "ip": "127.0.0.1",
+    "ip": "localhost",
     "port": 15353,
     "default-ttl": 3600,
     "enable-tcp": true,
@@ -80,14 +80,14 @@
     "clientSecret": ""
   },
   "statd": {
-    "host": "127.0.0.1",
+    "host": "localhost",
     "port": "8125"
   },
   "tasks": {
     "enabled": true,
     "stomp": {
       "destination": "/queue/tasks",
-      "host": "127.0.0.1",
+      "host": "localhost",
       "port": 61613,
       "login": "root",
       "password": "123456"
@@ -97,16 +97,17 @@
     "enabled": true,
     "stomp": {
       "destination": "/queue/states",
-      "host": "127.0.0.1",
+      "host": "localhost",
       "port": 61613,
       "login": "root",
       "password": "123456"
     }
   },
   "broadcast": {
+    "enabled": true,
     "stomp": {
       "destination": "/topic/broadcast",
-      "host": "127.0.0.1",
+      "host": "localhost",
       "port": 61613,
       "login": "root",
       "password": "123456"

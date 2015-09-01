@@ -25,6 +25,7 @@ var schema = new mongoose.Schema({
   isRequired: Boolean,
   isFilter: Boolean,
   isPublished: Boolean,
+  isHidden: Boolean,
 
   productType: {
     _id: mongoose.Schema.Types.ObjectId,
