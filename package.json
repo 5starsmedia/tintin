@@ -46,5 +46,8 @@
       "withCompare": true,
       "withGenerator": true
     }
+  },
+  "dependencies": {
+    "git-rev": "^0.2.1"
   }
 }

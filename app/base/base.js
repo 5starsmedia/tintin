@@ -44,6 +44,7 @@ angular.module(appName, [
 ])
   .constant('IO_URL', location.origin == 'http://localhost:3000' ? 'http://localhost:8080/' : location.origin + '/')
   .constant('appTitle', 'Paphos CMS')
+  .constant('appVersion', 'VERSION-dev')
   .constant('appSite', '5starsmedia.com.ua')
   .constant('appSiteLink', 'https://5starsmedia.com.ua/')
   .constant('BaseAPIParams', BaseAPIParams)
@@ -53,7 +54,9 @@ angular.module(appName, [
   .config(config)
 
   // redirect on 404 where no route
-  .run(function($rootScope, $state, $http) {
+  .run(function($rootScope, $state, $http, appVersion) {
+    $rootScope.appVersion = appVersion;
+
     $rootScope.$state = $state;
     $rootScope.$on('$stateChangeError', function(event) {
       $state.go('cabinet.404');
