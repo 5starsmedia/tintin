@@ -26,6 +26,7 @@ var gulp = require('gulp'),
   extractTranslate = require('gulp-angular-translate-extractor'),
   url = require('url'),
   fs = require('fs'),
+  git = require('git-rev'),
   urlRewrite = function (rootDir, indexFile) {
     indexFile = indexFile || "index.html";
     return function (req, res, next) {
@@ -64,7 +65,13 @@ var config = {
   localeDir: './locale/',
   outputFile: 'app.js',
   views: './views/**/*.html'
-};
+}, version = '';
+
+git.short(function (short) {
+  git.branch(function (branch) {
+    version = branch + '@' + short;
+  });
+});
 
 // clean the output directory
 gulp.task('clean', function (cb) {
@@ -102,7 +109,13 @@ gulp.task('replace-base', ['usemin'], function(){
     .pipe(gulp.dest(config.outputDir));
 });
 
-gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'copyLocale', 'optimizeImages', 'replace-base', 'less'], function () {
+gulp.task('replace-version', ['usemin'], function(){
+  gulp.src(config.outputDir + 'app.js')
+    .pipe(replace('VERSION-dev', version))
+    .pipe(gulp.dest(config.outputDir));
+});
+
+gulp.task('build', ['build-persistent', 'usemin', 'copyAssets', 'copyLocale', 'optimizeImages', 'replace-version', 'replace-base', 'less'], function () {
   process.exit(0);
 });
 
