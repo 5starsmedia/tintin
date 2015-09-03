@@ -17,6 +17,10 @@
                 <div class="list-group">
 
                     <div class="list-group-item" ng-repeat="item in menus">
+                        <label>
+                            <input type="radio" icheck name="mainmenu" ng-model="mainMenu._id" value="{{item._id}}">
+                        </label>
+
                         <a ui-sref="menu.menus.edit({id: item._id})">
                             {{item.title}}
                         </a>

@@ -38,6 +38,7 @@ import csFilesList from './directives/stFileUpload/csFilesList.js';
 import csSingleFileUpload from './directives/stFileUpload/csSingleFileUpload.js';
 
 import stSyncScroll from './directives/stSyncScroll/stSyncScroll.js';
+import stUrlInput from './directives/stUrlInput/stUrlInput.js';
 
 module.directive('stAvatar', stAvatar);
 
@@ -54,6 +55,7 @@ module.directive('csFilesList', csFilesList);
 module.directive('stTreeSelect', stTreeSelect);
 module.directive('csSingleFileUpload', csSingleFileUpload);
 module.directive('stSyncScroll', stSyncScroll);
+module.directive('stUrlInput', stUrlInput);
 module.directive('uiSelectSearch', () => {
   return {
     restrict: 'C',
