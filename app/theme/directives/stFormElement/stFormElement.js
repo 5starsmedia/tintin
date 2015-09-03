@@ -12,12 +12,22 @@ export default
       },
       templateUrl: 'app/theme/directives/stFormElement/stFormElement.html',
       link: function (scope, element, attrs, stForm) {
-        var getModelState = stForm.getModelState;
+        var getModelState = stForm.getModelState,
+          getFormState = stForm.getFormState;
+
         scope.fieldErrors = function (field) {
+          let formState = getFormState();
+          if (formState[field]) {
+            return formState[field].$error;
+          }
           return _.filter(getModelState().fieldErrors, {field: field});
         };
         scope.hasErrors = function (field) {
-          var modelState = getModelState();
+          var modelState = getModelState(),
+            formState = getFormState();
+          if (formState[field]) {
+            return formState[field].$invalid;
+          }
           return modelState && modelState.hasErrors && modelState.fieldErrors && modelState.fieldErrors.length > 0 &&
           _.filter(modelState.fieldErrors, {field: field}).length > 0;
         };

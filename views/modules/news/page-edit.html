@@ -43,7 +43,7 @@
 
                 <st-form-element label="{{'Alias'|translate}}" field="alias" ng-if="post.postType != 'news'">
 
-                  <input class="form-control" name="alias" type="text" ng-model="post.alias"/>
+                  <st-url-input ng-model="post.alias" name="alias" prefix="/{category}/"></st-url-input>
 
                 </st-form-element>
 

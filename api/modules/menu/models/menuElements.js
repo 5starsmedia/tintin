@@ -14,6 +14,7 @@ var schema = new mongoose.Schema({
   removed: {type: Date},
 
   isPublished: Boolean,
+  isMainMenu: {type: Boolean, required: true, default: false},
 
   site: {
     _id: mongoose.Schema.Types.ObjectId,

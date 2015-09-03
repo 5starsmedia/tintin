@@ -23,8 +23,11 @@
                                 <a class="name" ui-sref="profile.user.info({username: item.username})">
                                     <st-avatar width="120" height="120" account="item"></st-avatar>
 
-                                    {{item.profile.lastName}}
-                                    <span class="secondary">{{item.profile.firstName}}</span>
+                                    {{item.username}}
+                                    <span><br/>
+                                        {{item.profile.lastName}}
+                                        <span class="secondary">{{item.profile.firstName}}</span>
+                                    </span>
                                 </a>
                             </td>
                             <td width="150" data-title="'Roles'|translate" sortable="'roles'">

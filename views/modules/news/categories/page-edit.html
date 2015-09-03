@@ -16,9 +16,9 @@
 
             </st-form-element>
 
-            <st-form-element label="{{'URL'|translate}}" field="title">
+            <st-form-element label="{{'URL'|translate}}" field="alias">
 
-                <input class="form-control" name="alias" type="text" required ng-model="item.alias"/>
+                <st-url-input ng-model="item.alias" name="alias"></st-url-input>
 
             </st-form-element>
 

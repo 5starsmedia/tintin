@@ -20,6 +20,9 @@ class stFormController {
     this.getModelState = function () {
       return $scope.modelState;
     };
+    this.getFormState = function () {
+      return $scope.editForm;
+    };
     this.getModel = function (field) {
       if (field.length === 0) {
         return $scope.model;

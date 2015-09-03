@@ -1,6 +1,7 @@
 'use strict';
 
 var async = require('async'),
+     moment = require('moment'),
      _ = require('lodash');
 
 function createRecord(app, domain, type, host, priority, content, next) {
