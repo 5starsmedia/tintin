@@ -14,11 +14,15 @@ var path = require('path'),
   router = express.Router(),
   tmp = require('tmp'),
   imageSize = require('image-size'),
-  gm = require('gm');
-
+  gm = require('gm'),
+  Grid = require('gridfs-stream');
+/*
 function getBuffer(req, file, cb) {
-  mongoose.mongo.GridStore.read(mongoose.connection.db, new mongoose.Types.ObjectId(file.storageId), cb);
-}
+  var gfs = Grid(mongoose.connection.db, mongoose.mongo);
+
+
+  mongoose.mongo.GridStore.read(mongoose.connection.db, file.storageId, 'w', cb);
+}*/
 
 function watermark(req, buf, cb) {
   tmp.file({postfix: '.jpg'}, function (err, srcPath, srcFd, cleanSrcTmp) {
@@ -136,16 +140,38 @@ router.get('/:_id', function (req, res, next) {
     if (!file) {
       return next(new req.app.errors.NotFoundError(util.format('File with _id "%s" not found.', req.params._id)));
     }
+    var gridStore = new mongoose.mongo.GridStore(mongoose.connection.db, mongoose.Types.ObjectId(file.storageId), "r");
+    gridStore.open(function(err, gridStore) {
+      if (err) { return next(err); }
+
+      res.setHeader('content-type', file.contentType);
+      req.app.models.files.update({_id: req.params._id}, {$inc: {viewsCount: 1}}, function (err) {
+        if (err) { return req.log.error(err);}
+      });
+
+      gridStore.read(function(err, buf) {
+        if (err) { return next(err); }
+
+        if (req.query.width || req.query.height) {
+          resize(req, buf, req.query.width, req.query.height, file.contentType, function (err, resBuf) {
+            if (err) {
+              return next(err);
+            }
+            res.send(resBuf);
+          });
+        } else {
+          res.send(buf);
+        }
+      });
+    });
+/*
     getBuffer(req, file, function (err, buf) {
-      if (err) {
-        return next(err);
-      }
+      console.info(err)
+      if (err) { return next(err); }
       res.setHeader('content-type', file.contentType);
       //res.attachment(file.originalName);
       req.app.models.files.update({_id: req.params._id}, {$inc: {viewsCount: 1}}, function (err) {
-        if (err) {
-          return req.log.error(err);
-        }
+        if (err) { return req.log.error(err);}
       });
       if (req.query.width || req.query.height) {
         resize(req, buf, req.query.width, req.query.height, file.contentType, function (err, resBuf) {
@@ -157,7 +183,7 @@ router.get('/:_id', function (req, res, next) {
       } else {
         res.send(buf);
       }
-    });
+    });*/
   });
 });
 

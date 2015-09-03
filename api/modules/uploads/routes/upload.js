@@ -16,7 +16,7 @@ var mime = require('mime');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 var router = express.Router();
-var Grid = mongoose.mongo.Grid;
+var Grid = require('gridfs-stream');
 
 var uploadsFolder = path.resolve(__dirname, '..', '..', 'uploads');
 
@@ -142,20 +142,31 @@ var toGridFSqueue = async.queue(function toGridFS(task, cb) {
       }
     }],
     toGridFS: ['resultBuffer', 'resultDimensions', function (next, data) {
-      var grid = new Grid(mongoose.connection.db, 'fs');
-      grid.put(data.resultBuffer, {
-        'content_type': mime.lookup(file.originalName),
-        'filename': file.originalName,
-        'metadata': {width: data.resultDimensions.width, height: data.resultDimensions.height},
-        'account': {_id: file.account._id, title: file.account.title}
-      }, function (err, res) {
-        if (err) { return next(err); }
-        req.log.info('File uploaded');
+      var gfs = Grid(mongoose.connection.db, mongoose.mongo);
+
+      var options = {
+        _id: mongoose.Types.ObjectId(),
+        filename: file.originalName,
+        mode: 'w',
+        content_type: mime.lookup(file.originalName),
+        metadata: {
+          width: data.resultDimensions.width,
+          height: data.resultDimensions.height,
+          'account': {
+            _id: file.account._id,
+            title: file.account.title
+          }
+        }
+      };
+      var writeStream = gfs.createWriteStream(options);
+
+      writeStream.on('finish', function() {
+        req.log.info('File uploaded', options._id);
         var setExpr = {
           width: data.resultDimensions.width,
           height: data.resultDimensions.height,
           storage: 'gridfs',
-          storageId: res._id.toString(),
+          storageId: options._id.toString(),
           isTemp: task.isTemp
         };
         if (!task.isTemp) {
@@ -166,6 +177,17 @@ var toGridFSqueue = async.queue(function toGridFS(task, cb) {
           $set: setExpr
         }, next);
       });
+      writeStream.write(data.resultBuffer);
+      writeStream.end();
+
+      /*grid.put(data.resultBuffer, {
+        'content_type': mime.lookup(file.originalName),
+        'filename': file.originalName,
+        'metadata': {width: data.resultDimensions.width, height: data.resultDimensions.height},
+        'account': {_id: file.account._id, title: file.account.title}
+      }, function (err, res) {
+        if (err) { return next(err); }
+      });*/
     }],
     updateRefs: ['toGridFS', function (next) {
       updateRefs(req, file, task.collectionName, task.resourceId, next);
@@ -246,6 +268,7 @@ function post(req, cb) {
       }
     }, {upsert: true, new: true}, function (err, file) {
       if (err) {return cb(err); }
+      file = file.value;
 
       fs.readFile(files[fileParameterName].path, function (err, data) {
         if (err) {return cb(err); }
@@ -259,6 +282,7 @@ function post(req, cb) {
             file: {_id: file._id, title: file.title}
           }, function (err) {
             if (err) {return cb(err); }
+
             req.app.models.files.findByIdAndUpdate(file._id, {$inc: {uploadedChunks: 1}}, function (err, newFile) {
               if (err) {return cb(err); }
 
