@@ -47,7 +47,7 @@ module.config(function ($stateProvider) {
         hideTitle: true
       },
       resolve: {
-        group: function($stateParams, KeywordsGroupModel) {
+        group: /*@ngInject*/ ($stateParams, KeywordsGroupModel) => {
           return KeywordsGroupModel.get({ _id: $stateParams.id }).$promise;
         }
       }
