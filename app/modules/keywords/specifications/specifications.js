@@ -10,7 +10,6 @@ let module = angular.module(appName, [
   'ui.select',
   'ngSanitize',
   'sticky',
-  'datePicker',
   models
 ]);
 
