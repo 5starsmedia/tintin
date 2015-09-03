@@ -274,6 +274,7 @@ function processPut(model, fieldsObj, req, res, next) {
             }
             delete body._id;
             var fields = setAndUnsetQuery(_.extend(body, {'modifyDate': Date.now()}));
+            
             data.resource.update(fields, next);
           });
         }

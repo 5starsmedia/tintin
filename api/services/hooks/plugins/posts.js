@@ -45,12 +45,13 @@ exports['post.posts'] = function (req, data, cb) {
 exports['put.posts'] = function (req, data, cb) {
   async.auto({
     'post': function(next) {
-      req.app.models.posts.findById(data._id, 'title body alias publishDate', next);
+      req.app.models.posts.findById(data._id, next);
     },
     'category': ['post', function(next) {
       req.app.models.categories.findById(data['category._id'], 'title alias parentAlias', next);
     }],
     'account': ['post', function(next, data) {
+      console.info(data.post)
       if (!data.post.account) {
         data.post.account = req.auth.account;
       }
