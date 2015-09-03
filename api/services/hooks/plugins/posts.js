@@ -50,12 +50,11 @@ exports['put.posts'] = function (req, data, cb) {
     'category': ['post', function(next) {
       req.app.models.categories.findById(data['category._id'], 'title alias parentAlias', next);
     }],
-    'account': ['post', function(next, data) {
-      console.info(data.post)
-      if (!data.post.account) {
-        data.post.account = req.auth.account;
+    'account': ['post', function(next, res) {
+      if (!res.post.account) {
+        res.post.account = req.auth.account;
       }
-      req.app.models.accounts.findById(data.post.account._id, 'title coverFile imageUrl', next);
+      req.app.models.accounts.findById(data['account._id'] || res.post.account._id, 'title coverFile imageUrl', next);
     }],
     /*'clearHtml' : ['post', function(next, res) {
       req.app.services.html.clearHtml(data.body, function (err, text) {

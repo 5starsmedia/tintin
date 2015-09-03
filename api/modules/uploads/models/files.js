@@ -21,8 +21,8 @@ var schema = new mongoose.Schema({
   isImage: {type: Boolean, required: true, default: false},
   storage: String,
   storageId: String,
-  uploadedChunks: Number,
-  totalChunks: Number,
+  uploadedChunks: {type: Number, required: true, default: 1},
+  totalChunks: {type: Number, required: true, default: 1},
   collectionName: {type: String},
   resourceId: {type: mongoose.Schema.Types.ObjectId},
   refs: [
