@@ -1,18 +1,10 @@
-var git = require('git-rev');
-
 exports.init = function (app) {
 
   var access = require('../middleware/access.js'),
     resourceRoute = require('./resource.js');
 
   app.server.get('/api', function(req, res, next){
-    git.short(function (short) {
-      git.branch(function (branch) {
-        var version = branch + '@' + short;
-
-        res.json({ version: version })
-      });
-    });
+    res.json({ success: true });
   });
 
   app.server.get('/api/:resource', access(), resourceRoute);
