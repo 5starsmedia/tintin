@@ -66,3 +66,11 @@ db.createUser(
 )
 
 scp -P22120 -r root@5stars.link:/var/www/tintin/sites /var/www/tintin/sites_2
+
+
+## Tests
+
+npm install mocha -g
+
+cd test
+mocha server.js
