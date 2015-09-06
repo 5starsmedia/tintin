@@ -15,7 +15,7 @@ class WikiEditPageCtrl {
           message: $filter('translate')('Wiki page saved!'),
           classes: 'alert-success'
         });
-        $state.go('^.editPage', { alias: data.alias });
+        $state.go('^.pages', { alias: data.alias });
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;

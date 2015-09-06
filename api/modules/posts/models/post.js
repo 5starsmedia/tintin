@@ -2,7 +2,8 @@
 
 var mongoose = require('mongoose'),
   autoIncrement = require("../../../models/plugin/autoincrement.js"),
-  createdBy = require("../../../models/plugin/createdBy.js");
+  createdBy = require("../../../models/plugin/createdBy.js"),
+  mongooseHistory = require('historical');
 
 var schema = new mongoose.Schema({
   id: Number,
@@ -136,5 +137,6 @@ var schema = new mongoose.Schema({
 schema.index({createDate: 1});
 
 schema.plugin(createdBy);
+schema.plugin(mongooseHistory, { mongoose: mongoose });
 
 module.exports = mongoose.model('Post', schema);

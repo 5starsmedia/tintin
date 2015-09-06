@@ -50,6 +50,10 @@
     "default-ip": ["46.4.48.144"],
     "version": "Paphos CMS"
   },
+  "webdav": {
+    "ip": "localhost",
+    "port": 8081
+  },
   "notifications": {
     "mailingDelay": 30
   },

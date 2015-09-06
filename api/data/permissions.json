@@ -62,5 +62,9 @@
   {
     "name": "voting",
     "title": "Polls"
+  },
+  {
+    "name": "wiki",
+    "title": "Wiki"
   }
 ]

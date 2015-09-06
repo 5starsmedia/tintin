@@ -233,6 +233,7 @@ function processPost(model, fieldsObj, req, res, next) {
   });
 }
 
+// old
 function setAndUnsetQuery(query) {
   query = {$set: query};
   for (var key in query.$set) {
@@ -242,6 +243,26 @@ function setAndUnsetQuery(query) {
         delete query.$set[key];
         query.$unset = query.$unset || {};
         query.$unset[key] = '';
+      }
+    }
+  }
+  return query;
+}
+// new
+function setAndUnsetQuery2(model, query) {
+  query = {$set: query};
+  for (var key in query.$set) {
+    if (query.$set.hasOwnProperty(key)) {
+      var value = query.$set[key];
+      if (value === null) {
+        delete query.$set[key];
+        query.$unset = query.$unset || {};
+        query.$unset[key] = '';
+        //delete model[key];
+        _.set(model, key, null);
+      } else {
+        _.set(model, key, value);
+        //model[key] = value;
       }
     }
   }
@@ -273,9 +294,11 @@ function processPut(model, fieldsObj, req, res, next) {
               return next(err);
             }
             delete body._id;
-            var fields = setAndUnsetQuery(_.extend(body, {'modifyDate': Date.now()}));
+            //var fields = setAndUnsetQuery(_.extend(body, {'modifyDate': Date.now()}));
+            var fields = setAndUnsetQuery2(data.resource, _.extend(body, {'modifyDate': Date.now()}));
 
-            data.resource.update(fields, next);
+            //data.resource.update(fields, next);
+            data.resource.save(next);
           });
         }
       });

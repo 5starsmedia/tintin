@@ -198,5 +198,10 @@
         "permissions": ["voting"]
       }
     ]
+  },
+  {
+    "sref": "wiki.home",
+    "title": "Wiki",
+    "permissions": ["wiki"]
   }
 ]

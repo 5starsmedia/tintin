@@ -286,7 +286,7 @@ function post(req, cb) {
             req.app.models.files.findByIdAndUpdate(file._id, {$inc: {uploadedChunks: 1}}, function (err, newFile) {
               if (err) {return cb(err); }
 
-              if (newFile.uploadedChunks === newFile.totalChunks) {
+              if (newFile.uploadedChunks === newFile.totalChunks - 1) {
                 async.parallel([
                   _.bind(toGridFSqueue.push, toGridFSqueue, {
                     req: req,
