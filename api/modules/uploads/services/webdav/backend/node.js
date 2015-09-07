@@ -45,30 +45,5 @@ var jsDAV_Mongo_Node = module.exports = jsDAV_iNode.extend({
             self.path = newPath;
             cbfssetname();
         });
-    },
-
-    /**
-     * Returns the last modification time, as a unix timestamp
-     *
-     * @return {Number}
-     */
-    getLastModified: function(cbfsgetlm) {
-        if (this.$stat)
-            return cbfsgetlm(null, this.$stat.mtime);
-        Fs.stat(this.path, function(err, stat) {
-            if (err || typeof stat == "undefined")
-                return cbfsgetlm(err);
-            //_self.$stat = stat;
-            cbfsgetlm(null, stat.mtime);
-        });
-    },
-
-    /**
-     * Returns whether a node exists or not
-     *
-     * @return {Boolean}
-     */
-    exists: function(cbfsexist) {
-        Fs.exists(this.path, cbfsexist);
-    },
+    }
 });

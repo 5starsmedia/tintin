@@ -122,6 +122,14 @@ var mongoDirectory = jsDAVCollection.extend(
       return this.name;
     },
 
+    "delete": function(next) {
+      mongoose.connection.db.collection('fs.files')
+        .remove({filename: { $regex: "^" + escapeRegExp(this.path) + '/?[^/]*(/.empty)?$' } }, next);
+    },
+
+    getLastModified: function(next) {
+      next(null, new Date());
+    },
 
     exists: function (next) {
       console.info('exists')

@@ -78,10 +78,7 @@ describe('server response', function () {
   });*/
 
   it('should work api url (/api)', function (done) {
-    var response = '{"author":{"name":"Vitalii Savchuk","email":"esvit666@gmail.com"},"version":"' + apiVersion +
-      '","php":"' + phpVersion +
-      '","configuration":{"upload_max_filesize":"' + phpUploadLimit +
-      '","post_max_size":"' + phpPostLimit + '"}}';
+    var response = '{"success":true}';
 
     request.get(apiUrl + '/api', function (err, res, body){
       expect(res.statusCode).to.equal(200);

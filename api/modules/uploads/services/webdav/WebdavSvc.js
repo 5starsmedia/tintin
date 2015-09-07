@@ -22,7 +22,7 @@ WebdavSvc.prototype.start = function () {
 
   var options = {
     tree: jsDAV_Tree_MongoDB.new(this.app),
-    locksBackend: jsDAVLocksBackendFS.new(__dirname + "/data")
+    locksBackend: jsDAVLocksBackendFS.new()
   };
   //jsDAV.debugMode = true;
   jsDAV.createServer(options, port, host);

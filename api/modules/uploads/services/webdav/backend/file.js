@@ -81,11 +81,11 @@ module.exports = jsDAVFile.extend(
       callback(null, this.file.contentType);
     },
 
-    /**
-     * Returns whether a node exists or not
-     *
-     * @return {Boolean}
-     */
+    "delete": function(next) {
+      mongoose.connection.db.collection('fs.files')
+        .remove({filename: { $regex: this.path } }, next);
+    },
+
     exists: function(next) {
       this.getLastModified(function(err) {
         next(!!err);
