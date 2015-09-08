@@ -60,6 +60,7 @@
       "get?status&category._id": ["posts"],
       "get?status&category._id&postType": ["posts"],
       "get?published": "*",
+      "get?published&postType": "*",
       "get?_id": "*",
       "get?tags": "*",
       "get?alias": "*",

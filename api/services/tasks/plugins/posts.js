@@ -26,7 +26,10 @@ exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb
     'post': function(next) {
       app.models.posts.findById(msg.body._id, next);
     },
-    'generateKeywords': ['post', function(next, res) {
+    'category': ['post', function(next, data) {
+      app.models.categories.findById(data.post.category._id, next);
+    }],
+    'generateKeywords': ['post', 'category', function(next, res) {
       if (res.post.site) {
         app.services.mq.push(app, 'events', {name: 'sitemap.generate.site', _id: res.post.site._id});
       }
@@ -40,13 +43,20 @@ exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb
         if (res.post.keywords.length >= 10) {
           return;
         }
-        app.log.info(item.term)
         res.post.keywords.push({
           word: item.term,
           importance: item.tfidf
         });
       });
+      res.post.category = res.category;
       res.post.save(next);
+    }],
+    'postsCount': ['category', function(next, data) {
+      app.models.posts.count({ 'category._id': data.category._id }, next);
+    }],
+    'updateCount': ['postsCount', function(next, data) {
+      data.category.postsCount = data.postsCount;
+      data.category.save(next);
     }]
   }, cb);
 };
@@ -63,6 +73,7 @@ exports['posts.deferredPublication'] = function (app, msg, cb) {
       async.eachLimit(res.posts, 5, function(item, next){
         item.createDate = item.publishedDate;
         item.status = 4;
+        item.published = true;
         item.save(next);
       }, next);
     }]
