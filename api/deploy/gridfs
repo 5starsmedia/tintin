@@ -1,0 +1,11 @@
+#! /bin/bash
+_host="${1:?Usage: gridfs host db}"
+_db="${2:?Usage: gridfs host db}"
+while read -r line; do
+    file=$(echo "$line" | awk -F'\t' '{ print $1 }')
+    [[ $file == 'connected to'* ]] && continue
+    directory=`dirname "$file"`
+    mkdir -p $_db/$directory
+    dest=`cd "${_db}/${directory}";pwd`
+    mongofiles -h $_host -d $_db get $file
+done < <(mongofiles -h $_host -d $_db list)

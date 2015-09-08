@@ -1,6 +1,7 @@
 'use strict';
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+  mongooseHistory = require('historical');
 
 var schema = new mongoose.Schema({
   // Назва
@@ -37,5 +38,6 @@ var schema = new mongoose.Schema({
 });
 
 schema.index({createDate: 1});
+schema.plugin(mongooseHistory, { mongoose: mongoose });
 
 module.exports = mongoose.model('WikiPage', schema);

@@ -15,6 +15,7 @@ var schema = new mongoose.Schema({
   description: String,
 
   cssClass: String,
+  postsCount: {type: Number, required: true, default: 0},
 
   createDate: {type: Date, required: true, default: Date.now},
 
