@@ -110,6 +110,7 @@ function on_error(err) {
 var metrics = new lynx(app.config.get('statd').host, app.config.get('statd').port, {on_error: on_error});
 
 app.server.use(function (req, res, next) {
+  console.info(req.method)
   metrics.increment('request.counter');
   next();
 });
@@ -187,7 +188,7 @@ app.server.use(sites());
 var corsOptionsDelegate = function(req, callback){
   var site = req.site;
   var corsOptions = { origin: false };
-  if(site && site.isCorsEnabled){
+  if(site && site.isCorsEnabled && req.url.search(/^\/api\/webdav/) < 0){
     corsOptions.origin = true;
     corsOptions.credentials = true;
     corsOptions.exposedHeaders = ['x-total-count'];

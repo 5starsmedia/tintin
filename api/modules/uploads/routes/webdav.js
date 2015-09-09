@@ -58,11 +58,9 @@ router.all('/*', function (req, res, next) {
     tree: jsDAV_Tree_MongoDB.new(req),
     //authBackend:  jsDAV_Auth_Backend_Mongo.new(mongoose.connection.db),
     locksBackend: jsDAVLocksBackendFS.new(),
-    realm: 'paphos',
-    server: true,
+    server: req.app,
     standalone: false,
-    sandboxed: false,
-    mount: '/'
+    mount: '/api/webdav'
   });
   server.setBaseUri('/api/webdav');
   server.exec(req,res);
