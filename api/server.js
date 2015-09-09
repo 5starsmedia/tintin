@@ -110,7 +110,6 @@ function on_error(err) {
 var metrics = new lynx(app.config.get('statd').host, app.config.get('statd').port, {on_error: on_error});
 
 app.server.use(function (req, res, next) {
-  console.info(req.method)
   metrics.increment('request.counter');
   next();
 });

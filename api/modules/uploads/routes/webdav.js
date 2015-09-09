@@ -42,7 +42,6 @@ var jsDAV_Auth_Backend_Mongo = module.exports = jsDAV_Auth_Backend_AbstractDiges
       if (err)
         return next(err);
 
-      console.info(doc);
       next(null, doc && doc.password);
     });
   }
