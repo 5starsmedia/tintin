@@ -56,7 +56,7 @@ router.all('/*', function (req, res, next) {
   //jsDAV.debugMode = true;
   var server = jsDAV.mount({
     tree: jsDAV_Tree_MongoDB.new(req),
-    authBackend:  jsDAV_Auth_Backend_Mongo.new(mongoose.connection.db),
+    //authBackend:  jsDAV_Auth_Backend_Mongo.new(mongoose.connection.db),
     locksBackend: jsDAVLocksBackendFS.new(),
     realm: 'paphos',
     server: true,

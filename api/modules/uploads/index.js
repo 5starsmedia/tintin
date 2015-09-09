@@ -1,6 +1,7 @@
 'use strict';
 
 var nestedSet = require('../../middleware/nestedSet.js'),
+  requireAccount = require('../../middleware/requireAccount.js'),
   webdavSvc = require('./services/webdav');
 
 function UploadsModule(app) {
