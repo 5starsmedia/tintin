@@ -8,8 +8,8 @@
 "use strict";
 
 var jsDAV_Tree = require("jsDAV/lib/DAV/tree");
-var jsDAV_FS_Directory = require("./directory");
-var jsDAV_FS_File = require("./file");
+var mongoDirectory = require("./directory");
+var mongoFile = require("./file");
 
 var Fs = require("fs");
 var mongoose = require("mongoose");
@@ -30,8 +30,20 @@ function escapeRegExp(string){
  * @contructor
  */
 var jsDAV_Tree_MongoDB = module.exports = jsDAV_Tree.extend({
-    initialize: function(app) {
-        this.app = app;
+    basePath: '',
+
+    initialize: function(req) {
+        this.req = req;
+        this.app = req.app;
+    },
+
+    getFileNameForMongo: function(path) {
+        return Util.trim(this.req.site.domain + '/' + path);
+    },
+
+    getFolderNameForMongo: function(path) {
+        path = this.getFileNameForMongo(path);
+        return "^" + escapeRegExp(path) + '/?[^/]*(/.empty)?$';
     },
 
     /**
@@ -41,6 +53,7 @@ var jsDAV_Tree_MongoDB = module.exports = jsDAV_Tree.extend({
      * @return void
      */
     getNodeForPath: function(path, next) {
+        var self = this;
         var realPath = this.getRealPath(path);
         var nicePath = this.stripSandbox(realPath);
         if (!this.insideSandbox(realPath))
@@ -51,24 +64,24 @@ var jsDAV_Tree_MongoDB = module.exports = jsDAV_Tree.extend({
         var isDirectory = realPath == '' || realPath.substring(realPath.length - 1, 1) == '/';
 
         mongoose.connection.db.collection('fs.files')
-          .find({ filename: realPath })
+          .find({ filename: self.getFileNameForMongo(realPath) })
           .toArray(function(err, files) {
               if (err) { return next(err); }
               if (files.length) {
-                  return next(null, jsDAV_FS_File.new(files[0]));
+                  return next(null, mongoFile.new(self, files[0]));
               }
 
               mongoose.connection.db.collection('fs.files')
-                .find({ filename: { $regex: "^" + escapeRegExp(realPath) + '/?[^/]*(/.empty)?$' } })
+                .find({ filename: { $regex: self.getFolderNameForMongo(realPath) } })
                 .count(function(err, length) {
                     if (err) { return next(err); }
                     if (!length) {
                         if (realPath == '') {
-                            return next(null, jsDAV_FS_Directory.new(realPath));
+                            return next(null, mongoDirectory.new(self, realPath));
                         }
                         return next(new Exc.FileNotFound("File at location " + nicePath + " not found"));
                     }
-                    next(null, jsDAV_FS_Directory.new(realPath));
+                    next(null, mongoDirectory.new(self, realPath));
                 });
           });
 

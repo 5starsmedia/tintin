@@ -28,7 +28,7 @@ router.get('/', function (req, res, next) {
       });
       next(null, feed);
     },
-    'posts': function() {
+    'posts': function(next) {
       req.app.models.posts.find({ status: 4, removed: { $exists: false } }, next);
     },
     'items': ['posts', 'rss', function(next, data) {

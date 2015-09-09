@@ -96,6 +96,7 @@ module.exports = function (config) {
       if (site.port && site.port != 80) {
         url += ':' + site.port;
       }
+      req.site.url = url;
       req.app.config.set('url', url);
 
       options['default'] = site.defaultLocale;

@@ -14,7 +14,7 @@ var schema = new mongoose.Schema({
   title: {type: String, required: true},
   alias: String,
   // Короткий опис
-  tizer: String,
+  teaser: String,
   // Текст
   body: String,
   // Дата публікації
