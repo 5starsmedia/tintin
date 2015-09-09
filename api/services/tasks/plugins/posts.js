@@ -5,6 +5,7 @@ var async = require('async'),
   natural = require('natural'),
   TfIdf = natural.TfIdf,
   htmlToText = require('html-to-text'),
+  summary = require('node-summary'),
   _ = require('lodash');
 
 exports['posts.keywords'] = function (app, msg, cb) {
@@ -29,7 +30,19 @@ exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb
     'category': ['post', function(next, data) {
       app.models.categories.findById(data.post.category._id, next);
     }],
-    'generateKeywords': ['post', 'category', function(next, res) {
+    'summary': ['post', function(next, data) {
+      var pageBreak = '<div style="page-break-after: always"><span style="display: none;">&nbsp;</span></div>';
+
+      var pos = data.post.body.indexOf(pageBreak);
+
+      if (pos >= 0) {
+        data.post.body = data.post.body.replace(pageBreak, pageBreak + '<a name="more"></a>');
+        return next(null, data.post.body.substring(0, pos));
+      }
+
+      summary.summarize('', data.post.body, next);
+    }],
+    'generateKeywords': ['post', 'summary', 'category', function(next, res) {
       if (res.post.site) {
         app.services.mq.push(app, 'events', {name: 'sitemap.generate.site', _id: res.post.site._id});
       }
@@ -48,6 +61,8 @@ exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb
           importance: item.tfidf
         });
       });
+
+      res.post.teaser = res.summary;
       res.post.category = res.category;
       res.post.save(next);
     }],

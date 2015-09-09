@@ -13,7 +13,8 @@ var jsExceptions = require("jsDAV/lib/shared/exceptions");
 
 module.exports = jsDAVFile.extend(
   {
-    initialize: function(file) {
+    initialize: function(tree, file) {
+      this.tree = tree;
       this.path = file.filename;
       this.name = file.filename;
       this.file = file;
@@ -53,7 +54,7 @@ module.exports = jsDAVFile.extend(
         content_type: mime.lookup(this.path),
       };
 
-      var gridStore = new mongoose.mongo.GridStore(mongoose.connection.db, this.path, "w", options);
+      var gridStore = new mongoose.mongo.GridStore(mongoose.connection.db, this.file._id, "w", options);
       gridStore.open(function(err) {
         if (err) { return next(err); }
 
@@ -82,8 +83,7 @@ module.exports = jsDAVFile.extend(
     },
 
     "delete": function(next) {
-      mongoose.connection.db.collection('fs.files')
-        .remove({filename: { $regex: this.path } }, next);
+      mongoose.connection.db.collection('fs.files').remove({ _id: this.file._id }, next);
     },
 
     exists: function(next) {

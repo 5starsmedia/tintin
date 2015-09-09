@@ -1,4 +1,7 @@
-'use strict';
+var express = require('express'),
+    router = express.Router();
+
+
 
 var url = require('url'),
   crypto = require('crypto'),
@@ -10,7 +13,7 @@ var jsDAVFile = require("jsDAV/lib/DAV/file");
 var jsDAVCollection = require("jsDAV/lib/DAV/collection");
 var jsExceptions = require("jsDAV/lib/shared/exceptions");
 
-var jsDAV_Tree_MongoDB = require("./backend/tree");
+var jsDAV_Tree_MongoDB = require("../services/webdav/backend/tree");
 
 
 var jsDAV_Auth_Backend_AbstractDigest = require("jsDAV/lib/DAV/plugins/auth/abstractDigest");
@@ -39,30 +42,30 @@ var jsDAV_Auth_Backend_Mongo = module.exports = jsDAV_Auth_Backend_AbstractDiges
       if (err)
         return next(err);
 
-console.info(doc);
+      console.info(doc);
       next(null, doc && doc.password);
     });
   }
 });
 
-function WebdavSvc(app) {
-  this.app = app;
-}
 
-WebdavSvc.prototype.start = function () {
-  var host = this.app.config.get('webdav.ip'),
-    port = this.app.config.get('webdav.port');
 
-  var options = {
-    tree: jsDAV_Tree_MongoDB.new(this.app),
+router.all('/*', function (req, res, next) {
+
+  req.url = '/api/webdav' + req.url;
+  //jsDAV.debugMode = true;
+  var server = jsDAV.mount({
+    tree: jsDAV_Tree_MongoDB.new(req),
     authBackend:  jsDAV_Auth_Backend_Mongo.new(mongoose.connection.db),
     locksBackend: jsDAVLocksBackendFS.new(),
-    realm: "paphos"
-  };
-  //jsDAV.debugMode = true;
-  jsDAV.createServer(options, port, host);
+    realm: 'paphos',
+    server: true,
+    standalone: false,
+    sandboxed: false,
+    mount: '/'
+  });
+  server.setBaseUri('/api/webdav');
+  server.exec(req,res);
+});
 
-  this.app.log.info('WebDav Server started at ' + host + ':' + port);
-};
-
-module.exports = WebdavSvc;
+module.exports = router;

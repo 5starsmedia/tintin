@@ -38,13 +38,13 @@ db.auth("adminUser", "5stars");
 use 5stars
 db.createUser(
   {
-    user: "admin5stars",
-    pwd: "5stars",
+    user: "nginxTest",
+    pwd: "nginxTest",
     roles:
     [
       {
         role: "dbOwner",
-        db: "dev"
+        db: "5stars"
       }
     ]
   }
@@ -74,3 +74,7 @@ npm install mocha -g
 
 cd test
 mocha server.js
+
+
+db.fs.files.dropIndex("filename_1")
+db.fs.chunks.dropIndex("files_id_1_n_1")
