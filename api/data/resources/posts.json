@@ -37,6 +37,7 @@
     "viewsCount": {
       "get": ["*"],
       "get?category._id": "*",
+      "get?alias": "*",
       "get?status&category._id": ["posts"],
       "get?status&category._id&postType": ["posts"],
       "get?account._id": ["posts"],

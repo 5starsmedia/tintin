@@ -67,7 +67,7 @@ exports['db.posts.insert'] = exports['db.posts.update'] = function (app, msg, cb
       res.post.save(next);
     }],
     'postsCount': ['category', function(next, data) {
-      app.models.posts.count({ 'category._id': data.category._id }, next);
+      app.models.posts.count({ 'category._id': data.category._id, published: true, removed: { $exists: false } }, next);
     }],
     'updateCount': ['postsCount', function(next, data) {
       data.category.postsCount = data.postsCount;
