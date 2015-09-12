@@ -292,7 +292,7 @@
 			// to defire required content with "and" operator.
 			requiredContent: 'pre',
 			styleableElements: 'pre',
-			template: '<pre><code class="' + codeClass + '"></code></pre>',
+			template: '<pre><code hljs class="' + codeClass + '"></code></pre>',
 			dialog: 'codeSnippet',
 			pathName: lang.pathName,
 			mask: true,
@@ -341,6 +341,7 @@
 
 					this.highlight();
 				}
+				this.parts.code.setAttribute('language', newData.lang);
 
 				// Save oldData.
 				this.oldData = CKEDITOR.tools.copy( newData );
