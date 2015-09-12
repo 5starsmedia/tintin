@@ -90,7 +90,7 @@ class NewsPostsEditCtrl {
 
     $scope.editorOptions = {
       language: 'ru',
-      extraPlugins: 'SelectImages,mediaembed,adInsert,showblocks',
+      extraPlugins: 'SelectImages,mediaembed,adInsert,showblocks,codesnippet',
       removePlugins: 'image,forms,youtube,autogrow,image2',
       allowedContent: true,
       toolbar: [
@@ -105,7 +105,7 @@ class NewsPostsEditCtrl {
         { name: 'paragraph', items: [ 'BulletedList', 'NumberedList', 'Blockquote' ] },
         { name: 'styles', items: [ 'Format', 'FontSize', 'RemoveFormat' ] },
         { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-        { name: 'forms', items: [ 'Outdent', 'Indent', 'ShowBlocks' ] }
+        { name: 'forms', items: [ 'Outdent', 'Indent', 'ShowBlocks', 'CodeSnippet' ] }
       ],
       height: 450
     };
