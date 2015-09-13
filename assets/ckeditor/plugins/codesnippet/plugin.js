@@ -342,6 +342,7 @@
 					this.highlight();
 				}
 				this.parts.code.setAttribute('language', newData.lang);
+				this.parts.code.setAttribute('no-escape', '');
 
 				// Save oldData.
 				this.oldData = CKEDITOR.tools.copy( newData );
