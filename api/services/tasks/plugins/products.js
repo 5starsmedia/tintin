@@ -46,7 +46,7 @@ exports['db.products.update'] = function (app, msg, cb) {
       app.models.products.findById(msg.body._id, next);
     },
     'variationProduct': ['product', function (next, data) {
-      if (!data.product.variationProduct) {
+      if (!data.product.variationProduct || !data.product.variationProduct._id) {
         return next();
       }
       app.models.products.findById(data.product.variationProduct._id, next);
