@@ -43,7 +43,7 @@ angular.module(appName, [
   'angular-peity'
 ])
   .constant('IO_URL', location.origin == 'http://localhost:3000' ? 'http://localhost:8080/' : location.origin + '/')
-  .constant('appTitle', 'Paphos CMS')
+  .constant('appTitle', 'News CMS')
   .constant('appVersion', 'VERSION-dev')
   .constant('appSite', '5starsmedia.com.ua')
   .constant('appSiteLink', 'https://5starsmedia.com.ua/')

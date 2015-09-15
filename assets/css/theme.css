@@ -5429,15 +5429,14 @@ body.constructor #wrapper {
 .navbar.navbar-main {
   border-radius: 0;
   overflow: visible !important;
-  background: #62cb31;
+  background: #ffffff;
   width: 100%;
   padding: 14px 15px 0;
   margin-bottom: 0;
-  background-image: url(../img/bg.png);
 }
 @media (max-width: 991px) {
   .navbar.navbar-main {
-    background: #62cb31;
+    background: #ffffff;
   }
 }
 @media (max-width: 992px) {
@@ -5448,10 +5447,10 @@ body.constructor #wrapper {
 @media (max-width: 991px) {
   .navbar.navbar-main {
     margin-bottom: 10px;
-    color: #ffffff;
+    color: #222222;
   }
   .navbar.navbar-main .navbar-toggle .icon-bar {
-    background-color: #ffffff !important;
+    background-color: #222222 !important;
   }
   .navbar.navbar-main .navbar-nav .open .dropdown-menu > li > a:active,
   .navbar.navbar-main .navbar-nav .open .dropdown-menu > li > a:hover {
@@ -5466,13 +5465,13 @@ body.constructor #wrapper {
 .navbar.navbar-main .nav > li > a:hover,
 .navbar.navbar-main .nav > li > a:focus,
 .navbar.navbar-main .nav > li.open > a {
-  background: #4ea227;
+  background: #e6e6e6;
 }
 .navbar.navbar-main .navbar-collapse {
   margin-left: -15px;
 }
 .navbar.navbar-main .navbar-nav > li > a {
-  color: #ffffff;
+  color: #222222;
   padding: 7px 12px;
   position: relative;
 }
@@ -5484,17 +5483,17 @@ body.constructor #wrapper {
   top: 1px;
   position: absolute;
   width: 1px;
-  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.5) 100%);
+  background: -moz-linear-gradient(top, rgba(34, 34, 34, 0) 50%, rgba(34, 34, 34, 0.5) 100%);
   /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(50%, rgba(255, 255, 255, 0.5)), color-stop(100%, rgba(255, 255, 255, 0.5)));
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(50%, rgba(34, 34, 34, 0.5)), color-stop(100%, rgba(34, 34, 34, 0.5)));
   /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.5) 100%);
+  background: -webkit-linear-gradient(top, rgba(34, 34, 34, 0) 50%, rgba(34, 34, 34, 0.5) 100%);
   /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.5) 100%);
+  background: -o-linear-gradient(top, rgba(34, 34, 34, 0) 50%, rgba(34, 34, 34, 0.5) 100%);
   /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.5) 100%);
+  background: -ms-linear-gradient(top, rgba(34, 34, 34, 0) 50%, rgba(34, 34, 34, 0.5) 100%);
   /* IE10+ */
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.5) 100%);
+  background: linear-gradient(to bottom, rgba(34, 34, 34, 0) 50%, rgba(34, 34, 34, 0.5) 100%);
   /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=0);
   /* IE6-9 */
@@ -5504,11 +5503,11 @@ body.constructor #wrapper {
 }
 .navbar.navbar-main .navbar-toggle {
   margin-right: 0;
-  border-color: #4ea227;
+  border-color: #e6e6e6;
 }
 .navbar.navbar-main .navbar-toggle:hover,
 .navbar.navbar-main .navbar-toggle:focus {
-  background-color: #4ea227;
+  background-color: #e6e6e6;
 }
 .navbar.navbar-main .navbar-toggle .icon-bar {
   background-color: #fff;
@@ -5904,7 +5903,7 @@ iframe {
 }
 .dropdown-login .role {
   display: block;
-  color: #ffffff;
+  color: #222222;
   font-size: 10px;
 }
 .pagination li.disabled a {

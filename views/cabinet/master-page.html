@@ -1,4 +1,7 @@
 <nav class="navbar navbar-main" role="navigation">
+
+    <a class="navbar-brand" ui-sref="home"></a>
+
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" class="navbar-toggle ng-cloak" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -39,10 +42,11 @@
     <footer class="row">
         <div class="col-sm-6">
 
-            <ul class="list-inline">
+            <strong>Версия</strong>: {{appVersion}}
+            <!--ul class="list-inline">
                 <li><a href="about">{{'О системе'|translate}} ({{appVersion}})</a></li>
                 <li><a href="">{{'Справочная информация'|translate}}</a></li>
-            </ul>
+            </ul-->
 
         </div>
         <div class="col-sm-6 text-right">
