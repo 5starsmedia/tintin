@@ -1,7 +1,9 @@
 'use strict';
 
 var pwd = require('pwd'),
+  async = require('async'),
   NotFoundError = require('../../../errors/NotFoundError.js');
+
 exports['accounts.pwd'] = function (req, data, cb) {
   req.log.info({
     refs: [
