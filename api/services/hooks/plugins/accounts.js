@@ -1,7 +1,9 @@
 'use strict';
 
 var pwd = require('pwd'),
+  async = require('async'),
   NotFoundError = require('../../../errors/NotFoundError.js');
+
 exports['accounts.pwd'] = function (req, data, cb) {
   req.log.info({
     refs: [
@@ -63,4 +65,19 @@ exports['accounts.profile.gender._id'] = function (req, data, next) {
     data['profile.gender'] = null;
     next();
   }
+};
+
+exports['put.accounts'] = function (req, data, next) {
+  async.auto({
+    'account': function(next) {
+      req.app.models.accounts.findById(data._id, 'username email', next);
+    },
+    'checkUsername': ['account', function(next, res) {
+      if (!res.username && !data.username) {
+        data.username = data.email || res.email;
+      }
+      console.info(data);
+      next();
+    }]
+  }, next);
 };
