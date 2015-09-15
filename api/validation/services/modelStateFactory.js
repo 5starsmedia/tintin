@@ -158,6 +158,7 @@
       query._id = {$ne: this.modelState.model._id};
     }
     query[this.fieldName] = this.value;
+    console.info(query)
     this._req.app.models[modelName].count(query, function (err, count) {
       if (err) { return cb(err); }
       if (count !== 0) {
