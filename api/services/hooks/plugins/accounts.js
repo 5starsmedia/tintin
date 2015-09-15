@@ -77,6 +77,7 @@ exports['put.accounts'] = function (req, data, next) {
         data.username = data.email || res.email;
       }
       console.info(data);
+      next();
     }]
   }, next);
 };
