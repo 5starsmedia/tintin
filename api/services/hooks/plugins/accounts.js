@@ -72,8 +72,9 @@ exports['put.accounts'] = function (req, data, next) {
     },
     'checkUsername': ['account', function(next, res) {
       if (!res.username && !data.username) {
-        data.username = data.email;
+        data.username = data.email || res.email;
       }
+      console.info(data);
     }]
   }, cb);
 };
