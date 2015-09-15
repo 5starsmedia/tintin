@@ -78,5 +78,5 @@ exports['put.accounts'] = function (req, data, next) {
       }
       console.info(data);
     }]
-  }, cb);
+  }, next);
 };
