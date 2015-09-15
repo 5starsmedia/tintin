@@ -30,6 +30,7 @@ class UsersUserListCtrl {
       item.$loading = true;
       var updateItem = new UserAccountModel({
         _id: item._id,
+        username: item.username,
         activated: item.activated
       });
       updateItem.$save(function () {

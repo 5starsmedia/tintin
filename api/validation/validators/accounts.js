@@ -33,8 +33,7 @@
       modelState.field('title').required().maxLength(50);
       modelState.field('pwd').required().maxLength(50);
       //modelState.field('email').required().isEmail().maxLength(100);
-      modelState.field('username').required().maxLength(50)
-        .ifPresent().unique('accounts', next);
+      modelState.field('username').required().maxLength(50).unique('accounts', next);
 
     }
   };
