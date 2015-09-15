@@ -38,12 +38,20 @@ db.auth("adminUser", "5stars");
 use 5stars
 db.createUser(
   {
-    user: "nginxTest",
-    pwd: "nginxTest",
+    user: "nginx2",
+    pwd: "nginx2",
     roles:
     [
       {
         role: "dbOwner",
+        db: "5stars"
+      },
+      {
+        role: "dbAdmin",
+        db: "5stars"
+      },
+      {
+        role: "userAdmin",
         db: "5stars"
       }
     ]
