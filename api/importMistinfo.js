@@ -3,13 +3,12 @@ var mysql = require('mysql'),
   async = require('async'),
   moment = require('moment'),
   mongoose = require('mongoose'),
-  Grid = mongoose.mongo.Grid,
   request = require('request'),
   imageSize = require('image-size'),
   mime = require('mime');
 var url = require('url');
 var http = require('http');
-var grid;
+var Grid = require('gridfs-stream');
 
 var app = {};
 app.log = require('./log.js');
@@ -248,26 +247,43 @@ var saveFile = function(site, product, image, next) {
 
           var resultDimensions = imageSize(buffer);
           product.files.push(file);
-          grid.put(buffer, {
-            'content_type': mime.lookup(file.originalName),
-            'filename': file.originalName,
-            'metadata': {width: resultDimensions.width, height: resultDimensions.height}
-          }, function (err, res) {
+
+          var gfs = Grid(mongoose.connection.db, mongoose.mongo);
+
+          var options = {
+            _id: mongoose.Types.ObjectId(),
+            filename: file.originalName,
+            mode: 'w',
+            content_type: mime.lookup(file.originalName),
+            metadata: {
+              width: resultDimensions.width,
+              height: resultDimensions.height
+            }
+          };
+          var writeStream = gfs.createWriteStream(options);
+
+          writeStream.on('finish', function() {
             if (err) { return next(err); }
             app.log.info('File uploaded');
             var setExpr = {
               width: resultDimensions.width,
               height: resultDimensions.height,
               storage: 'gridfs',
-              storageId: res._id.toString(),
+              storageId: options._id.toString(),
               isTemp: false
             };
-            setExpr.collectionName = 'products';
-            setExpr.resourceId = product._id;
+            setExpr.collectionName = collectionName;
+            setExpr.resourceId = post._id;
             app.models.files.update({_id: file._id}, {
               $set: setExpr
-            }, next);
+            }, function(err) {
+              if (err) { return next(err); }
+
+              next(null, file._id)
+            });
           });
+          writeStream.write(buffer);
+          writeStream.end();
         }]
       }, next);
     });
@@ -297,7 +313,6 @@ async.auto({
     next(null, connection);
   },
   'site': ['mongoConnection', function(next) {
-    grid = new Grid(mongoose.connection.db, 'fs');
     app.models.sites.findOne({ domain: siteDomain }, function(err, data) {
       if (!data) {
         data = new app.models.sites({ domain: siteDomain });
@@ -332,7 +347,7 @@ async.auto({
   'getBrands': ['deleteBrands', 'connection', 'mongoConnection', function(next, data) {
     console.info('getCategories')
     data.connection.query('SELECT * FROM com_ecommerce_brands '+
-                          'WHERE site_id = ' + siteId, function (err, rows, fields) {
+      'WHERE site_id = ' + siteId, function (err, rows, fields) {
       if (err) throw err;
       async.each(rows, _.partial(saveBrandItem, data.site, data.connection), next);
     });
