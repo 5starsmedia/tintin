@@ -10,9 +10,7 @@ var mysql = require('mysql'),
   mime = require('mime');
 var url = require('url');
 var http = require('http');
-var grid;
-
-var Grid = mongoose.mongo.Grid;
+var Grid = require('gridfs-stream');
 
 var siteId = 1,//3,
   siteDomain = 'localhost',
@@ -143,9 +141,10 @@ var saveCategory = function (site, connection, item, next) {
 
       if (data.locale) {
         category.title = data.locale.title;
-        category.isPublished = true;
         category.description = data.locale.description;
       }
+      category.cssClass = item.css;
+      category.isPublished = item.is_published && !item.is_hidden;
       category.parentId = !parent ? data.rootCategory._id : parent._id;
       category.markModified('parentId');
 
@@ -246,10 +245,13 @@ var savePost = function (site, connection, item, next) {
       post.isInterview = item.is_interview;
       post.isEditorChoose = item.is_editor_choose;
       post.isAdvertising = item.is_adv;
+      post.hasPhotoreport = item.has_photoreport;
+      post.hasVideo = item.has_video;
       post.isPoliticalAdvertising = item.is_polit_adv;
       //post.is_poll = item.is_poll;
       //post.poll_id = item.poll_id;
       post.status = item.status;
+      post.published = item.status == 4;
       post.isAllowComments = item.is_allow_comments;
       post.ownPhoto = item.own_photo;
       post.viewsCount = item.hits;
@@ -497,18 +499,31 @@ var saveFile = function(site, post, collectionName, image, next) {
             console.info(e, image)
           }
           post.files.push(file);
-          grid.put(buffer, {
-            'content_type': mime.lookup(file.originalName),
-            'filename': file.originalName,
-            'metadata': {width: resultDimensions.width, height: resultDimensions.height}
-          }, function (err, res) {
+
+
+
+          var gfs = Grid(mongoose.connection.db, mongoose.mongo);
+
+          var options = {
+            _id: mongoose.Types.ObjectId(),
+            filename: file.originalName,
+            mode: 'w',
+            content_type: mime.lookup(file.originalName),
+            metadata: {
+              width: resultDimensions.width,
+              height: resultDimensions.height
+            }
+          };
+          var writeStream = gfs.createWriteStream(options);
+
+          writeStream.on('finish', function() {
             if (err) { return next(err); }
             app.log.info('File uploaded');
             var setExpr = {
               width: resultDimensions.width,
               height: resultDimensions.height,
               storage: 'gridfs',
-              storageId: res._id.toString(),
+              storageId: options._id.toString(),
               isTemp: false
             };
             setExpr.collectionName = collectionName;
@@ -521,6 +536,8 @@ var saveFile = function(site, post, collectionName, image, next) {
               next(null, file._id)
             });
           });
+          writeStream.write(buffer);
+          writeStream.end();
         }]
       }, next);
     });
@@ -548,7 +565,6 @@ async.auto({
     next(null, connection);
   },
   'site': ['mongoConnection', function(next) {
-    grid = new Grid(mongoose.connection.db, 'fs', "w");
     app.models.sites.findOne({ domain: siteDomain }, function(err, data) {
       if (!data) {
         data = new app.models.sites({ domain: siteDomain });

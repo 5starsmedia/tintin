@@ -14,6 +14,8 @@ var schema = new mongoose.Schema({
   parentAlias: String,
   description: String,
 
+  isPublished: Boolean,
+
   cssClass: String,
   postsCount: {type: Number, required: true, default: 0},
 
