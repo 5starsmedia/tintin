@@ -272,8 +272,8 @@ var saveFile = function(site, product, image, next) {
               storageId: options._id.toString(),
               isTemp: false
             };
-            setExpr.collectionName = collectionName;
-            setExpr.resourceId = post._id;
+            setExpr.collectionName = 'products';
+            setExpr.resourceId = product._id;
             app.models.files.update({_id: file._id}, {
               $set: setExpr
             }, function(err) {
