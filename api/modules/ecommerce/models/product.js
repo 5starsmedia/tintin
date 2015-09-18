@@ -44,6 +44,19 @@ var schema = new mongoose.Schema({
     twitter: {type: Number, required: true, default: 0}
   },
 
+  translates: {
+    title: {
+      'uk-UA': String,
+      'ru-RU': String,
+      'en-GB': String
+    },
+    body: {
+      'uk-UA': String,
+      'ru-RU': String,
+      'en-GB': String
+    }
+  },
+
 
   productFields: [
     {

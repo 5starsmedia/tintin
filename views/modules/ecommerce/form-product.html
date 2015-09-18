@@ -12,9 +12,10 @@
 
                         <st-form-element label="{{'Title'|translate}}" field="title">
 
-                            <input id="title" class="form-control input-lg" name="title" type="text" required
-                                   ng-model="item.title"/>
-
+                            <div>
+                            <input id="title" bz-localizable="item.title" class="form-control input-lg" name="title" type="text" required
+                                   ng-model="item.translates.title[$contentLanguage.code]"/>
+                            </div>
                         </st-form-element>
 
                     </div>
@@ -61,7 +62,8 @@
 
                 <st-form-element label="{{'Description'|translate}}" field="body">
 
-                    <textarea class="form-control" ckeditor="editorOptions" ng-model="item.body"></textarea>
+                    <textarea class="form-control" bz-localizable="item.body" ckeditor="editorOptions"
+                              ng-model="item.translates.body[$contentLanguage.code]"></textarea>
 
                 </st-form-element>
 

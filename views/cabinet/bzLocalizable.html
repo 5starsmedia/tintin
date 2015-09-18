@@ -1,0 +1,13 @@
+<button ng-if="languages.length > 1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-click="dropdown.show = !dropdown.show">
+  {{language.title}}
+  <span class="caret"></span>
+</button>
+<ul class="dropdown-menu pull-right" ng-style="{'display': dropdown.show ? 'block': 'none'}" style="top: 34px;">
+  <li ng-repeat="lang in languages track by lang.code" ng-class="{'active': language == lang.code}">
+    <a href="" ng-click="changeLanguage(lang)">
+      {{lang.title}}
+      <!--<span ng-if="value[lang.code]">{{value[lang.code]}}</span>-->
+      <!--<span class="text-muted" ng-if="!value[lang.code]">{{'No translation'|translate}}</span>-->
+    </a>
+  </li>
+</ul>

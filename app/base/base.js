@@ -8,6 +8,7 @@ import cabinet from './cabinet/cabinet.js';
 import models from './models/models.js';
 
 import permissions from './permissions/permissions';
+import localizable from './localizable/localizable';
 
 import BaseAPIParams from './factories/BaseAPIParams.js';
 import UnknownDomainInterceptor from './factories/UnknownDomainInterceptor.js';
@@ -30,6 +31,7 @@ angular.module(appName, [
   models,
   cabinet,
   permissions,
+  localizable,
   'ui.router',
   'ui.bootstrap.tooltip',
   'cgNotify',

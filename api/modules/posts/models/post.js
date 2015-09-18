@@ -36,6 +36,19 @@ var schema = new mongoose.Schema({
     description: String
   },
 
+  translates: {
+    title: {
+      'uk-UA': String,
+      'ru-RU': String,
+      'en-GB': String
+    },
+    body: {
+      'uk-UA': String,
+      'ru-RU': String,
+      'en-GB': String
+    }
+  },
+
   attributes:  mongoose.Schema.Types.Mixed,
 
   status: {type: Number, required: true, default: 0},
