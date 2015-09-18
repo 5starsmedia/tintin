@@ -1,0 +1,68 @@
+<div>
+
+  <st-form model="site" state="error" submit="saveItem(site)">
+
+
+    <st-header title="{{'Languages'|translate}}">
+
+      <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+        {{'Save'|translate}}
+      </button>
+
+    </st-header>
+
+    <div class="content" animate-panel effect="zoomIn">
+
+      <div class="row">
+        <div class="col-sm-6">
+
+
+          <div ng-if="site.allowLocales.length">
+            <ul ng-sortable="sortableConfig" class="list-group">
+              <li class="list-group-item" ng-repeat="locale in site.allowLocales track by locale.code">
+
+                <div class="row">
+
+                  <div class="col-xs-8">
+                    <span class="drag-handle"><span></span></span>
+                    {{locale.title}}
+                  </div>
+                  <div class="col-xs-2">
+                    {{locale.code}}
+                  </div>
+                  <div class="col-xs-1">
+                    <input icheck type="radio" ng-model="site.defaultLocale" name="defaultLocale"
+                           value="{{locale.code}}"/>
+                  </div>
+                  <div class="col-xs-1 text-right">
+                    <a href="" ng-click="removeLocale(locale)" ng-if="site.defaultLocale != locale.code">
+                      <span class="fa fa-trash"></span></a>
+                  </div>
+                </div>
+
+              </li>
+            </ul>
+          </div>
+
+        </div>
+        <div class="col-sm-6">
+
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="locale in addLocales track by locale.code">
+
+              <a href="" ng-click="addLocale(locale)">
+                <span class="fa fa-plus"></span></a>
+
+              {{locale.title}} ({{locale.code}})
+
+            </li>
+          </ul>
+
+        </div>
+      </div>
+
+
+    </div>
+
+  </st-form>
+</div>
