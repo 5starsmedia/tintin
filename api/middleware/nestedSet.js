@@ -129,7 +129,7 @@ function processPost(collectionName, opts, req, res, next) {
       node.parentId = data.parent._id;
       node.postType = data.parent.postType;
       node.title = 'New node';
-
+ 
       if (req.app.models[collectionName].schema.paths['site._id']) {
         node.site = {
           _id: req.site._id,
