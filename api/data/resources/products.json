@@ -35,6 +35,7 @@
   "acl": {
     "*": {
       "get?isVariation": "*",
+      "get?isPublished": "*",
       "get": ["admin", "*:owner", "user"],
       "get?activated": ["admin"],
       "get?variationProduct._id": "*",
