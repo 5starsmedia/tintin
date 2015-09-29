@@ -32,6 +32,12 @@ function bzLocalizable($compile, $rootScope, SiteDomainModel) {
       $rootScope.$watch('$contentLanguage', function (lang) {
         scope.language = lang;
         scope.dropdown.show = false;
+
+        var val = scope.$eval(attrs.bzLocalizable),
+          value = scope.$eval(attrs.ngModel);
+        if (!value && val && $rootScope.$contentLanguage && $rootScope.$contentLanguage.code == defaultLocale) {
+          scope.$eval(attrs.ngModel + '=$value', { $value: val, $contentLanguage: $rootScope.$contentLanguage });
+        }
       });
 
       scope.changeLanguage = function (lang) {
@@ -40,6 +46,9 @@ function bzLocalizable($compile, $rootScope, SiteDomainModel) {
 
       scope.$watch(attrs.ngModel, function (value) {
         if (angular.isObject(value) || !$rootScope.$contentLanguage || $rootScope.$contentLanguage.code != defaultLocale) {
+          return;
+        }
+        if (value === null) {
           return;
         }
         scope.$eval(attrs.bzLocalizable + '=$value', {$value: value});
