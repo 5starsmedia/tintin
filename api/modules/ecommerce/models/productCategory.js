@@ -44,7 +44,22 @@ var schema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     domain: String
   },
-  tags: [{title: String}]
+  tags: [{title: String}],
+
+
+  translates: {
+    title: {
+      'uk-UA': String,
+      'ru-RU': String,
+      'en-GB': String
+    },
+    body: {
+      'uk-UA': String,
+      'ru-RU': String,
+      'en-GB': String
+    }
+  },
+
 }, {
   strict: true,
   safe: true,

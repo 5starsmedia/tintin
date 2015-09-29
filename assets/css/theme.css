@@ -5388,14 +5388,13 @@ body.constructor #wrapper {
   font-size: 13px;
 }
 .drag-handle {
-  position: absolute;
+  display: inline-block;
   left: 3px;
   top: 50%;
   margin-top: -5px;
 }
 .drag-handle,
 .drag-handle span {
-  display: block;
   width: 20px;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;

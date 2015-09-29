@@ -12,7 +12,8 @@
             <st-form-element label="{{'Title'|translate}}" field="title">
 
                 <input id="title" class="form-control input-lg" name="title" type="text" required
-                       ng-model="item.title"/>
+                       bz-localizable="item.title"
+                       ng-model="item.translates.title[$contentLanguage.code]"/>
 
             </st-form-element>
 

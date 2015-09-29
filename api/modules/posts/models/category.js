@@ -37,6 +37,19 @@ var schema = new mongoose.Schema({
     }
   ],
 
+  translates: {
+    title: {
+      'uk-UA': String,
+      'ru-RU': String,
+      'en-GB': String
+    },
+    body: {
+      'uk-UA': String,
+      'ru-RU': String,
+      'en-GB': String
+    }
+  },
+
   removed: {type: Date},
   site: {
     _id: mongoose.Schema.Types.ObjectId,
