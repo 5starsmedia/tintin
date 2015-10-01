@@ -19,9 +19,11 @@ let module = angular.module(appName, [
 // controllers
 import KeywordsAssignmentsCtrl from './controllers/KeywordsAssignmentsCtrl.js';
 import KeywordsAssignmentsViewCtrl from './controllers/KeywordsAssignmentsViewCtrl.js';
+import KeywordsAssignmentsRefuseCtrl from './controllers/KeywordsAssignmentsRefuseCtrl.js';
 
 module.controller('KeywordsAssignmentsCtrl', KeywordsAssignmentsCtrl);
 module.controller('KeywordsAssignmentsViewCtrl', KeywordsAssignmentsViewCtrl);
+module.controller('KeywordsAssignmentsRefuseCtrl', KeywordsAssignmentsRefuseCtrl);
 
 
 // config

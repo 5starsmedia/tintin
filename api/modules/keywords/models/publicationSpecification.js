@@ -8,6 +8,37 @@ var schema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     title: String
   },
+  group: {
+    _id: mongoose.Schema.Types.ObjectId
+  },
+  account: {
+    _id: mongoose.Schema.Types.ObjectId,
+    username: String,
+    title: String,
+    imageUrl: String,
+    coverFile: {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String
+    }
+  },
+
+  status: {type: String, default: 'new', enum: [
+    'new',
+    'inprocess',
+    'completed'
+  ]},
+  text: String, // готовая статья
+  coverFile: {
+    _id: mongoose.Schema.Types.ObjectId,
+    title: String
+  },
+  files: [
+    {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String,
+      ordinal: Number
+    }
+  ],
 
   textLength: {
     min: Number,
@@ -24,6 +55,7 @@ var schema = new mongoose.Schema({
     url: String
   }],
 
+  dueDate: Date,
   createDate: {type: Date, required: true, default: Date.now},
   removed: {type: Date}
 }, {

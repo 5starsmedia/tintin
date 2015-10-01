@@ -1,11 +1,16 @@
 export default
 class KeywordsSpecificationViewCtrl {
   /*@ngInject*/
-  constructor($scope, $state, group, notify, $filter, SiteDomainModel, $modal) {
-    $scope.group = group;
+  constructor($scope, $state, group, notify, $filter, SiteDomainModel, $modal, NewsCategoryModel) {
+    $scope.item = group;
 
     SiteDomainModel.getCurrent((site) => {
       $scope.site = site;
+    });
+
+    NewsCategoryModel.getTree({ page: 1, perPage: 100, postType: 'post' }, (data) => {
+      $scope.categories = data;
+      console.info(data)
     });
 
     $scope.back = (status) => {

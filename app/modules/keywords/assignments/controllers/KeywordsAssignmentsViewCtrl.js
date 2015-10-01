@@ -1,7 +1,7 @@
 export default
 class KeywordsAssignmentsViewCtrl {
   /*@ngInject*/
-  constructor($scope, $state, group, notify, $filter, NewsPostModel, NewsCategoryModel, post, SiteDomainModel) {
+  constructor($scope, $state, group, notify, $filter, NewsPostModel, NewsCategoryModel, post, SiteDomainModel, $modal, KeywordsPublicationModel) {
     $scope.group = group;
 
     SiteDomainModel.getCurrent((site) => {
@@ -78,6 +78,49 @@ class KeywordsAssignmentsViewCtrl {
         { name: 'forms', items: [ 'Outdent', 'Indent', 'ShowBlocks' ] }
       ],
       height: 450
+    };
+
+    $scope.refuse = (group) => {
+      var modalInstance = $modal.open({
+        templateUrl: 'views/modules/keywords/assignments/modal-refuse.html',
+        controller: 'KeywordsAssignmentsRefuseCtrl',
+        windowClass: "hmodal-success",
+        resolve: {
+          group: () => angular.copy(group)
+        }
+      });
+      modalInstance.result.then((data) => {
+        notify({
+          message: $filter('translate')('Отказ от ТЗ отправлен редактору'),
+          classes: 'alert-success'
+        });
+        $state.go('^.assignments');
+      });
+    };
+
+    $scope.getInWork = (group) => {
+      $scope.loading = true;
+
+      var publication = new KeywordsPublicationModel({
+        title: group.title,
+        category: group.category,
+        account: group.result.account,
+        dueDate: group.result.dueDate,
+        group: {
+          _id: group._id
+        },
+        textLength: {
+          min: group.recomendation.minTextLength,
+          max: group.recomendation.maxTextLength
+        },
+        keywords: group.recomendation.keywords,
+        urls: _.filter(group.result.urls, { use: true })
+      })
+      publication.$create((data) => {
+        group.$delete(() => {
+          $state.go('keywords.specificationsView', { _id: data._id })
+        });
+      })
     };
   }
 }

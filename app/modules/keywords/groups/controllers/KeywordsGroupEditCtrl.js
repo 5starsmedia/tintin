@@ -11,30 +11,25 @@ class KeywordsGroupEditCtrl {
       $scope.site = site;
     });
 
-    NewsCategoryModel.getTree({ page: 1, perPage: 100, postType: 'post' }, (data) => {
-      $scope.categories = data;
-      console.info(data)
-    });
-
     $scope.runScan = () => {
       $scope.loadingScan = true;
 
-      IssuesSrc.setStatus(group.issue._id, 'inprogress', (issue) => {
-        $scope.$broadcast('updateIssue');
+      $scope.$broadcast('updateIssue');
 
-        group.$runScan(() => {
-          $scope.loadingScan = false;
-        }, (err) => {
-          $scope.loadingScan = false;
-          if (err.status == 400) {
-            $scope.error = err.data.msg;
+      group.$runScan(() => {
+        $scope.loadingScan = false;
+      }, (err) => {
+        $scope.loadingScan = false;
+        if (err.status == 400) {
+          $scope.error = err.data.msg;
 
-            $timeout(() => {
-              $scope.error = null;
-            }, 4000)
-          }
-        });
+          $timeout(() => {
+            $scope.error = null;
+          }, 4000)
+        }
       });
+      /*IssuesSrc.setStatus(group.issue._id, 'inprogress', (issue) => {
+      });*/
     };
 
     $scope.back = (status) => {
@@ -61,18 +56,19 @@ class KeywordsGroupEditCtrl {
         group.status = 'completed';
       }
       if (step == 'complete') {
-        IssuesSrc.setStatus(group.issue._id, 'validation', (issue) => {
-          $scope.$broadcast('updateIssue');
 
-          group.$save(() => {
-            $scope.loading = false;
-            notify({
-              message: $filter('translate')('Saved!'),
-              classes: 'alert-success'
-            });
-            $state.go('^.groups');
+        $scope.$broadcast('updateIssue');
+
+        group.$save(() => {
+          $scope.loading = false;
+          notify({
+            message: $filter('translate')('Saved!'),
+            classes: 'alert-success'
           });
+          $state.go('^.groups');
         });
+        /*IssuesSrc.setStatus(group.issue._id, 'validation', (issue) => {
+        });*/
         return;
       }
       group.$save(() => {

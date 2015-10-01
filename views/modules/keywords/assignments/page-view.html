@@ -5,20 +5,15 @@
 
     <st-header title="{{group.title}}">
 
-      <button ng-if="group.status == 'assign'" type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('inwork')"
+      <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="getInWork(group)"
               class="btn btn-primary">{{'Get in work'|translate}}
       </button>
-      <button ng-if="group.status == 'inwork' || group.status == 'failedModeration'" type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('moderation')"
-              class="btn btn-success">{{'Complete'|translate}}
-      </button>
-      <a ui-sref="keywords.specifications" class="btn btn-default">
-        {{'Cancel'|translate}}
+
+      <button type="button" ng-click="refuse(group)" class="btn btn-warning">{{'Refuse'|translate}}</button>
+
+      <a ui-sref="keywords.assignments" class="btn btn-default">
+        {{'Back'|translate}}
       </a>
-
-      <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('inwork')"
-              class="btn btn-warning">{{'Refuse'|translate}}
-      </button>
-
     </st-header>
 
     <div class="content" animate-panel effect="zoomIn">
@@ -93,11 +88,11 @@
         </div>
 
 
-        <st-panel title="{{'Comments'|translate}}">
+        <!--st-panel title="{{'Comments'|translate}}">
 
           <div comments-box collection-name="keywordGroups" place-holder="Комментарий..." resource-id="{{group._id}}"></div>
 
-        </st-panel>
+        </st-panel-->
 
       </div>
       <div class="col-md-3">

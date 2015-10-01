@@ -37,25 +37,13 @@
         </button>
       </div>
 
-      <div ng-if="group.status && group.status == 'completed' || group.status == 'returned'" class="btn-group">
-
-        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('finded')"
-                class="btn btn-default">
-          {{'Back'|translate}}
-        </button>
-        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('editorValidation')"
-                class="btn btn-primary">
-          {{'Pass to the editor'|translate}}
-        </button>
-      </div>
-
       <button ng-disabled="loading || editForm.$invalid" ng-if="!group._id" ng-class="{'m-progress': loading}"
               class="btn btn-primary btn-outline"
               type="submit">
         {{'Create'|translate}}
       </button>
-      <a ui-sref="keywords.projectView({ id: project._id })" class="btn btn-default">
-        {{'Cancel'|translate}}
+      <a ui-sref="keywords.groups" class="btn btn-default">
+        {{'Back'|translate}}
       </a>
 
 
@@ -261,7 +249,7 @@
       </div>
 
 
-      <div ng-if="group._id" attach-issue="group.issue" attachment="group" attachment-name="keywordGroups"></div>
+      <!--div ng-if="group._id" attach-issue="group.issue" attachment="group" attachment-name="keywordGroups"></div-->
 
     </div>
 

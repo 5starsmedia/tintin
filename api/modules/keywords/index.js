@@ -17,6 +17,7 @@ KeywordsModule.prototype.initModels = function () {
   this.app.models.seoTasks = require('./models/seoTask.js');
   this.app.models.seoUrls = require('./models/seoUrl.js');
   this.app.models.seoStatHistories = require('./models/seoStatHistory.js');
+  this.app.models.publicationSpecifications = require('./models/publicationSpecification.js');
 };
 
 KeywordsModule.prototype.initServices = function () {

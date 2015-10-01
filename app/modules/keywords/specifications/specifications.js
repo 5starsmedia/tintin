@@ -37,7 +37,7 @@ module.config(function ($stateProvider) {
       }
     })
     .state('keywords.specificationsView', {
-      url: "/specifications/:id",
+      url: "/specifications/:_id",
       controller: 'KeywordsSpecificationViewCtrl',
       templateUrl: "views/modules/keywords/specifications/page-view.html",
       data: {
@@ -46,8 +46,8 @@ module.config(function ($stateProvider) {
         hideTitle: true
       },
       resolve: {
-        group: /*@ngInject*/ ($stateParams, KeywordsGroupModel) => {
-          return KeywordsGroupModel.get({ _id: $stateParams.id }).$promise;
+        group: /*@ngInject*/ ($stateParams, KeywordsPublicationModel) => {
+          return KeywordsPublicationModel.get({ _id: $stateParams._id }).$promise;
         }
       }
     })
