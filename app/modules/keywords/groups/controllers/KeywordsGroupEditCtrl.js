@@ -11,6 +11,10 @@ class KeywordsGroupEditCtrl {
       $scope.site = site;
     });
 
+    NewsCategoryModel.getTree({ page: 1, perPage: 100, postType: 'post' }, (data) => {
+      $scope.categories = data;
+    });
+
     $scope.runScan = () => {
       $scope.loadingScan = true;
 
