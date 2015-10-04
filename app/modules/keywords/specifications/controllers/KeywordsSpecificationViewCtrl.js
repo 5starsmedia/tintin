@@ -30,17 +30,33 @@ class KeywordsSpecificationViewCtrl {
       });
     };
 
-    $scope.saveItem = (item) => {
+    $scope.saveDraftItem = (item) => {
       $scope.loading = true;
       let save = item._id ? item.$save : item.$create;
-      item.status = 'assign';
+      item.status = 'inprocess';
       save.call(item, (data) => {
         $scope.loading = false;
         notify({
-          message: $filter('translate')('Specifications saved!'),
+          message: $filter('translate')('Draft saved!'),
           classes: 'alert-success'
         });
         $state.go('^.specifications');
+      }, (res) => {
+        $scope.loading = false;
+        $scope.error = res.data;
+      });
+    };
+    $scope.saveItem = (item) => {
+      $scope.loading = true;
+      let save = item._id ? item.$save : item.$create;
+      item.status = 'completed';
+      save.call(item, (data) => {
+        $scope.loading = false;
+        notify({
+          message: $filter('translate')('Publication saved!'),
+          classes: 'alert-success'
+        });
+        $state.go('^.specificationsView', { _id: data._id });
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;
@@ -74,6 +90,23 @@ class KeywordsSpecificationViewCtrl {
         });
       }, function () {
         $scope.loadingBack = false;
+      });
+    };
+
+    $scope.checkForUniq = () => {
+      var modalInstance = $modal.open({
+        templateUrl: 'views/modules/keywords/specifications/modal-checkUniq.html',
+        controller: 'KeywordsSpecificationCheckUniqCtrl',
+        resolve: {
+          item: () => {
+            return $scope.item;
+          }
+        }
+      });
+
+      $scope.loadingBack = true;
+      modalInstance.result.then(function (item) {
+      }, function () {
       });
     };
 

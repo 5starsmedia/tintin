@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
   title: {type: String, required: true},
+  uid: String, // text uniq check
   category: {
     _id: mongoose.Schema.Types.ObjectId,
     title: String

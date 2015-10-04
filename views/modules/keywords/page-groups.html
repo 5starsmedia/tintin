@@ -19,6 +19,12 @@
           <table ng-table="tableParams" show-filter="true" class="table">
             <tr ng-repeat="item in $data">
               <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
+
+
+                <div class="label label-danger" ng-if="item.result.authorNotes" popover-placement="right" popover-title="Причина отказа" popover="{{item.result.authorNotes}}" popover-trigger="mouseenter">
+                  Отказ
+                </div>
+                &nbsp;
                 <a class="text-info" ui-sref="keywords.groupEdit({ id: item._id })">
                   {{item.title}}
                 </a>
@@ -38,9 +44,6 @@
                     <strong>{{item.result.dueDate|date:'dd.MM.yyyy'}}</strong>
                   </div>
 
-                  <div ng-if="item.result.authorNotes">
-                    Отказ
-                  </div>
                   <button ng-if="!item.result.account._id" class="btn btn-primary" ng-click="assign(item)" type="button">Назначить</button>
                 </div>
               </td>

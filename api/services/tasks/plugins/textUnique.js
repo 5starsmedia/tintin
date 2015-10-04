@@ -12,10 +12,10 @@ var async = require('async'),
 exports['seo.checkTextUnique'] = function (app, msg, cb) {
   async.auto({
     'post': function (next) {
-      app.models.posts.findById(msg.body._id, next);
+      app.models.publicationSpecifications.findById(msg.body._id, next);
     },
     'checkText': ['post', function (next, data) {
-      app.services.html.clearHtml(data.post.body, function (err, text) {
+      app.services.html.clearHtml(data.post.text, function (err, text) {
         text = htmlToText.fromString(text, {wordwrap: 120, tables: false, ignoreHref: true, ignoreImage: true});
 
         var url = 'http://api.text.ru/post';

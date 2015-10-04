@@ -1,7 +1,8 @@
 <div>
 
-  <st-form model="group" state="error" submit="saveItem(group)">
+  <st-form model="group" state="error" submit="saveItem(item)">
 
+    <div class="label label-warning" ng-if="item.status == 'inprocess'">Draft</div>
     <h2 class="font-light m-b-xs">{{item.title}}</h2>
 
     <div>
@@ -68,7 +69,7 @@
     <st-form-element label="{{'Body'|translate}}" field="body">
 
         <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
-                  ng-model="item.result.text"></textarea>
+                  ng-model="item.text"></textarea>
 
     </st-form-element>
 
@@ -95,6 +96,10 @@
       </div>
     </st-panel>
 
+    <button type="button" class="btn btn-default pull-right" ng-click="checkForUniq()">Проверить на уникальность</button>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" ng-click="saveDraftItem(item)" class="btn btn-warning">Save draft</button>
   </st-form>
 </div>
 

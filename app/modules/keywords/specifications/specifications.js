@@ -17,10 +17,12 @@ let module = angular.module(appName, [
 import KeywordsSpecificationsCtrl from './controllers/KeywordsSpecificationsCtrl.js';
 import KeywordsSpecificationViewCtrl from './controllers/KeywordsSpecificationViewCtrl.js';
 import KeywordsReturnTaskCtrl from './controllers/KeywordsReturnTaskCtrl.js';
+import KeywordsSpecificationCheckUniqCtrl from './controllers/KeywordsSpecificationCheckUniqCtrl.js';
 
 module.controller('KeywordsSpecificationsCtrl', KeywordsSpecificationsCtrl);
 module.controller('KeywordsSpecificationViewCtrl', KeywordsSpecificationViewCtrl);
 module.controller('KeywordsReturnTaskCtrl', KeywordsReturnTaskCtrl);
+module.controller('KeywordsSpecificationCheckUniqCtrl', KeywordsSpecificationCheckUniqCtrl);
 
 
 // config
