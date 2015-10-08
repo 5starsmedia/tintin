@@ -28,6 +28,24 @@ var schema = new mongoose.Schema({
     'inprocess',
     'completed'
   ]},
+  validation: {
+    editor: {
+      comment: String,
+      status: {type: String, default: 'none', enum: [
+        'none',
+        'pass',
+        'invalid'
+      ]},
+    },
+    expert: {
+      comment: String,
+      status: {type: String, default: 'none', enum: [
+        'none',
+        'pass',
+        'invalid'
+      ]},
+    }
+  },
   text: String, // готовая статья
   coverFile: {
     _id: mongoose.Schema.Types.ObjectId,

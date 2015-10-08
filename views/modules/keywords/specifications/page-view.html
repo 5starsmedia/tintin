@@ -2,7 +2,8 @@
 
   <st-form model="group" state="error" submit="saveItem(item)">
 
-    <div class="label label-warning" ng-if="item.status == 'inprocess'">Draft</div>
+    <div class="label label-default" ng-if="item.status == 'inprocess'">Черновик</div>
+    <div class="label label-warning" ng-if="item.status == 'completed'">На проверке</div>
     <h2 class="font-light m-b-xs">{{item.title}}</h2>
 
     <div>
@@ -98,8 +99,9 @@
 
     <button type="button" class="btn btn-default pull-right" ng-click="checkForUniq()">Проверить на уникальность</button>
 
-    <button type="submit" class="btn btn-primary">Save</button>
-    <button type="button" ng-click="saveDraftItem(item)" class="btn btn-warning">Save draft</button>
+    <!--<button type="submit" class="btn btn-primary">Save</button>-->
+    <button type="button" ng-click="saveDraftItem(item)" class="btn btn-primary">Сохранить</button>
+    <button ng-if="item.status == 'inprocess'" type="button" ng-click="saveItem(item)" class="btn btn-warning">Отправить на проверку</button>
   </st-form>
 </div>
 

@@ -6,6 +6,7 @@
     "*": {
       "get": "*",
       "get?account._id": ["*"],
+      "get?account._id&status": ["*"],
       "get?activated": ["admin"],
       "get?_id": "*",
       "get?tags": "*",
