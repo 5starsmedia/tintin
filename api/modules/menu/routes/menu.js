@@ -10,7 +10,7 @@ router.get('/mainmenu', function (req, res, next) {
 
   async.auto({
     'mainMenu': function(next) {
-      return req.app.models.menuElements.findOne({ isMainMenu: true }, next);
+      return req.app.models.menuElements.findOne({ 'site._id': req.site._id, isMainMenu: true }, next);
     }
   }, function (err, data) {
     if (err) { return next(err); }

@@ -3,6 +3,7 @@ import textUnique from './text-unique/text-unique';
 import seo from './seo/seo';
 import specifications from './specifications/specifications';
 import assignments from './assignments/assignments';
+import check from './check/check';
 
 var appName = 'module.keywords';
 
@@ -11,7 +12,8 @@ var module = angular.module(appName, [
   textUnique,
   seo,
   specifications,
-  assignments
+  assignments,
+  check
 ]);
 
 export default appName;

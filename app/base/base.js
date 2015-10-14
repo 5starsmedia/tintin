@@ -42,7 +42,7 @@ angular.module(appName, [
   'angles',
   'angular-peity'
 ])
-  .constant('IO_URL', location.origin == 'http://localhost:3000' ? 'http://localhost:8080/' : location.origin + '/')
+  .constant('IO_URL', location.origin == 'http://localhost:3000' ? 'http://localhost:8081/' : location.origin + '/')
   .constant('appTitle', 'Paphos CMS')
   .constant('appVersion', 'VERSION-dev')
   .constant('appSite', '5starsmedia.com.ua')

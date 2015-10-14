@@ -1,0 +1,26 @@
+<st-form model="item" state="error" submit="saveItem(item)">
+  <div class="color-line"></div>
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{{'Отказ от ТЗ'|translate}}</h4>
+  </div>
+  <div class="modal-body" bz-loading-container="loading">
+
+    <p>Укажите причину отказа</p>
+
+    <st-form-element label="{{'Assigned'|translate}}" field="result.authorNotes">
+
+      <textarea class="form-control" name="authorNotes"
+                ng-model="item.result.authorNotes" required></textarea>
+
+    </st-form-element>
+
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-disabled="edit.$invalid">
+      {{'Отказаться'|translate}}
+    </button>
+    <button type="button" class="btn btn-default" ng-click="$dismiss()" data-dismiss="modal">{{'Cancel'|translate}}
+    </button>
+  </div>
+</st-form>

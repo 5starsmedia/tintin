@@ -8,6 +8,8 @@ var schema = new mongoose.Schema({
   title: String,
   body: String,
 
+  issueNumber: Number,
+
   issuePrefix: String,
   issueType: {
     _id: mongoose.Schema.Types.ObjectId,

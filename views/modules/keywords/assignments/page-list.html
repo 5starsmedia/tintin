@@ -1,41 +1,28 @@
-<div class="content" animate-panel effect="zoomIn">
+<div>
 
-  <div class="row">
-
-    <div class="col-md-12">
-      <h2 class="font-light m-b-xs ng-binding">
-        {{'Assignments'|translate}}
-      </h2>
-
-      <div class="hpanel">
-        <div class="panel-body" bz-loading-container="loading">
+    <h2>
+      {{'Выданное ТЗ'|translate}}
+    </h2>
 
 
-          <table ng-table="tableParams" show-filter="true" class="table">
-            <tr ng-repeat="item in $data">
-              <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
-                <a class="text-info" ui-sref="keywords.assignmentsView({ id: item._id })">
-                  {{item.title}}
-                </a>
-              </td>
-              <td width="150" data-title="'Status'|translate" class="text-center">
-                <div keywords-status="{{item.status}}"></div>
-              </td>
-              <td style="width: 20%" data-title="'Date of creation'|translate" sortable="'createDate'" class="text-center">
-                  <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">
-                      {{item.createDate|date:'dd.MM.yyyy'}}
-                      {{item.createDate|date:'HH:mm'}}
-                  </span>
-              </td>
-            </tr>
-          </table>
-
-        </div>
-      </div>
-
-
-    </div>
-  </div>
+    <table ng-table="tableParams" show-filter="false" class="table">
+      <tr ng-repeat="item in $data">
+        <td width="100" data-title="'Due date'|translate" class="text-center" sortable="'result.dueDate'">
+          <strong>{{item.result.dueDate|date:'dd.MM.yyyy'}}</strong>
+        </td>
+        <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
+          <a class="text-info" ui-sref="keywords.assignmentsView({ id: item._id })">
+            {{item.title}}
+          </a>
+        </td>
+        <td style="width: 20%" data-title="'Date of creation'|translate" sortable="'createDate'" class="text-center">
+            <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">
+                {{item.createDate|date:'dd.MM.yyyy'}}
+                {{item.createDate|date:'HH:mm'}}
+            </span>
+        </td>
+      </tr>
+    </table>
 
 
 </div>

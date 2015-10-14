@@ -1,0 +1,44 @@
+<div>
+
+  <h2 class="font-light m-b-xs ng-binding">
+    {{'Specifications'|translate}}
+  </h2>
+
+
+  <table ng-table="tableParams" show-filter="false" class="table">
+    <tr ng-repeat="item in $data">
+      <td width="100" data-title="'Due date'|translate" class="text-center" sortable="'dueDate'">
+        <strong>{{item.dueDate|date:'dd.MM.yyyy'}}</strong>
+      </td>
+      <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
+        <a class="text-info" ui-sref="keywords.checkView({ _id: item._id })">
+          {{item.title}}
+        </a>
+
+      </td>
+      <td width="100" class="text-center" data-title="'Status'|translate">
+        <div ng-if="item.validation.editor.status == 'pass' && item.validation.expert.status == 'pass'">
+          <button class="btn btn-success btn-mini">Создать публикацию</button>
+        </div>
+        <div ng-if="!(item.validation.editor.status == 'pass' && item.validation.expert.status == 'pass')">
+          <div style="margin-bottom: 5px;">
+            <div class="label label-default" ng-if="item.validation.editor.status == 'none'">Редактор: не проверено</div>
+            <div class="label label-success" ng-if="item.validation.editor.status == 'pass'">Редактор: проверено</div>
+            <div class="label label-danger" ng-if="item.validation.editor.status == 'invalid'">Редактор: есть ошибки</div>
+          </div>
+          <div class="label label-default" ng-if="item.validation.expert.status == 'none'">Експерт: не проверено</div>
+          <div class="label label-success" ng-if="item.validation.expert.status == 'pass'">Експерт: проверено</div>
+          <div class="label label-danger" ng-if="item.validation.expert.status == 'invalid'">Експерт: есть ошибки</div>
+        </div>
+      </td>
+      <td style="width: 20%" data-title="'Date of creation'|translate" sortable="'createDate'" class="text-center">
+        <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">
+            {{item.createDate|date:'dd.MM.yyyy'}}
+            {{item.createDate|date:'HH:mm'}}
+        </span>
+      </td>
+    </tr>
+  </table>
+
+
+</div>

@@ -1,17 +1,21 @@
 export default
 class KeywordsSpecificationsCtrl {
   /*@ngInject*/
-  constructor($scope, $state, KeywordsGroupModel, BaseAPIParams, NgTableParams, $modal) {
+  constructor($scope, $state, KeywordsGroupModel, BaseAPIParams, NgTableParams, $auth, KeywordsPublicationModel) {
+    var payload = $auth.getPayload();
+
     $scope.tableParams = new NgTableParams({
       page: 1,
       count: 10,
       sorting: {
-        createDate: 'desc'
+        dueDate: 'asc'
       }
     }, {
       getData: function ($defer, params) {
         $scope.loading = true;
-        KeywordsGroupModel.query(BaseAPIParams({ fields: 'title,createDate,status,result', status: ['editorValidation', 'assign','inwork', 'moderation'] }, params), function (projects, headers) {
+        KeywordsPublicationModel.query(BaseAPIParams({
+          'account._id': payload._id
+        }, params), function (projects, headers) {
           $scope.loading = false;
           $scope.projects = projects;
           $defer.resolve(projects);

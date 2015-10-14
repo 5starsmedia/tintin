@@ -11,9 +11,9 @@ var express = require('express'),
   router = express.Router();
 
 router.post('/', function (req, res, next) {
-  var url = 'http://api.text.ru/account';
+  //req.app.services.mq.push(req.app, 'events', {name: 'seo.checkTextUnique', _id: req.body._id});
 
-  req.app.services.mq.push(req.app, 'events', {name: 'seo.checkTextUnique', _id: req.body._id});
+  //var url = 'http://api.text.ru/account';
 
   /*request.post({
     url: url,
@@ -25,8 +25,17 @@ router.post('/', function (req, res, next) {
 console.info(body)
     res.json(body);
   });*/
-
-  res.json({ success: true });
+  var url = 'http://api.text.ru/post';
+  request.post({
+    url: url,
+    form: {
+      text: req.body.text,
+      userkey: req.app.config.get('seo.text-ru.userkey')
+    }
+  }, function (error, response, body) {
+    body = JSON.parse(body);
+    res.json(body);
+  });
 });
 
 router.get('/:uid', function (req, res, next) {

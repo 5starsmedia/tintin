@@ -1,0 +1,47 @@
+<st-form model="item" state="error" submit="saveItem(item)">
+  <div class="color-line"></div>
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{{'Назначение'|translate}}</h4>
+  </div>
+  <div class="modal-body" bz-loading-container="loading">
+
+    <p>Выберите пользователя, которому хотите назначить написание статьи по данному ТЗ</p>
+
+    <st-form-element label="{{'Assigned'|translate}}" field="result.account">
+
+      <users-select-box account="item.result.account"></users-select-box>
+
+    </st-form-element>
+
+    <st-form-element label="{{'Due date'|translate}}" field="result.dueDate">
+
+      <div ng-if="item.result.dueDate" date-picker="item.result.dueDate" min-view="date" view="date"></div>
+      <div ng-if="!item.result.dueDate" date-picker="item.result.dueDate" min-view="date"></div>
+
+    </st-form-element>
+
+    <!--st-form-element label="{{'Body'|translate}}" field="body">
+      <div editor-select-images="item.files" collection-name="issues" item-id="{{item._id}}">
+          <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
+                    ng-model="item.body"></textarea>
+
+      </div>
+    </st-form-element-->
+
+
+
+  </div>
+  <div class="modal-footer">
+    <!--div class="pull-left">
+        <button type="submit" class="btn btn-danger" ng-click="saveItem()" ng-disabled="edit.$invalid">
+            {{'Удалить'|translate}}
+        </button>
+    </div-->
+    <button type="submit" class="btn btn-primary" ng-disabled="edit.$invalid || !item.result.account._id">
+      {{'Save'|translate}}
+    </button>
+    <button type="button" class="btn btn-default" ng-click="$dismiss()" data-dismiss="modal">{{'Cancel'|translate}}
+    </button>
+  </div>
+</st-form>

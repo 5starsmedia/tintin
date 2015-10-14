@@ -1,5 +1,5 @@
 export default
-class KeywordsSpecificationViewCtrl {
+class KeywordsCheckViewCtrl {
   /*@ngInject*/
   constructor($scope, $state, group, notify, $filter, SiteDomainModel, $modal, NewsCategoryModel) {
     $scope.item = group;
@@ -30,23 +30,6 @@ class KeywordsSpecificationViewCtrl {
       });
     };
 
-    $scope.saveDraftItem = (item) => {
-      $scope.loading = true;
-      let save = item._id ? item.$save : item.$create;
-      item.status = 'inprocess';
-      save.call(item, (data) => {
-        $scope.loading = false;
-        notify({
-          message: $filter('translate')('Draft saved!'),
-          classes: 'alert-success'
-        });
-        //$state.go('^.specifications');
-        $state.go('^.specificationsView', { _id: data._id });
-      }, (res) => {
-        $scope.loading = false;
-        $scope.error = res.data;
-      });
-    };
     $scope.saveItem = (item) => {
       $scope.loading = true;
       let save = item._id ? item.$save : item.$create;
@@ -54,43 +37,13 @@ class KeywordsSpecificationViewCtrl {
       save.call(item, (data) => {
         $scope.loading = false;
         notify({
-          message: $filter('translate')('Публикация отправлена на проверку!'),
+          message: $filter('translate')('Публикация сохранена!'),
           classes: 'alert-success'
         });
-        $state.go('^.specifications');
+        $state.go('^.check');
       }, (res) => {
         $scope.loading = false;
         $scope.error = res.data;
-      });
-    };
-
-    $scope.returnToAuthor = () => {
-      var modalInstance = $modal.open({
-        templateUrl: 'views/modules/keywords/specifications/form-backToAuthor.html',
-        controller: 'KeywordsReturnTaskCtrl',
-        resolve: {
-          item: () => {
-            return $scope.group;
-          }
-        }
-      });
-
-      $scope.loadingBack = true;
-      modalInstance.result.then(function (item) {
-        item.status = 'returned';
-        item.$save(() => {
-          $scope.loadingBack = false;
-          notify({
-            message: $filter('translate')('Return to author!'),
-            classes: 'alert-success'
-          });
-          $state.go('^.specifications');
-        }, (res) => {
-          $scope.loadingBack = false;
-          $scope.error = res.data;
-        });
-      }, function () {
-        $scope.loadingBack = false;
       });
     };
 

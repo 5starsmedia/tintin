@@ -4,10 +4,60 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
   title: {type: String, required: true},
+  uid: String, // text uniq check
   category: {
     _id: mongoose.Schema.Types.ObjectId,
     title: String
   },
+  group: {
+    _id: mongoose.Schema.Types.ObjectId
+  },
+  account: {
+    _id: mongoose.Schema.Types.ObjectId,
+    username: String,
+    title: String,
+    imageUrl: String,
+    coverFile: {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String
+    }
+  },
+
+  status: {type: String, default: 'new', enum: [
+    'new',
+    'inprocess',
+    'completed'
+  ]},
+  validation: {
+    editor: {
+      comment: String,
+      status: {type: String, default: 'none', enum: [
+        'none',
+        'pass',
+        'invalid'
+      ]},
+    },
+    expert: {
+      comment: String,
+      status: {type: String, default: 'none', enum: [
+        'none',
+        'pass',
+        'invalid'
+      ]},
+    }
+  },
+  text: String, // готовая статья
+  coverFile: {
+    _id: mongoose.Schema.Types.ObjectId,
+    title: String
+  },
+  files: [
+    {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String,
+      ordinal: Number
+    }
+  ],
 
   textLength: {
     min: Number,
@@ -24,6 +74,7 @@ var schema = new mongoose.Schema({
     url: String
   }],
 
+  dueDate: Date,
   createDate: {type: Date, required: true, default: Date.now},
   removed: {type: Date}
 }, {

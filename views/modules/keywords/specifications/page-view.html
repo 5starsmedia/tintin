@@ -1,60 +1,107 @@
 <div>
 
-  <st-form model="group" state="error" submit="saveItem(group)">
+  <st-form model="group" state="error" submit="saveItem(item)">
 
-    <h2 class="font-light m-b-xs">{{group.title}}</h2>
+    <div class="label label-default" ng-if="item.status == 'inprocess'">Черновик</div>
+    <div class="label label-warning" ng-if="item.status == 'completed'">На проверке</div>
+    <h2 class="font-light m-b-xs">{{item.title}}</h2>
 
-    <div class="content" animate-panel effect="zoomIn">
+    <div>
 
+      <accordion>
+         <accordion-group is-open="item.$open">
+           <accordion-heading>
+             <span class="fa" ng-class="{'fa-minus': item.$open, 'fa-plus': !item.$open}"></span>
+             Полное ТЗ</accordion-heading>
 
-      <div ng-if="group.status == 'moderation'">
-        <div ng-if="group.result.authorNotes" class="alert-info alert">
+      <div>
+        <div ng-bind-html="site.tz.defaultText"></div>
 
-          <div><strong>{{'Comment from author'|translate}}</strong></div>
-          {{group.result.authorNotes}}
+        <p>
+          <strong>Text lenght:</strong>
+          {{item.textLength.min}}-{{item.textLength.max}}
+          characters
+        </p>
 
-        </div>
-        <strong>{{'Text on moderation'|translate}}</strong>
+        <table class="table">
+          <tr class="active">
+            <td>Keyphrase</td>
+            <td>Number of occurrences</td>
+            <td>Type of occurrence</td>
+          </tr>
+          <tr ng-repeat="keyword in item.keywords">
+            <td>
+              <strong>
+                {{keyword.keyword}}
+              </strong>
+            </td>
+            <td>{{keyword.useEntry}}</td>
+            <td>
+              <span ng-if="keyword.useType == 'exact'">Exact entry</span>
+              <span ng-if="keyword.useType == 'inexact'">Diluted</span>
+              <span ng-if="keyword.useType == 'both'">Author's choose</span>
+            </td>
+          </tr>
+        </table>
 
-        <div style="border: 1px dotted #000; padding: 10px 15px; margin-bottom: 10px">
+        <p><strong>Site examples:</strong></p>
+        <ol>
+          <li ng-repeat="url in item.urls">
+            {{url.url}}
+          </li>
+        </ol>
 
-          <div ng-bind-html="group.result.text"></div>
-
-        </div>
       </div>
 
 
-      <div ng-include="'views/modules/keywords/page-group-preview.html'"></div>
-
-
-      <div class="text-center">
-
-        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}"
-                class="btn btn-success btn-lg" ng-click="back()">{{'Accept'|translate}}
-        </button>
-
-        <button type="button" ng-disabled="loadingBack" ng-class="{'m-progress': loadingBack}"
-                class="btn btn-warning" ng-click="returnToAuthor()">{{'Back in work'|translate}}
-        </button>
-
-        <a ui-sref="keywords.specifications" class="btn btn-default">
-          {{'Cancel'|translate}}
-        </a>
-
-
-      </div>
-
-      <br/>
-
-      <st-panel title="{{'Comments'|translate}}">
-
-        <div comments-box collection-name="keywordGroups" place-holder="Комментарий..."
-             resource-id="{{group._id}}"></div>
-
-      </st-panel>
+         </accordion-group>
+      </accordion>
 
     </div>
 
+
+    <st-form-element label="{{'Category'|translate}}" field="category._id">
+
+      <select ng-model="item.category._id" st-tree-select="categories" class="form-control" name="category"
+              required disabled></select>
+
+    </st-form-element>
+
+    <st-form-element label="{{'Body'|translate}}" field="body">
+
+        <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
+                  ng-model="item.text"></textarea>
+
+    </st-form-element>
+
+
+    <st-panel title="{{'Attached images'|translate}}" is-red="!item.files.length"
+              is-yellow="item.files.length && !item.coverFile">
+
+      <div editor-select-images="item.files">
+
+        <div class="alert alert-danger" ng-if="!item.files.length">
+          <span class="fa fa-picture-o"></span> {{'Upload one or more images'|translate}}
+        </div>
+        <div class="alert alert-warning" ng-if="item.files.length && !item.coverFile">
+          <span class="fa fa-flag"></span> {{'Select the cover image'|translate}}
+        </div>
+
+        <div>
+
+          <cs-file-upload resource-id="{{item._id}}" collection-name="posts" files="item.files"
+                          cover-file="item.coverFile" has-cover-select="true">
+          </cs-file-upload>
+        </div>
+
+      </div>
+    </st-panel>
+
+    <button type="button" class="btn btn-default pull-right" ng-click="checkForUniq()">Проверить на уникальность</button>
+
+    <!--<button type="submit" class="btn btn-primary">Save</button>-->
+    <button type="button" ng-click="saveDraftItem(item)" class="btn btn-primary">Сохранить</button>
+    <button ng-if="item.status == 'inprocess'" type="button" ng-click="saveItem(item)" class="btn btn-warning">Отправить на проверку</button>
   </st-form>
 </div>
 

@@ -1,21 +1,21 @@
 export default
-class KeywordsAssignmentsCtrl {
+class KeywordsCheckCtrl {
   /*@ngInject*/
-  constructor($scope, $state, KeywordsGroupModel, BaseAPIParams, NgTableParams, $auth, $modal) {
+  constructor($scope, $state, KeywordsGroupModel, BaseAPIParams, NgTableParams, $auth, KeywordsPublicationModel) {
     var payload = $auth.getPayload();
 
     $scope.tableParams = new NgTableParams({
       page: 1,
       count: 10,
       sorting: {
-        'result.dueDate': 'asc'
+        dueDate: 'asc'
       }
     }, {
       getData: function ($defer, params) {
         $scope.loading = true;
-        KeywordsGroupModel.query(BaseAPIParams({
-          'result.account._id': payload._id,
-          status: 'completed'
+        KeywordsPublicationModel.query(BaseAPIParams({
+          'account._id': payload._id,
+          'status': 'completed'
         }, params), function (projects, headers) {
           $scope.loading = false;
           $scope.projects = projects;

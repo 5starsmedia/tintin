@@ -1,7 +1,7 @@
 export default
 class KeywordsGroupsCtrl {
   /*@ngInject*/
-  constructor($scope, KeywordsGroupModel, BaseAPIParams, NgTableParams) {
+  constructor($scope, KeywordsGroupModel, BaseAPIParams, NgTableParams, IssuesIssueModel, $modal) {
 
     $scope.tableParams = new NgTableParams({
       page: 1,
@@ -38,5 +38,22 @@ class KeywordsGroupsCtrl {
         $scope.tableParams.reload();
       })
     };
+
+    //assign
+
+
+    $scope.assign = (group) => {
+      var modalInstance = $modal.open({
+        templateUrl: 'views/modules/keywords/modal-attach.html',
+        controller: 'KeywordsGroupAssignCtrl',
+        windowClass: "hmodal-success",
+        resolve: {
+          group: () => angular.copy(group)
+        }
+      });
+      modalInstance.result.then((data) => {
+        $scope.tableParams.reload();
+      });
+    }
   }
 }
