@@ -35,6 +35,7 @@ class KeywordsCheckCtrl {
       delete post.text;
       delete post.urls;
       delete post.dueDate;
+      delete post.uid;
       delete post.textLength;
       post.status = 1;
       post.body = item.text;
