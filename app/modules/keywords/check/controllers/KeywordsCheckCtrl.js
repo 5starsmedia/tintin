@@ -14,7 +14,7 @@ class KeywordsCheckCtrl {
       getData: function ($defer, params) {
         $scope.loading = true;
         KeywordsPublicationModel.query(BaseAPIParams({
-          'account._id': payload._id,
+          //'account._id': payload._id,
           'status': 'completed'
         }, params), function (projects, headers) {
           $scope.loading = false;
