@@ -16,15 +16,19 @@ let module = angular.module(appName, [
 ]);
 
 // controllers
+import KeywordsMasterCtrl from './controllers/KeywordsMasterCtrl.js';
 import KeywordsGroupEditCtrl from './controllers/KeywordsGroupEditCtrl.js';
 import KeywordsGroupsCtrl from './controllers/KeywordsGroupsCtrl.js';
 import KeywordsBlockGroupsCtrl from './controllers/KeywordsBlockGroupsCtrl.js';
 import KeywordsGroupAssignCtrl from './controllers/KeywordsGroupAssignCtrl.js';
 
-module.controller('KeywordsGroupsCtrl', KeywordsGroupsCtrl)
+module
+  .controller('KeywordsMasterCtrl', KeywordsMasterCtrl)
+  .controller('KeywordsGroupsCtrl', KeywordsGroupsCtrl)
   .controller('KeywordsGroupEditCtrl', KeywordsGroupEditCtrl)
   .controller('KeywordsGroupAssignCtrl', KeywordsGroupAssignCtrl)
-  .controller('KeywordsBlockGroupsCtrl', KeywordsBlockGroupsCtrl);
+  .controller('KeywordsBlockGroupsCtrl', KeywordsBlockGroupsCtrl)
+;
 
 
 import keywordsStatus from './directives/keywordsStatus.js';
@@ -39,7 +43,8 @@ module.config(function ($stateProvider) {
     .state('keywords', {
       abstract: true,
       parent: 'cabinet',
-      templateUrl: 'views/modules/keywords/master-view.html'
+      templateUrl: 'views/modules/keywords/master-view.html',
+      controller: 'KeywordsMasterCtrl'
       //template: '<div ui-view></div>'
     })
     .state('keywords.groups', {
