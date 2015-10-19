@@ -38,6 +38,7 @@ class KeywordsCheckCtrl {
       delete post.uid;
       delete post.textLength;
       post.status = 1;
+      post.postType = 'post';
       post.body = item.text;
       post.$create((data) => {
         tmp.postId = data._id;
