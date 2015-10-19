@@ -5,6 +5,7 @@
   "acl": {
     "*": {
       "get": "*",
+      "get?status": ["*"],
       "get?account._id": ["*"],
       "get?account._id&status": ["*"],
       "get?activated": ["admin"],

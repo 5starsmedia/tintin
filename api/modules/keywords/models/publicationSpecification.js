@@ -22,6 +22,7 @@ var schema = new mongoose.Schema({
       title: String
     }
   },
+  postId: mongoose.Schema.Types.ObjectId,
 
   status: {type: String, default: 'new', enum: [
     'new',

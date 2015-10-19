@@ -1,7 +1,7 @@
 export default
 class KeywordsCheckCtrl {
   /*@ngInject*/
-  constructor($scope, $state, KeywordsGroupModel, BaseAPIParams, NgTableParams, $auth, KeywordsPublicationModel) {
+  constructor($scope, $state, KeywordsGroupModel, BaseAPIParams, NgTableParams, $auth, KeywordsPublicationModel, NewsPostModel) {
     var payload = $auth.getPayload();
 
     $scope.tableParams = new NgTableParams({
@@ -14,7 +14,7 @@ class KeywordsCheckCtrl {
       getData: function ($defer, params) {
         $scope.loading = true;
         KeywordsPublicationModel.query(BaseAPIParams({
-          'account._id': payload._id,
+          //'account._id': payload._id,
           'status': 'completed'
         }, params), function (projects, headers) {
           $scope.loading = false;
@@ -24,5 +24,27 @@ class KeywordsCheckCtrl {
         });
       }
     });
+
+    $scope.createPublication = (item) => {
+      var post = new NewsPostModel(item),
+        tmp = angular.copy(item);
+
+      delete post._id;
+      delete post.group;
+      delete post.validation;
+      delete post.text;
+      delete post.urls;
+      delete post.dueDate;
+      delete post.uid;
+      delete post.textLength;
+      post.status = 1;
+      post.body = item.text;
+      post.$create((data) => {
+        tmp.postId = data._id;
+        tmp.$save(() => {
+          $state.go('post.edit', { id: data._id });
+        });
+      })
+    }
   }
 }

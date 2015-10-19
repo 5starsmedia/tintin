@@ -18,7 +18,12 @@
       </td>
       <td width="100" class="text-center" data-title="'Status'|translate">
         <div ng-if="item.validation.editor.status == 'pass' && item.validation.expert.status == 'pass'">
-          <button class="btn btn-success btn-mini">Создать публикацию</button>
+          <div ng-if="item.postId">
+            <a href="" ui-sref="post.edit({id: item.postId})">Публикация</a>
+          </div>
+          <div ng-if="!item.postId">
+            <button class="btn btn-success btn-mini" ng-click="createPublication(item)">Создать публикацию</button>
+          </div>
         </div>
         <div ng-if="!(item.validation.editor.status == 'pass' && item.validation.expert.status == 'pass')">
           <div style="margin-bottom: 5px;">

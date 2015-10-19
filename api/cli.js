@@ -51,7 +51,10 @@ var addDomain = deasync(function (domainName, next) {
       domain: domainName
     });
     site.save(function(err) {
-      if (err) { return next(err); }
+      if (err) {
+        console.error(err);
+        return next(err);
+      }
 
       console.log('Closing mongodb connection...');
       mongoose.connection.close(function (err) {
@@ -59,6 +62,24 @@ var addDomain = deasync(function (domainName, next) {
         console.log('Mongodb connection successfully closed');
         next();
       });
+    });
+  });
+});
+
+var sendMail = deasync(function (template, email, next) {
+  var client = new Stomp(config.get('tasks.stomp.host'), config.get('tasks.stomp.port'), config.get('tasks.stomp.login'), config.get('tasks.stomp.password'));
+  client.on('error', function (err) {
+    if (err) { return console.log(err.toString()); }
+  });
+  console.log('Connecting to tasks stomp...');
+  client.connect(function () {
+    console.log('Connection to tasks stomp ready');
+    console.log('Send mail', template, 'to', email, 'to queue');
+    client.publish(config.get('tasks.stomp.destination'), JSON.stringify({body: { name: 'mail.send', template: template, email: email, options: {} }}));
+    console.log('Disconnecting from tasks stomp...');
+    client.disconnect(function () {
+      console.log('Disconnected from tasks stomp');
+      next();
     });
   });
 });
@@ -75,6 +96,13 @@ program
   .description('Add specified domain')
   .action(function (domainName, opts) {
     addDomain(domainName);
+  });
+
+program
+  .command('send-mail <template> <email>')
+  .description('Send test mail')
+  .action(function (template, email, opts) {
+    sendMail(template, email);
   });
 
 program
