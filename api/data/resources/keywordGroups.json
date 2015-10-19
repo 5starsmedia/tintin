@@ -16,8 +16,8 @@
       "get?category._id": "*",
       "put?_id": ["keywords.formers", "keywords.groups", "*:owner"],
       "put?_id&position": ["keywords.formers", "keywords.groups", "*:owner"],
-      "post": "admin",
-      "delete?_id": "admin"
+      "post": ["keywords.groups", "keywords.formers"],
+      "delete?_id": ["keywords.groups", "keywords.formers"]
     },
     "_w": false,
     "path": false
