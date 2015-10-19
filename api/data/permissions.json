@@ -52,6 +52,22 @@
     "title": "Формировщик ТЗ"
   },
   {
+    "name": "menu.formers",
+    "title": "Меню 'Формирование ТЗ'"
+  },
+  {
+    "name": "menu.specs",
+    "title": "Меню 'Выданое ТЗ'"
+  },
+  {
+    "name": "menu.inwork",
+    "title": "Меню 'Взятое в работу'"
+  },
+  {
+    "name": "menu.check",
+    "title": "Меню 'На проверке'"
+  },
+  {
     "name": "users",
     "title": "users"
   },

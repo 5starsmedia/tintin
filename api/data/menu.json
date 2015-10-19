@@ -94,35 +94,40 @@
     "items": [
       {
         "sref": "keywords.groups",
-        "title": {"en-US": "List of groups", "ru-RU": "Формирование ТЗ"},
-        "permissions": ["keywords.groups"]
-      },
-      {
-        "sref": "keywords.specifications",
-        "title": {"en-US": "List of specifications", "ru-RU": "ТЗ на выдачу"},
-        "permissions": ["keywords.specifications"]
+        "title": {"en-US": "Формирование ТЗ", "ru-RU": "Формирование ТЗ"},
+        "permissions": ["menu.formers"]
       },
       {
         "sref": "keywords.assignments",
-        "title": {"en-US": "List of assignments", "ru-RU": "Назначеные ТЗ"},
-        "permissions": ["keywords.assignments"]
+        "title": {"en-US": "Выданное ТЗ", "ru-RU": "Выданное ТЗ"},
+        "permissions": ["menu.specs"]
+      },
+      {
+        "sref": "keywords.specifications",
+        "title": {"en-US": "Взятые в работу ТЗ", "ru-RU": "Взятые в работу ТЗ"},
+        "permissions": ["menu.inwork"]
+      },
+      {
+        "sref": "keywords.check",
+        "title": {"en-US": "На проверке", "ru-RU": "На проверке"},
+        "permissions": ["menu.check"]
       }
     ]
   },
   {
     "sref": "users",
     "title": {"en-US": "Users", "ru-RU": "Пользователи"},
-    "permissions": [],
+    "permissions": ["users"],
     "items": [
       {
         "sref": "users.list",
         "title": {"en-US": "List of users", "ru-RU": "Управление пользователями"},
-        "permissions": []
+        "permissions": ["users"]
       },
       {
         "sref": "users.roles",
         "title": {"en-US": "List of roles", "ru-RU": "Роли пользователей"},
-        "permissions": []
+        "permissions": ["users"]
       }
     ]
   },
