@@ -2,7 +2,7 @@
 export default
 class KeywordsSpecificationCheckUniqCtrl {
   /*@ngInject*/
-  constructor($scope, $http, item) {
+  constructor($scope, $http, item, notify) {
     $scope.item = item;
 
     $scope.sendText = () => {
@@ -13,6 +13,13 @@ class KeywordsSpecificationCheckUniqCtrl {
 
       var url = '/api/text-unique';
       $http.post(url, { text: text }).then((res) => {
+        if (res.error_code) {
+          notify({
+            message: res.error_desc,
+            classes: 'alert-danger'
+          });
+          return;
+        }
         item.uid = res.data.text_uid;
         item.$save(() => {
           $scope.getStatus();
