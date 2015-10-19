@@ -24,6 +24,7 @@ class NewsCategoriesCtrl {
         $scope.loading = false;
         item.focus = true;
         item.$settings = true;
+        $state.go(postType + '.categories.edit', { id: item._id });
       });
     };
 

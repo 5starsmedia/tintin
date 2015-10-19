@@ -48,6 +48,10 @@
     "title": "keywords.assignments"
   },
   {
+    "name": "keywords.formers",
+    "title": "Формировщик ТЗ"
+  },
+  {
     "name": "users",
     "title": "users"
   },

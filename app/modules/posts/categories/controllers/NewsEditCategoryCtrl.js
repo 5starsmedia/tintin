@@ -44,7 +44,7 @@ class NewsEditCategoryCtrl {
       $scope.error = null;
       category.$save((data) => {
         $scope.loading = false;
-        item.url = data.url;
+        item.alias = data.alias;
 
         notify({
           message: $filter('translate')('Item saved!'),

@@ -5,17 +5,17 @@
   "acl": {
     "*": {
       "get": "*",
-      "get?activated": ["admin"],
+      "get?activated": ["keywords.groups"],
       "get?_id": "*",
       "get?tags": "*",
-      "get?status": ["keywords.specifications"],
-      "get?status&result.account._id": ["keywords.assignments"],
+      "get?status": ["keywords.groups", "keywords.formers", "keywords.specifications"],
+      "get?status&result.account._id": ["keywords.groups", "keywords.assignments"],
       "get?tags.title": "*",
       "get?project._id": "*",
       "get?project._id&status": "*",
       "get?category._id": "*",
-      "put?_id": ["admin", "*:owner"],
-      "put?_id&position": ["admin", "*:owner"],
+      "put?_id": ["keywords.formers", "keywords.groups", "*:owner"],
+      "put?_id&position": ["keywords.formers", "keywords.groups", "*:owner"],
       "post": "admin",
       "delete?_id": "admin"
     },
