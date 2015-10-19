@@ -1,9 +1,9 @@
 {
   "mongodb": "mongodb://admin5stars:5stars@db1.5stars.link:27001,db2.5stars.link:27002,db3.5stars.link:27003/5stars?replicaSet=production&auto_reconnect=true",
   "http": {
-    "port": 8080
+    "port": 8081
   },
-  "url": "http://localhost:8080",
+  "url": "http://localhost:8081",
   "modules": [
     "dns",
     "posts",
@@ -49,10 +49,6 @@
     },
     "default-ip": ["46.4.48.144"],
     "version": "Paphos CMS"
-  },
-  "webdav": {
-    "ip": "localhost",
-    "port": 8081
   },
   "notifications": {
     "mailingDelay": 30
