@@ -17,10 +17,12 @@ let module = angular.module(appName, [
 import KeywordsSpecificationsCtrl from './controllers/KeywordsSpecificationsCtrl.js';
 import KeywordsSpecificationViewCtrl from './controllers/KeywordsSpecificationViewCtrl.js';
 import KeywordsReturnTaskCtrl from './controllers/KeywordsReturnTaskCtrl.js';
+import KeywordsSpecificationCheckUniqCtrl from './controllers/KeywordsSpecificationCheckUniqCtrl.js';
 
 module.controller('KeywordsSpecificationsCtrl', KeywordsSpecificationsCtrl);
 module.controller('KeywordsSpecificationViewCtrl', KeywordsSpecificationViewCtrl);
 module.controller('KeywordsReturnTaskCtrl', KeywordsReturnTaskCtrl);
+module.controller('KeywordsSpecificationCheckUniqCtrl', KeywordsSpecificationCheckUniqCtrl);
 
 
 // config
@@ -37,7 +39,7 @@ module.config(function ($stateProvider) {
       }
     })
     .state('keywords.specificationsView', {
-      url: "/specifications/:id",
+      url: "/specifications/:_id",
       controller: 'KeywordsSpecificationViewCtrl',
       templateUrl: "views/modules/keywords/specifications/page-view.html",
       data: {
@@ -46,8 +48,8 @@ module.config(function ($stateProvider) {
         hideTitle: true
       },
       resolve: {
-        group: /*@ngInject*/ ($stateParams, KeywordsGroupModel) => {
-          return KeywordsGroupModel.get({ _id: $stateParams.id }).$promise;
+        group: /*@ngInject*/ ($stateParams, KeywordsPublicationModel) => {
+          return KeywordsPublicationModel.get({ _id: $stateParams._id }).$promise;
         }
       }
     })

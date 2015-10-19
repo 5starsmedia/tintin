@@ -17,7 +17,11 @@ var schema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     title: String,
     issuePrefix: String,
-    issueNumber: Number
+    issueNumber: Number,
+    status: {
+      title: String,
+      statusType: String
+    }
   },
 
   status: {type: String, default: 'new', enum: [

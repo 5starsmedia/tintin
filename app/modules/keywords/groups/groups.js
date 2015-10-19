@@ -19,9 +19,11 @@ let module = angular.module(appName, [
 import KeywordsGroupEditCtrl from './controllers/KeywordsGroupEditCtrl.js';
 import KeywordsGroupsCtrl from './controllers/KeywordsGroupsCtrl.js';
 import KeywordsBlockGroupsCtrl from './controllers/KeywordsBlockGroupsCtrl.js';
+import KeywordsGroupAssignCtrl from './controllers/KeywordsGroupAssignCtrl.js';
 
 module.controller('KeywordsGroupsCtrl', KeywordsGroupsCtrl)
   .controller('KeywordsGroupEditCtrl', KeywordsGroupEditCtrl)
+  .controller('KeywordsGroupAssignCtrl', KeywordsGroupAssignCtrl)
   .controller('KeywordsBlockGroupsCtrl', KeywordsBlockGroupsCtrl);
 
 

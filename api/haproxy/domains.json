@@ -1,22 +1,25 @@
 [
-  { "domain": "webakcent.pro", "ip": "10.0.0.20" },
-  { "domain": "dev.webakcent.pro", "ip": "10.0.0.20" },
-  { "domain": "esvit.name", "ip": "10.0.0.20" },
-  { "domain": "putevoditel.in.ua", "ip": "10.0.0.64" },
-  { "domain": "news.vn.ua", "ip": "10.0.0.10" },
-  { "domain": "smov.vn.ua", "ip": "10.0.0.62" },
-  { "domain": "dashboard.5stars.link", "ip": "10.0.0.50" },
-  { "domain": "dashboard-full.5stars.link", "ip": "10.0.0.50" },
-  { "domain": "lgz.5stars.link", "ip": "10.0.0.50" },
-  { "domain": "seasons.5stars.link", "ip": "10.0.0.53" },
-  { "domain": "5stars.link", "ip": "10.0.0.60" },
-  { "domain": "presspoint.in.ua", "ip": "10.0.0.11" },
-  { "domain": "bezprovodoff.com", "ip": "10.0.0.21" },
-  { "domain": "vinnitsaok.5stars.link", "ip": "10.0.0.21" },
   { "domain": "vinnitsaok.com.ua", "ip": "10.0.0.1" },
   { "domain": "5starsmedia.com.ua", "ip": "10.0.0.1" },
   { "domain": "test.news.vn.ua", "ip": "10.0.0.1" },
   { "domain": "broadway.vn.ua", "ip": "10.0.0.1" },
   { "domain": "mixbox.in.ua", "ip": "10.0.0.1" },
-  { "domain": "luxuryinterni.it", "ip": "10.0.0.63" }
+
+  { "domain": "news.vn.ua", "ip": "10.0.0.10" },
+
+  { "domain": "vn.presspoint.in.ua", "ip": "10.0.0.11" },
+  { "domain": "presspoint.in.ua", "ip": "10.0.0.11" },
+
+  { "domain": "esvit.name", "ip": "10.0.0.20" },
+  { "domain": "bezprovodoff.com", "ip": "10.0.0.21" },
+
+  { "domain": "season-de-luxe.com", "ip": "10.0.0.53" },
+  { "domain": "seasons.5stars.link", "ip": "10.0.0.53" },
+
+  { "domain": "lgz.com.ua", "ip": "10.0.0.54" },
+  { "domain": "5stars.link", "ip": "10.0.0.60" },
+
+  { "domain": "smov.vn.ua", "ip": "10.0.0.62" },
+  { "domain": "luxuryinterni.it", "ip": "10.0.0.63" },
+  { "domain": "putevoditel.in.ua", "ip": "10.0.0.64" }
 ]

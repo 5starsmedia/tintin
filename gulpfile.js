@@ -219,10 +219,10 @@ gulp.task('watch', ['build-persistent'], function () {
 
   gulp.watch(['index.html','views/**/*.html','app/**/*.js'], ['translate']);
 
-  var proxyOptions = url.parse('http://localhost:8080/api');
+  var proxyOptions = url.parse('http://localhost:8081/api');
   proxyOptions.route = '/api';
 
-  var proxyOptions2 = url.parse('http://localhost:8080/socket.io');
+  var proxyOptions2 = url.parse('http://localhost:8081/socket.io');
   proxyOptions2.route = '/socket.io';
 
   browserSync({
@@ -252,10 +252,10 @@ gulp.task('doc', function() {
 // WEB SERVER
 gulp.task('serve', function () {
 
-  var proxyOptions = url.parse('http://localhost:8080/api');
+  var proxyOptions = url.parse('http://localhost:8081/api');
   proxyOptions.route = '/api';
 
-  var proxyOptions2 = url.parse('ws://localhost:8080/socket.io');
+  var proxyOptions2 = url.parse('ws://localhost:8081/socket.io');
   proxyOptions2.route = '/socket.io';
 
   browserSync({

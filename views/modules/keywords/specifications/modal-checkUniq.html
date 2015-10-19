@@ -1,0 +1,135 @@
+<form name="field">
+  <div class="color-line"></div>
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">Проверка уникальности</h4>
+  </div>
+  <div class="modal-body" bz-loading-container="loading">
+
+    <div ng-if="noResult" class="alert alert-info">
+      Результатов проверки еще нет, проверте чуть позже
+    </div>
+    <button class="btn btn-primary" type="button" ng-if="item.uid && !result" ng-click="getStatus()">Проверить статус</button>
+
+
+    <div ng-if="result">
+
+
+      <div>Результат проверки от: <strong ng-bind="result.result_json.date_check"></strong></div>
+      <div>Уникальность текста: <strong ng-bind="result.text_unique"></strong></div>
+      <div>Символов с пробелами: <strong ng-bind="result.seo_check.count_chars_with_space"></strong></div>
+      <div>Символов без пробелов: <strong ng-bind="result.seo_check.count_chars_without_space"></strong></div>
+      <div>Слов: <strong ng-bind="result.seo_check.count_words"></strong></div>
+      <div>Процент воды: <strong ng-bind="result.seo_check.water_percent"></strong></div>
+      <div>Процент спама: <strong ng-bind="result.seo_check.spam_percent"></strong></div>
+
+
+      <br/>
+
+      <accordion>
+        <accordion-group>
+          <accordion-heading>
+            Ключи
+            <strong ng-bind="result.seo_check.list_keys.length"></strong>
+          </accordion-heading>
+
+          <table class="table">
+            <tr>
+              <th>Ключ</th>
+              <th>К-ство</th>
+            </tr>
+            <tr ng-repeat="check in result.seo_check.list_keys">
+              <td>{{check.key_title}}</td>
+              <td>{{check.count}}</td>
+            </tr>
+          </table>
+
+        </accordion-group>
+        <accordion-group>
+          <accordion-heading>
+            Группы ключей
+            <strong ng-bind="result.seo_check.list_keys_group.length"></strong>
+          </accordion-heading>
+
+          <table class="table">
+            <tr>
+              <th>Ключ</th>
+              <th>К-ство</th>
+              <th>Ключи</th>
+            </tr>
+            <tr ng-repeat="check in result.seo_check.list_keys_group">
+              <td>{{check.key_title}}</td>
+              <td>{{check.count}}</td>
+              <td>
+                <div ng-repeat="key in check.sub_keys">
+                  {{key.key_title}}: {{key.count}}
+                </div>
+              </td>
+            </tr>
+          </table>
+
+        </accordion-group>
+        <accordion-group ng-if="result.seo_check.mixed_words.length">
+          <accordion-heading>
+            Смешаные алфавиты
+            <strong ng-bind="result.seo_check.mixed_words.length"></strong>
+          </accordion-heading>
+
+          {{result.seo_check.mixed_words}}
+          <table class="table">
+            <tr>
+              <th>Тип</th>
+              <th>Причина</th>
+              <th>Текст</th>
+              <th>Замена</th>
+            </tr>
+            <tr ng-repeat="check in result.spell_check">
+              <td>{{check.error_type}}</td>
+              <td>{{check.reason}}</td>
+              <td>{{check.error_text}}</td>
+              <td>
+                <div ng-repeat="replace in check.replacements" ng-bind="replace"></div>
+              </td>
+            </tr>
+          </table>
+
+        </accordion-group>
+        <accordion-group>
+          <accordion-heading>
+            Орфография
+            <strong ng-bind="result.spell_check.length"></strong>
+          </accordion-heading>
+
+          <table class="table">
+            <tr>
+              <th>Тип</th>
+              <th>Причина</th>
+              <th>Текст</th>
+              <th>Замена</th>
+            </tr>
+            <tr ng-repeat="check in result.spell_check">
+              <td>{{check.error_type}}</td>
+              <td>{{check.reason}}</td>
+              <td>{{check.error_text}}</td>
+              <td>
+                <div ng-repeat="replace in check.replacements" ng-bind="replace"></div>
+              </td>
+            </tr>
+          </table>
+
+        </accordion-group>
+      </accordion>
+
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="sendText()" data-dismiss="modal">
+      {{'Повторно отправить на проверку'|translate}}
+    </button>
+
+    <button type="button" class="btn btn-default" ng-click="close()" data-dismiss="modal">
+      {{'Close'|translate}}
+    </button>
+  </div>
+</form>

@@ -1,0 +1,159 @@
+<div>
+
+  <st-form model="group" state="error" submit="saveItem(item)">
+
+    <h2 class="font-light m-b-xs">Проверка "{{item.title}}"</h2>
+
+    <div>
+
+      <accordion>
+         <accordion-group is-open="item.$open">
+           <accordion-heading>
+             <span class="fa" ng-class="{'fa-minus': item.$open, 'fa-plus': !item.$open}"></span>
+             Полное ТЗ</accordion-heading>
+
+      <div>
+        <div ng-bind-html="site.tz.defaultText"></div>
+
+        <p>
+          <strong>Text lenght:</strong>
+          {{item.textLength.min}}-{{item.textLength.max}}
+          characters
+        </p>
+
+        <table class="table">
+          <tr class="active">
+            <td>Keyphrase</td>
+            <td>Number of occurrences</td>
+            <td>Type of occurrence</td>
+          </tr>
+          <tr ng-repeat="keyword in item.keywords">
+            <td>
+              <strong>
+                {{keyword.keyword}}
+              </strong>
+            </td>
+            <td>{{keyword.useEntry}}</td>
+            <td>
+              <span ng-if="keyword.useType == 'exact'">Exact entry</span>
+              <span ng-if="keyword.useType == 'inexact'">Diluted</span>
+              <span ng-if="keyword.useType == 'both'">Author's choose</span>
+            </td>
+          </tr>
+        </table>
+
+        <p><strong>Site examples:</strong></p>
+        <ol>
+          <li ng-repeat="url in item.urls">
+            {{url.url}}
+          </li>
+        </ol>
+
+      </div>
+
+
+         </accordion-group>
+      </accordion>
+
+    </div>
+
+
+    <st-form-element label="{{'Category'|translate}}" field="category._id">
+
+      <select ng-model="item.category._id" st-tree-select="categories" class="form-control" name="category"
+              required disabled></select>
+
+    </st-form-element>
+
+    <st-form-element label="{{'Body'|translate}}" field="body">
+
+        <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
+                  ng-model="item.text"></textarea>
+
+    </st-form-element>
+
+
+    <st-panel title="{{'Attached images'|translate}}" is-red="!item.files.length"
+              is-yellow="item.files.length && !item.coverFile">
+
+      <div editor-select-images="item.files">
+
+        <div class="alert alert-danger" ng-if="!item.files.length">
+          <span class="fa fa-picture-o"></span> {{'Upload one or more images'|translate}}
+        </div>
+        <div class="alert alert-warning" ng-if="item.files.length && !item.coverFile">
+          <span class="fa fa-flag"></span> {{'Select the cover image'|translate}}
+        </div>
+
+        <div>
+
+          <cs-file-upload files="item.files"
+                          cover-file="item.coverFile" has-cover-select="true">
+          </cs-file-upload>
+        </div>
+
+      </div>
+    </st-panel>
+    <div class="text-center">
+      <button type="button" class="btn btn-default btn-lg" ng-click="checkForUniq()">Проверить на уникальность</button>
+    </div>
+
+    <br/>
+    <div class="row">
+      <div class="col-xs-6">
+        <fieldset>
+          <legend>Проверка Редактором</legend>
+
+          <div class="form-group">
+            <label>Комментарий:</label>
+            <textarea class="form-control" ng-model="item.validation.editor.comment"></textarea>
+          </div>
+          <div class="row">
+              <div class="col-xs-4 col-xs-offset-2">
+                <button type="button" ng-class="{'active': item.validation.editor.status == 'pass'}" ng-click="item.validation.editor.status = 'pass'" class="btn btn-success btn-block">
+                  <span class="fa fa-check" ng-if="item.validation.editor.status == 'pass'"></span>
+                  Принять
+                </button>
+              </div>
+              <div class="col-xs-4">
+                <button type="button" ng-class="{'active': item.validation.editor.status == 'invalid'}" ng-click="item.validation.editor.status = 'invalid'" class="btn btn-danger btn-block">
+                  <span class="fa fa-check" ng-if="item.validation.editor.status == 'invalid'"></span>
+                  Вернуть
+                </button>
+              </div>
+            </div>
+        </fieldset>
+      </div>
+      <div class="col-xs-6">
+        <fieldset>
+          <legend>Проверка Експертом</legend>
+
+          <div class="form-group">
+            <label>Комментарий:</label>
+            <textarea class="form-control" ng-model="item.validation.expert.comment"></textarea>
+          </div>
+          <div class="row">
+              <div class="col-xs-4 col-xs-offset-2">
+                <button type="button" ng-class="{'active': item.validation.expert.status == 'pass'}" ng-click="item.validation.expert.status = 'pass'" class="btn btn-success btn-block">
+                  <span class="fa fa-check" ng-if="item.validation.expert.status == 'pass'"></span>
+                  Принять
+                </button>
+              </div>
+              <div class="col-xs-4">
+                <button type="button" ng-class="{'active': item.validation.expert.status == 'invalid'}" ng-click="item.validation.expert.status = 'invalid'" class="btn btn-danger btn-block">
+                  <span class="fa fa-check" ng-if="item.validation.expert.status == 'invalid'"></span>
+                  Вернуть
+                </button>
+              </div>
+            </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <br/>
+    <br/>
+    <!--<button type="submit" class="btn btn-primary">Save</button>-->
+    <button type="button" ng-click="saveItem(item)" class="btn btn-primary">Сохранить</button>
+  </st-form>
+</div>
+

@@ -68,7 +68,10 @@ exports.mongoosePlugin = function (schema, options) {
       }
 
       exports.getNextSequence(doc.db.db, doc.collection.name, fieldName, function (err, result) {
+
+        console.info('pre', fieldName,err, result);
         doc[fieldName] = result;
+        console.info('pre', doc);
         next(err);
       });
     } else {
@@ -115,6 +118,7 @@ function getNextId(db, collectionName, fieldName, callback) {
     {$inc: {seq: step}},
     {upsert: true, new: true},
     function (err, result) {
+
       if (err) {
         if (err.code == 11000) {
           process.nextTick(getNextId.bind(null, db, collectionName, fieldName, callback));
@@ -122,7 +126,7 @@ function getNextId(db, collectionName, fieldName, callback) {
           callback(err);
         }
       } else {
-        callback(null, result.seq);
+        callback(null, result.value.seq);
       }
     }
   );

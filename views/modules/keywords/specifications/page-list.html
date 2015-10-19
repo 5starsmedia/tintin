@@ -1,53 +1,33 @@
-<div class="content" animate-panel effect="zoomIn">
+<div>
 
-  <div class="row">
-
-    <div class="col-md-12">
-      <h2 class="font-light m-b-xs ng-binding">
-        {{'Specifications'|translate}}
-      </h2>
-
-      <div class="hpanel">
-        <div class="panel-body" bz-loading-container="loading">
+  <h2 class="font-light m-b-xs ng-binding">
+    {{'Specifications'|translate}}
+  </h2>
 
 
-          <table ng-table="tableParams" show-filter="true" class="table">
-            <tr ng-repeat="item in $data">
-              <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
-                <a class="text-info" ui-sref="keywords.specificationsView({ id: item._id })">
-                  {{item.title}}
-                </a>
-              </td>
-              <td style="width: 20%" data-title="'Due date'|translate" sortable="'result.dueDate'" class="text-center">
-                  <span>
-                      {{item.result.dueDate|date:'dd.MM.yyyy'}}
-                  </span>
-              </td>
-              <td class="table-preview" data-title="'Assigment'|translate">
-                <a ng-if="item.result.account" class="name" target="_blank" ui-sref="profile.user.info({username: item.result.account.username})">
-                  <st-avatar width="120" height="120" account="item.result.account"></st-avatar>
-
-                  {{item.result.account.title}}
-                </a>
-              </td>
-              <td data-title="'Status'|translate">
-                <div keywords-status="{{item.status}}"></div>
-              </td>
-              <td style="width: 20%" data-title="'Date of creation'|translate" sortable="'createDate'" class="text-center">
-                  <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">
-                      {{item.createDate|date:'dd.MM.yyyy'}}
-                      {{item.createDate|date:'HH:mm'}}
-                  </span>
-              </td>
-            </tr>
-          </table>
-
-        </div>
-      </div>
-
-
-    </div>
-  </div>
+  <table ng-table="tableParams" show-filter="false" class="table">
+    <tr ng-repeat="item in $data">
+      <td width="100" data-title="'Due date'|translate" class="text-center" sortable="'dueDate'">
+        <strong>{{item.dueDate|date:'dd.MM.yyyy'}}</strong>
+      </td>
+      <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
+        <a class="text-info" ui-sref="keywords.specificationsView({ _id: item._id })" ng-if="item.status != 'completed'">
+          {{item.title}}
+        </a>
+        <span ng-if="item.status == 'completed'">{{item.title}}</span>
+      </td>
+      <td width="100" class="text-center" data-title="'Status'|translate">
+        <div class="label label-default" ng-if="item.status == 'inprocess'">Черновик</div>
+        <div class="label label-warning" ng-if="item.status == 'completed'">На проверке</div>
+      </td>
+      <td style="width: 20%" data-title="'Date of creation'|translate" sortable="'createDate'" class="text-center">
+        <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">
+            {{item.createDate|date:'dd.MM.yyyy'}}
+            {{item.createDate|date:'HH:mm'}}
+        </span>
+      </td>
+    </tr>
+  </table>
 
 
 </div>
