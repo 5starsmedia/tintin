@@ -94,7 +94,7 @@
       "post": "admin"
     },
     "*": {
-      "get": ["admin", "*:owner", "user"],
+      "get": ["admin", "*:owner", "*"],
       "get?activated": ["admin"],
       "get?username": ["admin", "*:owner"],
       "get?_id": ["admin", "*:owner", "user"],
