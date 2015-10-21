@@ -11,13 +11,13 @@
       <div ng-if="item.validation.editor.status == 'invalid'" class="alert alert-warning">
 
         <strong>{{'Comment of editor'|translate}}</strong>
-        <div ng-bind="group.validation.editor.comment"></div>
+        <div ng-bind="item.validation.editor.comment"></div>
 
       </div>
       <div ng-if="item.validation.expert.status == 'invalid'" class="alert alert-warning">
 
         <strong>{{'Comment of expert'|translate}}</strong>
-        <div ng-bind="group.validation.expert.comment"></div>
+        <div ng-bind="item.validation.expert.comment"></div>
 
       </div>
 
