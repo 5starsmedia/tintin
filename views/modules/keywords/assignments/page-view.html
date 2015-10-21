@@ -28,16 +28,16 @@
 
               <st-form model="group" state="error" submit="back('moderation')">
 
-                <div ng-if="group.status == 'failedModeration'" class="alert alert-warning">
+                <div ng-if="group.validation.editor.status == 'invalid'" class="alert alert-warning">
 
                   <strong>{{'Comment of editor'|translate}}</strong>
-                  <div ng-bind="group.result.editorNotes"></div>
+                  <div ng-bind="group.validation.editor.comment"></div>
 
-                  <st-form-element label="{{'Your comment'|translate}}" field="authorNotes">
+                </div>
+                <div ng-if="group.validation.expert.status == 'invalid'" class="alert alert-warning">
 
-                    <textarea id="editorNotes" class="form-control" name="authorNotes" ng-model="group.result.authorNotes"></textarea>
-
-                  </st-form-element>
+                  <strong>{{'Comment of expert'|translate}}</strong>
+                  <div ng-bind="group.validation.expert.comment"></div>
 
                 </div>
 
