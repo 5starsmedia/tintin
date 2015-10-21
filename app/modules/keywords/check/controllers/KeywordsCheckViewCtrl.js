@@ -33,7 +33,12 @@ class KeywordsCheckViewCtrl {
     $scope.saveItem = (item) => {
       $scope.loading = true;
       let save = item._id ? item.$save : item.$create;
-      item.status = 'completed';
+
+      if (item.validation.expert.status == 'invalid' && item.validation.editor.status == 'invalid') {
+        item.status = 'inprocess';
+      } else {
+        item.status = 'completed';
+      }
       save.call(item, (data) => {
         $scope.loading = false;
         notify({
