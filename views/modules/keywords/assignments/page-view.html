@@ -28,18 +28,6 @@
 
               <st-form model="group" state="error" submit="back('moderation')">
 
-                <div ng-if="group.validation.editor.status == 'invalid'" class="alert alert-warning">
-
-                  <strong>{{'Comment of editor'|translate}}</strong>
-                  <div ng-bind="group.validation.editor.comment"></div>
-
-                </div>
-                <div ng-if="group.validation.expert.status == 'invalid'" class="alert alert-warning">
-
-                  <strong>{{'Comment of expert'|translate}}</strong>
-                  <div ng-bind="group.validation.expert.comment"></div>
-
-                </div>
 
                 <st-form-element label="{{'Category'|translate}}" field="category._id">
 

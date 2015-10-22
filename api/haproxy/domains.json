@@ -1,9 +1,7 @@
 [
   { "domain": "vinnitsaok.com.ua", "ip": "10.0.0.1" },
   { "domain": "5starsmedia.com.ua", "ip": "10.0.0.1" },
-  { "domain": "test.news.vn.ua", "ip": "10.0.0.1" },
   { "domain": "broadway.vn.ua", "ip": "10.0.0.1" },
-  { "domain": "mixbox.in.ua", "ip": "10.0.0.1" },
 
   { "domain": "news.vn.ua", "ip": "10.0.0.10" },
 
@@ -14,8 +12,8 @@
   { "domain": "bezprovodoff.com", "ip": "10.0.0.21" },
 
   { "domain": "season-de-luxe.com", "ip": "10.0.0.53" },
-  { "domain": "seasons.5stars.link", "ip": "10.0.0.53" },
 
+  { "domain": "ivolex.com.ua", "ip": "10.0.0.54" },
   { "domain": "lgz.com.ua", "ip": "10.0.0.54" },
   { "domain": "5stars.link", "ip": "10.0.0.60" },
 

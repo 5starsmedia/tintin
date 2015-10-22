@@ -27,7 +27,8 @@ var schema = new mongoose.Schema({
   status: {type: String, default: 'new', enum: [
     'new',
     'inprocess',
-    'completed'
+    'completed',
+    'incompleted'
   ]},
   validation: {
     editor: {

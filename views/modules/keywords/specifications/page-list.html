@@ -19,6 +19,7 @@
       <td width="100" class="text-center" data-title="'Status'|translate">
         <div class="label label-default" ng-if="item.status == 'inprocess'">Черновик</div>
         <div class="label label-warning" ng-if="item.status == 'completed'">На проверке</div>
+        <div class="label label-danger" ng-if="item.status == 'incompleted'">Доработка</div>
       </td>
       <td style="width: 20%" data-title="'Date of creation'|translate" sortable="'createDate'" class="text-center">
         <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">

@@ -35,7 +35,7 @@ class KeywordsCheckViewCtrl {
       let save = item._id ? item.$save : item.$create;
 
       if (item.validation.expert.status == 'invalid' || item.validation.editor.status == 'invalid') {
-        item.status = 'inprocess';
+        item.status = 'incompleted';
       } else {
         item.status = 'completed';
       }
