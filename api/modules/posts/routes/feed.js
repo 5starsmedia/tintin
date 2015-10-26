@@ -37,7 +37,7 @@ router.get('/', function (req, res, next) {
         var text = htmlToText.fromString(item.body, {wordwrap: 120, tables: false, ignoreHref: true, ignoreImage: true});
         data.rss.item({
           title: item.title,
-          //description: text,
+          description: text,
           url: req.site.url + req.app.services.url.urlFor('posts', item), // link to the item
           categories: [item.category.title], // optional - array of item categories
           author: item.account.title, // optional - defaults to feed author property
