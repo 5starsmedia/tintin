@@ -34,10 +34,18 @@ router.get('/', function (req, res, next) {
     },
     'items': ['posts', 'rss', function(next, data) {
       _.forEach(data.posts, function(item) {
-        var text = htmlToText.fromString(item.body, {wordwrap: 120, tables: false, ignoreHref: true, ignoreImage: true});
+        var text = htmlToText.fromString(item.body, {wordwrap: 120, tables: false, ignoreHref: true, ignoreImage: true}),
+          description = null;
+
+        if (item.meta && item.meta.description) {
+          description = item.meta.description;
+        }
+        if (!description) {
+          description = _.trunc(text, 250);
+        }
         data.rss.item({
           title: item.title,
-          description: text,
+          description: description,
           url: req.site.url + req.app.services.url.urlFor('posts', item), // link to the item
           categories: [item.category.title], // optional - array of item categories
           author: item.account.title, // optional - defaults to feed author property
