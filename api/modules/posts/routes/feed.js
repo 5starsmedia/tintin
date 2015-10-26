@@ -30,7 +30,12 @@ router.get('/', function (req, res, next) {
       next(null, feed);
     },
     'posts': function(next) {
-      req.app.models.posts.find({ status: 4, removed: { $exists: false }, postType: 'post' }, null, { limit: 50, sort: { createDate: -1 } }, next);
+      req.app.models.posts.find({
+        status: 4,
+        removed: { $exists: false },
+        postType: 'post',
+        'site._id': req.site._id
+      }, null, { limit: 50, sort: { createDate: -1 } }, next);
     },
     'items': ['posts', 'rss', function(next, data) {
       _.forEach(data.posts, function(item) {
