@@ -14,7 +14,7 @@ router.get('/', function (req, res, next) {
       var feed = new rss({
         title: req.site.title || '',
         description: '',
-        feed_url: req.app.config.get('url') + req.request.url,
+        feed_url: req.app.config.get('url') + '/feed/rss.xml', //+ req.request.url,
         site_url: req.app.config.get('url'),
         //image_url: 'http://news.vn.ua/assets/img/rss_logo.png',
         //managingEditor: 'info@news.vn.ua (Редакція)',
@@ -41,11 +41,11 @@ router.get('/', function (req, res, next) {
           url: req.site.url + req.app.services.url.urlFor('posts', item), // link to the item
           categories: [item.category.title], // optional - array of item categories
           author: item.account.title, // optional - defaults to feed author property
-          date: item.createDate, // any format that js Date can parse.
-          custom_elements: [
+          date: item.createDate//, // any format that js Date can parse.
+          /*custom_elements: [
             {'yandex:full-text': item.body},
             {'yandex:genre': 'article'}
-          ]
+          ]*/
         });
       });
       next();
