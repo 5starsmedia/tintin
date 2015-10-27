@@ -106,7 +106,18 @@
 
           <div ng-if="group.status && group.status == 'finded'">
 
-            <div ng-bind-html="site.tz.defaultText"></div>
+
+            <accordion>
+              <accordion-group is-open="group.$open">
+                <accordion-heading>
+                  <span class="fa" ng-class="{'fa-minus': group.$open, 'fa-plus': !group.$open}"></span>
+                  Вимоги до ТЗ</accordion-heading>
+
+                <div ng-bind-html="site.tz.defaultText"></div>
+
+              </accordion-group>
+            </accordion>
+
 
             <table class="table table-condensed">
               <tr>
