@@ -18,7 +18,11 @@ UrlSvc.prototype.aliasFor = function (app, text, options, cb) {
 UrlSvc.prototype.urlFor = function (collectionName, params) {
   switch (collectionName) {
     case 'posts':
-      return '/' + params.category.parentAlias + '/' + params.category.alias + '/' + params.alias + '.html';
+      var url = '/';
+      if (params.category.parentAlias) {
+        url += params.category.parentAlias + '/';
+      }
+      return url + params.category.alias + '/' + params.alias + '.html';
 
     case 'categories':
       if (!params.parentAlias) {
