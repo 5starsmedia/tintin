@@ -292,6 +292,7 @@
     "{{item.factor}}": "",
     "{{item.phone}}": "",
     "{{item.status.title}}": "",
+    "{{item.validationcount}}": "",
     "Автор": "",
     "Адрес:": "",
     "В прошлом месяце": "",
