@@ -36,6 +36,9 @@ class KeywordsCheckViewCtrl {
 
       if (item.validation.expert.status == 'invalid' || item.validation.editor.status == 'invalid') {
         item.status = 'incompleted';
+        item.validation.expert.status = 'none';
+        item.validation.editor.status = 'none';
+        item.validation.count++;
       } else {
         item.status = 'completed';
       }

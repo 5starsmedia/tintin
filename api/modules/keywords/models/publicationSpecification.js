@@ -31,6 +31,7 @@ var schema = new mongoose.Schema({
     'incompleted'
   ]},
   validation: {
+    count: {type: Number, default: 0},
     editor: {
       comment: String,
       status: {type: String, default: 'none', enum: [
