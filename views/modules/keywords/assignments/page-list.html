@@ -17,8 +17,11 @@
         </td>
 
         <td data-title="'Status'|translate">
-          <st-avatar width="120" height="120" account="item.result.account"></st-avatar>
-          {{item.result.account.title}}
+          <a class="name" href="">
+            <st-avatar width="120" height="120" account="item.result.account"></st-avatar>
+
+            {{item.result.account.title}}
+          </a>
         </td>
         <td style="width: 20%" data-title="'Date of creation'|translate" sortable="'createDate'" class="text-center">
             <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">
