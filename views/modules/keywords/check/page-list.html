@@ -11,7 +11,11 @@
         <strong>{{item.dueDate|date:'dd.MM.yyyy'}}</strong>
       </td>
       <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
-        <a class="text-info" ui-sref="keywords.checkView({ _id: item._id })">
+        <span ng-if="item.status == 'inprocess' || item.status == 'incompleted'">
+          {{item.title}}
+        </span>
+        <a ng-if="item.status != 'inprocess' && item.status != 'incompleted'"
+           class="text-info" ui-sref="keywords.checkView({ _id: item._id })">
           {{item.title}}
         </a>
 
@@ -25,10 +29,10 @@
       </td>
       <td width="100" class="text-center" data-title="'Status'|translate">
         <div ng-if="item.status == 'inprocess'">
-          <div class="label label-info">В работе</div>
+          <div class="label label-warning">В работе</div>
         </div>
         <div ng-if="item.status == 'incompleted'">
-          <div class="label label-info">На доработке</div>
+          <div class="label label-danger">На доработке</div>
         </div>
 
         <div ng-if="item.status == 'completed'">
