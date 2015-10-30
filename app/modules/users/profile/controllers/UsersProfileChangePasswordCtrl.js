@@ -13,7 +13,7 @@ class UsersProfileChangePasswordCtrl {
       $scope.loading = true;
 
       item.$save((data) => {
-        $scope.loading = false; 
+        $scope.loading = false;
 
         notify({
           message: 'Пароль изменен',
