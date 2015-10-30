@@ -16,6 +16,13 @@
         </a>
 
       </td>
+      <td width="100" data-title="'Assigned'|translate">
+        <a class="name" href="">
+          <st-avatar style="width: 30px; display: inline-block;" width="120" height="120" account="item.result.account"></st-avatar>
+
+          {{item.result.account.title}}
+        </a>
+      </td>
       <td width="100" class="text-center" data-title="'Status'|translate">
         <div ng-if="item.status == 'inprocess'">
           <div class="label label-info">В работе</div>
