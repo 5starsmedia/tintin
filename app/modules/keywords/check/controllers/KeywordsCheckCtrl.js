@@ -15,7 +15,7 @@ class KeywordsCheckCtrl {
         $scope.loading = true;
         KeywordsPublicationModel.query(BaseAPIParams({
           //'account._id': payload._id,
-          'status': 'completed'
+          'status': ['completed', 'inprocess', 'incompleted']
         }, params), function (projects, headers) {
           $scope.loading = false;
           $scope.projects = projects;

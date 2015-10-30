@@ -17,23 +17,32 @@
 
       </td>
       <td width="100" class="text-center" data-title="'Status'|translate">
-        <div ng-if="item.validation.editor.status == 'pass' && item.validation.expert.status == 'pass'">
-          <div ng-if="item.postId">
-            <a href="" ui-sref="post.edit({id: item.postId})">Публикация</a>
-          </div>
-          <div ng-if="!item.postId">
-            <button class="btn btn-success btn-mini" ng-click="createPublication(item)">Создать публикацию</button>
-          </div>
+        <div ng-if="item.status == 'inprocess'">
+          <div class="alert alert-info">В работе</div>
         </div>
-        <div ng-if="!(item.validation.editor.status == 'pass' && item.validation.expert.status == 'pass')">
-          <div style="margin-bottom: 5px;">
-            <div class="label label-default" ng-if="item.validation.editor.status == 'none'">Редактор: не проверено</div>
-            <div class="label label-success" ng-if="item.validation.editor.status == 'pass'">Редактор: проверено</div>
-            <div class="label label-danger" ng-if="item.validation.editor.status == 'invalid'">Редактор: есть ошибки</div>
+        <div ng-if="item.status == 'incompleted'">
+          <div class="alert alert-info">На доработке</div>
+        </div>
+
+        <div ng-if="item.status == 'completed'">
+          <div ng-if="item.validation.editor.status == 'pass' && item.validation.expert.status == 'pass'">
+            <div ng-if="item.postId">
+              <a href="" ui-sref="post.edit({id: item.postId})">Публикация</a>
+            </div>
+            <div ng-if="!item.postId">
+              <button class="btn btn-success btn-mini" ng-click="createPublication(item)">Создать публикацию</button>
+            </div>
           </div>
-          <div class="label label-default" ng-if="item.validation.expert.status == 'none'">Експерт: не проверено</div>
-          <div class="label label-success" ng-if="item.validation.expert.status == 'pass'">Експерт: проверено</div>
-          <div class="label label-danger" ng-if="item.validation.expert.status == 'invalid'">Експерт: есть ошибки</div>
+          <div ng-if="!(item.validation.editor.status == 'pass' && item.validation.expert.status == 'pass')">
+            <div style="margin-bottom: 5px;">
+              <div class="label label-default" ng-if="item.validation.editor.status == 'none'">Редактор: не проверено</div>
+              <div class="label label-success" ng-if="item.validation.editor.status == 'pass'">Редактор: проверено</div>
+              <div class="label label-danger" ng-if="item.validation.editor.status == 'invalid'">Редактор: есть ошибки</div>
+            </div>
+            <div class="label label-default" ng-if="item.validation.expert.status == 'none'">Експерт: не проверено</div>
+            <div class="label label-success" ng-if="item.validation.expert.status == 'pass'">Експерт: проверено</div>
+            <div class="label label-danger" ng-if="item.validation.expert.status == 'invalid'">Експерт: есть ошибки</div>
+          </div>
         </div>
       </td>
       <td width="40" class="text-center" data-title="'Validations'|translate">
