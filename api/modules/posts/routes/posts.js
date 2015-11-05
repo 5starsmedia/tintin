@@ -54,8 +54,8 @@ router.get('/csv', function (req, res, next) {
     var posts = _.sortBy(data.posts, 'title');
     _.each(posts, function(post) {
       str += post.title + ',' +
-              req.app.services.url.urlFor('posts', post) + ',' +
-          post.category.title + ',' +
+          req.site + req.app.services.url.urlFor('posts', post) + ',' +
+          (post.category.title || '') + ',' +
           post.viewsCount + ',' +
           post.meta.title + '\n';
     });
