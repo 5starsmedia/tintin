@@ -74,7 +74,6 @@ angular.module(appName, [
 
     ngProgress.color('#62cb31');
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {
-      console.info(arguments)
       ngProgress.start();
     });
     $rootScope.$on('$stateChangeSuccess', function() {

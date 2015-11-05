@@ -33,6 +33,37 @@ router.get('/import', function (req, res, next) {
   });
 });
 
+router.get('/csv', function (req, res, next) {
+  async.auto({
+    'posts': function (next) {
+      var params = { 'site._id': req.site._id, removed: { $exists: false }, status: 4 };
+      if (req.query.postType) {
+        params.postType = req.query.postType;
+      }
+      req.app.models.posts.find(req.params.id, next)
+    }
+  }, function (err, data) {
+    if (err) { return next(err); }
+
+    res.set('Content-Type', 'text/csv');
+    res.attachment(
+        'posts-' + req.site.domain + '.csv'
+    );
+
+    var str = 'Title,Url,Category,Views,Meta title\n';
+    var posts = _.sortBy(data.posts, 'title');
+    _.each(posts, function(post) {
+      str += post.title + ',' +
+              req.app.services.url.urlFor('posts', post) + ',' +
+          post.category.title + ',' +
+          post.viewsCount + ',' +
+          post.meta.title + '\n';
+    });
+    res.send(str);
+  });
+
+});
+
 /**
  * @api {get} /api/posts/tags-complete?term=:term Автокомплит тегов
  * @apiName tags-complete

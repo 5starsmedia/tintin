@@ -28,6 +28,9 @@
         <div class="col-md-9">
 
             <div class="pull-right">
+                <a class="btn btn-default btn-outline" ng-href="/api/posts/csv?postType={{postType}}" target="_blank">
+                    <i class="fa fa-plus"></i> {{'Export CSV'|translate}}
+                </a>
                 <a class="btn btn-success btn-outline" ui-sref="{{postType}}.create">
                     <i class="fa fa-plus"></i> {{'New article'|translate}}
                 </a>
