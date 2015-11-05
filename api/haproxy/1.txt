@@ -38,41 +38,47 @@ frontend main
   option http-pretend-keepalive
   bind 0.0.0.0:443 ssl crt /root/.ssl/5starsmedia.com.ua.pem
   redirect scheme https if { hdr(Host) -i 5starsmedia.com.ua } !{ ssl_fc }
-  acl url_fs9k9 hdr_end(host) vn.presspoint.in.ua
-  use_backend backend_10_0_0_11 if url_fs9k9
-  acl url_cmcxr hdr_end(host) 5starsmedia.com.ua
-  use_backend backend_10_0_0_1 if url_cmcxr
-  acl url_thuxr hdr_end(host) vinnitsaok.com.ua
-  use_backend backend_10_0_0_1 if url_thuxr
-  acl url_m2t9 hdr_end(host) putevoditel.in.ua
-  use_backend backend_10_0_0_64 if url_m2t9
-  acl url_f2yb9 hdr_end(host) presspoint.in.ua
-  use_backend backend_10_0_0_11 if url_f2yb9
-  acl url_vzpvi hdr_end(host) broadway.vn.ua
-  use_backend backend_10_0_0_1 if url_vzpvi
-  acl url_3z0k9 hdr_end(host) ivolex.com.ua
-  use_backend backend_10_0_0_54 if url_3z0k9
-  acl url_dgqfr hdr_end(host) news.vn.ua
-  use_backend backend_10_0_0_10 if url_dgqfr
-  acl url_zto6r hdr_end(host) lgz.com.ua
-  use_backend backend_10_0_0_54 if url_zto6r
-  acl url_rggb9 hdr_end(host) smov.vn.ua
-  use_backend backend_10_0_0_62 if url_rggb9
-  acl url_d1jor hdr_end(host) season-de-luxe.com
-  use_backend backend_10_0_0_53 if url_d1jor
-  acl url_6bt9 hdr_end(host) bezprovodoff.com
-  use_backend backend_10_0_0_21 if url_6bt9
-  acl url_jra4i hdr_end(host) luxuryinterni.it
-  use_backend backend_10_0_0_63 if url_jra4i
-  acl url_tqpvi hdr_end(host) 5stars.link
-  use_backend backend_10_0_0_60 if url_tqpvi
-  acl url_tt9 hdr_end(host) esvit.name
-  use_backend backend_10_0_0_20 if url_tt9
+  acl url_d7vi hdr_end(host) vn.presspoint.in.ua
+  use_backend backend_10_0_0_11 if url_d7vi
+  acl url_unmi hdr_end(host) dashboard.5stars.link
+  use_backend backend_10_0_0_92 if url_unmi
+  acl url_jatt9 hdr_end(host) 5starsmedia.com.ua
+  use_backend backend_10_0_0_1 if url_jatt9
+  acl url_w29 hdr_end(host) vinnitsaok.com.ua
+  use_backend backend_10_0_0_1 if url_w29
+  acl url_o1or hdr_end(host) putevoditel.in.ua
+  use_backend backend_10_0_0_64 if url_o1or
+  acl url_xogvi hdr_end(host) presspoint.in.ua
+  use_backend backend_10_0_0_11 if url_xogvi
+  acl url_42t9 hdr_end(host) broadway.vn.ua
+  use_backend backend_10_0_0_1 if url_42t9
+  acl url_0pb9 hdr_end(host) ivolex.com.ua
+  use_backend backend_10_0_0_54 if url_0pb9
+  acl url_27qfr hdr_end(host) news.vn.ua
+  use_backend backend_10_0_0_10 if url_27qfr
+  acl url_wmi hdr_end(host) lgz.com.ua
+  use_backend backend_10_0_0_54 if url_wmi
+  acl url_4gqfr hdr_end(host) smov.vn.ua
+  use_backend backend_10_0_0_62 if url_4gqfr
+  acl url_nmi hdr_end(host) season-de-luxe.com
+  use_backend backend_10_0_0_53 if url_nmi
+  acl url_ujtt9 hdr_end(host) bezprovodoff.com
+  use_backend backend_10_0_0_21 if url_ujtt9
+  acl url_mx6r hdr_end(host) luxuryinterni.it
+  use_backend backend_10_0_0_63 if url_mx6r
+  acl url_3c8fr hdr_end(host) 5stars.link
+  use_backend backend_10_0_0_60 if url_3c8fr
+  acl url_jfw29 hdr_end(host) esvit.name
+  use_backend backend_10_0_0_20 if url_jfw29
 
 backend backend_10_0_0_11
   mode http
   balance roundrobin
   server backend_10_0_0_11 10.0.0.11:80 check inter 2000
+backend backend_10_0_0_92
+  mode http
+  balance roundrobin
+  server backend_10_0_0_92 10.0.0.92:80 check inter 2000
 backend backend_10_0_0_1
   mode http
   balance roundrobin

@@ -87,10 +87,10 @@ export default
           return defer.promise;
         }
       };
-      service.getPermissions((permissions) => {
+      /*service.getPermissions((permissions) => {
         currentPermissions = permissions;
         localStorage.permissions = angular.toJson(permissions);
-      });
+      });*/
       return service;
     };
   }

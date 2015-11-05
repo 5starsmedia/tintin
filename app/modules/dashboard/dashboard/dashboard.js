@@ -16,7 +16,7 @@ module.config(function ($stateProvider, basePermissionsSetProvider) {
         hideTitle: true
       },
       resolve: {
-        permissions: basePermissionsSetProvider.access(['auth.login'])
+        permissions: basePermissionsSetProvider.access([])
       }
     });
 });

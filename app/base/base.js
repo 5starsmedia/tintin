@@ -59,6 +59,7 @@ angular.module(appName, [
 
     $rootScope.$state = $state;
     $rootScope.$on('$stateChangeError', function(event) {
+      console.info(arguments)
       $state.go('cabinet.404');
     });
 
@@ -73,6 +74,7 @@ angular.module(appName, [
 
     ngProgress.color('#62cb31');
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {
+      console.info(arguments)
       ngProgress.start();
     });
     $rootScope.$on('$stateChangeSuccess', function() {

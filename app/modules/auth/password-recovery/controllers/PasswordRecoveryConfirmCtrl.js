@@ -2,7 +2,6 @@ export default
 class PasswordRecoveryConfirmCtrl {
   /*@ngInject*/
   constructor($scope, $auth, $state, $stateParams, AuthUserModel, basePermissionsSet, $timeout) {
-
     if (!$stateParams.token) {
       $state.go('^.password-recovery');
       return;

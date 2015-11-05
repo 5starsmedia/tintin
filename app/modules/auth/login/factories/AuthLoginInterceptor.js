@@ -15,7 +15,8 @@ export default
         if (rejection.status === 401) {
           let $auth = $injector.get('$auth'),
             $location = $injector.get('$location'),
-            $timeout = $injector.get('$timeout');
+              $state = $injector.get('$state');
+
           $auth.logout();
           $location.path('/auth/login');
         }
