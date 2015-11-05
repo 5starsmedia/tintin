@@ -29,9 +29,11 @@ CrawlerSvc.prototype.getUrlContent = function (requestUrl, userAgent, next) {
         headers: {
           'User-Agent': userAgent
         },
-        encoding: null
+        encoding: null,
+        timeout: 3000
       };
       request(options, function (error, response, body) {
+        console.info(error)
         if (error) { return next(error); }
 
         var bodyEncoding = null, result,
