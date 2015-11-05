@@ -547,7 +547,7 @@ router.post('/reset', function (req, res, next) {
           if (err) {
             return next(err);
           }
-          req.app.services.mq.push(req.app, 'events', {
+          /*req.app.services.mq.push(req.app, 'events', {
             name: 'mail.send',
             template: 'passwordReset',
             email: data.account.email,
@@ -555,12 +555,12 @@ router.post('/reset', function (req, res, next) {
               userName: data.account.title,
               token: token
             }
-          });
+          });*/
 
-          /*req.app.services.mail.sendTemplate('passwordReset', data.account.email, {
+          req.app.services.mail.sendTemplate('passwordReset', data.account.email, {
             userName: data.account.title,
             token: token
-          }, next);*/
+          }, next);
           next();
         });
       });
