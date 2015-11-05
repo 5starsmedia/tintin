@@ -77,6 +77,10 @@ var schema = new mongoose.Schema({
     url: String
   }],
 
+  site: {
+    _id: mongoose.Schema.Types.ObjectId,
+    domain: String
+  },
   dueDate: Date,
   createDate: {type: Date, required: true, default: Date.now},
   removed: {type: Date}

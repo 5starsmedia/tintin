@@ -540,7 +540,7 @@ router.post('/reset', function (req, res, next) {
         }
 
         token = crypto.createHash('md5').update(token).digest('hex');
-        
+
         req.app.models.accounts.update({_id: data.account._id}, {
           $set: {
             passwordResetToken: token,
