@@ -35,7 +35,6 @@ function generateTokenValue(account, cb) {
 
   var token = jwt.sign(params, tokenSecret, {expiresInMinutes: config.get('auth.persistTokenDuration')});
 
-  token = crypto.createHash('md5').update(token).digest('hex');
   cb(null, token);
 }
 
@@ -539,6 +538,9 @@ router.post('/reset', function (req, res, next) {
         if (err) {
           return next(err);
         }
+
+        token = crypto.createHash('md5').update(token).digest('hex');
+        
         req.app.models.accounts.update({_id: data.account._id}, {
           $set: {
             passwordResetToken: token,
