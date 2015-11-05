@@ -53,11 +53,11 @@ router.get('/csv', function (req, res, next) {
     var str = 'Title,Url,Category,Views,Meta title\n';
     var posts = _.sortBy(data.posts, 'title');
     _.each(posts, function(post) {
-      str += post.title + ',' +
+      str += '"' + post.title + '",' +
           req.site.url + req.app.services.url.urlFor('posts', post) + ',' +
           (post.category.title || '') + ',' +
           post.viewsCount + ',' +
-          post.meta.title + '\n';
+          '"' + post.meta.title + '"\n';
     });
     res.send(str);
   });
