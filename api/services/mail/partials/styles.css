@@ -98,6 +98,7 @@ table.medium-button td,
 table.large-button td {
     background: #80be25;
     border: none;
+    
     -webkit-transition: background .1s;
     -moz-transition: background .1s;
     transition: background .1s;
