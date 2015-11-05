@@ -80,6 +80,7 @@ CrawlerSvc.prototype.getUrlContent = function (requestUrl, userAgent, next) {
     }],
     'parseText': ['crawlUrl', function(next, data) {
       if (!data.crawlUrl.content || data.crawlUrl.content == '') {
+        data.crawlUrl.text = '';
        return next(null, '');
       }
       var boilerpipe = new Boilerpipe({
