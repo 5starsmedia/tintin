@@ -35,7 +35,11 @@ function generateTokenValue(account, cb) {
 
   var token = jwt.sign(params, tokenSecret, {expiresInMinutes: config.get('auth.persistTokenDuration')});
 
-  cb(null, token);
+  pwd.hash(token, account.salt, function (err, hash) {
+    if (err) { return next(err); }
+
+    cb(null, hash);
+  });
 }
 
 function assignToken(req, account, cb) {
