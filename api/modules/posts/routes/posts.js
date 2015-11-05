@@ -40,7 +40,7 @@ router.get('/csv', function (req, res, next) {
       if (req.query.postType) {
         params.postType = req.query.postType;
       }
-      req.app.models.posts.find(req.params.id, next)
+      req.app.models.posts.find(params, next)
     }
   }, function (err, data) {
     if (err) { return next(err); }
