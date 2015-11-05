@@ -79,6 +79,9 @@ CrawlerSvc.prototype.getUrlContent = function (requestUrl, userAgent, next) {
       });
     }],
     'parseText': ['crawlUrl', function(next, data) {
+      if (!data.crawlUrl.content || data.crawlUrl.content == '') {
+       return next(null, '');
+      }
       var boilerpipe = new Boilerpipe({
         extractor: Boilerpipe.Extractor.Article,
         html: data.crawlUrl.content || ''
