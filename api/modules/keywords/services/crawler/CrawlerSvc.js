@@ -37,9 +37,9 @@ CrawlerSvc.prototype.getUrlContent = function (requestUrl, userAgent, next) {
           var urlObj = new app.models.crawledUrls();
           urlObj.url = requestUrl;
           urlObj.code = 408;
-          urlObj.content = '';
+          urlObj.content = '-';
           urlObj.encoding = null;
-          urlObj.title = '';
+          urlObj.title = '-';
           return next(null, urlObj);
         }
         if (error) { return next(error); }
