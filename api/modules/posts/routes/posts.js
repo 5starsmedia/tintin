@@ -211,6 +211,28 @@ function importPost(app, dirPath, post, next) {
         }
     }, next);
 }
+function importCategory(app, dirPath, category, next) {
+    var site = category.site;
+
+    fs.readFile(dirPath + '/category' + category.alias + '/files.json', function (err, res) {
+        if (err) { return next(err) }
+
+        var files = JSON.parse(res);
+        async.each(files, function(file, next) {
+            var baseName = path.basename(file.originalName);
+
+            app.services.storage.fromFile({ _id: file._id }, dirPath + '/category' + category.alias + '/' + baseName, function() {
+
+                file = new app.models.files(file);
+                file.storageId = file._id;
+                file.collectionName = 'categories';
+                file.site = site;
+                file.save(next);
+
+            });
+        }, next);
+    });
+}
 
 router.get('/zip', function (req, res, next) {
     async.auto({
@@ -337,16 +359,15 @@ router.get('/import', function (req, res, next) {
 
                 var categories = JSON.parse(res);
                 req.app.models.categories.remove({ 'site._id': data.site._id }, function() {
-                    var ids = [];
-                    categories = _.sortBy(categories, 'path');
+                    categories = _.sortBy(categories, function(category) {
+                        return category.path.length;
+                    });
+
                     async.eachLimit(categories, 1, function(category, next) {
                         category = new req.app.models.categories(category);
                         category.site = data.site;
                         category.save(function(err) {
-                            if (err) {
-                                console.info(err, category)
-                            }
-                            next();
+                            importCategory(req.app, data.dir.path, category, next);
                         });
                     }, next);
                 });
