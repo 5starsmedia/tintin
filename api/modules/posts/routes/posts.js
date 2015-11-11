@@ -1,10 +1,18 @@
 'use strict';
 
 var express = require('express'),
-  moment = require('moment'),
-  _ = require('lodash'),
-  async = require('async'),
-  router = express.Router();
+    moment = require('moment'),
+    _ = require('lodash'),
+    async = require('async'),
+    tmp = require('tmp'),
+    fs = require('fs'),
+    fstream = require('fstream'),
+    tar = require('tar'),
+    zlib = require('zlib'),
+    path = require('path'),
+    mongoose = require('mongoose'),
+    Grid = require('gridfs-stream'),
+    router = express.Router();
 
 /**
  * @api {get} /api/posts Получить список постов
@@ -14,54 +22,182 @@ var express = require('express'),
  */
 
 router.get('/import', function (req, res, next) {
-  return;
-  _.forEach(data, function(item) {
-    var post = new req.app.models.posts();
-    post.title = item.text;
-    post.body = item.text;
-    post.tags = [];
-    post.site = req.site;
-    var tags = item.tags.split(',');
-    _.forEach(tags, function(tag) {
-      tag = _.trim(tag);
-      post.tags.push({
-        title: tag
-      });
+    return;
+    _.forEach(data, function (item) {
+        var post = new req.app.models.posts();
+        post.title = item.text;
+        post.body = item.text;
+        post.tags = [];
+        post.site = req.site;
+        var tags = item.tags.split(',');
+        _.forEach(tags, function (tag) {
+            tag = _.trim(tag);
+            post.tags.push({
+                title: tag
+            });
+        });
+        post.save(function (err, data) {
+        });
     });
-    post.save(function (err, data) {
-    });
-  });
 });
 
 router.get('/csv', function (req, res, next) {
-  async.auto({
-    'posts': function (next) {
-      var params = { 'site._id': req.site._id, removed: { $exists: false }, status: 4 };
-      if (req.query.postType) {
-        params.postType = req.query.postType;
-      }
-      req.app.models.posts.find(params, next)
-    }
-  }, function (err, data) {
-    if (err) { return next(err); }
+    async.auto({
+        'posts': function (next) {
+            var params = {'site._id': req.site._id, removed: {$exists: false}, status: 4};
+            if (req.query.postType) {
+                params.postType = req.query.postType;
+            }
+            req.app.models.posts.find(params, next)
+        }
+    }, function (err, data) {
+        if (err) {
+            return next(err);
+        }
 
-    res.set('Content-Type', 'text/csv');
-    res.attachment(
-        'posts-' + req.site.domain + '.csv'
-    );
+        res.set('Content-Type', 'text/csv');
+        res.attachment(
+            'posts-' + req.site.domain + '.csv'
+        );
 
-    var str = 'Title,Url,Category,Views,Meta title\n';
-    var posts = _.sortBy(data.posts, 'title');
-    _.each(posts, function(post) {
-      str += '"' + post.title + '",' +
-          req.site.url + req.app.services.url.urlFor('posts', post) + ',' +
-          (post.category.title || '') + ',' +
-          post.viewsCount + ',' +
-          '"' + post.meta.title + '"\n';
+        var str = 'Title,Url,Category,Views,Meta title\n';
+        var posts = _.sortBy(data.posts, 'title');
+        _.each(posts, function (post) {
+            str += '"' + post.title + '",' +
+                req.site.url + req.app.services.url.urlFor('posts', post) + ',' +
+                (post.category.title || '') + ',' +
+                post.viewsCount + ',' +
+                '"' + post.meta.title + '"\n';
+        });
+        res.send(str);
     });
-    res.send(str);
-  });
 
+});
+
+function savePost(app, dirPath, post, next) {
+    var fullPath = dirPath + '/' + post.alias;
+    async.auto({
+        'createDir': function(next) {
+            app.services.storage.ensureExistsFolder(fullPath, next);
+        },
+        'images': function (next) {
+            app.models.files.find({ collectionName: 'posts', resourceId: post._id }, next);
+        },
+        'saveImages': ['createDir', 'images', function(next, data) {
+            async.eachLimit(data.images, 3, function(image, next) {
+                var baseName = path.basename(image.originalName);
+
+                var args = {
+                    _id: image.storageId
+                };
+                app.services.storage.exist(args, function(err, found) {
+                    if (err) { return next(err); }
+
+                    if (found) {
+                        //app.services.storage.saveToFile(args, fullPath + '/' + baseName, next);
+                        next();
+                    } else {
+                        console.info(image);
+                        next();
+                    }
+                });
+
+            }, next);
+        }],
+        'comments': function (next) {
+            app.models.comments.find(
+                { collectionName: 'posts', resourceId: post._id, removed: { $exists: false } },
+                'text cid parentComment indent isAnonymous isSpam isPublished account createDate',
+                next
+            );
+        },
+        'saveComments': ['comments', function(next, data) {
+            var fileName = fullPath + '/comments.json';
+
+            fs.writeFile(fileName, JSON.stringify(data.comments, null, 2), next);
+        }]
+    }, function(err, data) {
+        if (err) { return next(err); }
+
+        next();
+    });
+}
+
+router.get('/zip', function (req, res, next) {
+    async.auto({
+        'dir': function (next) {
+            tmp.dir(function _tempDirCreated(err, path, cleanupCallback) {
+                if (err) {
+                    return next(err);
+                }
+
+                next(null, {path: path, callback: cleanupCallback})
+            });
+        },
+        'posts': function (next) {
+            var params = {'site._id': req.site._id, removed: {$exists: false}, status: 4};
+            if (req.query.postType) {
+                params.postType = req.query.postType;
+            }
+            if (req.query.siteId) {
+                params['site._id'] = req.query.siteId;
+            }
+            req.app.models.posts.find(params, next)
+        },
+        'categories': function (next) {
+            var params = { 'site._id': req.site._id, removed: {$exists: false} };
+            if (req.query.postType) {
+                params.postType = req.query.postType;
+            }
+            if (req.query.siteId) {
+                params['site._id'] = req.query.siteId;
+            }
+            req.app.models.categories.find(params, next)
+        },
+        'site': function (next) {
+            req.app.models.sites.findById({ '_id': req.site._id }, next)
+        },
+        'savePosts': ['dir', 'posts', function (next, data) {
+            var chunks = _.chunk(data.posts, 50),
+                num = 1;
+            async.eachSeries(chunks, function (posts, next) {
+                posts = _.map(posts, function (post) {
+                    delete post.site;
+                    return post;
+                });
+                var fileName = data.dir.path + '/posts' + _.padLeft(num++, 4, '0') + '.json';
+
+                fs.writeFile(fileName, JSON.stringify(posts, null, 2), function (err) {
+                    if (err) { return next(err); }
+
+                    async.eachLimit(posts, 5, _.partial(savePost, req.app, data.dir.path), next);
+                });
+            }, next);
+        }],
+        'saveCategories': ['dir', 'categories', function (next, data) {
+            var fileName = data.dir.path + '/categories.json';
+
+            fs.writeFile(fileName, JSON.stringify(data.categories, null, 2), next);
+        }],
+        'saveSite': ['dir', 'site', function (next, data) {
+            var fileName = data.dir.path + '/site.json';
+
+            fs.writeFile(fileName, JSON.stringify(data.site, null, 2), next);
+        }]
+    }, function (err, data) {
+        if (err) {
+            return next(err);
+        }
+
+        res.set('Content-Type', 'application/octet-stream');
+        res.attachment(
+            'posts-' + req.site.domain + '.tar.gz'
+        );
+        fstream.Reader({ 'path' : data.dir.path + '/', 'type' : 'Directory' })
+            .pipe(tar.Pack({ fromBase: true }))
+            .pipe(zlib.Gzip())
+            .pipe(res); // .pipe(fstream.Writer({ 'path': 'compressed_folder.tar.gz' });
+    });
 });
 
 /**
@@ -73,138 +209,156 @@ router.get('/csv', function (req, res, next) {
  * @apiParam {String} [term] Строка поиска
  */
 router.get('/tags-complete', function (req, res, next) {
-  if (req.auth.isGuest) {
-    res.status(401).end();
-  } else {
-    req.app.models.posts.aggregate([
-      {$match: {'removed': {$exists: false}}},
-      {$unwind: '$tags'},
-      {$match: {'tags.title': new RegExp(req.query.term, 'i')}},
-      {$group: {_id: '$tags.title', count: {$sum: 1}}},
-      {$sort: {count: -1}},
-      {$limit: 10},
-      {$project: {title: '$_id', _id: 0}}
-    ], function (err, data) {
-      if (err) { return next(err); }
-      res.json(data);
-    });
-  }
+    if (req.auth.isGuest) {
+        res.status(401).end();
+    } else {
+        req.app.models.posts.aggregate([
+            {$match: {'removed': {$exists: false}}},
+            {$unwind: '$tags'},
+            {$match: {'tags.title': new RegExp(req.query.term, 'i')}},
+            {$group: {_id: '$tags.title', count: {$sum: 1}}},
+            {$sort: {count: -1}},
+            {$limit: 10},
+            {$project: {title: '$_id', _id: 0}}
+        ], function (err, data) {
+            if (err) {
+                return next(err);
+            }
+            res.json(data);
+        });
+    }
 });
 
 router.get('/source-complete', function (req, res, next) {
-  if (req.auth.isGuest) {
-    res.status(401).end();
-  } else {
-    req.app.models.posts.aggregate([
-      {$match: {'removed': {$exists: false}}},
-      {$match: {'source': new RegExp(req.query.term, 'i')}},
-      {$group: {_id: '$source', count: {$sum: 1}}},
-      {$sort: {count: -1}},
-      {$limit: 10},
-      {$project: {title: '$_id', _id: 0}}
-    ], function (err, data) {
-      if (err) { return next(err); }
-      res.json(_.uniq([{ title: req.query.term }].concat(data), function(n) {
-        return n.title;
-      }));
-    });
-  }
+    if (req.auth.isGuest) {
+        res.status(401).end();
+    } else {
+        req.app.models.posts.aggregate([
+            {$match: {'removed': {$exists: false}}},
+            {$match: {'source': new RegExp(req.query.term, 'i')}},
+            {$group: {_id: '$source', count: {$sum: 1}}},
+            {$sort: {count: -1}},
+            {$limit: 10},
+            {$project: {title: '$_id', _id: 0}}
+        ], function (err, data) {
+            if (err) {
+                return next(err);
+            }
+            res.json(_.uniq([{title: req.query.term}].concat(data), function (n) {
+                return n.title;
+            }));
+        });
+    }
 });
 
 router.get('/statistic', function (req, res, next) {
-  if (req.auth.isGuest) {
-    res.status(401).end();
-  } else {
+    if (req.auth.isGuest) {
+        res.status(401).end();
+    } else {
 
-    var startDate = new Date(),
-      endDate = new Date();
-    startDate.setHours(0, 0, 0, 0);
-    endDate.setHours(23, 59, 59, 59);
+        var startDate = new Date(),
+            endDate = new Date();
+        startDate.setHours(0, 0, 0, 0);
+        endDate.setHours(23, 59, 59, 59);
 
-    var days = {
-      today: {
-        start: startDate,
-        end: endDate
-      },
-      yesterday: {
-        start: moment(startDate).subtract(1, 'days').toDate(),
-        end: moment(endDate).subtract(1, 'days').toDate()
-      },
-      month: {
-        start: moment(startDate).startOf('month').toDate(),
-        end: moment(endDate).endOf('month').toDate()
-      },
-      prevMonth: {
-        start: moment(startDate).subtract(1, 'month').startOf('month').toDate(),
-        end: moment(endDate).subtract(1, 'month').endOf('month').toDate()
-      },
-      all: {}
-    }, result = {};
+        var days = {
+            today: {
+                start: startDate,
+                end: endDate
+            },
+            yesterday: {
+                start: moment(startDate).subtract(1, 'days').toDate(),
+                end: moment(endDate).subtract(1, 'days').toDate()
+            },
+            month: {
+                start: moment(startDate).startOf('month').toDate(),
+                end: moment(endDate).endOf('month').toDate()
+            },
+            prevMonth: {
+                start: moment(startDate).subtract(1, 'month').startOf('month').toDate(),
+                end: moment(endDate).subtract(1, 'month').endOf('month').toDate()
+            },
+            all: {}
+        }, result = {};
 
-    async.forEachOf(days, function (value, key, next) {
-      var match = {
-        'site._id': req.site._id, removed: {$exists: false}
-      };
+        async.forEachOf(days, function (value, key, next) {
+            var match = {
+                'site._id': req.site._id, removed: {$exists: false}
+            };
 
-      if (value.start) {
-        match.createDate = { $gte: value.start, $lt: value.end }
-      }
+            if (value.start) {
+                match.createDate = {$gte: value.start, $lt: value.end}
+            }
 
-      req.app.models.posts.aggregate([
-        { '$match' : match },
-        { '$group' : { '_id' : { createdBy: '$createdBy' }, 'count' : { '$sum' : 1 } }}
-      ], function(err, data) {
-        if (err) { return next(err); }
+            req.app.models.posts.aggregate([
+                {'$match': match},
+                {'$group': {'_id': {createdBy: '$createdBy'}, 'count': {'$sum': 1}}}
+            ], function (err, data) {
+                if (err) {
+                    return next(err);
+                }
 
-        _.forEach(data, function(item) {
-          var account = item._id.createdBy;
-          if (!account || !account._id) {
-            return;
-          }
-          result[account._id] = result[account._id] || {
-            account: account
-          };
-          result[account._id][key] = item.count;
+                _.forEach(data, function (item) {
+                    var account = item._id.createdBy;
+                    if (!account || !account._id) {
+                        return;
+                    }
+                    result[account._id] = result[account._id] || {
+                            account: account
+                        };
+                    result[account._id][key] = item.count;
+                });
+                next();
+            });
+
+        }, function (err, data) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.json(result);
         });
-        next();
-      });
 
-    }, function (err, data) {
-      if (err) { return next(err); }
-
-      return res.json(result);
-    });
-
-  }
+    }
 });
 
 router.get('/:id/suggest', function (req, res, next) {
-  async.auto({
-    'item': function(next) {
-      return req.app.models.posts.findById(req.params.id, next);
-    },
-    'suggest': ['item', function(next, data) {
-      var keys = _.map(data.item.keywords, function (item) {
-        return item.word;
-      });
+    async.auto({
+        'item': function (next) {
+            return req.app.models.posts.findById(req.params.id, next);
+        },
+        'suggest': ['item', function (next, data) {
+            var keys = _.map(data.item.keywords, function (item) {
+                return item.word;
+            });
 
-      req.app.models.posts.aggregate([
-        { '$match' : { _id: { $ne: data.item._id }, 'site._id': req.site._id, published: true, removed: {$exists: false}, keywords: {$elemMatch: { word: {$in: keys}}} } },
-        { '$unwind' : '$keywords'},
-        { '$match' : { 'keywords.word': {$in: keys}} },
-        { '$group' : { '_id' : '$_id', 'keywords' : { '$sum' : 1} }},
-        { '$sort' : { 'keywords' : -1}},
-        { '$limit' : 10}
-      ], next);
-    }],
-    'items': ['suggest', function(next, data) {
-      req.app.models.posts.find({ _id: { $in: _.pluck(data.suggest, '_id') } }, 'title alias category coverFile', { limit: 5 }, next);
-    }]
-  }, function (err, data) {
-    if (err) { return next(err); }
+            req.app.models.posts.aggregate([
+                {
+                    '$match': {
+                        _id: {$ne: data.item._id},
+                        'site._id': req.site._id,
+                        published: true,
+                        removed: {$exists: false},
+                        keywords: {$elemMatch: {word: {$in: keys}}}
+                    }
+                },
+                {'$unwind': '$keywords'},
+                {'$match': {'keywords.word': {$in: keys}}},
+                {'$group': {'_id': '$_id', 'keywords': {'$sum': 1}}},
+                {'$sort': {'keywords': -1}},
+                {'$limit': 10}
+            ], next);
+        }],
+        'items': ['suggest', function (next, data) {
+            req.app.models.posts.find({_id: {$in: _.pluck(data.suggest, '_id')}}, 'title alias category coverFile', {limit: 5}, next);
+        }]
+    }, function (err, data) {
+        if (err) {
+            return next(err);
+        }
 
-    return res.json(data.items);
-  });
+        return res.json(data.items);
+    });
 });
 
 module.exports = router;
