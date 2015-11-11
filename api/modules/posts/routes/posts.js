@@ -95,8 +95,7 @@ function savePost(app, dirPath, post, next) {
                     if (err) { return next(err); }
 
                     if (found) {
-                        //app.services.storage.saveToFile(args, fullPath + '/' + baseName, next);
-                        next();
+                        app.services.storage.saveToFile(args, fullPath + '/' + baseName, next);
                     } else {
                         console.info(image);
                         next();
