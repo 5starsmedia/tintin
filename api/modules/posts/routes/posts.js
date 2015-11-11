@@ -127,6 +127,90 @@ function savePost(app, dirPath, post, next) {
         next();
     });
 }
+function saveCategory(app, dirPath, category, next) {
+    var fullPath = dirPath + '/category' + category.alias;
+    async.auto({
+        'createDir': function(next) {
+            app.services.storage.ensureExistsFolder(fullPath, next);
+        },
+        'images': function (next) {
+            app.models.files.find({ collectionName: 'categories', resourceId: category._id }, next);
+        },
+        'saveImages': ['createDir', 'images', function(next, data) {
+            async.eachLimit(data.images, 3, function(image, next) {
+                var baseName = path.basename(image.originalName);
+
+                var args = {
+                    _id: image.storageId
+                };
+                app.services.storage.exist(args, function(err, found) {
+                    if (err) { return next(err); }
+
+                    if (found) {
+                        app.services.storage.saveToFile(args, fullPath + '/' + baseName, next);
+                    } else {
+                        console.info(image);
+                        next();
+                    }
+                });
+
+            }, next);
+        }],
+        'files': ['images', function(next, data) {
+            var fileName = fullPath + '/files.json';
+
+            fs.writeFile(fileName, JSON.stringify(data.images, null, 2), next);
+        }]
+    }, function(err, data) {
+        if (err) { return next(err); }
+
+        next();
+    });
+}
+
+function importPost(app, dirPath, post, next) {
+    var site = post.site;
+    async.auto({
+        'files': function(next) {
+            fs.readFile(dirPath + '/' + post.alias + '/files.json', function (err, res) {
+                if (err) { return next(err) }
+
+                var files = JSON.parse(res);
+                async.eachLimit(files, 10, function(file, next) {
+                    var baseName = path.basename(file.originalName);
+
+                    app.services.storage.fromFile({ _id: file._id }, dirPath + '/' + post.alias + '/' + baseName, function() {
+
+                        file = new app.models.files(file);
+                        file.storageId = file._id;
+                        file.site = site;
+                        file.save(function(err){
+                            if (err) {
+                                console.info('save file', file._id, err)
+                            }
+                            next();
+                        });
+
+                    });
+                }, next);
+            });
+        },
+        'comments': function(next) {
+            fs.readFile(dirPath + '/' + post.alias + '/comments.json', function (err, res) {
+                if (err) { return next(err) }
+
+                var files = JSON.parse(res);
+                async.eachLimit(files, 10, function(comment, next) {
+                    comment = new app.models.comments(comment);
+                    comment.resourceId = post._id;
+                    comment.collectionName = 'posts';
+                    comment.site = site;
+                    comment.save(next);
+                }, next);
+            });
+        }
+    }, next);
+}
 
 router.get('/zip', function (req, res, next) {
     async.auto({
@@ -183,6 +267,9 @@ router.get('/zip', function (req, res, next) {
             var fileName = data.dir.path + '/categories.json';
 
             fs.writeFile(fileName, JSON.stringify(data.categories, null, 2), next);
+        }],
+        'saveCategoriesImages': ['dir', 'categories', function (next, data) {
+            async.eachLimit(data.categories, 5, _.partial(saveCategory, req.app, data.dir.path), next);
         }],
         'saveSite': ['dir', 'site', function (next, data) {
             var fileName = data.dir.path + '/site.json';
@@ -250,10 +337,17 @@ router.get('/import', function (req, res, next) {
 
                 var categories = JSON.parse(res);
                 req.app.models.categories.remove({ 'site._id': data.site._id }, function() {
+                    var ids = [];
+                    categories = _.sortBy(categories, 'path');
                     async.eachLimit(categories, 1, function(category, next) {
                         category = new req.app.models.categories(category);
                         category.site = data.site;
-                        category.save(next);
+                        category.save(function(err) {
+                            if (err) {
+                                console.info(err, category)
+                            }
+                            next();
+                        });
                     }, next);
                 });
             });
@@ -274,12 +368,24 @@ router.get('/import', function (req, res, next) {
                         if (err) { return next(err) }
 
                         var posts = JSON.parse(res);
-                        req.app.models.posts.remove({ 'site._id': data.site._id }, function() {
-                            async.eachLimit(posts, 1, function(post, next) {
-                                post = new req.app.models.posts(post);
-                                post.site = data.site;
-                                post.save(next);
-                            }, next);
+                        req.app.models.files.remove({ 'site._id': data.site._id }, function(err) {
+                            if (err) { return next(err) }
+
+                            req.app.models.posts.remove({ 'site._id': data.site._id }, function(err) {
+                                if (err) { return next(err) }
+
+                                async.eachLimit(posts, 5, function(post, next) {
+                                    post = new req.app.models.posts(post);
+                                    post.site = {
+                                        _id: data.site._id,
+                                        domain: data.site.domain
+                                    };
+                                    post.save(function() {
+                                        importPost(req.app, data.dir.path, post, next);
+                                    });
+
+                                }, next);
+                            });
                         });
                     });
                 }, next);

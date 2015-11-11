@@ -36,9 +36,17 @@ StorageSvc.prototype.saveToFile = function (args, filename, next) {
     var readstream = gfs.createReadStream(args);
     var writeStream = fs.createWriteStream(filename);
     readstream.on('end', next);
-    readstream.on('error', function(err) {
-        console.info(err)
-    });
+    readstream.on('error', next);
+    readstream.pipe(writeStream);
+};
+
+StorageSvc.prototype.fromFile = function (args, filename, next) {
+    var gfs = Grid(mongoose.connection.db, mongoose.mongo);
+
+    var readstream = fs.createReadStream(filename);
+    var writeStream = gfs.createWriteStream(args);
+    readstream.on('end', next);
+    readstream.on('error', next);
     readstream.pipe(writeStream);
 };
 

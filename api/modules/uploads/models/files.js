@@ -44,6 +44,10 @@ var schema = new mongoose.Schema({
       title: String
     },
     text: String
+  },
+  site: {
+    _id: mongoose.Schema.Types.ObjectId,
+    domain: String
   }
 }, {
   strict: true,
