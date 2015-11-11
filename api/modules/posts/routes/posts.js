@@ -19,7 +19,7 @@ var express = require('express'),
  * @apiName posts
  * @apiGroup posts
  * @apiVersion 0.0.1
- */
+
 
 router.get('/import', function (req, res, next) {
     return;
@@ -40,6 +40,7 @@ router.get('/import', function (req, res, next) {
         });
     });
 });
+ */
 
 router.get('/csv', function (req, res, next) {
     async.auto({
@@ -115,6 +116,11 @@ function savePost(app, dirPath, post, next) {
             var fileName = fullPath + '/comments.json';
 
             fs.writeFile(fileName, JSON.stringify(data.comments, null, 2), next);
+        }],
+        'files': ['images', function(next, data) {
+            var fileName = fullPath + '/files.json';
+
+            fs.writeFile(fileName, JSON.stringify(data.images, null, 2), next);
         }]
     }, function(err, data) {
         if (err) { return next(err); }
@@ -197,6 +203,95 @@ router.get('/zip', function (req, res, next) {
             .pipe(tar.Pack({ fromBase: true }))
             .pipe(zlib.Gzip())
             .pipe(res); // .pipe(fstream.Writer({ 'path': 'compressed_folder.tar.gz' });
+    });
+});
+
+
+router.get('/import', function (req, res, next) {
+    var path = __dirname + '/../../../import.tar.gz';
+
+    async.auto({
+        'dir': function (next) {
+            tmp.dir(function _tempDirCreated(err, path, cleanupCallback) {
+                if (err) {
+                    return next(err);
+                }
+
+                next(null, {path: path, callback: cleanupCallback})
+            });
+        },
+        'unzip': ['dir', function (next, data) {
+            fs.createReadStream(path)
+                .pipe(zlib.createGunzip())
+                .pipe(tar.Parse())
+                .pipe(fstream.Writer({ 'path': data.dir.path }).on("close", next));
+        }],
+        'site': ['unzip', function (next, data) {
+            var fileName = data.dir.path + '/site.json';
+
+            fs.readFile(fileName, function (err, data) {
+                if (err) { return next(err) }
+
+                var site = JSON.parse(data);
+                req.app.models.sites.remove({ _id: site._id }, function() {
+                    site = new req.app.models.sites(site);
+                    site.domain = 'user.bs';
+                    site.port = 8081;
+                    site.save(function() {
+                        next(null, site);
+                    });
+                })
+            });
+        }],
+        'importCategories': ['site', 'unzip', function (next, data) {
+            var fileName = data.dir.path + '/categories.json';
+
+            fs.readFile(fileName, function (err, res) {
+                if (err) { return next(err) }
+
+                var categories = JSON.parse(res);
+                req.app.models.categories.remove({ 'site._id': data.site._id }, function() {
+                    async.eachLimit(categories, 1, function(category, next) {
+                        category = new req.app.models.categories(category);
+                        category.site = data.site;
+                        category.save(next);
+                    }, next);
+                });
+            });
+        }],
+        'importPosts': ['site', 'unzip', function (next, data) {
+            //var fileName = data.dir.path + '/categories.json';
+
+            fs.readdir(data.dir.path, function (err, list) {
+                if (err) { return next(err) }
+
+                list = _.filter(list, function (item) {
+                    return item.match(/posts\d+\.json/);
+                });
+                async.eachLimit(list, 1, function(name, next) {
+                    var fileName = data.dir.path + '/' + name;
+
+                    fs.readFile(fileName, function (err, res) {
+                        if (err) { return next(err) }
+
+                        var posts = JSON.parse(res);
+                        req.app.models.posts.remove({ 'site._id': data.site._id }, function() {
+                            async.eachLimit(posts, 1, function(post, next) {
+                                post = new req.app.models.posts(post);
+                                post.site = data.site;
+                                post.save(next);
+                            }, next);
+                        });
+                    });
+                }, next);
+            });
+        }]
+    }, function (err, data) {
+        if (err) {
+            return next(err);
+        }
+
+        res.json({ success: true });
     });
 });
 
