@@ -376,7 +376,7 @@ router.get('/import', function (req, res, next) {
                     return category.path.length;
                 });
                 _.each(categories, function(category) {
-                    console.info(category.path)
+                    console.info(category._id, category.parentId)
                 });
 
                 async.eachLimit(categories, 1, function(category, next) {
