@@ -353,29 +353,39 @@ router.get('/import', function (req, res, next) {
                 })
             });
         }],
-        'importCategories': ['site', 'unzip', function (next, data) {
+        'cleanupCategories': ['site', function(next, data) {
+            req.app.models.categories.remove({ 'site._id': data.site._id }, next);
+        }],
+        'cleanupPosts': ['site', function(next, data) {
+            req.app.models.posts.remove({ 'site._id': data.site._id }, next);
+        }],
+        'cleanupFiles': ['site', function(next, data) {
+            req.app.models.files.remove({ 'site._id': data.site._id }, next);
+        }],
+        'cleanup': ['cleanupCategories', 'cleanupPosts', 'cleanupFiles', function(next, data) {
+            next();
+        }],
+        'importCategories': ['cleanup', function (next, data) {
             var fileName = data.dir.path + '/categories.json';
 
             fs.readFile(fileName, function (err, res) {
                 if (err) { return next(err) }
 
                 var categories = JSON.parse(res);
-                req.app.models.categories.remove({ 'site._id': data.site._id }, function() {
-                    categories = _.sortBy(categories, function(category) {
-                        return category.path.length;
-                    });
-
-                    async.eachLimit(categories, 1, function(category, next) {
-                        category = new req.app.models.categories(category);
-                        category.site = data.site;
-                        category.save(function(err) {
-                            importCategory(req.app, data.dir.path, category, next);
-                        });
-                    }, next);
+                categories = _.sortBy(categories, function(category) {
+                    return category.path.length;
                 });
+
+                async.eachLimit(categories, 1, function(category, next) {
+                    category = new req.app.models.categories(category);
+                    category.site = data.site;
+                    category.save(function(err) {
+                        importCategory(req.app, data.dir.path, category, next);
+                    });
+                }, next);
             });
-        }],/*
-        'importPosts': ['site', 'unzip', function (next, data) {
+        }],
+        'importPosts': ['cleanup', function (next, data) {
             //var fileName = data.dir.path + '/categories.json';
 
             fs.readdir(data.dir.path, function (err, list) {
@@ -392,31 +402,24 @@ router.get('/import', function (req, res, next) {
 
                         var posts = JSON.parse(res),
                             total = posts.length, n = 0;
-                        req.app.models.files.remove({ 'site._id': data.site._id }, function(err) {
-                            if (err) { return next(err) }
 
-                            req.app.models.posts.remove({ 'site._id': data.site._id }, function(err) {
-                                if (err) { return next(err) }
+                        async.eachLimit(posts, 5, function(post, next) {
+                            console.info('import posts', ++n, '/', total);
 
-                                async.eachLimit(posts, 5, function(post, next) {
-                                    console.info('import posts', ++n, '/', total);
-
-                                    post = new req.app.models.posts(post);
-                                    post.site = {
-                                        _id: data.site._id,
-                                        domain: data.site.domain
-                                    };
-                                    post.save(function() {
-                                        importPost(req.app, data.dir.path, post, next);
-                                    });
-
-                                }, next);
+                            post = new req.app.models.posts(post);
+                            post.site = {
+                                _id: data.site._id,
+                                domain: data.site.domain
+                            };
+                            post.save(function() {
+                                importPost(req.app, data.dir.path, post, next);
                             });
-                        });
+
+                        }, next);
                     });
                 }, next);
             });
-        }]*/
+        }]
     }, function (err, data) {
         if (err) {
             return next(err);
