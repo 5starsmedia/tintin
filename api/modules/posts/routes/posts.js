@@ -85,6 +85,9 @@ function savePost(app, dirPath, post, next) {
             app.models.files.find({ resourceId: post._id }, next);
         },
         'saveImages': ['createDir', 'images', function(next, data) {
+            if (post.alias == 'ogranichenie-skorosti-wifi') {
+                console.info(data.images)
+            }
             async.eachLimit(data.images, 3, function(image, next) {
                 var baseName = path.basename(image.originalName);
 
