@@ -82,12 +82,10 @@ function savePost(app, dirPath, post, next) {
             app.services.storage.ensureExistsFolder(fullPath, next);
         },
         'images': function (next) {
-            app.models.files.find({ resourceId: post._id }, next);
+            var ids = _.pluck(post.files, '_id')
+            app.models.files.find({ _id: { $in: ids } }, next);
         },
         'saveImages': ['createDir', 'images', function(next, data) {
-            if (post.alias == 'ogranichenie-skorosti-wifi') {
-                console.info(data.images)
-            }
             async.eachLimit(data.images, 3, function(image, next) {
                 var baseName = path.basename(image.originalName);
 
@@ -137,7 +135,8 @@ function saveCategory(app, dirPath, category, next) {
             app.services.storage.ensureExistsFolder(fullPath, next);
         },
         'images': function (next) {
-            app.models.files.find({ resourceId: category._id }, next);
+            var ids = _.pluck(category.files, '_id')
+            app.models.files.find({ _id: { $in: ids } }, next);
         },
         'saveImages': ['createDir', 'images', function(next, data) {
             async.eachLimit(data.images, 3, function(image, next) {
