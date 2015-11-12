@@ -135,8 +135,7 @@ function saveCategory(app, dirPath, category, next) {
             app.services.storage.ensureExistsFolder(fullPath, next);
         },
         'images': function (next) {
-            var ids = _.pluck(category.files, '_id')
-            app.models.files.find({ _id: { $in: ids } }, next);
+            app.models.files.find({ resourceId: category._id }, next);
         },
         'saveImages': ['createDir', 'images', function(next, data) {
             async.eachLimit(data.images, 3, function(image, next) {
