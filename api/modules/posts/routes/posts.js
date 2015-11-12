@@ -388,7 +388,8 @@ router.get('/import', function (req, res, next) {
                     fs.readFile(fileName, function (err, res) {
                         if (err) { return next(err) }
 
-                        var posts = JSON.parse(res);
+                        var posts = JSON.parse(res),
+                            total = posts.length, n = 0;
                         req.app.models.files.remove({ 'site._id': data.site._id }, function(err) {
                             if (err) { return next(err) }
 
@@ -396,6 +397,8 @@ router.get('/import', function (req, res, next) {
                                 if (err) { return next(err) }
 
                                 async.eachLimit(posts, 5, function(post, next) {
+                                    console.info('import posts', ++n, '/', total);
+
                                     post = new req.app.models.posts(post);
                                     post.site = {
                                         _id: data.site._id,
