@@ -222,6 +222,7 @@ function importCategory(app, dirPath, category, next) {
         async.each(files, function(file, next) {
             var baseName = path.basename(file.originalName);
 
+            console.info('category: ', dirPath + '/category' + category.alias + '/' + baseName)
             app.services.storage.fromFile({ _id: file._id }, dirPath + '/category' + category.alias + '/' + baseName, function() {
 
                 file = new app.models.files(file);
@@ -373,7 +374,7 @@ router.get('/import', function (req, res, next) {
                     }, next);
                 });
             });
-        }],
+        }],/*
         'importPosts': ['site', 'unzip', function (next, data) {
             //var fileName = data.dir.path + '/categories.json';
 
@@ -414,7 +415,7 @@ router.get('/import', function (req, res, next) {
                         });
                     });
                 }, next);
-            });
+            });*/
         }]
     }, function (err, data) {
         if (err) {
