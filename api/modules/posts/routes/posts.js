@@ -375,11 +375,15 @@ router.get('/import', function (req, res, next) {
                 categories = _.sortBy(categories, function(category) {
                     return category.path.length;
                 });
+                _.each(categories, function(category) {
+                    console.info(category.path)
+                });
 
                 async.eachLimit(categories, 1, function(category, next) {
                     category = new req.app.models.categories(category);
                     category.site = data.site;
                     category.save(function(err) {
+                        console.info(err);
                         importCategory(req.app, data.dir.path, category, next);
                     });
                 }, next);
