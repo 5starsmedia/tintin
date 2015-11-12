@@ -82,7 +82,7 @@ function savePost(app, dirPath, post, next) {
             app.services.storage.ensureExistsFolder(fullPath, next);
         },
         'images': function (next) {
-            app.models.files.find({ collectionName: 'posts', resourceId: post._id }, next);
+            app.models.files.find({ resourceId: post._id }, next);
         },
         'saveImages': ['createDir', 'images', function(next, data) {
             async.eachLimit(data.images, 3, function(image, next) {
@@ -134,7 +134,7 @@ function saveCategory(app, dirPath, category, next) {
             app.services.storage.ensureExistsFolder(fullPath, next);
         },
         'images': function (next) {
-            app.models.files.find({ collectionName: 'categories', resourceId: category._id }, next);
+            app.models.files.find({ resourceId: category._id }, next);
         },
         'saveImages': ['createDir', 'images', function(next, data) {
             async.eachLimit(data.images, 3, function(image, next) {
