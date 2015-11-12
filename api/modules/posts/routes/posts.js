@@ -415,8 +415,8 @@ router.get('/import', function (req, res, next) {
                         });
                     });
                 }, next);
-            });*/
-        }]
+            });
+        }]*/
     }, function (err, data) {
         if (err) {
             return next(err);
