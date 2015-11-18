@@ -19,11 +19,20 @@
 
 </st-form-element>
 
+<st-form-element label="{{'YouTube user'|translate}}" field="youtubeUser">
+
+    <input class="form-control" name="youtubeUser" type="text" ng-model="site.settings.youtubeUser"/>
+    <div class="help-block">
+        Example: 7planshet
+    </div>
+
+</st-form-element>
+
 <st-form-element label="{{'YouTube channel'|translate}}" field="youtubeChannel">
 
     <input class="form-control" name="youtubeChannel" type="text" ng-model="site.settings.youtubeChannel"/>
     <div class="help-block">
-        Example: 7planshet
+        Example: UCht81YacAbFKYMhD22OSj0w
     </div>
 
 </st-form-element>
@@ -51,6 +60,15 @@
     <input class="form-control" name="fbGroupId" type="text" ng-model="site.settings.fbGroupId"/>
     <div class="help-block">
         Example: https://www.facebook.com/groups/1451591545123143/
+    </div>
+
+</st-form-element>
+
+<st-form-element label="{{'Facebook page'|translate}}" field="fbGroupId">
+
+    <input class="form-control" name="fbPageId" type="text" ng-model="site.settings.fbPageId"/>
+    <div class="help-block">
+        Example: https://www.facebook.com/bezprovodoffcom-1529887850562348/
     </div>
 
 </st-form-element>

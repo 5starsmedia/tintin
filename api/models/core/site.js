@@ -38,10 +38,12 @@ var schema = new mongoose.Schema({
     logo: {
       _id: mongoose.Schema.Types.ObjectId
     },
+    youtubeUser: String,
     youtubeChannel: String,
     subscribeChannel: String,
     vkGroupId: String,
     fbGroupId: String,
+    fbPageId: String,
     googleAnalytics: String,
     yandexMetrika: String,
     homepageTitle: String,
