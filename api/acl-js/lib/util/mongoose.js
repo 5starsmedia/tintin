@@ -24,7 +24,9 @@ function schemaWalk(schema, array, prefix, level) {
       array.push(thisName);
     }
   }
-  schema.eachPath(f);
+  if (schema) {
+    schema.eachPath(f);
+  }
 }
 
 /**

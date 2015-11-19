@@ -1,0 +1,36 @@
+<form name="editState">
+    <div class="color-line"></div>
+    <div class="modal-body" bz-loading-container="loading">
+
+
+        <div class="form-group">
+
+            <label>
+                {{'Название'|translate}}
+            </label>
+
+            <input type="text" ng-model="item.title" class="form-control" required />
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                {{'Адрес'|translate}}
+            </label>
+
+            <textarea ng-model="item.body" class="form-control" required></textarea>
+
+        </div>
+
+
+        <ui-gmap-google-map bounds="map.bounds" events="map.events" center='map.center' zoom='map.zoom'>
+            <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id"></ui-gmap-marker>
+        </ui-gmap-google-map>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-click="saveItem()" ng-disabled="editState.$invalid">{{'Сохранить'|translate}}</button>
+        <button type="button" class="btn btn-default" ng-click="close()" data-dismiss="modal">{{'Отмена'|translate}}</button>
+    </div>
+</form>

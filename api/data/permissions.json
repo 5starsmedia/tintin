@@ -66,5 +66,9 @@
   {
     "name": "wiki",
     "title": "Wiki"
+  },
+  {
+    "name": "contacts",
+    "title": "Contacts"
   }
 ]
