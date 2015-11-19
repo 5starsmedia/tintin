@@ -208,5 +208,10 @@
     "sref": "wiki.home",
     "title": "Wiki",
     "permissions": ["wiki"]
+  },
+  {
+    "sref": "contacts.geo",
+    "title": {"en-US": "Contacts", "ru-RU": "Представительства"},
+    "permissions": ["contacts"]
   }
 ]

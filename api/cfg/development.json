@@ -1,5 +1,5 @@
 {
-  "mongodb": "mongodb://admin5stars:5stars@db1.5stars.link:27001,db2.5stars.link:27002,db3.5stars.link:27003/5stars?replicaSet=production&auto_reconnect=true",
+  "mongodb": "mongodb://localhost:27017/5stars",
   "http": {
     "port": 8081
   },

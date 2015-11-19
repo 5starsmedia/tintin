@@ -102,6 +102,7 @@
     document.getElementById('randQuoteAuthor').innerHTML = randQuote[1];
 </script>
 
+<script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 <!-- build:vendorsjs(.) scripts/vendor.js -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
@@ -170,6 +171,7 @@
 <script src="bower_components/favico.js/favico.js"></script>
 <script src="bower_components/angular-notification/angular-notification.js"></script>
 <script src="bower_components/angular-datepicker/dist/index.js"></script>
+<script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
 <script src="libs/tree/node.js"></script>
 <script src="libs/tree/layer.js"></script>
 <script src="libs/tree/arrows.js"></script>
@@ -177,7 +179,7 @@
 <!-- endbuild -->
 
 <script src="assets/ckeditor/ckeditor.js"></script>
-
+<script src="http://cdn.rawgit.com/nmccready/angular-simple-logger/0.0.1/dist/index.js"></script>
 <!-- build:js scripts/app.js -->
 <script>
 angular.module('views', []);

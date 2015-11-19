@@ -15,6 +15,7 @@ import servers from './servers/servers';
 import constructor from './constructor/constructor';
 import dashboard from './dashboard/dashboard';
 import voting from './voting/voting';
+import contacts from './contacts/contacts';
 
 export default [
   base,
@@ -33,5 +34,6 @@ export default [
   servers,
   constructor,
   dashboard,
-  voting
+  voting,
+  contacts
 ];

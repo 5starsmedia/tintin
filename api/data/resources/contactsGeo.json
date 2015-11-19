@@ -1,0 +1,32 @@
+{
+  "resource": "ContactGeo",
+  "model": "contactsGeo",
+  "options": {
+    "maxPerPage": [
+      {
+        "role": "*",
+        "value": false
+      }
+    ],
+    "searchFields": [
+      {
+        "role": "*",
+        "value": ["text"]
+      }
+    ]
+  },
+  "acl": {
+    "*": {
+      "get": "*",
+      "get?isSpam&isSystem": "*",
+      "get?isPublished": "*",
+      "get?isPublished&collectionName&resourceId": "*",
+      "get?isPublished&isSpam&collectionName&resourceId": "*",
+      "get?isAnonymous": "*",
+      "get?collectionName&resourceId": "*",
+      "put?_id": "contacts,*:owner",
+      "post": "*",
+      "delete?_id": "contacts,*:owner"
+    }
+  }
+}
