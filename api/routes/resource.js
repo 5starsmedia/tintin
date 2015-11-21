@@ -43,6 +43,7 @@ function getDataOptions(req, next) {
     }
   }
   next(null, opts);
+  return opts;
 }
 
 function getFilter(req, schemaFields, next) {
@@ -75,6 +76,7 @@ function getFilter(req, schemaFields, next) {
     });
   }
   next(null, filter);
+  return filter;
 }
 
 function _deepPick(res, keyPref, obj, setKey, fields) {
@@ -112,14 +114,11 @@ function deepPick(obj, fields) {
 function processGet(model, fieldsObj, schemaFields, req, res, next) {
   var zipFields = _.mapValues(_.zipObject(fieldsObj.fields), _.constant(1));
   if (req.params._id || req.query.alias) {
-    var parameter = req.params._id ? {'_id': req.params._id} : {
+    /*var parameter = req.params._id ? {'_id': req.params._id} : {
       'alias': req.query.alias,
       'removed': {$exists: false}
-    };
-
-    if (_.indexOf(schemaFields, 'site._id') != -1) {
-      parameter['site._id'] = req.site._id;
-    }
+    };*/
+    var parameter = getFilter(req, schemaFields, _.noop);
     model.findOne(parameter, zipFields, function (err, data) {
       if (err) {
         if (err.name === 'CastError') {
