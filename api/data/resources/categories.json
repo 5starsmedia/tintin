@@ -10,6 +10,7 @@
       "get?tags": "*",
       "get?alias": "*",
       "get?alias&parentId": "*",
+      "get?alias&parentAlias": "*",
       "get?parentId": "*",
       "get?tags.title": "*",
       "get?category._id": "*",
