@@ -294,6 +294,7 @@
     "{{'Удалить'|translate}}": "{{'Удалить'|translate}}",
     "{{account.profile.location}}": "{{account.profile.location}}",
     "{{item.body}}": "{{item.body}}",
+    "{{item.category.title}}": "{{item.category.title}}",
     "{{item.createdBy.title}}": "{{item.createdBy.title}}",
     "{{item.factor}}": "{{item.factor}}",
     "{{item.phone}}": "{{item.phone}}",

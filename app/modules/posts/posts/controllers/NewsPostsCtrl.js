@@ -26,7 +26,7 @@ class NewsPostsCtrl {
         NewsPostModel.query(BaseAPIParams({
           status: [1,2,4,6],
           postType: postType,
-          fields: 'title,likesCount,viewsCount,status,createDate,account,seo,createdBy,publishedDate'
+          fields: 'title,likesCount,viewsCount,status,createDate,account,seo,createdBy,publishedDate,category'
         }, params), function (logs, headers) {
           $scope.loading = false;
           $scope.logs = logs;

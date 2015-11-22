@@ -64,8 +64,12 @@
                                     {{item.title}}
                                 </a>
                             </td>
-                            <td style="width: 10%" data-title="'Author'|translate" filter="{ 'createdBy._id': 'select' }" sortable="'account.title'" filter-data="users($column)">
+                            <td style="width: 10%" data-title="'Author'|translate" filter="{ 'createdBy._id': 'select' }"
+                                sortable="'account.title'" filter-data="users($column)" class="text-center">
                                 {{item.account.title}}
+                            </td>
+                            <td style="width: 10%" data-title="'Category'|translate" sortable="'category.title'" class="text-center">
+                                {{item.category.title}}
                             </td>
                             <td style="width: 10%" data-title="'Date of publication'|translate" sortable="'createDate'" class="text-center">
                                 <span tooltip-placement="top" tooltip="{{item.createDate|stDialogDate}}">
@@ -73,8 +77,8 @@
                                 <span class="label label-success" ng-if="item.status == 4">
                                     {{item.createDate|date:'HH:mm'}}
                                 </span>
-                                <span class="label label-info" ng-if="item.status == 6">
-                                    Відкладено на
+                                <span class="label label-info" ng-if="item.status == 6" title="Postponed">
+                                    <span class="fa fa-history"></span>
                                     {{item.publishedDate|date:'HH:mm'}}
                                 </span>
                                 <span class="label label-danger" ng-if="item.status == 2">На модерації</span>
