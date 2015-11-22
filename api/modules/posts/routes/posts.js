@@ -200,7 +200,7 @@ function importPost(app, dirPath, post, next) {
         }
 
         var files = JSON.parse(res);
-        async.each(files, function (file, next) {
+        async.eachLimit(files, 1, function (file, next) {
           var baseName = path.basename(file.originalName);
 
           app.models.files.findOne({_id: file._id}, function (err, exists) {
@@ -256,7 +256,7 @@ function importCategory(app, dirPath, category, next) {
     }
 
     var files = JSON.parse(res);
-    async.each(files, function (file, next) {
+    async.eachLimit(files, 1, function (file, next) {
       var baseName = path.basename(file.originalName);
 
       console.info('category: ', dirPath + '/category' + category.alias + '/' + baseName);
