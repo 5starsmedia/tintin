@@ -211,27 +211,33 @@ function importPost(app, dirPath, post, next) {
 
           app.models.files.findOne({_id: file._id}, function (err, exists) {
             var saveFunc = function() {
-              app.services.storage.fromFile({_id: file._id}, dirPath + '/' + post.alias + '/' + baseName, function () {
+              app.services.storage.exists({_id: file._id}, function(err, exists) {
+                if (exists) {
+                  return next();
+                }
 
-                files[file._id] = true;
-                file = new app.models.files(file);
-                file.storageId = file._id;
-                file.site = site;
-                file.save(function (err) {
-                  if (err) {
-                    console.info('save file', file._id, err)
-                  }
-                  next();
+                app.services.storage.fromFile({_id: file._id}, dirPath + '/' + post.alias + '/' + baseName, function () {
+
+                  files[file._id] = true;
+                  file = new app.models.files(file);
+                  file.storageId = file._id;
+                  file.site = site;
+                  file.save(function (err) {
+                    if (err) {
+                      console.info('save file', file._id, err)
+                    }
+                    next();
+                  });
+
                 });
 
               });
             };
-            /*if (exists) {
+            if (exists) {
               app.models.files.remove({_id: file._id}, saveFunc);
             } else {
               saveFunc();
-            }*/
-            next();
+            }
           });
         }, next);
       });
