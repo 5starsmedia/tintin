@@ -211,7 +211,7 @@ function importPost(app, dirPath, post, next) {
 
           app.models.files.findOne({_id: file._id}, function (err, exists) {
             var saveFunc = function() {
-              app.services.storage.exists({_id: file._id}, function(err, exists) {
+              app.services.storage.exist({_id: file._id}, function(err, exists) {
                 if (exists) {
                   return next();
                 }
