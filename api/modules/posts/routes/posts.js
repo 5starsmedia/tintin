@@ -267,7 +267,12 @@ function importCategory(app, dirPath, category, next) {
         file.storageId = file._id;
         file.collectionName = 'categories';
         file.site = site;
-        file.save(next);
+        file.save(function (err) {
+          if (err) {
+            console.info('save category file', file._id, err)
+          }
+          next();
+        });
 
       });
     }, next);
