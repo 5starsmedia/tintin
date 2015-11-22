@@ -201,7 +201,7 @@ function importPost(app, dirPath, post, next) {
         }
 
         var files = JSON.parse(res);
-        async.eachLimit(files, 10, function (file, next) {
+        async.eachLimit(files, 1, function (file, next) {
           var baseName = path.basename(file.originalName);
 
           if (files[file._id]) {
