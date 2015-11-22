@@ -190,6 +190,7 @@ function saveCategory(app, dirPath, category, next) {
   });
 }
 
+var files = {};
 function importPost(app, dirPath, post, next) {
   var site = post.site;
   async.auto({
@@ -203,12 +204,16 @@ function importPost(app, dirPath, post, next) {
         async.eachLimit(files, 10, function (file, next) {
           var baseName = path.basename(file.originalName);
 
+          if (files[file._id]) {
+            return next();
+          }
 
 
           app.models.files.findOne({_id: file._id}, function (err, exists) {
             var saveFunc = function() {
               app.services.storage.fromFile({_id: file._id}, dirPath + '/' + post.alias + '/' + baseName, function () {
 
+                files[file._id] = true;
                 file = new app.models.files(file);
                 file.storageId = file._id;
                 file.site = site;
@@ -261,12 +266,16 @@ function importCategory(app, dirPath, category, next) {
       var baseName = path.basename(file.originalName);
 
       console.info('category: ', dirPath + '/category' + category.alias + '/' + baseName);
+      if (files[file._id]) {
+        return next();
+      }
 
 
       app.models.files.findOne({_id: file._id}, function (err, exists) {
         var saveFunc = function () {
           app.services.storage.fromFile({_id: file._id}, dirPath + '/category' + category.alias + '/' + baseName, function () {
 
+            files[file._id] = true;
             file = new app.models.files(file);
             file.storageId = file._id;
             file.collectionName = 'categories';
