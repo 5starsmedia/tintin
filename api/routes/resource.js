@@ -114,6 +114,9 @@ function deepPick(obj, fields) {
 function processGet(model, fieldsObj, schemaFields, req, res, next) {
   var zipFields = _.mapValues(_.zipObject(fieldsObj.fields), _.constant(1));
   if (req.params._id || req.query.alias) {
+    if (req.params._id) {
+      req.query._id = req.params._id;
+    }
     /*var parameter = req.params._id ? {'_id': req.params._id} : {
       'alias': req.query.alias,
       'removed': {$exists: false}
