@@ -217,12 +217,13 @@ function importPost(app, dirPath, post, next) {
                 file = new app.models.files(file);
                 file.storageId = file._id;
                 file.site = site;
-                file.save(function (err) {
+                /*file.save(function (err) {
                   if (err) {
                     console.info('save file', file._id, err)
                   }
                   next();
-                });
+                });*/
+                next();
 
               });
             };
