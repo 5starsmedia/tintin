@@ -128,7 +128,7 @@ function savePost(app, dirPath, post, next) {
 
       fs.writeFile(fileName, JSON.stringify(data.comments, null, 2), next);
     }],
-    'files': ['images', function (next, data) {
+    'files': ['saveImages', function (next, data) {
       var fileName = fullPath + '/files.json';
 
       fs.writeFile(fileName, JSON.stringify(data.images, null, 2), next);
