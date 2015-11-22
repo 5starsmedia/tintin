@@ -93,6 +93,10 @@ function savePost(app, dirPath, post, next) {
     },
     'saveImages': ['createDir', 'images', 'coverFile', function (next, data) {
       if (data.coverFile) {
+        data.coverFile.site = {
+          _id: post.site._id,
+          domain: post.site.domain
+        };
         data.images.unshift(data.coverFile);
       }
       async.eachLimit(data.images, 3, function (image, next) {
