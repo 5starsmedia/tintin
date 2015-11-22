@@ -264,7 +264,7 @@ function importCategory(app, dirPath, category, next) {
 
 
       app.models.files.findOne({_id: file._id}, function (err, exists) {
-        var saveFunc = function() {
+        var saveFunc = function () {
           app.services.storage.fromFile({_id: file._id}, dirPath + '/category' + category.alias + '/' + baseName, function () {
 
             file = new app.models.files(file);
@@ -285,6 +285,7 @@ function importCategory(app, dirPath, category, next) {
         } else {
           saveFunc();
         }
+      });
 
     }, next);
   });
