@@ -5,15 +5,15 @@
   "acl": {
     "*": {
       "get": "*",
-      "get?activated": ["admin"],
+      "get?activated": ["ads"],
       "get?_id": "*",
       "get?tags": "*",
       "get?tags.title": "*",
       "get?category._id": "*",
-      "put?_id": ["admin", "*:owner"],
-      "put?_id&position": ["admin", "*:owner"],
-      "post": "admin",
-      "delete?_id": "admin"
+      "put?_id": ["ads", "*:owner"],
+      "put?_id&position": ["ads", "*:owner"],
+      "post": "ads",
+      "delete?_id": "ads"
     }
   }
 }
