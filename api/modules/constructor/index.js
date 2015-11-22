@@ -16,8 +16,8 @@ ConstructorModule.prototype.initServices = function () {
 };
 
 ConstructorModule.prototype.initRoutes = function () {
-  this.app.server.use('/api/states', require('./routes/states.js'));
-  this.app.server.use('/api/states', nestedSet('states'));
+  //this.app.server.use('/api/states', require('./routes/states.js'));
+  this.app.server.use('/api/states', require('./routes/states.js'), nestedSet('states'));
 };
 
 module.exports = ConstructorModule;

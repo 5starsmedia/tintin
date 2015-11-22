@@ -213,5 +213,10 @@
     "sref": "contacts.geo",
     "title": {"en-US": "Contacts", "ru-RU": "Представительства"},
     "permissions": ["contacts"]
+  },
+  {
+    "sref": "ruleConstructor.main",
+    "title": {"en-US": "Constructor", "ru-RU": "Конструктор"},
+    "permissions": ["constructor"]
   }
 ]

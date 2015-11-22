@@ -121,10 +121,15 @@ function processPost(collectionName, opts, req, res, next) {
       next(undefined, data.childrens.length + 1)
     }],
     'insertChildren': ['parent', 'position', function(next, data) {
-      delete req.body._id;
-      var node = new req.app.models[collectionName]({
-        site: req.site
-      });
+      var body = req.body;
+      body.site = req.site;
+      delete body._id;
+      delete body.alias;
+      delete body._w;
+      delete body.__v;
+      delete body.path;
+
+      var node = new req.app.models[collectionName](body);
       node._w = data.position;
       node.parentId = data.parent._id;
       node.postType = data.parent.postType;
