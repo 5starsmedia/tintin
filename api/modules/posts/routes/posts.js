@@ -203,18 +203,29 @@ function importPost(app, dirPath, post, next) {
         async.eachLimit(files, 10, function (file, next) {
           var baseName = path.basename(file.originalName);
 
-          app.services.storage.fromFile({_id: file._id}, dirPath + '/' + post.alias + '/' + baseName, function () {
 
-            file = new app.models.files(file);
-            file.storageId = file._id;
-            file.site = site;
-            file.save(function (err) {
-              if (err) {
-                console.info('save file', file._id, err)
-              }
-              next();
-            });
 
+          app.models.files.findOne({_id: file._id}, function (err, exists) {
+            var saveFunc = function() {
+              app.services.storage.fromFile({_id: file._id}, dirPath + '/' + post.alias + '/' + baseName, function () {
+
+                file = new app.models.files(file);
+                file.storageId = file._id;
+                file.site = site;
+                file.save(function (err) {
+                  if (err) {
+                    console.info('save file', file._id, err)
+                  }
+                  next();
+                });
+
+              });
+            };
+            if (exists) {
+              app.models.files.remove({_id: file._id}, saveFunc);
+            } else {
+              saveFunc();
+            }
           });
         }, next);
       });
