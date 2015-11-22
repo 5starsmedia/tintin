@@ -220,6 +220,8 @@ function processPost(model, fieldsObj, req, res, next) {
             ]
           }, 'Resource "' + req.params.resource + '" created.');
 
+          req.log.info({_id: obj._id}, 'db.' + req.params.resource + '.insert');
+
           req.app.services.mq.push(req.app, 'events', {
               name: 'db.' + req.params.resource + '.insert',
               _id: obj._id
