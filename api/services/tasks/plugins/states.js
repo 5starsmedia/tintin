@@ -15,7 +15,7 @@ exports['db.comments.insert'] = function (app, msg, cb) {
 exports['db.feedbacks.insert'] = function (app, msg, cb) {
   app.models.feedbacks.findById(msg.body._id, function(err, feedback) {
     if (err) {return next(err); }
-
+console.info('contacts.feedback')
     app.services.states.run('contacts.feedback', feedback.site._id, { _id: feedback._id });
     cb();
   });
