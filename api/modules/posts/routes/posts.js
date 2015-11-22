@@ -190,7 +190,6 @@ function saveCategory(app, dirPath, category, next) {
   });
 }
 
-var files = {};
 function importPost(app, dirPath, post, next) {
   var site = post.site;
   async.auto({
@@ -201,34 +200,22 @@ function importPost(app, dirPath, post, next) {
         }
 
         var files = JSON.parse(res);
-        async.eachLimit(files, 1, function (file, next) {
+        async.each(files, function (file, next) {
           var baseName = path.basename(file.originalName);
-
-          if (files[file._id]) {
-            return next();
-          }
-
 
           app.models.files.findOne({_id: file._id}, function (err, exists) {
             var saveFunc = function() {
-              app.services.storage.exist({_id: file._id}, function(err, exists) {
-                if (exists) {
-                  return next();
-                }
+              app.services.storage.fromFile({_id: file._id}, dirPath + '/' + post.alias + '/' + baseName, function () {
 
-                app.services.storage.fromFile({_id: file._id}, dirPath + '/' + post.alias + '/' + baseName, function () {
-
-                  files[file._id] = true;
-                  file = new app.models.files(file);
-                  file.storageId = file._id;
-                  file.site = site;
-                  file.save(function (err) {
-                    if (err) {
-                      console.info('save file', file._id, err)
-                    }
-                    next();
-                  });
-
+                files[file._id] = true;
+                file = new app.models.files(file);
+                file.storageId = file._id;
+                file.site = site;
+                file.save(function (err) {
+                  if (err) {
+                    console.info('save file', file._id, err)
+                  }
+                  next();
                 });
 
               });
@@ -273,16 +260,11 @@ function importCategory(app, dirPath, category, next) {
       var baseName = path.basename(file.originalName);
 
       console.info('category: ', dirPath + '/category' + category.alias + '/' + baseName);
-      if (files[file._id]) {
-        return next();
-      }
-
 
       app.models.files.findOne({_id: file._id}, function (err, exists) {
         var saveFunc = function () {
           app.services.storage.fromFile({_id: file._id}, dirPath + '/category' + category.alias + '/' + baseName, function () {
 
-            files[file._id] = true;
             file = new app.models.files(file);
             file.storageId = file._id;
             file.collectionName = 'categories';
