@@ -260,21 +260,32 @@ function importCategory(app, dirPath, category, next) {
     async.each(files, function (file, next) {
       var baseName = path.basename(file.originalName);
 
-      console.info('category: ', dirPath + '/category' + category.alias + '/' + baseName)
-      app.services.storage.fromFile({_id: file._id}, dirPath + '/category' + category.alias + '/' + baseName, function () {
+      console.info('category: ', dirPath + '/category' + category.alias + '/' + baseName);
 
-        file = new app.models.files(file);
-        file.storageId = file._id;
-        file.collectionName = 'categories';
-        file.site = site;
-        file.save(function (err) {
-          if (err) {
-            console.info('save category file', file._id, err)
-          }
-          next();
-        });
 
-      });
+      app.models.files.findOne({_id: file._id}, function (err, exists) {
+        var saveFunc = function() {
+          app.services.storage.fromFile({_id: file._id}, dirPath + '/category' + category.alias + '/' + baseName, function () {
+
+            file = new app.models.files(file);
+            file.storageId = file._id;
+            file.collectionName = 'categories';
+            file.site = site;
+            file.save(function (err) {
+              if (err) {
+                console.info('save category file', file._id, err)
+              }
+              next();
+            });
+
+          });
+        };
+        if (exists) {
+          app.models.files.remove({_id: file._id}, saveFunc);
+        } else {
+          saveFunc();
+        }
+
     }, next);
   });
 }
