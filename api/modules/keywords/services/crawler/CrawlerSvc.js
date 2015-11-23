@@ -33,7 +33,7 @@ CrawlerSvc.prototype.getUrlContent = function (requestUrl, userAgent, next) {
         timeout: 3000
       };
       request(options, function (error, response, body) {
-        if (error.code == 'ETIMEDOUT') {
+        if (error && error.code == 'ETIMEDOUT') {
           var urlObj = new app.models.crawledUrls();
           urlObj.url = requestUrl;
           urlObj.code = 408;
