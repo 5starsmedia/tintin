@@ -19,12 +19,22 @@
                 {{'Адрес'|translate}}
             </label>
 
-            <textarea ng-model="item.body" class="form-control" required></textarea>
+            <input type="text" ng-model="item.body" class="form-control" ng-keydown="onKeyDown($event)" required />
 
         </div>
 
+        <div class="row">
 
-        <ui-gmap-google-map bounds="map.bounds" events="map.events" center='map.center' zoom='map.zoom'>
+            <div class="col-xs-6">
+                <input type="text" ng-model="marker.coords.latitude" class="form-control" required />
+            </div>
+            <div class="col-xs-6">
+                <input type="text" ng-model="marker.coords.longitude" class="form-control" required />
+            </div>
+        </div>
+
+
+        <ui-gmap-google-map bounds="map.bounds" events="map.events" control="control" center='map.center' zoom='map.zoom'>
             <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id"></ui-gmap-marker>
         </ui-gmap-google-map>
 

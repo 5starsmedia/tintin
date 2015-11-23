@@ -1,9 +1,13 @@
 export default
 class ContactsGeoEditCtrl {
   /*@ngInject*/
-  constructor($scope, $modalInstance, item, notify) {
+  constructor($scope, $modalInstance, item, notify, uiGmapIsReady) {
 
     $scope.item = item;
+    $scope.control = {};
+    uiGmapIsReady.promise().then(function (maps) {
+      $scope.control.refresh();
+    });
 
     $scope.saveItem = () => {
       $scope.loading = true;
@@ -25,6 +29,36 @@ class ContactsGeoEditCtrl {
 
     $scope.close = () => {
       $modalInstance.dismiss();
+    };
+
+    $scope.onKeyDown = (e) => {
+      if (e.keyCode == 13 && $scope.item.body) {
+        e.preventDefault()
+        $scope.onAddressChange($scope.item.body);
+        return false;
+      }
+    }
+
+    $scope.onAddressChange = function(address) {
+      $scope.loading = true;
+      var geocoder = new google.maps.Geocoder();
+
+      geocoder.geocode({
+        'address': address,
+        region: 'ru',
+        language: 'ru'
+      }, function(places, status) {
+        return $scope.$apply(function() {
+          $scope.loading = false;
+          if (places && places.length) {
+            var place = places[0];
+            if (!place.geometry || !place.geometry.location) {
+              return;
+            }
+            return $scope.setMarkerPos(place.place_id, place.geometry.location, true);
+          }
+        });
+      });
     };
 
     $scope.setMarkerPos = function(id, pos, boundsSet) {

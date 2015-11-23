@@ -16,7 +16,7 @@
             <table ng-table="tableParams" ng-table-filters-manager show-filter="false" class="table">
                 <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
                     <td data-title="'Название'|translate" sortable="'title'" filter="{'search': 'text'}">
-                        <a ui-sref="ecommerce.edit({id: item._id})">
+                        <a href="" ng-click="edit(item)" title="{{'Редактировать'|translate}}">
                             {{item.title}}
                         </a>
                     </td>
