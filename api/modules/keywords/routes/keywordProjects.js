@@ -356,7 +356,9 @@ function post(req, cb) {
 
                     var q = async.queue(_.partial(saveGroup, req), 10);
                     _.forEach(item.children, function (group) {
-                      q.push(group);
+                      _.forEach(group.children, function (group) {
+                        q.push(group);
+                      });
                     });
                     q.drain = cb;
                   });
