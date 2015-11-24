@@ -117,19 +117,29 @@ function parseTopic(topic) {
   }
   return item;
 }
+function parseMMapTopic(topic) {
+  var item = { children: [] };
 
-var saveGroup = function(req, project, group, next) {
+  item.title = topic['ap:Text'][0]['$'].PlainText;
+
+  _.forEach(topic['ap:SubTopics'], function(markerRefs) {
+    _.forEach(markerRefs['ap:Topic'], function(topicItem) {
+      item.children.push(parseMMapTopic(topicItem));
+    });
+  });
+
+  return item;
+}
+
+var saveGroup = function(req, group, next) {
   async.auto({
     'group': function(next) {
       req.app.models.keywordGroups.findOne({ title: group.title }, function(err, groupObj) {
         if (!groupObj) {
           groupObj = new req.app.models.keywordGroups();
           groupObj.title = group.title;
-          groupObj.project = {
-            _id: project._id,
-            title: project.title
-          };
         }
+        groupObj.site = req.site;
         groupObj.keywords = _.pluck(group.children, 'title').join("\n");
         groupObj.save(next)
       });
@@ -153,7 +163,7 @@ var saveProject = function(req, projectInfo, data, next) {
       });
     },
     'saveGroups': ['project', function(next, res) {
-      var q = async.queue(_.partial(saveGroup, req, res.project), 10);
+      var q = async.queue(_.partial(saveGroup, req), 10);
       _.forEach(data, function (group) {
         q.push(group);
       });
@@ -209,6 +219,41 @@ var parseXMind = function(chunks, callback) {
 
 };
 
+var parseMMap = function(chunks, callback) {
+  var bufferStream = new stream.Transform();
+
+  _.forEach(chunks, function(chunk) {
+    bufferStream.push(chunk.data)
+  });
+  bufferStream.end();
+
+  bufferStream.pipe(unzip.Parse())
+    .on('entry', function (entry) {
+      var fileName = entry.path;
+      if (fileName === 'Document.xml' && entry.type == 'File') {
+        var data = '';
+        entry.on('data', function (chunk) {
+          data += chunk;
+        })
+          .on('end', function () {
+            xml2js.parseString(data, {trim: true}, function (err, result) {
+              var item = null;
+              _.forEach(result['ap:Map']['ap:OneTopic'], function(oneTopic) {
+                _.forEach(oneTopic['ap:Topic'], function(topic) {
+                  item = parseMMapTopic(topic);
+                });
+              });
+
+              callback(null, item);
+            });
+          });
+      } else {
+        entry.autodrain();
+      }
+    });
+
+};
+
 var parseText = function(chunks, callback) {
   var str = '';
   _.forEach(chunks, function(chunk) {
@@ -253,6 +298,7 @@ function post(req, cb) {
   if (validation !== 'valid') { return cb(new Error(validation)); }
   var numberOfChunks = Math.max(Math.floor(totalSize / (chunkSize)), 1);
 
+
   req.app.models.files.collection.findAndModify({'account._id': req.auth.account._id, clientId: identifier}, [],
     {
       $set: {
@@ -269,6 +315,9 @@ function post(req, cb) {
       }
     }, {upsert: true, new: true}, function (err, file) {
       if (err) {return cb(err); }
+
+        file = file.value;
+
       fs.readFile(files[fileParameterName].path, function (err, data) {
         if (err) {return cb(err); }
         fs.unlink(files[fileParameterName].path, function (err) {
@@ -282,7 +331,7 @@ function post(req, cb) {
             if (err) {return cb(err); }
             req.app.models.files.findByIdAndUpdate(file._id, {$inc: {uploadedChunks: 1}}, function (err, newFile) {
               if (err) {return cb(err); }
-              if (newFile.uploadedChunks === newFile.totalChunks) {
+              if (newFile.uploadedChunks === newFile.totalChunks - 1) {
 
                 req.app.models.fileChunks.find({ 'file._id': file._id }, 'data', { sort: 'chunkNumber' }, function(err, chunks) {
                   if (err) {return cb(err); }
@@ -302,16 +351,14 @@ function post(req, cb) {
                     return;
                   }
 
-                  parseXMind(chunks, function (err, project, data) {
+                  parseMMap(chunks, function (err, item) {
                     if (err) { return cb(err); }
 
-                    saveProject(req, project, data, function(err, project) {
-                      if (err) { return cb(err); }
-                      cb(null, 'done', {
-                        _id: project._id,
-                        title: project.title
-                      });
+                    var q = async.queue(_.partial(saveGroup, req), 10);
+                    _.forEach(item.children, function (group) {
+                      q.push(group);
                     });
+                    q.drain = cb;
                   });
                 });
               } else {

@@ -14,6 +14,7 @@ export default
       transclude: true,
       scope: {
         file: '=',
+        target: '@?',
         allowedExtensions: '@',
         bestWidth: '@',
         bestHeight: '@',
@@ -48,6 +49,9 @@ export default
             singleFile: true,
             query: { isTemp: true }
           };
+          if ($scope.target) {
+            opts.target = $scope.target;
+          }
           return opts;
         };
         $scope.fileError = function (event, $flow, flowFile, $message) {

@@ -4723,6 +4723,12 @@ body.cover {
   max-width: 100%;
   border: 1px solid #eee;
 }
+.form-actions .fu-single {
+  min-width: initial;
+  min-height: initial;
+  border: 0 none;
+  display: inline-block;
+}
 .nav-nested {
   margin: 4px 0 4px -6px;
   border: 0 none transparent;
