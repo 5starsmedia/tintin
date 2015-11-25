@@ -135,9 +135,9 @@ var frontends = {},
 
 
 domains = _.sortByAll(domains, function(item) {
-  return -(item.domain.match(/\./g) || []).length;
-}, function(item) {
   return -item.domain.length;
+}, function(item) {
+  return -(item.domain.match(/\./g) || []).length;
 });
 
 
