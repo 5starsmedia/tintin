@@ -40,6 +40,12 @@ class KeywordsGroupsCtrl {
     };
 
     //assign
+    $scope.$watch('file._id', (id) => {
+      if (angular.isUndefined(id)) {
+        return;
+      }
+      $scope.tableParams.reload();
+    })
 
 
     $scope.assign = (group) => {
