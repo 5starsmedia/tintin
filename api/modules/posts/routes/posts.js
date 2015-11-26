@@ -402,7 +402,7 @@ router.get('/import', function (req, res, next) {
         var site = JSON.parse(data);
         req.app.models.sites.remove({_id: site._id}, function () {
           site = new req.app.models.sites(site);
-          site.domain = 'vseowode.5stars.link';
+          site.domain = 'bezprovodoff.com';
           site.port = 80;
           site.save(function () {
             next(null, site);
