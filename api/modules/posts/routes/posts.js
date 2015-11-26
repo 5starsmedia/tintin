@@ -485,9 +485,6 @@ router.get('/import', function (req, res, next) {
                                     console.info('err', err, postObj);
                                     return next(err);
                                 }
-                                if (post._id == '55439b763c2462e81a702c67') {
-                                    console.info(data);
-                                }
                                 var app = req.app, dirPath = data.dir.path, post = postObj;
                                 console.info('importPost');
                                 var site = post.site;
