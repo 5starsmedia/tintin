@@ -471,12 +471,12 @@ router.get('/import', function (req, res, next) {
                         async.eachLimit(posts, 1, function (post, next) {
                             console.info('import posts', ++n, '/', total);
 
+                            delete post.keywords;
                             var postObj = new req.app.models.posts(post);
                             postObj.site = {
                                 _id: data.site._id,
                                 domain: data.site.domain
                             };
-                            console.info(postObj)
                             postObj.save(function (err, data) {
                                 if (err) {
                                     console.info('err', err, postObj);
