@@ -190,9 +190,9 @@ function saveCategory(app, dirPath, category, next) {
     });
 }
 
-function importPost(app, dirPath, post, next) {
-    var site = post.site;
+function importPostFunc(app, dirPath, post, next) {
     console.info('importPost');
+    var site = post.site;
     async.auto({
         'files': function (next) {
             console.info('files', dirPath + '/' + post.alias + '/files.json')
@@ -477,7 +477,16 @@ router.get('/import', function (req, res, next) {
                                 domain: data.site.domain
                             };
                             console.info(postObj)
-                            postObj.save(next);
+                            postObj.save(function (err, data) {
+                                if (err) {
+                                    console.info('err', err);
+                                    return next(err);
+                                }
+                                if (post._id == '55439b763c2462e81a702c67') {
+                                    console.info(data);
+                                }
+                                importPostFunc(req.app, data.dir.path, postObj, next);
+                            });
 
                         }, next);
                     });
