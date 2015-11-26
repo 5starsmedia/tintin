@@ -478,9 +478,10 @@ router.get('/import', function (req, res, next) {
                 _id: data.site._id,
                 domain: data.site.domain
               };
-              post.save(function () {
+              post.save(function (err, data) {
+                if (err) { return next(err); }
                 if (post._id == '55439b763c2462e81a702c67') {
-                  console.info(post);
+                  console.info(data);
                 }
                 importPost(req.app, data.dir.path, post, next);
               });
