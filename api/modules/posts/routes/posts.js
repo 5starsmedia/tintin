@@ -471,12 +471,13 @@ router.get('/import', function (req, res, next) {
                         async.eachLimit(posts, 1, function (post, next) {
                             console.info('import posts', ++n, '/', total);
 
-                            post = new req.app.models.posts(post);
-                            post.site = {
+                            var postObj = new req.app.models.posts(post);
+                            postObj.site = {
                                 _id: data.site._id,
                                 domain: data.site.domain
                             };
-                            post.save(function (err, data) {
+                            console.info(postObj)
+                            postObj.save(function (err, data) {
                                 if (err) {
                                     console.info('err', err);
                                     return next(err);
@@ -484,7 +485,7 @@ router.get('/import', function (req, res, next) {
                                 if (post._id == '55439b763c2462e81a702c67') {
                                     console.info(data);
                                 }
-                                importPost(req.app, data.dir.path, post, next);
+                                importPost(req.app, data.dir.path, postObj, next);
                             });
 
                         }, next);
