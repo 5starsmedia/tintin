@@ -192,7 +192,7 @@ function saveCategory(app, dirPath, category, next) {
 
 function importPost(app, dirPath, post, next) {
     var site = post.site;
-    console.info(importPost);
+    console.info('importPost');
     async.auto({
         'files': function (next) {
             console.info('files', dirPath + '/' + post.alias + '/files.json')
@@ -436,15 +436,11 @@ router.get('/import', function (req, res, next) {
                 categories = _.sortBy(categories, function (category) {
                     return category.path.length;
                 });
-                _.each(categories, function (category) {
-                    console.info(category._id, category.parentId)
-                });
-
                 async.eachLimit(categories, 1, function (category, next) {
                     category = new req.app.models.categories(category);
                     category.site = data.site;
                     category.save(function (err) {
-                        console.info(err);
+                        if (err) { return next(err); }
                         importCategory(req.app, data.dir.path, category, next);
                     });
                 }, next);
