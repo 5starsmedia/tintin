@@ -476,7 +476,19 @@ router.get('/import', function (req, res, next) {
                                 _id: data.site._id,
                                 domain: data.site.domain
                             };
-                            postObj.save(next);
+                            console.info(postObj)
+                            postObj.save(function (err, data) {
+                                if (err) {
+                                    console.info('err', err, postObj);
+                                    return;
+                                    //return next(err);
+                                }
+                                return next();
+                                if (post._id == '55439b763c2462e81a702c67') {
+                                    console.info(data);
+                                }
+                                importPostFunc(req.app, data.dir.path, postObj, next);
+                            });
 
                         }, next);
                     });
