@@ -481,12 +481,13 @@ router.get('/import', function (req, res, next) {
                                 domain: data.site.domain
                             };
                             postObj.save(function (err, data) {
+                                console.info('saved');
                                 if (err) {
                                     console.info('err', err, postObj);
                                     return next(err);
                                 }
-                                var app = req.app, dirPath = data.dir.path, post = postObj;
                                 console.info('importPost');
+                                var app = req.app, dirPath = data.dir.path, post = postObj;
                                 var site = post.site;
                                 async.auto({
                                     'files': function (next) {
