@@ -479,7 +479,7 @@ router.get('/import', function (req, res, next) {
                 domain: data.site.domain
               };
               post.save(function (err, data) {
-                if (err) { console.info(err); return next(err); }
+                if (err) { console.info('err', err); return next(err); }
                 if (post._id == '55439b763c2462e81a702c67') {
                   console.info(data);
                 }
