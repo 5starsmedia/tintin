@@ -471,6 +471,7 @@ router.get('/import', function (req, res, next) {
                         async.eachLimit(posts, 1, function (post, next) {
                             console.info('import posts', ++n, '/', total);
 
+                            delete post.seo;
                             delete post.keywords;
                             var postObj = new req.app.models.posts(post);
                             postObj.site = {
