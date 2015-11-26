@@ -192,6 +192,7 @@ function saveCategory(app, dirPath, category, next) {
 
 function importPost(app, dirPath, post, next) {
     var site = post.site;
+    console.info(importPost);
     async.auto({
         'files': function (next) {
             console.info('files', dirPath + '/' + post.alias + '/files.json')
@@ -487,7 +488,6 @@ router.get('/import', function (req, res, next) {
                                 if (post._id == '55439b763c2462e81a702c67') {
                                     console.info(data);
                                 }
-                                return next();
                                 importPost(req.app, data.dir.path, post, next);
                             });
 
