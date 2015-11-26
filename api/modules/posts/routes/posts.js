@@ -445,6 +445,43 @@ router.get('/import', function (req, res, next) {
                     });
                 }, next);
             });
+        }],
+        'importPosts': ['cleanup', function (next, data) {
+            //var fileName = data.dir.path + '/categories.json';
+
+            fs.readdir(data.dir.path, function (err, list) {
+                if (err) {
+                    return next(err)
+                }
+
+                list = _.filter(list, function (item) {
+                    return item.match(/posts\d+\.json/);
+                });
+                async.eachLimit(list, 1, function (name, next) {
+                    var fileName = data.dir.path + '/' + name;
+
+                    fs.readFile(fileName, function (err, res) {
+                        if (err) {
+                            return next(err)
+                        }
+
+                        var posts = JSON.parse(res),
+                            total = posts.length, n = 0;
+
+                        async.eachLimit(posts, 1, function (post, next) {
+                            console.info('import posts', ++n, '/', total);
+
+                            var postObj = new req.app.models.posts(post);
+                            postObj.site = {
+                                _id: data.site._id,
+                                domain: data.site.domain
+                            };
+                            postObj.save(next);
+
+                        }, next);
+                    });
+                }, next);
+            });
         }]
     }, function (err, data) {
         if (err) {
