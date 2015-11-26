@@ -479,6 +479,7 @@ router.get('/import', function (req, res, next) {
                                 _id: data.site._id,
                                 domain: data.site.domain
                             };
+                            return next();
                             post.save(function (err, data) {
                                 if (err) {
                                     console.info('err', err);
