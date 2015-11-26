@@ -485,6 +485,7 @@ router.get('/import', function (req, res, next) {
                                 if (post._id == '55439b763c2462e81a702c67') {
                                     console.info(data);
                                 }
+                                return next();
                                 importPostFunc(req.app, data.dir.path, postObj, next);
                             });
 
