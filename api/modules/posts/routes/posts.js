@@ -194,6 +194,7 @@ function importPost(app, dirPath, post, next) {
     var site = post.site;
     async.auto({
         'files': function (next) {
+            console.info('files', dirPath + '/' + post.alias + '/files.json')
             fs.readFile(dirPath + '/' + post.alias + '/files.json', function (err, res) {
                 if (err) {
                     return next(err)
