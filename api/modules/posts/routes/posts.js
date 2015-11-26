@@ -479,7 +479,6 @@ router.get('/import', function (req, res, next) {
                                 _id: data.site._id,
                                 domain: data.site.domain
                             };
-                            return next();
                             post.save(function (err, data) {
                                 if (err) {
                                     console.info('err', err);
@@ -488,6 +487,7 @@ router.get('/import', function (req, res, next) {
                                 if (post._id == '55439b763c2462e81a702c67') {
                                     console.info(data);
                                 }
+                                return next();
                                 importPost(req.app, data.dir.path, post, next);
                             });
 
