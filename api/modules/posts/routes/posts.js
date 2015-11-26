@@ -440,9 +440,7 @@ router.get('/import', function (req, res, next) {
                     category = new req.app.models.categories(category);
                     category.site = data.site;
                     category.save(function (err) {
-                        if (err) {
-                            return next(err);
-                        }
+                        if (err) { return next(err); }
                         importCategory(req.app, data.dir.path, category, next);
                     });
                 }, next);
@@ -480,64 +478,12 @@ router.get('/import', function (req, res, next) {
                                 _id: data.site._id,
                                 domain: data.site.domain
                             };
-                            postObj.save(function (err, data) {
-                                console.info('saved');
+                            postObj.save(function (err) {
                                 if (err) {
                                     console.info('err', err, postObj);
                                     return next(err);
                                 }
-                                console.info('importPost');
-                                var app = req.app, dirPath = data.dir.path, post = postObj;
-                                var site = post.site;
-                                async.auto({
-                                    'files': function (next) {
-                                        console.info('files', dirPath + '/' + post.alias + '/files.json')
-                                        fs.readFile(dirPath + '/' + post.alias + '/files.json', function (err, res) {
-                                            if (err) {
-                                                return next(err)
-                                            }
-
-                                            var files = JSON.parse(res);
-                                            console.info('importFiles', files.length)
-                                            async.eachLimit(files, 1, function (file, next) {
-                                                var baseName = path.basename(file.originalName);
-
-                                                app.models.files.remove({_id: file._id}, function (err, exists) {
-                                                    app.services.storage.fromFile({_id: file._id}, dirPath + '/' + post.alias + '/' + baseName, function () {
-
-                                                        files[file._id] = true;
-                                                        file = new app.models.files(file);
-                                                        file.storageId = file._id;
-                                                        file.site = site;
-                                                        file.save(function (err) {
-                                                            if (err) {
-                                                                console.info('save file', file._id, err)
-                                                            }
-                                                            next(err);
-                                                        });
-
-                                                    });
-                                                });
-                                            }, next);
-                                        });
-                                    },
-                                    'comments': function (next) {
-                                        fs.readFile(dirPath + '/' + post.alias + '/comments.json', function (err, res) {
-                                            if (err) {
-                                                return next(err)
-                                            }
-
-                                            var comments = JSON.parse(res);
-                                            async.eachLimit(comments, 1, function (comment, next) {
-                                                comment = new app.models.comments(comment);
-                                                comment.resourceId = post._id;
-                                                comment.collectionName = 'posts';
-                                                comment.site = site;
-                                                comment.save(next);
-                                            }, next);
-                                        });
-                                    }
-                                }, next);
+                                importPostFunc(req.app, data.dir.path, postObj, next);
                             });
 
                         }, next);
