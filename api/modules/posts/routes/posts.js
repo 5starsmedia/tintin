@@ -235,8 +235,8 @@ function importPost(app, dirPath, post, next) {
           return next(err)
         }
 
-        var files = JSON.parse(res);
-        async.eachLimit(files, 10, function (comment, next) {
+        var comments = JSON.parse(res);
+        async.eachLimit(comments, 1, function (comment, next) {
           comment = new app.models.comments(comment);
           comment.resourceId = post._id;
           comment.collectionName = 'posts';
@@ -245,7 +245,11 @@ function importPost(app, dirPath, post, next) {
         }, next);
       });
     }
-  }, next);
+  }, function(err) {
+    if (err) { return next(err); }
+    console.info('importPost complete');
+    next();
+  });
 }
 function importCategory(app, dirPath, category, next) {
   var site = category.site;
