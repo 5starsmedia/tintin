@@ -470,7 +470,7 @@ router.get('/import', function (req, res, next) {
             var posts = JSON.parse(res),
               total = posts.length, n = 0;
 
-            async.eachLimit(posts, 5, function (post, next) {
+            async.eachLimit(posts, 1, function (post, next) {
               console.info('import posts', ++n, '/', total);
 
               post = new req.app.models.posts(post);
@@ -479,6 +479,9 @@ router.get('/import', function (req, res, next) {
                 domain: data.site.domain
               };
               post.save(function () {
+                if (post._id == '55439b763c2462e81a702c67') {
+                  console.info(post);
+                }
                 importPost(req.app, data.dir.path, post, next);
               });
 
