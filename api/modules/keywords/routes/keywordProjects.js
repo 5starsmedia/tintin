@@ -120,7 +120,9 @@ function parseTopic(topic) {
 function parseMMapTopic(topic) {
   var item = { children: [] };
 
-  item.title = _.trim(topic['ap:Text'][0]['$'].PlainText, "0123456789-+. \t\n");
+  if (topic['ap:Text'][0]) {
+    item.title = _.trim(topic['ap:Text'][0]['$'].PlainText, "0123456789-+. \t\n");
+  }
 
   _.forEach(topic['ap:SubTopics'], function(markerRefs) {
     _.forEach(markerRefs['ap:Topic'], function(topicItem) {
