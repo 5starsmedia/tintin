@@ -120,7 +120,7 @@ function parseTopic(topic) {
 function parseMMapTopic(topic) {
   var item = { children: [] };
 
-  if (topic['ap:Text'][0]) {
+  if (topic['ap:Text'] && topic['ap:Text'][0]) {
     item.title = _.trim(topic['ap:Text'][0]['$'].PlainText, "0123456789-+. \t\n");
   }
 
