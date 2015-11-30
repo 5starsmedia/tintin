@@ -111,7 +111,7 @@
               <accordion-group is-open="group.$open">
                 <accordion-heading>
                   <span class="fa" ng-class="{'fa-minus': group.$open, 'fa-plus': !group.$open}"></span>
-                  Вимоги до ТЗ</accordion-heading>
+                  Требования к ТЗ</accordion-heading>
 
                 <div ng-bind-html="site.tz.defaultText"></div>
 
@@ -121,12 +121,12 @@
 
             <table class="table table-condensed">
               <tr>
-                <th>Обов'язкові</th>
-                <th style="width: 50%">Ключове слово</th>
+                <th>Обязательные</th>
+                <th style="width: 50%">Ключевая фраза</th>
                 <th style="width: 10%">Топ 3</th>
                 <th style="width: 10%">Топ 10</th>
-                <th style="width: 10%">Використовувати у ТЗ</th>
-                <th style="width: 20%">Тип входження</th>
+                <th style="width: 10%">Использовать в ТЗ</th>
+                <th style="width: 20%">Тип вхождения</th>
               </tr>
               <tr ng-repeat="(n,keyword) in group.recomendation.keywords track by n">
                 <td class="text-center">
@@ -143,17 +143,17 @@
                 <td>
                   <label>
                     <input type="radio" ng-model="keyword.useType" value="exact"/>
-                    Точне
+                    Точное
                   </label>
                   <br/>
                   <label>
                     <input type="radio" ng-model="keyword.useType" value="inexact"/>
-                    Розбавлене
+                    Разбавленное
                   </label>
                   <br/>
                   <label>
                     <input type="radio" ng-model="keyword.useType" value="both"/>
-                    На вибір
+                    На выбор
                   </label>
                 </td>
               </tr>
@@ -161,7 +161,7 @@
 
             <div>
               <label>
-                {{'Number of characters'|translate}}
+                {{'Объем текста'|translate}}
               </label>
 
               <div class="row">
