@@ -75,6 +75,7 @@ var scanImages = deasync(function (domainName, next) {
   mongoose.connect(config.get('mongodb'), function () {
 
     console.log('Find domain:', domainName);
+    console.info({ domain: domainName })
     models.sites.findOne({ domain: domainName }, function(err, site) {
       console.info(err, site)
       if (err) { return next(err); }
