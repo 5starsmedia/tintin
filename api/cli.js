@@ -67,6 +67,7 @@ var addDomain = deasync(function (domainName, next) {
 });
 
 var scanImages = deasync(function (domainName, next) {
+  var done = false;
   console.log('Connecting to mongodb...');
   mongoose.connection.on('error', function (err) {
     console.log(err);
@@ -85,6 +86,7 @@ var scanImages = deasync(function (domainName, next) {
 
         console.info(posts);
 
+        done = true;
         console.log('Closing mongodb connection...');
         mongoose.connection.close(function (err) {
           if (err) { return next(err); }
@@ -94,6 +96,10 @@ var scanImages = deasync(function (domainName, next) {
       });
     });
   });
+  while (!done)
+  {
+    deasync.runLoopOnce();
+  }
 });
 
 var sendMail = deasync(function (template, email, next) {
