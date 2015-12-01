@@ -66,42 +66,6 @@ var addDomain = deasync(function (domainName, next) {
   });
 });
 
-var scanImages = deasync(function (domainName, next) {
-  var done = false;
-  console.log('Connecting to mongodb...');
-  mongoose.connection.on('error', function (err) {
-    console.log(err);
-  });
-  mongoose.set('debug', false);
-  mongoose.connect(config.get('mongodb'), function () {
-
-    console.log('Find domain:', domainName);
-    console.info({ domain: domainName })
-    models.sites.find({ domain: domainName }, function(err, site) {
-      console.info(err, site)
-      if (err) { return next(err); }
-
-      models.posts.find({ body: { '$regex': 'wp-content', $options: 'i' } }, function(err, posts) {
-        if (err) { return next(err); }
-
-        console.info(posts);
-
-        done = true;
-        console.log('Closing mongodb connection...');
-        mongoose.connection.close(function (err) {
-          if (err) { return next(err); }
-          console.log('Mongodb connection successfully closed');
-          next();
-        });
-      });
-    });
-  });
-  while (!done)
-  {
-    deasync.runLoopOnce();
-  }
-});
-
 var sendMail = deasync(function (template, email, next) {
   var client = new Stomp(config.get('tasks.stomp.host'), config.get('tasks.stomp.port'), config.get('tasks.stomp.login'), config.get('tasks.stomp.password'));
   client.on('error', function (err) {
@@ -139,13 +103,6 @@ program
   .description('Send test mail')
   .action(function (template, email, opts) {
     sendMail(template, email);
-  });
-
-program
-  .command('scan-images <domainName>')
-  .description('scanImages')
-  .action(function (domainName, opts) {
-    scanImages(domainName);
   });
 
 program
