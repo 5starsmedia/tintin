@@ -16,9 +16,12 @@
         </tr>
         <tr ng-repeat="keyword in group.recomendation.keywords">
             <td>
-                <strong>
+                <strong ng-if="keyword.use">
                     {{keyword.keyword}}
                 </strong>
+                <span ng-if="!keyword.use">
+                    {{keyword.keyword}}
+                </span>
             </td>
             <td>{{keyword.useEntry}}</td>
             <td>
