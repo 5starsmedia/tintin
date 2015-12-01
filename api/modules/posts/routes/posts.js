@@ -661,4 +661,24 @@ router.get('/:id/suggest', function (req, res, next) {
     });
 });
 
+
+router.get('/fixImages', function (req, res, next) {
+    async.auto({
+        'items': function (next) {
+            return req.app.models.posts.find({ 'site._id': req.site._id }, next);
+        },
+        'replace': ['items', function (next, data) {
+
+            next();
+
+        }]
+    }, function (err, data) {
+        if (err) {
+            return next(err);
+        }
+
+        return res.json(data.items);
+    });
+});
+
 module.exports = router;
