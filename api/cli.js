@@ -74,8 +74,9 @@ var scanImages = deasync(function (domainName, next) {
   mongoose.set('debug', false);
   mongoose.connect(config.get('mongodb'), function () {
 
-    console.log('Creating domain:', domainName);
-    models.sites.findOne({ domain: domainName }, function(err) {
+    console.log('Find domain:', domainName);
+    models.sites.findOne({ domain: domainName }, function(err, site) {
+      console.info(err, site)
       if (err) { return next(err); }
 
       models.posts.find({ body: { '$regex': 'wp-content', $options: 'i' } }, function(err, posts) {
