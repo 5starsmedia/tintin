@@ -665,7 +665,7 @@ router.get('/:id/suggest', function (req, res, next) {
 router.get('/fixImages', function (req, res, next) {
     async.auto({
         'items': function (next) {
-            return req.app.models.posts.find({ 'site._id': req.site._id }, next);
+            return req.app.models.posts.find({ 'site._id': req.site._id, body: { $regex: /wp\-content/ } }, next);
         },
         'replace': ['items', function (next, data) {
 
