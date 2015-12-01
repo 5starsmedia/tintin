@@ -76,7 +76,7 @@ var scanImages = deasync(function (domainName, next) {
 
     console.log('Find domain:', domainName);
     console.info({ domain: domainName })
-    models.sites.findOne({ domain: domainName }, function(err, site) {
+    models.sites.find({ domain: domainName }, function(err, site) {
       console.info(err, site)
       if (err) { return next(err); }
 
