@@ -3,16 +3,16 @@
 
 
     <p>
-        <strong>Text lenght:</strong>
+        <strong>Объем текста:</strong>
         {{group.recomendation.minTextLength}}-{{group.recomendation.maxTextLength}}
         characters
     </p>
 
     <table class="table">
         <tr class="active">
-            <td>Keyphrase</td>
-            <td>Number of occurrences</td>
-            <td>Type of occurrence</td>
+            <td>Ключевая фраза</td>
+            <td>Количество вхождений</td>
+            <td>Тип вхождения</td>
         </tr>
         <tr ng-repeat="keyword in group.recomendation.keywords">
             <td>
@@ -25,14 +25,14 @@
             </td>
             <td>{{keyword.useEntry}}</td>
             <td>
-                <span ng-if="keyword.useType == 'exact'">Exact entry</span>
-                <span ng-if="keyword.useType == 'inexact'">Diluted</span>
-                <span ng-if="keyword.useType == 'both'">Author's choose</span>
+                <span ng-if="keyword.useType == 'exact'">Точное</span>
+                <span ng-if="keyword.useType == 'inexact'">Разбавочное</span>
+                <span ng-if="keyword.useType == 'both'">На выбор</span>
             </td>
         </tr>
     </table>
 
-    <p><strong>Site examples:</strong></p>
+    <p><strong>Сайты, на которые можно ориентироваться при написании:</strong></p>
     <ol>
         <li ng-repeat="url in group.result.urls" ng-if="url.use">
             {{url.url}}
