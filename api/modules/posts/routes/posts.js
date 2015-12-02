@@ -677,10 +677,11 @@ router.get('/fixImages', function (req, res, next) {
                     var img = $(link).find('img');
                     if (img.length > 0) {
                         $(link).data('old-link', $(link).attr('href'));
-                        $(link).attr('href', $(img).attr('src'))
-                        console.log($(img).attr('src') + ':\n  ' + $(link).attr('href'));
+                        $(link).attr('href', $(img).attr('src'));
                     }
                 });
+                item.body = $.html();
+                console.info(item.body)
                 next();
             }, next)
         }]
