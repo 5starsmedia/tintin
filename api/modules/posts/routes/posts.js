@@ -682,8 +682,10 @@ router.get('/fixImages', function (req, res, next) {
                             file = _.find(item.files, { _id: imgId });
                         if (!file) {
                             item.files.push({ _id: imgId });
-                            item.files = _.unique(item.files, '_id');
                         }
+                        item.files = _.unique(item.files, function(item) {
+                            return item._id.toString();
+                        });
                     }
                 });
                 item.body = $.html();
