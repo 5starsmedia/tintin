@@ -678,6 +678,11 @@ router.get('/fixImages', function (req, res, next) {
                     if (img.length > 0) {
                         $(link).attr('old-link', $(link).attr('href'));
                         $(link).attr('href', $(img).attr('src'));
+                        var imgId = $(img).attr('src').replace('/api/files/'),
+                            file = _.find(item.files, { _id: imgId });
+                        if (!file) {
+                            item.files.push({ _id: imgId });
+                        }
                     }
                 });
                 item.body = $.html();
