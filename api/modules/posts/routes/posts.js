@@ -674,7 +674,10 @@ router.get('/fixImages', function (req, res, next) {
                 var $ = cheerio.load(item.body);
                 var links = $('a'); //jquery get all hyperlinks
                 $(links).each(function(i, link){
-                    console.log($(link).text() + ':\n  ' + $(link).attr('href'));
+                    var img = $(link).find('img');
+                    if (img.length > 0) {
+                        console.log($(img).attr('src') + ':\n  ' + $(link).attr('href'));
+                    }
                 });
                 next();
             }, next)
