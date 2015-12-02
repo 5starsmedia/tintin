@@ -12,6 +12,7 @@ var express = require('express'),
     path = require('path'),
     mongoose = require('mongoose'),
     Grid = require('gridfs-stream'),
+    cheerio = require('cheerio'),
     router = express.Router();
 
 /**
@@ -669,8 +670,14 @@ router.get('/fixImages', function (req, res, next) {
         },
         'replace': ['items', function (next, data) {
 
-            next();
-
+            async.each(items, function(item, next) {
+                $ = cheerio.load(item.body);
+                links = $('a'); //jquery get all hyperlinks
+                $(links).each(function(i, link){
+                    console.log($(link).text() + ':\n  ' + $(link).attr('href'));
+                });
+                next();
+            }, next)
         }]
     }, function (err, data) {
         if (err) {
