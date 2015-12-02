@@ -9,6 +9,14 @@ class ContactsGeoEditCtrl {
       $scope.control.refresh();
     });
 
+    $scope.$watchGroup(['item.location.lat', 'item.location.lng'], () => {
+      if (!$scope.item.location.lat || !$scope.item.location.lng || !$scope.marker) {
+        return;
+      }
+      $scope.marker.coords.latitude = $scope.item.location.lat;
+      $scope.marker.coords.longitude = $scope.item.location.lng;
+    });
+
     $scope.saveItem = () => {
       $scope.loading = true;
       let save = item._id ? item.$save : item.$create;
