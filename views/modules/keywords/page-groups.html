@@ -34,7 +34,7 @@
                   {{item.title}}
                 </a>
               </td>
-              <td data-title="'Status'|translate">
+              <td data-title="'Status'|translate" filter="{ 'status': 'select' }" filter-data="statusList($column)">
                 <div ng-if="hasPermission(['menu.check'])">
                   <div keywords-status="{{item.status}}" ng-if="item.status != 'completed'"></div>
                   <div ng-if="item.status == 'completed'">

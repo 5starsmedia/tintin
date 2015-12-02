@@ -1,7 +1,7 @@
 export default
 class KeywordsGroupsCtrl {
   /*@ngInject*/
-  constructor($scope, KeywordsGroupModel, BaseAPIParams, NgTableParams, IssuesIssueModel, $modal) {
+  constructor($scope, KeywordsGroupModel, BaseAPIParams, NgTableParams, IssuesIssueModel, $modal, $q) {
 
     $scope.tableParams = new NgTableParams({
       page: 1,
@@ -29,6 +29,20 @@ class KeywordsGroupsCtrl {
         });
       }
     });
+
+    $scope.statusList = () => {
+      var defer = $q.defer();
+
+      defer.resolve([
+        { id: 'new', title: 'Новая' },
+        { id: 'inprocess', title: 'На сканировании' },
+        { id: 'scaned', title: 'Анализ' },
+        { id: 'finded', title: 'Подготовка' },
+        { id: 'completed', title: 'Готовое' },
+      ]);
+
+      return defer;
+    };;
 
     $scope.remove = function(item) {
       $scope.loading = true;
