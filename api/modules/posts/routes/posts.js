@@ -680,7 +680,6 @@ router.get('/fixImages', function (req, res, next) {
                         $(link).attr('href', $(img).attr('src'));
                     }
                 });
-                item.body = $.html();
                 console.info(item.body)
                 next();
             }, next)
