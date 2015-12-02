@@ -676,7 +676,7 @@ router.get('/fixImages', function (req, res, next) {
                 $(links).each(function(i, link){
                     var img = $(link).find('img');
                     if (img.length > 0) {
-                        $(link).data('old-link', $(link).attr('href'));
+                        $(link).attr('old-link', $(link).attr('href'));
                         $(link).attr('href', $(img).attr('src'));
                     }
                 });
