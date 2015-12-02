@@ -681,8 +681,7 @@ router.get('/fixImages', function (req, res, next) {
                     }
                 });
                 item.body = $.html();
-                console.info(item.body)
-                next();
+                item.save(next);
             }, next)
         }]
     }, function (err, data) {
