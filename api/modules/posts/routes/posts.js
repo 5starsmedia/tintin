@@ -670,7 +670,7 @@ router.get('/fixImages', function (req, res, next) {
         },
         'replace': ['items', function (next, data) {
 
-            async.each(items, function(item, next) {
+            async.each(data.items, function(item, next) {
                 $ = cheerio.load(item.body);
                 links = $('a'); //jquery get all hyperlinks
                 $(links).each(function(i, link){
