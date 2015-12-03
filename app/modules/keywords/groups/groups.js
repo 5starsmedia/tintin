@@ -11,6 +11,7 @@ let module = angular.module(appName, [
   'ui.select',
   'ngSanitize',
   'sticky',
+  'selectionModel',
   models,
   newsModels
 ]);

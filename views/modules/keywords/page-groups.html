@@ -20,9 +20,23 @@
       <div class="hpanel">
         <div class="panel-body" bz-loading-container="loading">
 
+          <button class="btn btn-danger" ng-disabled="!selectedItems.length" st-confirm="removeBulk(selectedItems)" title="{{'Delete keywords'|translate}}"
+                  message-title="'Delete'|translate" message="'Are you realy want to delete this keywords?'|translate">
+            <span class="fa fa-trash"></span>
+            Delete
+            <span ng-if="selectedItems.length" class="badge badge-default">{{selectedItems.length}}</span>
+          </button>
 
           <table ng-table="tableParams" show-filter="true" class="table">
-            <tr ng-repeat="item in $data">
+            <tr ng-repeat="item in $data"
+                selection-model
+                selection-model-selected-items="selectedItems"
+                selection-model-mode="'multiple-additive'"
+                selection-model-selected-attribute="'checked'"
+                selection-model-selected-class="'active'">
+              <td selection-model-ignore="true">
+                <input type="checkbox" ng-model="item.checked" />
+              </td>
               <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
 
 
@@ -61,7 +75,7 @@
                     {{item.createDate|date:'HH:mm'}}
                 </span>
               </td>
-              <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">
+              <td class="actions text-right" selection-model-ignore="true" style="width: 5%" data-title="'Actions'|translate">
 
                 <a ui-sref="keywords.groupEdit({ id: item._id })"
                    title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span></a>

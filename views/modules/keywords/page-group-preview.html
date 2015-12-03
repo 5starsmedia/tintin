@@ -1,5 +1,17 @@
 <div>
-    <div ng-bind-html="site.tz.defaultText"></div>
+
+
+    <accordion>
+        <accordion-group is-open="item.$open">
+            <accordion-heading>
+                <span class="fa" ng-class="{'fa-minus': item.$open, 'fa-plus': !item.$open}"></span>
+                Текст ТЗ
+            </accordion-heading>
+
+            <div ng-bind-html="site.tz.defaultText"></div>
+
+        </accordion-group>
+    </accordion>
 
 
     <p>

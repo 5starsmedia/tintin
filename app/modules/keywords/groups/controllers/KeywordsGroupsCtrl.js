@@ -3,6 +3,8 @@ class KeywordsGroupsCtrl {
   /*@ngInject*/
   constructor($scope, KeywordsGroupModel, BaseAPIParams, NgTableParams, IssuesIssueModel, $modal, $q) {
 
+    $scope.selectedItems = [];
+
     $scope.tableParams = new NgTableParams({
       page: 1,
       count: 100,
@@ -61,6 +63,16 @@ class KeywordsGroupsCtrl {
       $scope.tableParams.reload();
     })
 
+
+    $scope.removeBulk = (items) => {
+      var defs = [];
+      _.each(items, item => defs.push(item.$delete()));
+
+      $scope.loading = true;
+      $q.all(defs).then(() => {
+        $scope.tableParams.reload();
+      });
+    };
 
     $scope.assign = (group) => {
       var modalInstance = $modal.open({

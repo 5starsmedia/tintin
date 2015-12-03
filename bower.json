@@ -75,7 +75,8 @@
     "angular-notification": "~1.0.1",
     "angular-datepicker": "=1.0.12",
     "angular-translate": "~2.7.2",
-    "angular-google-maps": "~2.2.1"
+    "angular-google-maps": "~2.2.1",
+    "selection-model": "angular-selection-model#~0.10.0"
   },
   "resolutions": {
     "jquery": "~2.1.3",
