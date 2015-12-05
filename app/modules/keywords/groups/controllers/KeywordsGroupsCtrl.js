@@ -5,6 +5,43 @@ class KeywordsGroupsCtrl {
 
     $scope.selectedItems = [];
 
+    $scope.checkboxes = {
+      'checkedAll': false,
+      'items': []
+    };
+
+    $scope.$watch('checkboxes.checkedAll', function (value) {
+      angular.forEach($scope.groups, function (item) {
+        item.$checked = value
+      });
+    });
+
+    $scope.invertChecked = () => {
+      angular.forEach($scope.groups, function (item) {
+        item.$checked = !item.$checked;
+      });
+    };
+
+    $scope.$watch('checkboxes.items', function (values) {
+      if (!$scope.groups) {
+        return;
+      }
+      var checked = 0, unchecked = 0,
+          total = $scope.groups.length;
+      angular.forEach($scope.groups, function (item) {
+        var isChecked = $scope.checkboxes.items.indexOf(item) != -1;
+        checked += isChecked ? 1 : 0;
+        unchecked += isChecked ? 0 : 1;
+        item.$checked = isChecked;
+      });
+      if ((unchecked == 0) || (checked == 0)) {
+        $scope.checkboxes.checkedAll = (checked == total);
+      }
+      $scope.checkboxes.checkedAny = (checked > 0);
+
+      angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+    }, true);
+
     $scope.tableParams = new NgTableParams({
       page: 1,
       count: 100,

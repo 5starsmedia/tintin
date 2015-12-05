@@ -6118,8 +6118,8 @@ iframe {
   width: auto !important;
 }
 .sticky-header {
-  z-index: 100;
   top: 0 !important;
+  z-index: 100;
   min-width: 320px;
   height: 65px !important;
   background: rgba(255, 255, 255, 0.75);
@@ -6157,6 +6157,14 @@ iframe {
 .angular-google-map-container {
   margin-top: 10px;
   height: 400px;
+}
+.checkboxMenu .dropdown-menu > li > a {
+  text-transform: none;
+  text-decoration: none;
+}
+.checkboxMenu .btn {
+  padding: 0px 7px !important;
+  margin: -8px 0 0 !important;
 }
 small.timer {
   color: #d97572;
