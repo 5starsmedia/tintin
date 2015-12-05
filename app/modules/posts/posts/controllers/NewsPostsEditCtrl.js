@@ -93,6 +93,7 @@ class NewsPostsEditCtrl {
       extraPlugins: 'SelectImages,mediaembed,adInsert,showblocks,codesnippet',
       removePlugins: 'image,forms,youtube,autogrow,image2',
       allowedContent: true,
+      removeDialogTabs: 'image:advanced',
       toolbar: [
         { name: 'controls', items: [ 'Undo', 'Redo' ] },
         { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord' ] },
