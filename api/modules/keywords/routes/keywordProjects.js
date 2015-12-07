@@ -363,7 +363,12 @@ function post(req, cb) {
                         q.push(group);
                       });
                     });
-                    q.drain = cb;
+                    q.drain = function(){
+                      cb(null, 'chunk', {
+                        _id: file._id,
+                        title: file.title
+                      });
+                    };
                   });
                 });
               } else {
@@ -382,7 +387,7 @@ function post(req, cb) {
 router.post('/', multipartMiddleware, function (req, res, next) {
   post(req, function (err, event, file) {
     if (err) { return next(err); }
-    res.status(204).send();//.json(file);
+    res.status(200).json(file);
   });
 });
 module.exports = router;
