@@ -136,7 +136,7 @@ function parseMMapTopic(topic) {
 var saveGroup = function(req, group, next) {
   async.auto({
     'group': function(next) {
-      req.app.models.keywordGroups.findOne({ title: group.title }, function(err, groupObj) {
+      req.app.models.keywordGroups.findOne({ title: group.title, removed: { $exists: false } }, function(err, groupObj) {
         if (!groupObj) {
           groupObj = new req.app.models.keywordGroups();
           groupObj.title = group.title;
