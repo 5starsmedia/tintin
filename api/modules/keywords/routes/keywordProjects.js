@@ -382,7 +382,7 @@ function post(req, cb) {
 router.post('/', multipartMiddleware, function (req, res, next) {
   post(req, function (err, event, file) {
     if (err) { return next(err); }
-    res.status(204);//.json(file);
+    res.status(204).send();//.json(file);
   });
 });
 module.exports = router;
