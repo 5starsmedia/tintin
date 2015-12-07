@@ -143,7 +143,7 @@ var saveGroup = function(req, group, next) {
         }
         groupObj.site = req.site;
         groupObj.keywords = groupObj.title + "\n" + _.pluck(group.children, 'title').join("\n");
-        print_r(groupObj.keywords);
+        console.info(groupObj.keywords);
         groupObj.save(next)
       });
     }
