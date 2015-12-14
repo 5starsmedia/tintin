@@ -18,6 +18,11 @@
         "sref": "sites.domains",
         "title": {"en-US": "List of sites", "ru-RU": "Список сайтов"},
         "permissions": ["sites"]
+      },
+      {
+        "sref": "sites.redirects",
+        "title": {"en-US": "Redirects", "ru-RU": "Редиректы"},
+        "permissions": ["sites"]
       }
     ]
   },

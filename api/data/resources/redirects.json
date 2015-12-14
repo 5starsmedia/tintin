@@ -1,0 +1,34 @@
+{
+  "resource": "redirects",
+  "model": "redirects",
+  "options": {
+    "maxPerPage": [
+      {
+        "role": "*",
+        "value": false
+      }
+    ],
+    "searchFields": [
+      {
+        "role": "*",
+        "value": ["text"]
+      }
+    ]
+  },
+  "acl": {
+    "realAccount":false,
+    "*": {
+      "get": "*",
+      "get?_id": "*",
+      "get?isSpam&isSystem": "*",
+      "get?isPublished": "*",
+      "get?isPublished&collectionName&resourceId": "*",
+      "get?isPublished&isSpam&collectionName&resourceId": "*",
+      "get?isAnonymous": "*",
+      "get?collectionName&resourceId": "*",
+      "put?_id": "admin,*:owner",
+      "post": "*",
+      "delete?_id": "admin,*:owner"
+    }
+  }
+}

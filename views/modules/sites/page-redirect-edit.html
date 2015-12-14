@@ -1,0 +1,47 @@
+<div>
+
+
+<st-form model="item" state="error" submit="saveItem(item)">
+
+    <st-header title="{{site._id ? 'Editing of redirect' : 'New redirect'}}">
+
+        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+            {{'Save'|translate}}
+        </button>
+        <a ui-sref="sites.redirects" class="btn btn-default">
+            {{'Cancel'|translate}}
+        </a>
+
+    </st-header>
+
+    <div class="content" animate-panel effect="zoomIn">
+
+        <st-form-element label="{{'Url from'|translate}}" field="urlFrom">
+
+            <input class="form-control" name="urlFrom" type="text" required
+                   ng-model="item.urlFrom"/>
+            <div class="help-block">
+                Example: http://site.com/old-url
+            </div>
+
+        </st-form-element>
+        <st-form-element label="{{'Url to'|translate}}" field="urlTo">
+
+            <input class="form-control" name="urlTo" type="text" required
+                   ng-model="item.urlTo"/>
+            <div class="help-block">
+                Example: http://site.com/new-url
+            </div>
+
+        </st-form-element>
+        <st-form-element label="{{'Code'|translate}}" field="code">
+
+            <label><input type="radio" name="code" ng-model="item.code" value="301" /> 301 Permanent</label>
+            <label><input type="radio" name="code" ng-model="item.code" value="302" /> 302 Temporary</label>
+
+        </st-form-element>
+
+    </div>
+
+</st-form>
+</div>
