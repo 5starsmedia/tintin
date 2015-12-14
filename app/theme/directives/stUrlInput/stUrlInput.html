@@ -7,4 +7,12 @@
 
     <input class="form-control" name="alias" type="text" required ng-model="value" ng-pattern="/^[a-z0-9\-]+$/i" />
 
+    <div class="input-group-btn">
+        <a ng-href="/{{alias}}" ng-if="post._id"
+           class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left"
+           tooltip="{{'Open on site'|translate}}" target="_blank">
+            <span class="fa fa-external-link"></span>
+        </a>
+    </div>
+
 </div>
