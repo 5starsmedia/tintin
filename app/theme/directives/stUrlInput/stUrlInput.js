@@ -8,6 +8,7 @@ export default
       scope: {
         'value': '=ngModel',
         'name': '@',
+        'showExternal': '@',
         'prefix': '@'
       },
       templateUrl: 'app/theme/directives/stUrlInput/stUrlInput.html',
