@@ -74,7 +74,6 @@ exports['put.posts'] = function (req, data, cb) {
       });
     }],
     'checkAliasChanged': ['post', function(next, res) {
-      console.info(res.post.alias, data.alias)
       if (res.post.alias == data.alias) {
         return next();
       }
@@ -85,8 +84,9 @@ exports['put.posts'] = function (req, data, cb) {
         urlFrom: urlFrom,
         urlTo: req.site.url + req.app.services.url.urlFor('posts', newItem),
         code: 301,
-        site: req.site
+        site: res.post.site
       });
+      console.info(item)
       item.save(next);
     }],
     'updateInfo': ['post', 'category', 'account', function(next, res) {
