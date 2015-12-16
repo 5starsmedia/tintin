@@ -88,7 +88,6 @@ exports['put.posts'] = function (req, data, cb) {
           _id: req.site._id
         }
       });
-      console.info(item)
       item.save(next);
     }],
     'updateInfo': ['post', 'category', 'account', function(next, res) {
