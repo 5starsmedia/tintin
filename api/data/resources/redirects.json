@@ -20,6 +20,7 @@
     "*": {
       "get": "*",
       "get?_id": "*",
+      "get?urlFrom": "*",
       "get?isSpam&isSystem": "*",
       "get?isPublished": "*",
       "get?isPublished&collectionName&resourceId": "*",
