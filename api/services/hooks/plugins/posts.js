@@ -63,7 +63,7 @@ exports['put.posts'] = function (req, data, cb) {
         next();
       });
     }],*/
-    'aliasFor' : ['post', function(next, res) {
+    'aliasFor' : ['post', 'checkAliasChanged', function(next, res) {
       if (res.post.alias) {
         return next();
       }
@@ -72,6 +72,21 @@ exports['put.posts'] = function (req, data, cb) {
         data.alias = alias;
         next();
       });
+    }],
+    'checkAliasChanged': ['post', function(next, res) {
+      if (res.post.alias == data.alias) {
+        return next();
+      }
+      var urlFrom = req.site.url + req.app.services.url.urlFor('posts', res.post);
+      var newItem = res.post;
+      newItem.alias = data.alias;
+      var item = new req.app.models.redirects({
+        urlFrom: urlFrom,
+        urlTo: req.site.url + req.app.services.url.urlFor('posts', newItem),
+        code: 301,
+        site: req.site
+      });
+      item.save(next);
     }],
     'updateInfo': ['post', 'category', 'account', function(next, res) {
       if (data.status == 4) {
