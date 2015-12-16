@@ -84,7 +84,9 @@ exports['put.posts'] = function (req, data, cb) {
         urlFrom: urlFrom,
         urlTo: req.site.url + req.app.services.url.urlFor('posts', newItem),
         code: 301,
-        site: res.post.site
+        site: {
+          _id: req.site._id
+        }
       });
       console.info(item)
       item.save(next);
