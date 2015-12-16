@@ -79,10 +79,10 @@ exports['put.posts'] = function (req, data, cb) {
       }
       var urlFrom = req.site.url + req.app.services.url.urlFor('posts', res.post);
 
+      var newItem = res.post;
       if (res.category) {
         newItem.category = res.category;
       }
-      var newItem = res.post;
       newItem.alias = data.alias;
       var item = new req.app.models.redirects({
         urlFrom: urlFrom,
