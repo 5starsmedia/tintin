@@ -94,6 +94,7 @@ exports['put.posts'] = function (req, data, cb) {
         }
       });
       item.save(function() {
+        console.info({ urlTo: urlFrom }, { $set: { urlTo: urlTo } })
         req.app.models.redirects.update({ urlTo: urlFrom }, { $set: { urlTo: urlTo } }, next);
       });
     }],
