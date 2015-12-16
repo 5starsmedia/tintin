@@ -73,9 +73,17 @@ exports['put.posts'] = function (req, data, cb) {
         next();
       });
     }],
-    'checkAliasChanged': ['post', function(next, res) {
+    'checkAliasChanged': ['post', 'category', function(next, res) {
       if (res.post.alias == data.alias) {
         return next();
+      }
+      if (res.category) {
+        if (res.category.alias) {
+          data['category.alias'] = res.category.alias;
+        }
+        if (res.category.parentAlias) {
+          data['category.parentAlias'] = res.category.parentAlias;
+        }
       }
       var urlFrom = req.site.url + req.app.services.url.urlFor('posts', res.post);
       var newItem = res.post;
