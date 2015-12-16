@@ -74,6 +74,7 @@ exports['put.posts'] = function (req, data, cb) {
       });
     }],
     'checkAliasChanged': ['post', function(next, res) {
+      console.info(res.post.alias, data.alias)
       if (res.post.alias == data.alias) {
         return next();
       }
