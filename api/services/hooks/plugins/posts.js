@@ -74,9 +74,6 @@ exports['put.posts'] = function (req, data, cb) {
       });
     }],
     'checkAliasChanged': ['post', 'category', function(next, res) {
-      if (res.post.alias == data.alias) {
-        return next();
-      }
       var urlFrom = req.site.url + req.app.services.url.urlFor('posts', res.post);
 
       var newItem = res.post;
@@ -85,6 +82,10 @@ exports['put.posts'] = function (req, data, cb) {
       }
       newItem.alias = data.alias;
       var urlTo = req.site.url + req.app.services.url.urlFor('posts', newItem);
+
+      if (urlFrom == urlTo) {
+        return next();
+      }
       var item = new req.app.models.redirects({
         urlFrom: urlFrom,
         urlTo: urlTo,
