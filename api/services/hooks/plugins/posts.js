@@ -84,15 +84,18 @@ exports['put.posts'] = function (req, data, cb) {
         newItem.category = res.category;
       }
       newItem.alias = data.alias;
+      var urlTo = req.site.url + req.app.services.url.urlFor('posts', newItem);
       var item = new req.app.models.redirects({
         urlFrom: urlFrom,
-        urlTo: req.site.url + req.app.services.url.urlFor('posts', newItem),
+        urlTo: urlTo,
         code: 301,
         site: {
           _id: req.site._id
         }
       });
-      item.save(next);
+      item.save(function() {
+        req.app.models.redirects.update({ urlTo: urlFrom }, { $set: { urlTo: urlTo } }, next);
+      });
     }],
     'updateInfo': ['post', 'category', 'account', function(next, res) {
       if (data.status == 4) {
