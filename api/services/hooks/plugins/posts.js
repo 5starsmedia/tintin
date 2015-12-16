@@ -77,15 +77,11 @@ exports['put.posts'] = function (req, data, cb) {
       if (res.post.alias == data.alias) {
         return next();
       }
-      if (res.category) {
-        if (res.category.alias) {
-          data['category.alias'] = res.category.alias;
-        }
-        if (res.category.parentAlias) {
-          data['category.parentAlias'] = res.category.parentAlias;
-        }
-      }
       var urlFrom = req.site.url + req.app.services.url.urlFor('posts', res.post);
+
+      if (res.category) {
+        newItem.category = res.category;
+      }
       var newItem = res.post;
       newItem.alias = data.alias;
       var item = new req.app.models.redirects({
