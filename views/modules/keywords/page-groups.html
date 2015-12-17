@@ -65,7 +65,11 @@
                       <strong>{{item.result.dueDate|date:'dd.MM.yyyy'}}</strong>
                     </div>
 
-                    <button ng-if="!item.result.account._id" class="btn btn-primary" ng-click="assign(item)" type="button">Назначить</button>
+                    <div ng-if="!item.result.account._id">
+                      <button class="btn btn-primary" ng-click="assign(item)" type="button">Назначить</button>
+
+                      <a ng-href="/preview//keyword-group/{{item._id}}" target="_blank">Посмотреть на сайте</a>
+                    </div>
                   </div>
                 </div>
               </td>
