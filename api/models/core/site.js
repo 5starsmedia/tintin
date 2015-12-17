@@ -49,6 +49,9 @@ var schema = new mongoose.Schema({
     homepageTitle: String,
     structureLevel: {type: Number, required: true, default: 2},
 
+    commenterAvatar: {
+      _id: mongoose.Schema.Types.ObjectId
+    },
     issuePrefix: String
   },
 

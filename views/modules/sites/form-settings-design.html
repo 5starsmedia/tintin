@@ -90,3 +90,16 @@
     </div>
 
 </st-form-element>
+
+
+<st-form-element label="{{'Avatar of comments moderator'|translate}}">
+
+    <div class="clearfix"></div>
+
+    <div bz-loading-container="loading">
+        <cs-single-file-upload resource-id="{{site._id}}" collection-name="sites" file="site.settings.commenterAvatar"
+                               allowed-extensions="png,gif,jpg,jpeg" loading="loading" best-width="200" best-height="200"></cs-single-file-upload>
+    </div>
+
+
+</st-form-element>
