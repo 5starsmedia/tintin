@@ -56,7 +56,7 @@
               </div>
             </tab>
 
-            <tab ng-if="post._id && post.postType != 'news' && post.keywordGroup">
+            <tab ng-if="post._id && post.postType == 'post'">
               <tab-heading>{{'SEO'|translate}}</tab-heading>
 
               <div ng-include="'views/modules/news/page-seo.html'"></div>

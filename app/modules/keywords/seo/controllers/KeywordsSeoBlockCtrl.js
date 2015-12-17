@@ -3,6 +3,12 @@ class KeywordsBlockGroupsCtrl {
   /*@ngInject*/
   constructor($scope, KeywordsSeoTaskModel, notify, $filter, NgTableParams, BaseAPIParams, KeywordsSeoStatHistoryModel, $timeout, KeywordsGroupModel) {
 
+    $scope.loading = true;
+    KeywordsGroupModel.query({ page: 1, perPage: 100 }, function (groups, headers) {
+      $scope.loading = false;
+      $scope.groups = groups;
+    });
+
     $scope.engineName = 'google';
 
     $scope.updateSeoPositions = () => {
@@ -146,8 +152,14 @@ class KeywordsBlockGroupsCtrl {
 
 
 
-    KeywordsGroupModel.get({ _id: $scope.post.keywordGroup._id }, (data) => {
-      $scope.group = data;
+    $scope.$watch('post.keywordGroup._id', (groupId) => {
+      if (!groupId) {
+        return;
+      }
+
+      KeywordsGroupModel.get({ _id: groupId }, (data) => {
+        $scope.group = data;
+      });
     });
 
     $scope.tableParams = new NgTableParams({
