@@ -15,6 +15,9 @@ var schema = new mongoose.Schema({
             price: {type: Number, required: true, default: 0},
             code: String,
 
+            quantity: Number,
+            sum: Number,
+
             coverFile: {
                 _id: mongoose.Schema.Types.ObjectId,
                 title: String
