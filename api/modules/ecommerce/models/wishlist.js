@@ -11,6 +11,24 @@ var schema = new mongoose.Schema({
         {
             _id: mongoose.Schema.Types.ObjectId,
             title: String,
+            alias: String,
+
+            category: {
+                _id: mongoose.Schema.Types.ObjectId,
+                title: String,
+                alias: String
+            },
+            files: [
+                {
+                    _id: mongoose.Schema.Types.ObjectId,
+                    title: String,
+                    ordinal: Number
+                }
+            ],
+            brand: {
+                _id: mongoose.Schema.Types.ObjectId,
+                title: String
+            },
 
             price: {type: Number, required: true, default: 0},
             code: String,
