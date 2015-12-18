@@ -6,6 +6,7 @@ var schema = new mongoose.Schema({
     account: {
         _id: mongoose.Schema.Types.ObjectId
     },
+    sum: Number,
 
     products: [
         {
