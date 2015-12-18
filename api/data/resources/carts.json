@@ -1,0 +1,28 @@
+{
+  "resource": "carts",
+  "model": "Cart",
+  "options": {
+    "searchFields": [
+      {
+        "role": "*",
+        "value": ["msg", "hostname", "req.remoteAddress", "req.userAgent.browser", "req.userAgent.os"]
+      }
+    ],
+    "maxPerPage": [
+      {
+        "role": "*",
+        "value": 200
+      }
+    ]
+  },
+  "acl": {
+    "*": {
+      "get": "*",
+      "get?account._id": "*",
+      "get?_id": ["*", "*:owner"],
+      "put?_id": ["*", "*:owner"],
+      "post": ["*", "*:owner"],
+      "delete?_id": ["*", "*:owner"]
+    }
+  }
+}
