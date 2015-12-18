@@ -14,6 +14,8 @@ EcommerceModule.prototype.initModels = function () {
   this.app.models.productBrands = require('./models/productBrand.js');
   this.app.models.productCategories = require('./models/productCategory.js');
   this.app.models.productCurrencies = require('./models/productCurrency.js');
+  this.app.models.carts = require('./models/cart.js');
+  this.app.models.wishlists = require('./models/wishlist.js');
 };
 
 EcommerceModule.prototype.initRoutes = function () {
