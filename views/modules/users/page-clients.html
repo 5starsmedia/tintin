@@ -1,0 +1,61 @@
+<div class="content" animate-panel effect="zoomIn" delay="0">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <h2 class="font-light m-b-xs ng-binding">
+                {{'Клиенты'|translate}}
+            </h2>
+
+            <div class="hpanel">
+                <div class="panel-body" bz-loading-container="loading">
+
+
+                    <table ng-table="tableParams" ng-table-filters-manager show-filter="false" class="table">
+                        <tr ng-repeat="item in $data" ng-class="{'success': item.isPublished}">
+                            <td width="80%" data-title="'User'|translate" class="table-preview">
+                                <st-avatar width="120" height="120" account="item"></st-avatar>
+
+                                {{item.username}}
+                                <span><br/>
+                                    {{item.profile.lastName}}
+                                    <span class="secondary">{{item.profile.firstName}}</span>
+                                </span>
+
+                                <a ng-if="item.profile.vkUrl" class="name" ng-href="{{item.profile.vkUrl}}" target="_blank">
+                                    VK
+                                </a>
+                                <a ng-if="item.profile.facebookUrl" class="name" ng-href="{{item.profile.facebookUrl}}" target="_blank">
+                                    Facebook
+                                </a>
+                            </td>
+                            <td data-title="'Date of creation'|translate">
+
+                                {{item.createDate|date:'yyyy-MM-dd'}}<br/>
+                                {{item.createDate|date:'HH:mm:ss'}}
+
+                            </td>
+                        </tr>
+                        <tr ng-if="!$data.length">
+                            <td colspan="{{$columns.length}}" class="text-center">{{'No users'|translate}}</td>
+                        </tr>
+                    </table>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <!--div class="col-md-3">
+
+            <div ng-include="'views/modules/ecommerce/block-tree.html'"></div>
+
+        </div-->
+
+
+    </div>
+
+
+</div>
