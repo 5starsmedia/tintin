@@ -15,7 +15,7 @@ class UsersClientsListCtrl {
       getData: function ($defer, params) {
 
         $scope.loading = true;
-        $http.get('http://season-de-luxe.5stars.link/dashboard-api/clients').then(res => {
+        $http.get('http://season-de-luxe.com/dashboard-api/clients').then(res => {
           $scope.loading = false;
           $defer.resolve(res.data);
         })
