@@ -36,6 +36,12 @@
           {{'Сalculate occurrence'|translate}}
         </button>
       </div>
+      <div ng-if="group.status && group.status == 'completed'" class="btn-group">
+        <button type="button" ng-disabled="loading" ng-class="{'m-progress': loading}" ng-click="back('finded')"
+                class="btn btn-default">
+          {{'Edit'|translate}}
+        </button>
+      </div>
 
       <button ng-disabled="loading || editForm.$invalid" ng-if="!group._id" ng-class="{'m-progress': loading}"
               class="btn btn-primary btn-outline"
