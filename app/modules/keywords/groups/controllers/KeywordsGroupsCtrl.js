@@ -44,7 +44,7 @@ class KeywordsGroupsCtrl {
 
     $scope.tableParams = new NgTableParams({
       page: 1,
-      count: 100,
+      count: 10,
       sorting: {
         createDate: 'desc'
       }
@@ -58,7 +58,8 @@ class KeywordsGroupsCtrl {
             'scaned',
             'finded',
             'completed',
-            'returned'
+            'returned',
+            'assigned'
           ]
         }, params);
         if (param.status == '') {
@@ -82,6 +83,7 @@ class KeywordsGroupsCtrl {
         { id: 'scaned', title: 'Анализ' },
         { id: 'finded', title: 'Подготовка' },
         { id: 'completed', title: 'Готовое' },
+        { id: 'assigned', title: 'Выданные группы' }
       ]);
 
       return defer;

@@ -6,6 +6,7 @@ class KeywordsGroupAssignCtrl {
 
     $scope.saveItem = function (item) {
       item.result.authorNotes = null;
+      item.status = 'assigned';
       item.$save(() => {
         $modalInstance.close(item);
       });
