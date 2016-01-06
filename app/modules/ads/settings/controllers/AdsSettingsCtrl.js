@@ -11,7 +11,8 @@ class AdsSettingsCtrl {
       { id: 'after-post', title: 'После текста' },
       { id: 'header', title: 'В шапке' },
       { id: 'footer', title: 'Вконце сайта' },
-      { id: 'sidebar', title: 'Сайдбар, после рассылки' }
+      { id: 'sidebar', title: 'Сайдбар, после рассылки' },
+      { id: 'sidebar-vk', title: 'Сайдбар, перед ВК' }
     ];
 
     var loadData = () => {
