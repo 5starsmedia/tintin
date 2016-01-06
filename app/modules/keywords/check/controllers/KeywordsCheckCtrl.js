@@ -40,10 +40,14 @@ class KeywordsCheckCtrl {
       post.status = 1;
       post.postType = 'post';
       post.body = item.text;
+      var account = post.account;
       post.$create((data) => {
         tmp.postId = data._id;
         tmp.$save(() => {
-          $state.go('post.edit', { id: data._id });
+          post.account = account;
+          post.$save(() => {
+            $state.go('post.edit', { id: data._id });
+          });
         });
       })
     }
