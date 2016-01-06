@@ -6,6 +6,7 @@ class KeywordsAssignmentsRefuseCtrl {
 
     $scope.saveItem = function (item) {
       item.result.account = { _id: null, title: null };
+      item.status = 'completed';
       item.$save(() => {
         $modalInstance.close(item);
       });
