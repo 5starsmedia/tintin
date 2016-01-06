@@ -1,7 +1,7 @@
 export default
 class KeywordsAssignmentsCtrl {
   /*@ngInject*/
-  constructor($scope, $state, KeywordsGroupModel, BaseAPIParams, NgTableParams, $auth, $modal) {
+  constructor($scope, $state, KeywordsGroupModel, BaseAPIParams, NgTableParams, $auth, $modal, basePermissionsSet) {
     var payload = $auth.getPayload();
 
     $scope.tableParams = new NgTableParams({
@@ -13,10 +13,14 @@ class KeywordsAssignmentsCtrl {
     }, {
       getData: function ($defer, params) {
         $scope.loading = true;
-        KeywordsGroupModel.query(BaseAPIParams({
-          'result.account._id': payload._id,
+        var param = {
           status: ['assigned','completed']
-        }, params), function (projects, headers) {
+        };
+        if (basePermissionsSet.hasPermission(['keywords.groups'])) {
+          param['result.account._id'] = payload._id;
+          $scope.isAdmin = true;
+        }
+        KeywordsGroupModel.query(BaseAPIParams(param, params), function (projects, headers) {
           $scope.loading = false;
           $scope.projects = projects;
           $defer.resolve(projects);

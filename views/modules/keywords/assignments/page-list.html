@@ -11,7 +11,10 @@
           <strong>{{item.result.dueDate|date:'dd.MM.yyyy'}}</strong>
         </td>
         <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
-          <a class="text-info" ui-sref="keywords.assignmentsView({ id: item._id })">
+            <span ng-if="isAdmin">
+                {{item.title}}
+            </span>
+          <a ng-if="!isAdmin" class="text-info" ui-sref="keywords.assignmentsView({ id: item._id })">
             {{item.title}}
           </a>
         </td>
