@@ -128,17 +128,14 @@
 
             <table class="table table-condensed">
               <tr>
-                <th>Обязательные</th>
                 <th style="width: 50%">Ключевая фраза</th>
                 <th style="width: 10%">Топ 3</th>
                 <th style="width: 10%">Топ 10</th>
                 <th style="width: 10%">Использовать в ТЗ</th>
                 <th style="width: 20%">Тип вхождения</th>
+                <th>Обязательные</th>
               </tr>
               <tr ng-repeat="(n,keyword) in group.recomendation.keywords track by n">
-                <td class="text-center">
-                  <input icheck ng-model="keyword.required" type="checkbox"/>
-                </td>
                 <td>
                   <input type="text" class="form-control" ng-model="keyword.keyword"/>
                 </td>
@@ -162,6 +159,9 @@
                     <input type="radio" ng-model="keyword.useType" value="both"/>
                     На выбор
                   </label>
+                </td>
+                <td class="text-center">
+                  <input icheck ng-model="keyword.required" type="checkbox"/>
                 </td>
               </tr>
             </table>
