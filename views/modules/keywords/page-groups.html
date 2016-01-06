@@ -52,7 +52,7 @@
               <td data-title="'Status'|translate" filter="{ 'status': 'select' }" filter-data="statusList($column)">
                 <div>
                   <div keywords-status="{{item.status}}" ng-if="item.status != 'completed'"></div>
-                  <div ng-if="item.status == 'completed'">
+                  <div ng-if="item.status == 'assigned'">
 
                     <div ng-if="item.result.account._id">
                       Назначено на:
@@ -64,6 +64,8 @@
                       <br/>Выполнить до:
                       <strong>{{item.result.dueDate|date:'dd.MM.yyyy'}}</strong>
                     </div>
+                  </div>
+                  <div ng-if="item.status == 'completed'">
 
                     <div ng-if="!item.result.account._id">
                       <button class="btn btn-primary" ng-click="assign(item)" type="button">Назначить</button>
