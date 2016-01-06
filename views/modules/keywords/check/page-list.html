@@ -41,7 +41,7 @@
               <a href="" ui-sref="post.edit({id: item.postId})">Публикация</a>
             </div>
             <div ng-if="!item.postId">
-              <button class="btn btn-success btn-mini" ng-click="createPublication(item)">Создать публикацию</button>
+              <button class="btn btn-success btn-mini" ng-disabled="item.loading" ng-click="createPublication(item)">Создать публикацию</button>
             </div>
           </div>
           <div ng-if="!(item.validation.editor.status == 'pass' && item.validation.expert.status == 'pass')">
