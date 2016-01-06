@@ -13,9 +13,15 @@ class KeywordsSpecificationsCtrl {
     }, {
       getData: function ($defer, params) {
         $scope.loading = true;
-        KeywordsPublicationModel.query(BaseAPIParams({
+
+        var param = {
           'account._id': payload._id
-        }, params), function (projects, headers) {
+        };
+        if (basePermissionsSet.hasPermission(['keywords.groups'])) {
+          delete param['account._id'];
+          $scope.isAdmin = true;
+        }
+        KeywordsPublicationModel.query(BaseAPIParams(param, params), function (projects, headers) {
           $scope.loading = false;
           $scope.projects = projects;
           $defer.resolve(projects);
