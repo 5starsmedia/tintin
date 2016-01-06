@@ -11,9 +11,8 @@ class NewsPostsEditCtrl {
       $scope.categories = data;
     });
 
-    KeywordsPublicationModel.get({ postId: post._id }, (data) => {
-      $scope.tz = data;
-      console.info(data);
+    KeywordsPublicationModel.query({ postId: post._id }, (data) => {
+      $scope.tz = data[0];
     });
 
     $scope.saveItem = (item) => {

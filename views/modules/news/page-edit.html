@@ -73,6 +73,51 @@
               </div>
             </tab>
 
+            <tab ng-if="tz._id">
+              <tab-heading>
+                {{'Тех.задание'|translate}}
+              </tab-heading>
+
+              <div class="panel-body">
+                <p>
+                  <strong>Объем текста:</strong>
+                  {{tz.textLength.min}}-{{tz.textLength.max}}
+                  characters
+                </p>
+
+                <table class="table">
+                  <tr class="active">
+                    <td>Ключевая фраза</td>
+                    <td>Количество вхождений</td>
+                    <td>Тип вхождения</td>
+                  </tr>
+                  <tr ng-repeat="keyword in tz.keywords">
+                    <td>
+                      <strong ng-if="keyword.required">
+                        {{keyword.keyword}}
+                      </strong>
+                <span ng-if="!keyword.required">
+                    {{keyword.keyword}}
+                </span>
+                    </td>
+                    <td>{{keyword.useEntry}}</td>
+                    <td>
+                      <span ng-if="keyword.useType == 'exact'">Точное</span>
+                      <span ng-if="keyword.useType == 'inexact'">Разбавочное</span>
+                      <span ng-if="keyword.useType == 'both'">На выбор</span>
+                    </td>
+                  </tr>
+                </table>
+
+                <p><strong>Сайты, на которые можно ориентироваться при написании:</strong></p>
+                <ol>
+                  <li ng-repeat="url in tz.urls">
+                    {{url.url}}
+                  </li>
+                </ol>
+              </div>
+            </tab>
+
             <!--tab ng-if="post._id && post.postType != 'news'">
               <tab-heading>
                 {{'Uniqueness'|translate}}
