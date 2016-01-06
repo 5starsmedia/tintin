@@ -1,7 +1,14 @@
 {
   "resource": "keywordGroups",
   "model": "KeywordGroup",
-  "options": {},
+  "options": {
+    "searchFields": [
+      {
+        "role": "*",
+        "value": ["title"]
+      }
+    ]
+  },
   "acl": {
     "*": {
       "get": "*",
