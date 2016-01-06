@@ -1,7 +1,7 @@
 export default
 class KeywordsSpecificationsCtrl {
   /*@ngInject*/
-  constructor($scope, $state, KeywordsGroupModel, BaseAPIParams, NgTableParams, $auth, KeywordsPublicationModel) {
+  constructor($scope, $state, KeywordsGroupModel, BaseAPIParams, NgTableParams, $auth, KeywordsPublicationModel, basePermissionsSet) {
     var payload = $auth.getPayload();
 
     $scope.tableParams = new NgTableParams({
