@@ -17,7 +17,7 @@ class KeywordsSpecificationsCtrl {
         var param = {
           'account._id': payload._id
         };
-        if (basePermissionsSet.hasPermission(['keywords.groups'])) {
+        if (basePermissionsSet.hasPermission(['menu.formers'])) {
           delete param['account._id'];
           param.status = 'new';
           $scope.isAdmin = true;
