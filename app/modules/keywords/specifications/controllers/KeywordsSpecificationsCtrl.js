@@ -19,6 +19,7 @@ class KeywordsSpecificationsCtrl {
         };
         if (basePermissionsSet.hasPermission(['keywords.groups'])) {
           delete param['account._id'];
+          param.status = 'new';
           $scope.isAdmin = true;
         }
         KeywordsPublicationModel.query(BaseAPIParams(param, params), function (projects, headers) {
