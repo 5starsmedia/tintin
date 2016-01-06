@@ -29,7 +29,8 @@ var schema = new mongoose.Schema({
     'inprocess',
     'scaned',
     'finded',
-    'completed'
+    'completed',
+    'assigned'
   ]},
 
   result: {
