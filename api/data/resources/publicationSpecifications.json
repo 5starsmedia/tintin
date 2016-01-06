@@ -9,6 +9,7 @@
       "get?account._id": ["*"],
       "get?account._id&status": ["*"],
       "get?activated": ["admin"],
+      "get?postId": "*",
       "get?_id": "*",
       "get?tags": "*",
       "get?tags.title": "*",

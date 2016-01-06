@@ -2,13 +2,18 @@ export default
 class NewsPostsEditCtrl {
 
   /*@ngInject*/
-  constructor($scope, $state, $filter, $stateParams, post, notify, NewsCategoryModel, $http, $sce, postType) {
+  constructor($scope, $state, $filter, $stateParams, post, notify, NewsCategoryModel, $http, $sce, postType, KeywordsPublicationModel) {
 
     $scope.postType = postType;
     $scope.post = post;
 
     NewsCategoryModel.getTree({ postType: postType, page: 1, perPage: 100 }, (data) => {
       $scope.categories = data;
+    });
+
+    KeywordsPublicationModel.get({ postId: post._id }, (data) => {
+      $scope.tz = data;
+      console.info(data);
     });
 
     $scope.saveItem = (item) => {
