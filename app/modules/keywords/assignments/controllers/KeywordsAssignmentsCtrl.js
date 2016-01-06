@@ -15,7 +15,7 @@ class KeywordsAssignmentsCtrl {
         $scope.loading = true;
         KeywordsGroupModel.query(BaseAPIParams({
           'result.account._id': payload._id,
-          status: ['assigned','completed'
+          status: ['assigned','completed']
         }, params), function (projects, headers) {
           $scope.loading = false;
           $scope.projects = projects;
