@@ -14,10 +14,9 @@
         <span ng-if="isAdmin || item.status == 'completed'">
           {{item.title}}
         </span>
-        <a ng-if="!isAdmin || item.status != 'completed'" class="text-info" ui-sref="keywords.specificationsView({ _id: item._id })">
+        <a ng-if="!isAdmin && item.status != 'completed'" class="text-info" ui-sref="keywords.specificationsView({ _id: item._id })">
           {{item.title}}
         </a>
-        <span ng-if="item.status == 'completed'">{{item.title}}</span>
       </td>
       <td width="200" data-title="'Assigned'|translate">
         <a class="name" href="">
