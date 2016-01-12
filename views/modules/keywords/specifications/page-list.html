@@ -19,6 +19,13 @@
         </a>
         <span ng-if="item.status == 'completed'">{{item.title}}</span>
       </td>
+      <td width="200" data-title="'Assigned'|translate">
+        <a class="name" href="">
+          <st-avatar style="width: 30px; display: inline-block;" width="120" height="120" account="item.account"></st-avatar>
+
+          {{item.account.title}}
+        </a>
+      </td>
       <td width="100" class="text-center" data-title="'Status'|translate">
         <div class="label label-default" ng-if="item.status == 'inprocess'">Черновик</div>
         <div class="label label-warning" ng-if="item.status == 'completed'">На проверке</div>
