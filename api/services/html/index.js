@@ -7,6 +7,8 @@ var htmlparser2 = require('htmlparser2');
 
 function HtmlSvc() {
   this.allowedTags = {
+    h1: 1,
+    h2: 1,
     h3: 1,
     p: 1,
     img: {src: 1},
