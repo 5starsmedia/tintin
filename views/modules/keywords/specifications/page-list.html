@@ -11,10 +11,10 @@
         <strong>{{item.dueDate|date:'dd.MM.yyyy'}}</strong>
       </td>
       <td class="table-preview" data-title="'Title'|translate" filter="{ 'search': 'text' }" sortable="'title'">
-        <span ng-if="isAdmin">
+        <span ng-if="isAdmin || item.status == 'completed'">
           {{item.title}}
         </span>
-        <a ng-if="!isAdmin" class="text-info" ui-sref="keywords.specificationsView({ _id: item._id })" ng-if="item.status != 'completed'">
+        <a ng-if="!isAdmin || item.status != 'completed'" class="text-info" ui-sref="keywords.specificationsView({ _id: item._id })">
           {{item.title}}
         </a>
         <span ng-if="item.status == 'completed'">{{item.title}}</span>
