@@ -113,7 +113,7 @@ var toGridFSqueue = async.queue(function toGridFS(task, cb) {
         size = imageSize(data.originalBuffer);
         next(null, size);
       } catch (e) {
-        next(e.getMessage());
+        next(e.message);
       }
     }],
     'resultBuffer': ['originalBuffer', 'originalDimensions', function (next, data) {
