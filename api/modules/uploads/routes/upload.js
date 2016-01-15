@@ -108,7 +108,13 @@ var toGridFSqueue = async.queue(function toGridFS(task, cb) {
       next(null, Buffer.concat(_.pluck(data.chunks, 'data')));
     }],
     'originalDimensions': ['originalBuffer', function (next, data) {
-      next(null, imageSize(data.originalBuffer));
+      var size;
+      try {
+        size = imageSize(data.originalBuffer);
+        next(null, size);
+      } catch (e) {
+        next(e);
+      }
     }],
     'resultBuffer': ['originalBuffer', 'originalDimensions', function (next, data) {
       if (resizeCondition(data.originalDimensions)) {
