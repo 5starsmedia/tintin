@@ -113,7 +113,7 @@ var toGridFSqueue = async.queue(function toGridFS(task, cb) {
         size = imageSize(data.originalBuffer);
         next(null, size);
       } catch (e) {
-        next(e);
+        next(e.getMessage());
       }
     }],
     'resultBuffer': ['originalBuffer', 'originalDimensions', function (next, data) {
@@ -321,9 +321,7 @@ function post(req, cb) {
 router.post('/', multipartMiddleware, function (req, res, next) {
   post(req, function (err, event, file) {
     if (err) {
-      return res.status(422).json({
-        'err': err
-      });
+      return res.status(422).json({'err': err});
     }
     res.status(200).json({
       'file._id': file._id,
