@@ -314,7 +314,11 @@ function post(req, cb) {
 
 router.post('/', multipartMiddleware, function (req, res, next) {
   post(req, function (err, event, file) {
-    if (err) { return next(err); }
+    if (err) {
+      return res.status(422).json({
+        'err': err
+      });
+    }
     res.status(200).json({
       'file._id': file._id,
       'file.title': file.title
