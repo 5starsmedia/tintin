@@ -34,7 +34,7 @@ router.get('/:id/tree', function (req, res, next) {
         condition: buildQuery(req, {
           'site._id': req.site._id,
           removed: {$exists: false}
-        }, opts)
+        }, {})
       }, function(err, tree) {
         if (err) return next(err);
         next(undefined, tree[0]);
