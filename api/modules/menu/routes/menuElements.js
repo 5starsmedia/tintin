@@ -17,6 +17,12 @@ function buildQuery(req, query, opts) {
   return query;
 }
 
+function sortChildren(node) {
+  node.children = node.children || [];
+  node.children = _.sortBy(node.children || [], '_w');
+  _.map(node.children, sortChildren);
+  return node.children;
+}
 router.get('/:id/tree', function (req, res, next) {
 
   async.auto({
