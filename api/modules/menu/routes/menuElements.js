@@ -9,21 +9,31 @@ var express = require('express'),
 router.get('/:id/tree', function (req, res, next) {
 
   async.auto({
-    'menu': function(cb) {
+    'root': function(cb) {
       if (req.params.id != 'footerMenu' && req.params.id != 'mainMenu') {
         return next();
       }
       return req.app.models.menuElements.findOne({ 'site._id': req.site._id, 'menuType': req.params.id, removed: { $exists: false } }, cb);
-    }
-  }, function (err, data) {
-    if (err) { return next(err); }
+    },
+    'tree': ['root', function(next, data) {
+      if (!data.root) {
+        return next(new req.app.errors.NotFoundError('Not found'));
+      }
+      data.root.getArrayTree({
+        condition: buildQuery(req, {
+          'site._id': req.site._id,
+          removed: {$exists: false}
+        }, opts)
+      }, function(err, tree) {
+        if (err) return next(err);
+        next(undefined, tree[0]);
+      });
+    }]
+  }, function(err, data){
+    if (err) return next(err);
 
-    if (!data.menu) {
-      return next(new req.app.errors.NotFoundError('Main menu not found'));
-    }
-    req.params.id = data.menu._id;
-    console.info('1', req.params.id)
-    next();
+    sortChildren(data.tree);
+    res.json(data.tree);
   });
 
 });

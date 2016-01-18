@@ -52,7 +52,6 @@ function sortChildren(node) {
 }
 
 function processGet(collectionName, opts, req, res, next) {
-console.info(req.params.id);
   async.auto({
     'root': function(next) {
       if (req.params.id) {
