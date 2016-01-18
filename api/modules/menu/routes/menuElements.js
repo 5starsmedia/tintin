@@ -22,6 +22,7 @@ router.get('/:id/tree', function (req, res, next) {
       return next(new req.app.errors.NotFoundError('Main menu not found'));
     }
     req.params.id = data.menu._id;
+    console.info('1', req.params.id)
     next();
   });
 
