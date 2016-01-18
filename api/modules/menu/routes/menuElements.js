@@ -6,6 +6,17 @@ var express = require('express'),
   async = require('async'),
   router = express.Router();
 
+function buildQuery(req, query, opts) {
+  if (opts.fields) {
+    _.forEach(opts.fields, function(field) {
+      if (req.query[field]) {
+        query[field] = req.query[field];
+      }
+    });
+  }
+  return query;
+}
+
 router.get('/:id/tree', function (req, res, next) {
 
   async.auto({
