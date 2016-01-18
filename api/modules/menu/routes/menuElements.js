@@ -13,7 +13,7 @@ router.get('/:id/tree', function (req, res, next) {
       if (req.params.id != 'footerMenu' && req.params.id != 'mainMenu') {
         return next();
       }
-      return req.app.models.menuElements.findOne({ 'site._id': req.site._id, 'menuType': req.site._id, removed: { $exists: false } }, cb);
+      return req.app.models.menuElements.findOne({ 'site._id': req.site._id, 'menuType': req.params.id, removed: { $exists: false } }, cb);
     }
   }, function (err, data) {
     if (err) { return next(err); }
