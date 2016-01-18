@@ -7,7 +7,7 @@
 
                 <div class="pull-right">
                     <a href="" class="btn btn-success btn-outline" ng-click="addItem(tree)">
-                        <i class="fa fa-plus"></i> {{'New type'|translate}}
+                        <i class="fa fa-plus"></i> {{'New menu'|translate}}
                     </a>
                 </div>
                 <h2 class="font-light m-b-xs">
@@ -17,10 +17,9 @@
                 <div class="list-group">
 
                     <div class="list-group-item" ng-repeat="item in menus">
-                        <label>
-                            <input type="radio" icheck name="mainmenu" ng-model="mainMenu._id" value="{{item._id}}">
-                        </label>
-
+                        <div class="pull-right">
+                        {{item.menuType}}
+                        </div>
                         <a ui-sref="menu.menus.edit({id: item._id})">
                             {{item.title}}
                         </a>

@@ -39,6 +39,14 @@ class MenuElementsEditCtrl {
       });
     };
 
+
+    $scope.$watch('menu.menuType', (val, oldVal) => {
+      if (!val || !oldVal) {
+        return;
+      }
+      $scope.menu.$save();
+    });
+
     $scope.remove = function (child) {
       function walk(target) {
         var children = target.children,

@@ -20,17 +20,6 @@ class MenuMenusCtrl {
     };
     loadInfo();
 
-    $scope.$watch('mainMenu._id', (val, oldVal) => {
-      if (!val || !oldVal) {
-        return;
-      }
-      var el = _.find($scope.menus, { _id: val });
-      if (el) {
-        el.isMainMenu = true;
-        el.$save();
-      }
-    });
-
     $scope.remove = function(item) {
       $scope.loading = true;
       item.$delete(function() {

@@ -1,13 +1,18 @@
 
 <div class="pull-right">
     <a href="" class="btn btn-success btn-outline" ng-click="addItem(tree)">
-        <i class="fa fa-plus"></i> {{'New type'|translate}}
+        <i class="fa fa-plus"></i> {{'New element'|translate}}
     </a>
 </div>
 
 <h2 class="font-light m-b-xs">
     {{menu.title}}
 </h2>
+
+<label ng-init="menuTypes = {mainMenu: 'Главное меню', footerMenu: 'Футер'}">
+    Тип меню
+    <select ng-model="menu.menuType" class="form-control" ng-options="value as title for (value, title) in menuTypes"></select>
+</label>
 
 <ol class="nav nav-nested editable" tree-view-sortable="tree" tree-view-move="move($item, $before, $index)">
     <li tree-view="child in tree.children at ol" ng-class="{expanded:child.$expanded}">

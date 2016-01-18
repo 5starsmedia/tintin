@@ -15,6 +15,7 @@ var schema = new mongoose.Schema({
 
   isPublished: Boolean,
   isMainMenu: {type: Boolean, required: true, default: false},
+  menuType: {type: String, required: true, default: 'menu'},
 
   site: {
     _id: mongoose.Schema.Types.ObjectId,
