@@ -44,7 +44,7 @@ function sendFeedbackNotification(app, state, args, next) {
       }
       var opts = {
         title: 'New feedback from site ' + data.feedback.site.domain,
-        text: 'New feedback',
+        text: 'New feedback from site ' + data.feedback.site.domain,
         resourceId: data.feedback._id,
         collectionName: 'feedbacks'
       };
