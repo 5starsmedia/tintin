@@ -19,7 +19,7 @@ exports.controller = function (app, sendOpts, model, next) {
     model.notification = data.notification;
     model.feedback = data.feedback;
 
-    sendOpts.subject = 'New feedback';
+    sendOpts.subject = 'New feedback from site ' + data.feedback.site.domain,
     next(null, model);
   });
 };
