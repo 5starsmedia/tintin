@@ -43,6 +43,7 @@
       "get?status&category._id&postType": ["posts"],
       "get?published": "*",
       "get?published&postType": "*",
+      "get?published&postType&isTop": "*",
       "get?_id": "*",
       "get?tags": "*",
       "get?alias": "*",
