@@ -53,6 +53,8 @@
       "get?tags.title": "*",
       "get?category._id": "*",
       "get?category._id&published": "*",
+      "get?category._id&published&postType": "*",
+      "get?category._id&published&postType&isTop": "*",
       "get?hasPhotoreport&published": "*",
       "get?isInterview&published": "*",
       "get?isBlog&published": "*",
