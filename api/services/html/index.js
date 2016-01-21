@@ -25,9 +25,9 @@ function HtmlSvc() {
     tr: 1,
     td: 1,
     th: 1,
-    tbody,
-    thead,
-    tfoot,
+    tbody: 1,
+    thead: 1,
+    tfoot: 1,
     iframe: {src: 1, width: 1, height: 1, frameborder: 1, allowfullscreen: 1}
   };
 
