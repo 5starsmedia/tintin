@@ -21,7 +21,7 @@ function HtmlSvc() {
     i: 1,
     strong: 1,
     em: 1,
-    table: { width: 1, height: 1 },
+    table: { width: 1, height: 1, cellpadding: 1, cellspacing: 1, style: 1, border: 1 },
     tr: 1,
     td: { width: 1, height: 1 },
     th: { width: 1, height: 1 },
