@@ -12,7 +12,9 @@ class AdsSettingsCtrl {
       { id: 'header', title: 'В шапке' },
       { id: 'footer', title: 'Вконце сайта' },
       { id: 'sidebar', title: 'Сайдбар, после рассылки' },
-      { id: 'sidebar-vk', title: 'Сайдбар, перед ВК' }
+      { id: 'sidebar-vk', title: 'Сайдбар, перед ВК' },
+      { id: 'sidebar-after-facebook', title: 'Сайдбар, после Facebook' },
+      { id: 'before-comments', title: 'Перед комментариями' }
     ];
 
     var loadData = () => {
