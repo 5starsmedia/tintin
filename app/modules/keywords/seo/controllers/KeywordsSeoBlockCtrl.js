@@ -4,7 +4,7 @@ class KeywordsBlockGroupsCtrl {
   constructor($scope, KeywordsSeoTaskModel, notify, $filter, NgTableParams, BaseAPIParams, KeywordsSeoStatHistoryModel, $timeout, KeywordsGroupModel) {
 
     $scope.loading = true;
-    KeywordsGroupModel.query({ page: 1, perPage: 100 }, function (groups, headers) {
+    KeywordsGroupModel.query({ page: 1, perPage: 100, status: ['assigned'] }, function (groups, headers) {
       $scope.loading = false;
       $scope.groups = groups;
     });
