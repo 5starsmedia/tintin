@@ -5,6 +5,8 @@ class NewsPostsEditCtrl {
   constructor($scope, $state, $filter, $stateParams, post, notify, NewsCategoryModel, $http, $sce, postType, KeywordsPublicationModel) {
 
     $scope.postType = postType;
+
+    post.sections = post.sections || [];
     $scope.post = post;
 
     NewsCategoryModel.getTree({ postType: postType, page: 1, perPage: 100 }, (data) => {
@@ -13,6 +15,7 @@ class NewsPostsEditCtrl {
 
     KeywordsPublicationModel.query({ postId: post._id }, (data) => {
       $scope.tz = data[0];
+      $scope.post.keywordGroup = data[0];
     });
 
     $scope.saveItem = (item) => {
@@ -114,5 +117,20 @@ class NewsPostsEditCtrl {
       ],
       height: 450
     };
+
+
+    // forms
+
+    $scope.showSettings = false;
+    $scope.hideSettings = () => {
+      $scope.showSettings = false;
+    };
+    $scope.$on('fbChangeActive', (e, component) => {
+      $scope.editedItem = component;
+      $scope.showSettings = !!component;
+    });
+    $scope.$on('fbRemoveComponent', (e, component) => {
+      $scope.post.sections = _.reject($scope.post.sections, component.object)
+    });
   }
 }
