@@ -95,6 +95,7 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
       if (count) {
         data.resource.seo.google = Math.round(avg / count);
       }
+      delete data.resource.seo;
       data.resource.save(next);
     }]
   }, function (err, data) {
@@ -195,6 +196,7 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       if (count) {
         data.resource.seo.google = Math.round(avg / count);
       }
+      delete data.resource.seo;
       data.resource.save(next);
     }]
   }, function (err, data) {
