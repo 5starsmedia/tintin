@@ -1,6 +1,6 @@
 <div class="panel-body" ng-controller="KeywordsSeoBlockCtrl">
 
-    <select class="form-control" ng-model="post.keywordGroup._id" ng-options="group._id as group.title group by group.project.title for group in groups"></select>
+    <!--select class="form-control" ng-model="post.keywordGroup._id" ng-options="group._id as group.title group by group.project.title for group in groups"></select>
 
     <p>
         {{'Group'|translate}}:
@@ -9,7 +9,10 @@
     </a>
     </p>
 
-    <br/>
+    <br/-->
+    <a target="_blank" ui-sref="keywords.specificationsView({ id: group._id })">
+        {{group.title}}
+    </a>
 
     <div bz-loading-container="tableLoading">
 
