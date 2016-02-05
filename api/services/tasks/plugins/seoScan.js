@@ -133,16 +133,15 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       data.task.save(next);
     }],
     'keywords': ['task', function(next, data) {
-      console.info(data.task)
       next(null, _.map(data.task.keywords, function(keyword) {
         return keyword.keyword.replace(/\d+/g, '');
       }))
     }],
     'googlePosition': ['task', 'keywords', function(next, data) {
       var keywords = data.keywords;
-      console.info(data.task, keywords);
       var url = 'http://' + data.task.site.domain + data.task.url.link;
 
+      console.info(keywords);
       async.mapLimit(keywords, 3, function(keyword, next) {
         app.services.google.getUrlPosition(url, keyword, { count: 100 }, function(err, position) {
           if (err) { return next(err); }
