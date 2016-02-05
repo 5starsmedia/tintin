@@ -186,7 +186,7 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
 
         var item = _.find(data.resource.seo.keywords, { title: keyword });
         if (!item) {
-          item = { title: keyword };
+          item = { title: keyword.keyword };
           data.resource.seo.keywords.push(item);
         }
         item.google = data.googlePosition[i];
@@ -195,7 +195,6 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       if (count) {
         data.resource.seo.google = Math.round(avg / count);
       }
-      delete data.resource.seo;
       data.resource.save(next);
     }]
   }, function (err, data) {
