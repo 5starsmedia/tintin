@@ -93,7 +93,7 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
       });
 
       if (count) {
-        data.resource.seo.google = Math.round(avg / count);
+        data.resource.seo.yandex = Math.round(avg / count);
       }
       app.models[data.task.url.collectionName].update({ _id: data.task.url.resourceId }, { $set: { seo: data.resource.seo } }, next);
       //data.resource.save(next);
@@ -189,6 +189,7 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
         if (!item) {
           item = { title: keyword.keyword };
           data.resource.seo.keywords.push(item);
+          item = _.find(data.resource.seo.keywords, { title: keyword });
         }
         item.google = data.googlePosition[i];
       });
@@ -196,12 +197,10 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       if (count) {
         data.resource.seo.google = Math.round(avg / count);
       }
-      delete data.resource.seo;
-      data.resource.save(next);
+      app.models[data.task.url.collectionName].update({ _id: data.task.url.resourceId }, { $set: { seo: data.resource.seo } }, next);
     }]
   }, function (err, data) {
     if (err) {
-      return cb(err);
       data.task.status = 'errored';
       data.task.resultString = err.message;
       data.task.result = err;
