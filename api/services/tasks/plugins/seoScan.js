@@ -133,8 +133,8 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       data.task.save(next);
     }],
     'keywords': ['task', function(next, data) {
+      console.info(data.task)
       next(null, _.map(data.task.keywords, function(keyword) {
-        console.info(keyword)
         return keyword.keyword.replace(/\d+/g, '');
       }))
     }],
