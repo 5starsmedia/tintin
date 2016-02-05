@@ -31,10 +31,7 @@ SeoSvc.prototype.getModelByResource = function (site, collectionName, resourceId
       app.models[collectionName].findById(resourceId, next);
     },
     'keywordGroup': ['resource', function(next, data) {
-      if (!data.resource.keywordGroup || !data.resource.keywordGroup._id) {
-        return next();
-      }
-      app.models.publicationSpecifications.findById(data.resource.keywordGroup._id, '_id keywords', next);
+      app.models.publicationSpecifications.findOne({ postId: data.resource._id }, '_id keywords', next);
     }],
     'checkRedirect': ['urlModel', 'resource', 'keywordGroup', function(next, data) {
       var url = app.services.url.urlFor(collectionName, data.resource);
