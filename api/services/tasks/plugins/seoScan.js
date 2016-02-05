@@ -32,9 +32,8 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
       data.task.save(next);
     }],
     'keywords': ['task', function(next, data) {
-      var keywords = data.task.keywords.split("\n");
-      keywords = _.map(keywords, function(keyword) {
-        return keyword.replace(/\d+/g, '');
+      keywords = _.map(data.task.keywords, function(keyword) {
+        return keyword.keyword.replace(/\d+/g, '');
       });
       next(null, keywords)
     }],
@@ -135,9 +134,8 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       data.task.save(next);
     }],
     'keywords': ['task', function(next, data) {
-      var keywords = data.task.keywords.split("\n");
-      keywords = _.map(keywords, function(keyword) {
-        return keyword.replace(/\d+/g, '');
+      keywords = _.map(data.task.keywords, function(keyword) {
+        return keyword.keyword.replace(/\d+/g, '');
       });
       next(null, keywords)
     }],
