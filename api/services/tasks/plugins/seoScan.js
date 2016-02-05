@@ -159,14 +159,12 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
             }
           });
           history.save(function(err) {
-            console.info(err, '1')
             if (err) { return next(err); }
 
             next(null, position);
           });
         });
       }, function(err, results){
-        console.info(err, '2')
         if (err) { return next(err); }
 
         next(null, results);
@@ -197,11 +195,11 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       if (count) {
         data.resource.seo.google = Math.round(avg / count);
       }
-      console.info(data.resource)
       data.resource.save(next);
     }]
   }, function (err, data) {
     if (err) {
+      return cb(err);
       data.task.status = 'errored';
       data.task.resultString = err.message;
       data.task.result = err;
