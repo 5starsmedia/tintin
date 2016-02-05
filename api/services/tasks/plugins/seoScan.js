@@ -139,6 +139,7 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
     }],
     'googlePosition': ['task', 'keywords', function(next, data) {
       var keywords = data.keywords;
+      console.info(data.task, keywords);
       var url = 'http://' + data.task.site.domain + data.task.url.link;
 
       async.mapLimit(keywords, 3, function(keyword, next) {
