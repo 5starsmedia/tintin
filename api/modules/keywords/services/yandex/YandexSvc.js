@@ -48,7 +48,6 @@ YandexSvc.prototype.getSitesByKeyword = function (site, keyword, options, next) 
 
     var groups = result.grouping[0].group,
       urls = _.map(groups, function(item) {
-        console.info(item);
         return item.doc[0].url[0];
       });
 
