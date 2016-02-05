@@ -46,7 +46,6 @@ SeoSvc.prototype.getModelByResource = function (site, collectionName, resourceId
       data.urlModel.link = url;
       data.urlModel.keywordGroup = data.keywordGroup;
       data.urlModel.site = site;
-      console.info(data.urlModel);
       data.urlModel.save(next);
     }]
   }, function (err, data) {
