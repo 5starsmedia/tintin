@@ -1,10 +1,11 @@
 export default
 class KeywordsBlockGroupsCtrl {
   /*@ngInject*/
-  constructor($scope, KeywordsSeoTaskModel, notify, $filter, NgTableParams, BaseAPIParams, KeywordsSeoStatHistoryModel, $timeout, KeywordsGroupModel) {
+  constructor($scope, KeywordsSeoTaskModel, notify, $filter, NgTableParams, BaseAPIParams, KeywordsSeoStatHistoryModel,
+              $timeout, KeywordsGroupModel, KeywordsPublicationModel) {
 
     $scope.loading = true;
-    KeywordsGroupModel.query({ page: 1, perPage: 100, status: ['assigned'] }, function (groups, headers) {
+    KeywordsPublicationModel.query({ page: 1, perPage: 100, status: ['completed'] }, function (groups, headers) {
       $scope.loading = false;
       $scope.groups = groups;
     });
@@ -157,7 +158,7 @@ class KeywordsBlockGroupsCtrl {
         return;
       }
 
-      KeywordsGroupModel.get({ _id: groupId }, (data) => {
+      KeywordsPublicationModel.get({ _id: groupId }, (data) => {
         $scope.group = data;
       });
     });
