@@ -187,7 +187,7 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
 
         var item = _.find(data.resource.seo.keywords, { title: keyword });
         if (!item) {
-          item = { title: keyword.keyword };
+          item = { title: keyword };
           data.resource.seo.keywords.push(item);
           item = _.find(data.resource.seo.keywords, { title: keyword });
         }
