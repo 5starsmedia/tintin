@@ -90,5 +90,9 @@
   {
     "name": "contacts",
     "title": "Contacts"
+  },
+  {
+    "name": "sections",
+    "title": "sections"
   }
 ]

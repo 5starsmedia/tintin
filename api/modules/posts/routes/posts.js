@@ -13,6 +13,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Grid = require('gridfs-stream'),
     cheerio = require('cheerio'),
+    util = require('util'),
     router = express.Router();
 
 /**
@@ -699,6 +700,23 @@ router.get('/fixImages', function (req, res, next) {
 
         return res.json(data.items);
     });
+});
+
+router.put('/:_id', function (req, res, next) {
+    async.auto({
+        'post': function(next) {
+            req.app.models.posts.findById(req.params._id, next);
+        },
+        'update': ['post', function(next, data) {
+            if (req.body.sections && util.isArray(req.body.sections)) {
+                var sections = req.body.sections;
+                delete req.body.sections;
+                req.app.models.posts.update({ _id: data.post._id }, { $set: { sections: sections } }, {}, next);
+            } else {
+                next();
+            }
+        }]
+    }, next)
 });
 
 module.exports = router;

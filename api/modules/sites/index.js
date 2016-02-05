@@ -8,6 +8,7 @@ function SitesModule(app) {
 
 SitesModule.prototype.initModels = function () {
   this.app.models.redirects = require('./models/redirect.js');
+  this.app.models.sections = require('./models/section.js');
 };
 
 SitesModule.prototype.initRoutes = function () {

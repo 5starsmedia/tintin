@@ -26,7 +26,7 @@
 
       if (modelState.model.status != 1) {
         modelState.field('category._id').required().notNull()
-          .field('body').required().notNull().maxLength(20000)
+          //.field('body').required().notNull().maxLength(20000)
         ;
       }
       next();

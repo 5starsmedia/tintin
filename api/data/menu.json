@@ -23,6 +23,11 @@
         "sref": "sites.redirects",
         "title": {"en-US": "Redirects", "ru-RU": "Редиректы"},
         "permissions": ["sites"]
+      },
+      {
+        "sref": "sites.sections",
+        "title": {"en-US": "Sections", "ru-RU": "Sections"},
+        "permissions": ["sections"]
       }
     ]
   },

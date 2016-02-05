@@ -3,7 +3,8 @@
 var mongoose = require('mongoose'),
   autoIncrement = require("../../../models/plugin/autoincrement.js"),
   createdBy = require("../../../models/plugin/createdBy.js"),
-  mongooseHistory = require('historical');
+  mongooseHistory = require('historical'),
+    pageSection = require('./pageSection.js');
 
 var schema = new mongoose.Schema({
   id: Number,
@@ -105,6 +106,9 @@ var schema = new mongoose.Schema({
       title: String
     }
   },
+
+
+  sections: [pageSection.schema],
 
   category: {
     _id: mongoose.Schema.Types.ObjectId,
