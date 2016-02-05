@@ -180,7 +180,6 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       var avg = 0, count = 0;
       data.resource.seo.lastUpdateDate = Date.now();
 
-      console.info(data.keywords, '3')
       _.forEach(data.keywords, function(keyword, i) {
         if (data.googlePosition[i] >= 0) {
           avg += data.googlePosition[i];
@@ -188,6 +187,7 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
         }
 
         var item = _.find(data.resource.seo.keywords, { title: keyword });
+        console.info(data.resource.seo, item)
         if (!item) {
           item = { title: keyword };
           data.resource.seo.keywords.push(item);
