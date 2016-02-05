@@ -9,7 +9,12 @@ var schema = new mongoose.Schema({
     collectionName: {type: String, required: true},
     resourceId: {type: mongoose.Schema.Types.ObjectId, required: true}
   },
-  keywords: String,
+  keywords: [{
+    required: Boolean,      // обов'язкове використання
+    keyword: String,        // ключове слово
+    useEntry: Number,       // кількість використань
+    useType: {type: String} //, default: 'both', enum: ['both', 'exact', 'inexact']}
+  }],
 
   status: {type: String, default: 'new', enum: ['new', 'inprocess', 'completed', 'errored']},
 

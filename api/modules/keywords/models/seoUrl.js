@@ -13,7 +13,7 @@ var schema = new mongoose.Schema({
 
   keywordGroup: {
     _id: mongoose.Schema.Types.ObjectId,
-    keywords: [{
+    keywords: [{ 
       required: Boolean,      // обов'язкове використання
       keyword: String,        // ключове слово
       useEntry: Number,       // кількість використань
