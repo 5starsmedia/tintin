@@ -141,7 +141,6 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       var keywords = data.keywords;
       var url = 'http://' + data.task.site.domain + data.task.url.link;
 
-      console.info(keywords);
       async.mapLimit(keywords, 3, function(keyword, next) {
         app.services.google.getUrlPosition(url, keyword, { count: 100 }, function(err, position) {
           if (err) { return next(err); }
@@ -160,12 +159,14 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
             }
           });
           history.save(function(err) {
+            console.info(err, '1')
             if (err) { return next(err); }
 
             next(null, position);
           });
         });
       }, function(err, results){
+        console.info(err, '2')
         if (err) { return next(err); }
 
         next(null, results);
@@ -179,6 +180,7 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       var avg = 0, count = 0;
       data.resource.seo.lastUpdateDate = Date.now();
 
+      console.info(data.keywords, '3')
       _.forEach(data.keywords, function(keyword, i) {
         if (data.googlePosition[i] >= 0) {
           avg += data.googlePosition[i];
