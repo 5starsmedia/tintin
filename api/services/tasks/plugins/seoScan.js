@@ -95,8 +95,8 @@ exports['seo.task.get-yandex-position'] = function (app, msg, cb) {
       if (count) {
         data.resource.seo.google = Math.round(avg / count);
       }
-      delete data.resource.seo;
-      data.resource.save(next);
+      app.models[data.task.url.collectionName].update({ _id: data.task.url.resourceId }, { $set: { seo: data.resource.seo } }, next);
+      //data.resource.save(next);
     }]
   }, function (err, data) {
     if (err) {
