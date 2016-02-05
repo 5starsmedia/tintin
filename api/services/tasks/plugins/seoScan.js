@@ -187,7 +187,6 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
         }
 
         var item = _.find(data.resource.seo.keywords, { title: keyword });
-        console.info(data.resource.seo, item)
         if (!item) {
           item = { title: keyword };
           data.resource.seo.keywords.push(item);
@@ -198,6 +197,7 @@ exports['seo.task.get-google-position'] = function (app, msg, cb) {
       if (count) {
         data.resource.seo.google = Math.round(avg / count);
       }
+      console.info(data.resource)
       data.resource.save(next);
     }]
   }, function (err, data) {
