@@ -5,7 +5,6 @@ import models from '../models/models.js';
 let module = angular.module(appName, [
     'base',
     'ui.router',
-    'ui.ace',
     'sticky',
     models
 ]);
