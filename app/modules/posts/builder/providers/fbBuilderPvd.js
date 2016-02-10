@@ -12,8 +12,6 @@
  */
 
 export default function fbBuilderPvd() {
-    var http, templateCache;
-
     this.components = {};
     this.groups = [];
 
