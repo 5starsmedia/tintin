@@ -13,6 +13,7 @@ SitesModule.prototype.initModels = function () {
 
 SitesModule.prototype.initRoutes = function () {
   this.app.server.use('/api/sites', require('./routes/sites.js'));
+  this.app.server.use('/api/sections', require('./routes/sections.js'));
 };
 
 module.exports = SitesModule;

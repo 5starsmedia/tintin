@@ -1,0 +1,84 @@
+<div>
+
+
+  <div class="page-header">
+    <h1>Webforms</h1>
+
+    <div class="page-actions">
+
+      <a href="" class="btn btn-primary" ui-sref="forms.main.new">Create form</a>
+
+    </div>
+  </div>
+
+  <!--div class="sub-section">
+    <div class="coach-arrow-vertical create-template bounce-coach"></div>
+    <div class="no-data alignc"><img class="icon" src="/release/10.6.91/css/icons/no-data/no-template.svg"
+                                     role="presentation">
+
+      <h2>You have no saved templates</h2>
+
+      <p>A <a href="http://kb.mailchimp.com/glossary?#T" target="_blank">template</a> is a saved email design that can
+        be reused when creating <a href="http://kb.mailchimp.com/glossary?#C" target="_blank">campaigns</a>. <a
+          href="http://kb.mailchimp.com/campaigns/ways-to-build/templates-vs-campaigns/?" target="_blank"
+          data-kb-article="/campaigns/ways-to-build/templates-vs-campaigns/">Understanding templates and campaigns</a>
+      </p></div>
+  </div-->
+
+
+  <div class="slats">
+    <ul>
+      <li class="pr" ng-repeat="item in forms">
+
+        <div class="row">
+          <div class="col-xs-4 meta">
+            <label class="c-input c-checkbox">
+              <input type="checkbox">
+              <span class="c-indicator"></span>
+            </label>
+
+            <span ng-if="item.active" class="tooltipped" aria-label="{{'Active'|translate}}">
+              <span class="text-success pe-7s-check pe-3x pe-va" title="{{'Active'|translate}}"></span>
+            </span>
+            <span ng-if="!item.active" class="tooltipped" aria-label="{{'Inactive'|translate}}">
+              <span class="text-danger pe-7s-close-circle pe-3x pe-va"></span>
+            </span>
+
+            <h4><a href="" ui-sref="forms.builder({ _id: item._id })" ng-bind="item.title"></a></h4>
+          </div>
+          <div class="col-xs-5">
+            <div class="data inline-block-i pull-left">
+              <h4>{{item.countFilled|number}}</h4>
+              <p class="dim-el">fillings</p>
+            </div>
+            <div class="data inline-block-i pull-left">
+              <h4>{{item.countClients|number}}</h4>
+              <p class="dim-el">clients</p>
+            </div>
+          </div>
+          <div class="col-xs-3 meta-actions">
+
+            <div class="btn-group pull-right" uib-dropdown>
+              <a class="btn btn-secondary" href="" ng-disabled="item.loading" ui-sref="forms.builder({ _id: item._id })">Edit</a>
+
+              <button uib-dropdown-toggle type="button" ng-disabled="item.loading" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <div class="dropdown-menu uib-dropdown-menu">
+                <a class="dropdown-item" href="" ng-if="item.active" ng-click="turnOff(item)">Off</a>
+                <a class="dropdown-item" href="" ng-if="!item.active" ng-click="turnOn(item)">On</a>
+                <a class="dropdown-item" href="" ui-sref="forms.main.code({ _id: item._id })">Code...</a>
+                <a class="dropdown-item" href="">Settings...</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">Delete</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </li>
+    </ul>
+  </div>
+
+</div>

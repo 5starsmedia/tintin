@@ -14,6 +14,7 @@ import UnknownDomainInterceptor from './factories/UnknownDomainInterceptor.js';
 
 import translate from './filters/translate.js';
 import trim from './filters/trim.js';
+import defaultFilter from './filters/default.js';
 
 import baseEventService from './services/baseEventService.js';
 import notificationService from './services/notificationService.js';
@@ -51,6 +52,7 @@ angular.module(appName, [
   .factory('UnknownDomainInterceptor', UnknownDomainInterceptor)
   .filter('translate', translate)
   .filter('trim', trim)
+    .filter('default', defaultFilter)
   .config(config)
 
   // redirect on 404 where no route

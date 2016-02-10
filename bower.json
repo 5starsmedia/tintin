@@ -76,7 +76,8 @@
     "angular-datepicker": "=1.0.12",
     "angular-translate": "~2.7.2",
     "angular-google-maps": "~2.2.1",
-    "selection-model": "angular-selection-model#~0.10.0"
+    "selection-model": "angular-selection-model#~0.10.0",
+    "angular-ui-ace": "bower"
   },
   "resolutions": {
     "jquery": "~2.1.3",

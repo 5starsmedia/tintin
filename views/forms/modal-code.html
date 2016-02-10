@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{'Form code'|translate}}</h3>
+</div>
+<div class="modal-body">
+
+  <p>Copy the code and paste it in the desired location of a website.</p>
+
+<pre class="well">
+&lt;div id="webf-{{item._id}}"&gt;&lt;/div&gt;
+&lt;script type="text/javascript"&gt;
+var _webf = _webf || [];
+_webf.push(['_setElement', 'webf-{{item._id}}']);
+_webf.push(['_setId', '{{item._id}}']);
+_webf.push(['_init']);
+(function() {
+  var wf = document.createElement('script');
+  wf.type = 'text/javascript'; wf.async = true;
+  wf.src = '/dist/widget.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(wf, s);
+})();
+&lt;/script&gt;
+</pre>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-secondary" type="button" ng-click="$close()">{{'OK'|translate}}</button>
+</div>

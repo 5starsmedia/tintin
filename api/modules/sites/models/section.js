@@ -8,6 +8,7 @@ var schema = new mongoose.Schema({
     title: String,
     htmlCode: String,
     cssCode: String,
+    scssCode: String,
 
     createDate: {type: Date, required: true, default: Date.now},
     removed: {type: Date},

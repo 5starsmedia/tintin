@@ -1,0 +1,46 @@
+<div class="content" animate-panel effect="zoomIn">
+
+
+            <div class="pull-right">
+                <a class="btn btn-success btn-outline" ui-sref="sites.sectionsCreate">
+                    <i class="fa fa-plus"></i> {{'New section'|translate}}
+                </a>
+            </div>
+            <h2 class="font-light m-b-xs ng-binding">
+                {{'Sections'|translate}}
+            </h2>
+
+            <div class="hpanel">
+                <div class="panel-body" bz-loading-container="loading">
+
+
+                    <table ng-table="tableParams" show-filter="true" class="table">
+                        <tr ng-repeat="item in redirects">
+                            <td style="width: 15%" class="table-preview" data-title="'Title'|translate">
+                                <a class="text-info" ui-sref="sites.sectionsEdit({ id: item._id })">
+                                    {{item.title}}
+                                </a>
+                            </td>
+                            <td style="width: 10%" data-title="'Date of creation'|translate" class="text-center">
+                                <span>{{item.createDate|stDialogDate}}</span>
+                            </td>
+                            <td class="actions text-right" style="width: 5%" data-title="'Actions'|translate">
+
+                                <a ui-sref="sites.sectionsEdit({ id: item._id })"
+                                   title="{{'Edit'|translate}}"><span class="fa fa-pencil"></span>
+                                </a>
+                                <a href="" st-confirm="remove(item)" title="{{'Delete article'|translate}}"
+                                   message-title="'Delete'|translate" message="'Are you realy want to delete this redirect?'|translate">
+                                    <span class="fa fa-times text-danger"></span>
+                                </a>
+
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+
+
+</div>

@@ -1,0 +1,39 @@
+<div>
+
+
+<st-form model="item" state="error" submit="saveItem(item)">
+
+    <st-header title="{{site._id ? 'Editing of section' : 'New section'}}">
+
+        <button ng-disabled="loading" ng-class="{'m-progress': loading}" class="btn btn-primary btn-outline" type="submit">
+            {{'Save'|translate}}
+        </button>
+        <a ui-sref="sites.sections" class="btn btn-default">
+            {{'Cancel'|translate}}
+        </a>
+
+    </st-header>
+
+    <div class="content" animate-panel effect="zoomIn">
+
+        <st-form-element label="{{'Title'|translate}}" field="urlFrom">
+
+            <input class="form-control" name="urlFrom" type="text" required
+                   ng-model="item.title"/>
+
+        </st-form-element>
+        <st-form-element label="{{'Html Code'|translate}}" field="htmlCode">
+
+            <div ui-ace="htmlEditorOptions" ng-model="item.htmlCode"></div>
+
+        </st-form-element>
+        <st-form-element label="{{'Scss Code'|translate}}" field="scssCode">
+
+            <div ui-ace="cssEditorOptions" ng-model="item.scssCode"></div>
+
+        </st-form-element>
+
+    </div>
+
+</st-form>
+</div>

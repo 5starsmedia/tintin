@@ -1,0 +1,79 @@
+<div ng-controller="CommentsSectionSettingsCtrl">
+
+
+    <div class="form-group">
+        <label class="control-label">Название</label>
+        <input type="text" ng-model="component.settings.title" class="form-control"/>
+    </div>
+
+<fieldset>
+    <legend>Tabs</legend>
+
+    <div ng-if="!component.settings.tabs.length">
+        <div class="form-group">
+            <div class="col-xs-9 col-xs-offset-3">
+                <a href="" class="btn btn-success" ng-click="newTab()">
+                    <span class="fa fa-plus"></span>
+                    Add tab
+                </a>
+            </div>
+        </div>
+    </div>
+    <div ng-if="component.settings.tabs.length">
+        <tabset>
+            <div class="pull-right" style="margin-bottom: 5px;">
+                <a href="" ng-click="newTab()" class="btn btn-default">
+                    <span class="fa fa-plus"></span> New
+                </a>
+                <button type="button" class="btn btn-default" ng-click="removeTab()" message-title="'Deleting...'" message="'Do you really want to delete this tab?'">
+                    <span class="fa fa-trash"></span>
+                    Remove
+                </button>
+            </div>
+            <div class="nav nav-tabs" style="border-bottom: 0" ng-sortable="tabsConfig">
+                <tab ng-repeat="(n,tab) in component.settings.tabs track by n" active="tab.$$active" ng-form="tabForm">
+                    <tab-heading>
+                        <span ng-class="{'text-danger': tabForm.$invalid}">
+                            <span ng-if="tabForm.$invalid" class="fa fa-exclamation"></span>
+                            {{tab.title|default:'Untitled'}}
+                        </span>
+                    </tab-heading>
+                    <div ng-form="tabForm">
+                        <div class="form-group" ng-class="{'has-error': tabForm.title.$dirty && tabForm.title.$invalid}">
+                            <label class="control-label">Название таба</label>
+
+                            <div>
+                                <input type="text" class="form-control" name="title" ng-model="tab.title"/>
+                                <div ng-if="tabForm.title.$dirty && tabForm.title.$invalid" class="help-block">
+                                    Please fill the title field
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Количество комментариев</label>
+                            <input type="number" min="1" max="100" ng-model="tab.commentCount" class="form-control"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Сортировка</label>
+                            <div class="row">
+                                <div class="col-xs-10" ng-init="sortFields = {'createDate': 'Дата добавления', 'answerCount': 'Количество ответов'}">
+                                    <select class="form-control" ng-model="tab.sorting.field" ng-options="key as field for (key,field) in sortFields"></select>
+                                </div>
+                                <div class="col-xs-2">
+                                    <a href="" ng-click="tab.sorting.direction = tab.sorting.direction == 'desc' ? 'asc' : 'desc'">
+                                        <span class="fa fa-sort-amount-desc" ng-if="tab.sorting.direction == 'desc'" title="Descending"></span>
+                                        <span class="fa fa-sort-amount-asc" ng-if="tab.sorting.direction != 'desc'" title="Ascending"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+            </div>
+        </tabset>
+    </div>
+</fieldset>
+
+</div>

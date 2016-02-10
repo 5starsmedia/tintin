@@ -32,6 +32,8 @@ db.createUser( {
     roles: [ { role: "root", db: "admin" } ]
   });
 
+db.grantRolesToUser( "adminUser", [{ role: "dbOwner", db: "LAMPCMS"}])
+
 use admin
 db.auth("adminUser", "5stars");
 

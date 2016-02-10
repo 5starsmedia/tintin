@@ -33,21 +33,55 @@ router.get('/current', function (req, res, next) {
 router.get('/settings', function (req, res, next) {
   res.header('Content-Type', 'application/javascript');
 
-  var apiEntryPointHost = req.app.config.get('url');
-  if (process.env.PAPHOS_SITE) {
-    //@todo https
-    apiEntryPointHost = 'http://' + req.headers.host;
-  }
+  async.auto({
+    'sections': function(next) {
+      req.app.models.sections.find({'site._id': req.site._id}, next)
+    }
+  }, function(err, data) {
+    if (err) { return next(err); }
 
-  var varName = req.query.name || 'settings',
-    settingsJs = {
-      ioEntryPoint: apiEntryPointHost + '/',
-      apiEntryPoint: apiEntryPointHost + '/api',
-      userIp: req.request.remoteAddress,
-      settings: req.site.settings
-  };
+    var apiEntryPointHost = req.app.config.get('url');
+    if (process.env.PAPHOS_SITE) {
+      //@todo https
+      apiEntryPointHost = 'http://' + req.headers.host;
+    }
 
-  res.end(varName + ' = ' + JSON.stringify(settingsJs));
+    var varName = req.query.name || 'settings',
+        settingsJs = {
+          ioEntryPoint: apiEntryPointHost + '/',
+          apiEntryPoint: apiEntryPointHost + '/api',
+          userIp: req.request.remoteAddress,
+          settings: req.site.settings,
+          sections: {}
+        };
+
+    _.each(data.sections, function(section) {
+      settingsJs.sections['section' + section._id] = section.htmlCode;
+    });
+
+    res.end(varName + ' = ' + JSON.stringify(settingsJs));
+  });
+
+});
+
+router.get('/sections', function (req, res, next) {
+  res.header('Content-Type', 'text/css');
+
+  async.auto({
+    'sections': function(next) {
+      req.app.models.sections.find({'site._id': req.site._id}, next)
+    }
+  }, function(err, data) {
+    if (err) { return next(err); }
+
+    var css = '';
+    _.each(data.sections, function(section) {
+      css += section.cssCode + "\n";
+    });
+
+    res.end(css);
+  });
+
 });
 
 router.get('/robots', function (req, res, next) {

@@ -4929,6 +4929,9 @@ figure.caption {
   text-indent: 0;
   margin: -25px 0 0 -50px;
 }
+.cke_combo__format .cke_combo_text {
+  width: 83px;
+}
 .splash {
   position: absolute;
   z-index: 2000;
@@ -10035,3 +10038,7 @@ button.toast-close-button {
 /* Кнопки */
 /* Верхнее меню */
 /* Верхняя шапка после меню .header */
+.ace_editor {
+  border: 1px solid #ccc;
+  height: 200px;
+}

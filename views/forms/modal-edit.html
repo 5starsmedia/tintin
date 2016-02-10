@@ -1,0 +1,18 @@
+<bz-form model="item" model-state="error" submit="saveItem(item)">
+<div class="modal-header">
+  <h3 class="modal-title">{{'New form'|translate}}</h3>
+</div>
+<div class="modal-body">
+
+  <bz-form-control label="{{'Form name'|translate}}" field="title" help="{{'Form title'|translate}}">
+
+    <input type="text" class="form-control" ng-model="item.title" />
+
+  </bz-form-control>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="submit">{{'Save'|translate}}</button>
+  <button class="btn btn-secondary" type="button" ng-click="$close()">{{'Cancel'|translate}}</button>
+</div>
+</bz-form>

@@ -47,12 +47,56 @@
 
                 </st-form-element>
 
-                <st-form-element label="{{'Body'|translate}}" field="body">
+                <st-form-element ng-if="post.postType != 'page'" label="{{'Body'|translate}}" field="body">
 
                                 <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"
                                           ng-model="post.body"></textarea>
 
+                  {{post.body}}
                 </st-form-element>
+
+
+
+                <div class="form-builder-preview" ng-if="post.postType == 'page'">
+
+                  <div class="header">
+                    <ul class="header-dots">
+                      <li></li>
+                      <li></li>
+                      <li></li>
+                    </ul>
+                  </div>
+                  <div class="form-builder-container">
+                    <div class="row">
+                      <div class="col-xs-8">
+
+                        <div fb-builder="post.sections"></div>
+
+                      </div>
+                      <div class="col-xs-4 fb-sidebar">
+
+                        <div class="fb-settings-container">
+                          <div class="fb-settings-block" ng-show="showSettings">
+
+                            <div fb-components></div>
+
+                            <div class="fb-settings">
+
+                              <div fb-component-settings="editedItem"></div>
+
+                            </div>
+
+                            <div class="clearfix"></div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+                </div>
+
               </div>
             </tab>
 

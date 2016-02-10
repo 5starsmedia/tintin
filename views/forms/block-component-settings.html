@@ -1,0 +1,16 @@
+<div>
+
+
+    <div class="form-actions">
+        <input tabindex="-1" type="button" ng-click="remove()" class="btn btn-danger-outline pull-right" value="Delete">
+
+        <input tabindex="-1" type="button" ng-click="save()" class="btn btn-primary" value="Save">
+        <input tabindex="-1" type="button" ng-click="cancel()" class="btn btn-secondary-outline" value="Cancel">
+    </div>
+    <hr/>
+
+    <h3 ng-bind="editedItem.label">Block settings</h3>
+
+    <div ng-include="component.settingsTemplateUrl"></div>
+
+</div>
