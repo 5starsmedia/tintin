@@ -67,6 +67,27 @@ module.config((fbBuilderPvdProvider) => {
             settingsTemplateUrl: 'views/sections/containers/row-settings.html'
         });
 
+}).run((SiteSectionModel, fbBuilderPvd, $templateCache) => {
+
+    SiteSectionModel.query(data => {
+        fbBuilderPvd.components = {};
+
+        _.each(data, section => {
+            $templateCache.put('section' + section._id, section.htmlCode);
+            fbBuilderPvd
+                .registerComponent('section' + section._id, {
+                    group: 'Default',
+                    label: section.title,
+                    defaults: {
+                        title: 'Text Input',
+                        body: '<b>Some</b> <i>cool</i> text'
+                    },
+                    templateUrl: 'section' + section._id,
+                    settingsTemplateUrl: 'views/sections/text-settings.html'
+                });
+        });
+    });
+
 });
 
 export default appName;

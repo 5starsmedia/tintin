@@ -2,34 +2,6 @@ export default
 class fbComponentsCtrl {
     /*@ngInject*/
     constructor($scope, fbBuilderPvd, SiteSectionModel, $templateCache) {
-
-        SiteSectionModel.query(data => {
-            fbBuilderPvd.components = {};
-
-            _.each(data, section => {
-                $templateCache.put('section' + section._id, section.htmlCode);
-                fbBuilderPvd
-                    .registerComponent('section' + section._id, {
-                        group: 'Default',
-                        label: section.title,
-                        defaults: {
-                            title: 'Text Input',
-                            body: '<b>Some</b> <i>cool</i> text'
-                        },
-                        templateUrl: 'section' + section._id,
-                        settingsTemplateUrl: 'views/sections/text-settings.html'
-                    });
-            });
-
-
-            $scope.groups = fbBuilderPvd.groups;
-            $scope.activeGroup = $scope.groups[0];
-            $scope.allComponents = fbBuilderPvd.components;
-            $scope.$watch('allComponents', function () {
-                $scope.selectGroup(null, $scope.activeGroup);
-            });
-        });
-
         $scope.sortableOptions = {
             sort: false,
             group: {
@@ -58,5 +30,13 @@ class fbComponentsCtrl {
             return results;
         };
 
+
+
+        $scope.groups = fbBuilderPvd.groups;
+        $scope.activeGroup = $scope.groups[0];
+        $scope.allComponents = fbBuilderPvd.components;
+        $scope.$watch('allComponents', function () {
+            $scope.selectGroup(null, $scope.activeGroup);
+        });
     }
 }
