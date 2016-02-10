@@ -11,7 +11,7 @@ export default
                 '<div ng-repeat="component in formObjects" fb-editable-component="component" editable="true"></div>' +
             '</div>' +
         '</div>',
-        controller: ($scope) => {
+        controller: /*@ngInject*/ ($scope) => {
             $scope.sortableOptions = {
                 sort: true,
                 group: {
