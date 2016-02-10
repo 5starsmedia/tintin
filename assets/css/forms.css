@@ -67,9 +67,9 @@
 .fb-component input, .fb-component label, .fb-component select, .fb-component textarea {
     cursor: move; }
 .fb-component.fb-component-editable {
-    border: 3px solid transparent; }
+    border: 3px solid #eaedf1; }
 .fb-component.fb-component-editable:hover {
-    border: 3px dashed #eaedf1; }
+    border: 3px dashed red; }
 .fb-component.fb-selected {
     position: relative;
     background: #eaedf1;
@@ -183,10 +183,6 @@
     to {
         transform: translate(0, 0); } }
 
-
-.component-name {
-    display: none;
-}
 .fb-settings-block .component-template {
     display: none;
 }
