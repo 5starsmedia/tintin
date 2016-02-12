@@ -209,6 +209,22 @@
 
             </st-form-element>
 
+            <st-form-element label="{{'Template'|translate}}" field="template"
+                             ng-show="post.postType == 'page'">
+
+              <div>
+              <label>
+                <input icheck type="radio" ng-model="post.template" value="wide" />
+                Full width
+              </label>
+              </div>
+              <label>
+                <input icheck type="radio" ng-model="post.template" value="sidebar" />
+                With sidebar
+              </label>
+
+            </st-form-element>
+
 
             <div class="form-group">
               <label>

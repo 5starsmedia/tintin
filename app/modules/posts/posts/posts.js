@@ -70,6 +70,7 @@ module.config(function ($stateProvider) {
               isAllowComments: true,
               postType: type,
               ownPhoto: false,
+              template: 'sidebar',
               account: {
                 _id: payload._id
               },

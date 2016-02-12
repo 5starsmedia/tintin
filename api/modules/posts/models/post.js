@@ -56,6 +56,8 @@ var schema = new mongoose.Schema({
   },
   commentsCount: {type: Number, required: true, default: 0},
 
+  template: {type: String, required: true, default: 'sidebar'},
+
   isTop: Boolean,
   isHighlight: Boolean,
   isEditorChoose: Boolean,
