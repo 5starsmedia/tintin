@@ -58,7 +58,10 @@ var scanKeyword = function (req, group, keyword, next) {
       var groups = data.parseYandex.grouping[0].group;
 
       keywordInfo.sites = _.map(groups, function(item) {
-        var additionalsWords = item.doc[0].title[0].hlword || [];
+        var additionalsWords = [];
+        if (item.doc && item.doc[0] && item.doc[0].title && item.doc[0].title[0]) {
+          additionalsWords = item.doc[0].title[0].hlword || []
+        }
 
         _.forEach(item.doc[0].passages, function(passage) {
           _.forEach(passage.passage, function(doc) {

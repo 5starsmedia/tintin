@@ -153,7 +153,8 @@
     <br/>
     <br/>
     <!--<button type="submit" class="btn btn-primary">Save</button>-->
-    <button type="button" ng-click="saveItem(item)" class="btn btn-primary">Сохранить</button>
+    <button type="button" ng-click="saveItem(item)" ng-disabled="item.loading" class="btn btn-primary">Сохранить</button>
+    <button type="button" ng-click="publishItem(item)" ng-disabled="item.loading" class="btn btn-default">Отправить на публикацию</button>
   </st-form>
 </div>
 

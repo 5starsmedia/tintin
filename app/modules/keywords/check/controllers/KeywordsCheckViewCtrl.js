@@ -1,7 +1,7 @@
 export default
 class KeywordsCheckViewCtrl {
   /*@ngInject*/
-  constructor($scope, $state, group, notify, $filter, SiteDomainModel, $modal, NewsCategoryModel) {
+  constructor($scope, $state, group, notify, $filter, SiteDomainModel, $modal, NewsCategoryModel, NewsPostModel) {
     $scope.item = group;
 
     SiteDomainModel.getCurrent((site) => {
@@ -28,6 +28,37 @@ class KeywordsCheckViewCtrl {
       }, (err) => {
         $scope.loading = false;
       });
+    };
+
+    $scope.publishItem = (item) => {
+
+      var post = new NewsPostModel(item),
+          tmp = angular.copy(item);
+
+      item.loading = true;
+      delete post._id;
+      delete post.group;
+      delete post.validation;
+      delete post.text;
+      delete post.urls;
+      delete post.dueDate;
+      delete post.uid;
+      delete post.textLength;
+      post.status = 1;
+      post.postType = 'post';
+      post.body = item.text;
+      var account = post.account;
+      post.$create((data) => {
+        tmp.postId = data._id;
+        tmp.$save(() => {
+          post.$get({_id: data._id}, post => {
+            post.account = account;
+            post.$save(() => {
+              $state.go('post.edit', {id: data._id});
+            });
+          });
+        });
+      })
     };
 
     $scope.saveItem = (item) => {
