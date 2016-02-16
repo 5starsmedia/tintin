@@ -7,6 +7,7 @@ class NewsPostsEditCtrl {
     $scope.postType = postType;
 
     post.sections = post.sections || [];
+    var oldStatus = post.status;
     $scope.post = post;
 
     NewsCategoryModel.getTree({ postType: postType, page: 1, perPage: 100 }, (data) => {
@@ -23,6 +24,16 @@ class NewsPostsEditCtrl {
       let save = item._id ? item.$save : item.$create;
       delete item.viewsCount;
       delete item.commentsCount;
+
+      if (!item.coverFile) {
+        item.coverFile = _.first(item.files)
+      }
+      if (oldStatus != item.status && item.status == 4) {
+        oldStatus = item.status;
+        item.publishedDate = new Date();
+        item.createDate = new Date();
+        console.info(item);
+      }
       save.call(item, (data) => {
         $scope.loading = false;
         //$state.go('news.posts');

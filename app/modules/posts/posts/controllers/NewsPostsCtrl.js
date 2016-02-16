@@ -22,12 +22,16 @@ class NewsPostsCtrl {
       getData: function ($defer, params) {
         $location.search(params.url());
 
-        $scope.loading = true;
-        NewsPostModel.query(BaseAPIParams({
+        var arr = BaseAPIParams({
           status: [1,2,4,6],
           postType: postType,
           fields: 'title,likesCount,viewsCount,status,createDate,account,seo,createdBy,publishedDate,category'
-        }, params), function (logs, headers) {
+        }, params);
+
+        arr.sort.unshift('status');
+
+        $scope.loading = true;
+        NewsPostModel.query(arr, function (logs, headers) {
           $scope.loading = false;
           $scope.logs = logs;
           $defer.resolve(logs);
