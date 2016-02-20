@@ -65,6 +65,7 @@ app.services = {
   sms: require('./services/sms'),
   mail: require('./services/mail'),
   validation: require('./services/validation'),
+  redirects: require('./services/redirects'),
   notification: new notification.NotificationSvc(app),
   sequence: new sequence.SequenceSvc(app),
   tasks: new tasks.TasksSvc(app),

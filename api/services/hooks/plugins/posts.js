@@ -74,29 +74,16 @@ exports['put.posts'] = function (req, data, cb) {
       });
     }],
     'checkAliasChanged': ['post', 'category', function(next, res) {
-      var urlFrom = req.site.url + req.app.services.url.urlFor('posts', res.post);
+      var urlFrom = req.app.services.url.urlFor('posts', res.post);
 
       var newItem = res.post;
       if (res.category) {
         newItem.category = res.category;
       }
       newItem.alias = data.alias;
-      var urlTo = req.site.url + req.app.services.url.urlFor('posts', newItem);
+      var urlTo = req.app.services.url.urlFor('posts', newItem);
 
-      if (urlFrom == urlTo) {
-        return next();
-      }
-      var item = new req.app.models.redirects({
-        urlFrom: urlFrom,
-        urlTo: urlTo,
-        code: 301,
-        site: {
-          _id: req.site._id
-        }
-      });
-      item.save(function() {
-        req.app.models.redirects.update({ urlTo: urlFrom }, { $set: { urlTo: urlTo } }, { multi: true }, next);
-      });
+      req.app.services.redirects.newRedirect(urlFrom, urlTo, req.site, next);
     }],
     'updateInfo': ['post', 'category', 'account', function(next, res) {
       if (data.status == 4) {
