@@ -24,7 +24,7 @@ exports['db.categories.update'] = function (app, msg, cb) {
                 var urlFrom = app.services.url.urlFor('posts', item);
                 item.category = res.category;
                 var urlTo = app.services.url.urlFor('posts', item);
-
+console.info(urlFrom, urlTo)
                 item.save(function() {
                     app.services.redirects.newRedirect(urlFrom, urlTo, res.site, next);
                 });
