@@ -20,7 +20,7 @@ exports['db.categories.update'] = function (app, msg, cb) {
             app.models.sites.findById(data.category.site._id, next);
         }],
         'checkUrl': ['posts', 'category', 'site', function(next, res) {
-            async.each(res.posts, function(item) {
+            async.each(res.posts, function(item, next) {
                 var urlFrom = app.services.url.urlFor('posts', item);
                 item.category = res.category;
                 var urlTo = app.services.url.urlFor('posts', item);

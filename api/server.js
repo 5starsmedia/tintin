@@ -22,6 +22,7 @@ var express = require('express'),
   sequence = require('./services/sequence'),
   broadcast = require('./services/broadcast'),
   socket = require('./services/socket'),
+  redirectsSvc = require('./services/redirects'),
   config = require('./config.js'),
   contextService = require('request-context');
 
@@ -65,7 +66,7 @@ app.services = {
   sms: require('./services/sms'),
   mail: require('./services/mail'),
   validation: require('./services/validation'),
-  redirects: require('./services/redirects'),
+  redirects: new redirectsSvc.RedirectsSvc(app),
   notification: new notification.NotificationSvc(app),
   sequence: new sequence.SequenceSvc(app),
   tasks: new tasks.TasksSvc(app),
