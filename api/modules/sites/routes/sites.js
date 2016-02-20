@@ -7,19 +7,9 @@ var express = require('express'),
   router = express.Router();
 
 router.get('/current', function (req, res, next) {
-  var host = req.headers.host, port = 80;
-
-  var offset = host[0] === '[' ? host.indexOf(']') + 1 : 0;
-  var index = host.indexOf(':', offset)
-
-  if (index > -1) {
-    port = host.substring(index + 1);
-  }
-  host = (index !== -1) ? host.substring(0, index) : host;
-
   async.auto({
     'site': function(next) {
-      req.app.models.sites.findOne({ domain: host, port: port }, next);
+      next(null, req.site);
     },
     'text': function(next) {
       req.app.services.data.getResource('tz', next)
@@ -50,7 +40,7 @@ router.get('/settings', function (req, res, next) {
   }, function(err, data) {
     if (err) { return next(err); }
 
-    var apiEntryPointHost = req.app.config.get('url');
+    var apiEntryPointHost = req.site.url;
     if (process.env.PAPHOS_SITE) {
       //@todo https
       apiEntryPointHost = 'http://' + req.headers.host;
