@@ -87,6 +87,9 @@ exports['sitemap.generate.site'] = function (app, msg, next) {
           loc: app.services.url.urlFor('categories', category),
           images: []
         };
+        if (!obj.loc) {
+          return next();
+        }
         if (category.coverFile && category.coverFile._id) {
           obj.images.push({
             loc: app.services.url.urlFor('files', category.coverFile),
