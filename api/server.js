@@ -247,11 +247,10 @@ app.server.get('/*', function(req, res, callback) {
 
   res.setHeader('X-Server', 'Paphos CMS');
 
-  app.log.info('Redirect:', req.site.url + req.url);
-  app.models.redirects.findOne({ urlFrom: req.site.url + req.url, 'site._id': req.site._id }, function(err, data) {
+  var urlFrom = req.site.url + req.url;
+  app.models.redirects.findOne({ urlFrom: urlFrom, 'site._id': req.site._id }, function(err, data) {
     if (err) { return callback(err); }
-    console.info(data)
-    if (data) {
+    if (data && urlFrom != data.urlTo) {
       res.writeHead(data.code, {'Location': data.urlTo});
 
       app.log.info('Redirect:', req.site.url + req.url, data.urlTo);
