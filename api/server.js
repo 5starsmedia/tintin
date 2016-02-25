@@ -252,6 +252,7 @@ app.server.get('/*', function(req, res, callback) {
     if (data) {
       res.writeHead(data.code, {'Location': data.urlTo});
 
+      app.log.info('Redirect:', req.site.url + req.url, data.urlTo);
       return res.end();
     }
 
