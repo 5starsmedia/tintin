@@ -225,7 +225,7 @@ var urlRewrite = function (rootDir, headCode) {
       return fs.readFile(rootDir + '/' + indexFile, "utf-8", function (error, buffer) {
         var resp;
         if (error) { return next(error); }
-        buffer = buffer.replace('</head>', headCode + '</head>');
+        buffer = buffer.replace('</head>', (headCode || '') + '</head>');
         resp = {
           headers: {
             'Content-Type': 'text/html',
@@ -246,7 +246,7 @@ app.server.get('/*', function(req, res, callback) {
 
   res.setHeader('X-Server', 'Paphos CMS');
 
-  var urlFrom = req.site.url + req.url.replace(/\/$/, ""),
+  var urlFrom = req.site.url + req.url,
       urlTo = urlFrom;
   app.models.redirects.findOne({ urlFrom: urlFrom, 'site._id': req.site._id }, function(err, data) {
     if (err) { return callback(err); }
