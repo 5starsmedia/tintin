@@ -215,7 +215,7 @@ var urlRewrite = function (rootDir, indexFile) {
   indexFile = indexFile || "index.html";
   return function (req, res, next) {
     var path = url.parse(req.url).pathname;
-    console.info(rootDir + path)
+
     return fs.readFile(rootDir + path, function (err, buf) {
       if (!err) { return next(); }
       /*if (path.substring(path.length - 4) == 'html') { // if html file not found
@@ -247,8 +247,17 @@ app.server.get('/*', function(req, res, callback) {
 
   res.setHeader('X-Server', 'Paphos CMS');
 
-  return urlRewrite(rootDir)(req, res, function() {
-    serveStatic(rootDir, { etag: false })(req, res, callback);
+  app.models.redirects.findOne({ urlFrom: req.site.url + req.url, 'site._id': req.site._id }, function(err, data) {
+    if (err) { return callback(err); }
+    if (data) {
+      res.writeHead(data.code, {'Location': data.urlTo});
+
+      return res.end();
+    }
+
+    return urlRewrite(rootDir)(req, res, function() {
+      serveStatic(rootDir, { etag: false })(req, res, callback);
+    });
   });
 });
 
