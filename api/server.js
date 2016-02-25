@@ -211,8 +211,8 @@ app.modules.each(function(moduleObj) {
 
 routes.init(app);
 
-var urlRewrite = function (rootDir, indexFile) {
-  indexFile = indexFile || "index.html";
+var urlRewrite = function (rootDir, headCode) {
+  var indexFile = "index.html";
   return function (req, res, next) {
     var path = url.parse(req.url).pathname;
 
@@ -222,11 +222,10 @@ var urlRewrite = function (rootDir, indexFile) {
         res.writeHead(404);
         return res.end('Not found');
       }*/
-      return fs.readFile(rootDir + '/' + indexFile, function (error, buffer) {
+      return fs.readFile(rootDir + '/' + indexFile, "utf-8", function (error, buffer) {
         var resp;
-        if (error) {
-          return next(error);
-        }
+        if (error) { return next(error); }
+        buffer = buffer.replace('</head>', headCode + '</head>');
         resp = {
           headers: {
             'Content-Type': 'text/html',
@@ -257,7 +256,7 @@ app.server.get('/*', function(req, res, callback) {
       return res.end();
     }
 
-    return urlRewrite(rootDir)(req, res, function() {
+    return urlRewrite(rootDir, req.site.settings.headCode)(req, res, function() {
       serveStatic(rootDir, { etag: false })(req, res, callback);
     });
   });

@@ -53,6 +53,7 @@ var schema = new mongoose.Schema({
     commenterAvatar: {
       _id: mongoose.Schema.Types.ObjectId
     },
+    headCode: String,
     issuePrefix: String
   },
 
