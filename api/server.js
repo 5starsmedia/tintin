@@ -211,6 +211,8 @@ routes.init(app);
 app.server.get('/*', function(req, res, callback) {
   var folder = req.site.url.replace('http://', '').replace('https://', '');
 
+  res.setHeader('X-Server', 'Paphos CMS');
+
   return serveStatic(__dirname + '/../sites/' + folder + '/prod', {etag: false})(req, res, callback);
 });
 
