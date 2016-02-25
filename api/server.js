@@ -243,7 +243,9 @@ var urlRewrite = function (rootDir, headCode) {
 app.server.get('/*', function(req, res, callback) {
   var folder = req.site.url.replace('http://', '').replace('https://', ''),
       rootDir = path.join(__dirname, '/../sites/', folder + '/prod');
-
+  if(req.url.substring(0, 4) == '/api') {
+    return callback();
+  }
   res.setHeader('X-Server', 'Paphos CMS');
 
   var urlFrom = req.site.url + req.url,
