@@ -246,13 +246,17 @@ app.server.get('/*', function(req, res, callback) {
 
   res.setHeader('X-Server', 'Paphos CMS');
 
-  var urlFrom = req.site.url + req.url;
+  var urlFrom = req.site.url + req.url.replace(/\/$/, ""),
+      urlTo = urlFrom;
   app.models.redirects.findOne({ urlFrom: urlFrom, 'site._id': req.site._id }, function(err, data) {
     if (err) { return callback(err); }
-    if (data && urlFrom != data.urlTo) {
-      res.writeHead(data.code, {'Location': data.urlTo});
+    if (data) {
+      urlTo = data.urlTo
+    }
 
-      app.log.info('Redirect:', req.site.url + req.url, data.urlTo);
+    if (urlFrom != urlTo) {
+      res.writeHead(301, {'Location': urlTo});
+      app.log.info('Redirect:', urlFrom, urlTo);
       return res.end();
     }
 
