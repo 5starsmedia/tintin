@@ -254,7 +254,7 @@ app.server.get('/*', function(req, res, callback) {
       urlTo = data.urlTo
     }
 
-    if (urlFrom != urlTo) {
+    if (urlFrom != urlTo && urlFrom != '/') {
       res.writeHead(301, {'Location': urlTo});
       app.log.info('Redirect:', urlFrom, urlTo);
       return res.end();
