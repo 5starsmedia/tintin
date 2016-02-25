@@ -208,7 +208,11 @@ app.modules.each(function(moduleObj) {
 
 routes.init(app);
 
-app.server.get('/*', serveStatic(__dirname + '/..', {etag: false}));
+app.server.get('/*', function(req, res, callback) {
+  var folder = req.site.url.replace('http://', '').replace('https://', '');
+
+  return serveStatic(__dirname + '/../sites/' + folder + '/prod', {etag: false})(req, res, callback);
+});
 
 app.server.use(function (err, req, res, next) {
   if (err) {
