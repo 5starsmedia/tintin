@@ -12,6 +12,9 @@ var express = require('express'),
   async = require('async'),
   cors = require('cors'),
   lynx = require('lynx'),
+    fs = require('fs'),
+    url = require('url'),
+    path = require('path'),
   lynxExpress = require('lynx-express'),
   useragent = require('express-useragent'),
   compression = require('compression'),
@@ -208,12 +211,45 @@ app.modules.each(function(moduleObj) {
 
 routes.init(app);
 
+var urlRewrite = function (rootDir, indexFile) {
+  indexFile = indexFile || "index.html";
+  return function (req, res, next) {
+    var path = url.parse(req.url).pathname;
+    console.info(rootDir + path)
+    return fs.readFile(rootDir + path, function (err, buf) {
+      if (!err) { return next(); }
+      /*if (path.substring(path.length - 4) == 'html') { // if html file not found
+        res.writeHead(404);
+        return res.end('Not found');
+      }*/
+      return fs.readFile(rootDir + '/' + indexFile, function (error, buffer) {
+        var resp;
+        if (error) {
+          return next(error);
+        }
+        resp = {
+          headers: {
+            'Content-Type': 'text/html',
+            'Content-Length': buffer.length
+          },
+          body: buffer
+        };
+        res.writeHead(200, resp.headers);
+        return res.end(resp.body);
+      });
+    });
+  };
+};
+
 app.server.get('/*', function(req, res, callback) {
-  var folder = req.site.url.replace('http://', '').replace('https://', '');
+  var folder = req.site.url.replace('http://', '').replace('https://', ''),
+      rootDir = path.join(__dirname, '/../sites/', folder + '/prod');
 
   res.setHeader('X-Server', 'Paphos CMS');
 
-  return serveStatic(__dirname + '/../sites/' + folder + '/prod', {etag: false})(req, res, callback);
+  return urlRewrite(rootDir)(req, res, function() {
+    serveStatic(rootDir, { etag: false })(req, res, callback);
+  });
 });
 
 app.server.use(function (err, req, res, next) {
