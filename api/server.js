@@ -247,7 +247,7 @@ app.server.get('/*', function(req, res, callback) {
 
   res.setHeader('X-Server', 'Paphos CMS');
 
-  app.log.info('Redirect:', req.site.url + req.url, data.urlTo);
+  app.log.info('Redirect:', req.site.url + req.url);
   app.models.redirects.findOne({ urlFrom: req.site.url + req.url, 'site._id': req.site._id }, function(err, data) {
     if (err) { return callback(err); }
     console.info(data)
