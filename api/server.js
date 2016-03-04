@@ -12,6 +12,9 @@ var express = require('express'),
   async = require('async'),
   cors = require('cors'),
   lynx = require('lynx'),
+    fs = require('fs'),
+    url = require('url'),
+    path = require('path'),
   lynxExpress = require('lynx-express'),
   useragent = require('express-useragent'),
   compression = require('compression'),
@@ -208,7 +211,62 @@ app.modules.each(function(moduleObj) {
 
 routes.init(app);
 
-app.server.get('/*', serveStatic(__dirname + '/..', {etag: false}));
+var urlRewrite = function (rootDir, headCode) {
+  var indexFile = "index.html";
+  return function (req, res, next) {
+    var path = url.parse(req.url).pathname;
+
+    return fs.readFile(rootDir + path, function (err, buf) {
+      if (!err) { return next(); }
+      /*if (path.substring(path.length - 4) == 'html') { // if html file not found
+        res.writeHead(404);
+        return res.end('Not found');
+      }*/
+      return fs.readFile(rootDir + '/' + indexFile, "utf-8", function (error, buffer) {
+        var resp;
+        if (error) { return next(error); }
+        buffer = buffer.replace('</head>', (headCode || '') + '</head>');
+        resp = {
+          headers: {
+            'Content-Type': 'text/html',
+            'Content-Length': buffer.length
+          },
+          body: buffer
+        };
+        res.writeHead(200, resp.headers);
+        return res.end(resp.body);
+      });
+    });
+  };
+};
+
+app.server.get('/*', function(req, res, callback) {
+  var folder = req.site.url.replace('http://', '').replace('https://', ''),
+      rootDir = path.join(__dirname, '/../sites/', folder + '/prod');
+  if(req.url.substring(0, 4) == '/api') {
+    return callback();
+  }
+  res.setHeader('X-Server', 'Paphos CMS');
+
+  var urlFrom = req.site.url + req.url,
+      urlTo = urlFrom.replace(/\/$/, "");
+  app.models.redirects.findOne({ urlFrom: urlFrom, 'site._id': req.site._id }, function(err, data) {
+    if (err) { return callback(err); }
+    if (data) {
+      urlTo = data.urlTo
+    }
+
+    if (urlFrom != urlTo && req.url != '/') {
+      res.writeHead(301, {'Location': urlTo});
+      app.log.info('Redirect:', urlFrom, urlTo);
+      return res.end();
+    }
+
+    return urlRewrite(rootDir, req.site.settings.headCode)(req, res, function() {
+      serveStatic(rootDir, { etag: false })(req, res, callback);
+    });
+  });
+});
 
 app.server.use(function (err, req, res, next) {
   if (err) {

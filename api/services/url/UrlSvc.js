@@ -26,6 +26,9 @@ UrlSvc.prototype.urlFor = function (collectionName, params) {
 
     case 'categories':
       if (!params.parentAlias) {
+        if (!params.alias) {
+          return null;
+        }
         return '/' + params.alias;
       }
       return '/' + params.parentAlias + '/' + params.alias;
