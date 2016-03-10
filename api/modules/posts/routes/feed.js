@@ -63,6 +63,7 @@ router.get('/', function (req, res, next) {
         if (item.coverFile) {
           rssItem.image_url = req.site.url + req.app.services.url.urlFor('files', item.coverFile);
         }
+        console.info(rssItem)
         data.rss.item(rssItem);
       });
       next();
