@@ -48,7 +48,7 @@ router.get('/', function (req, res, next) {
         if (!description) {
           description = _.trunc(text, 250);
         }
-        data.rss.item({
+        var rssItem = {
           title: item.title,
           description: description,
           url: req.site.url + req.app.services.url.urlFor('posts', item), // link to the item
@@ -56,10 +56,14 @@ router.get('/', function (req, res, next) {
           author: item.account.title, // optional - defaults to feed author property
           date: item.createDate//, // any format that js Date can parse.
           /*custom_elements: [
-            {'yandex:full-text': item.body},
-            {'yandex:genre': 'article'}
-          ]*/
-        });
+           {'yandex:full-text': item.body},
+           {'yandex:genre': 'article'}
+           ]*/
+        };
+        if (item.coverFile) {
+          rssItem.image_url = req.site.url + req.app.services.url.urlFor('files', item.coverFile);
+        }
+        data.rss.item(rssItem);
       });
       next();
     }]
