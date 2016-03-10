@@ -61,9 +61,8 @@ router.get('/', function (req, res, next) {
            ]*/
         };
         if (item.coverFile) {
-          rssItem.image_url = req.site.url + req.app.services.url.urlFor('files', item.coverFile);
+          rssItem.description = '&lt;img align="left" src="' + req.app.services.url.urlFor('files', item.coverFile) + '" /&gt' + description;
         }
-        console.info(rssItem)
         data.rss.item(rssItem);
       });
       next();
