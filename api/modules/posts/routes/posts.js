@@ -53,7 +53,8 @@ router.post('/mistake', function (req, res, next) {
         url: requestUrl,
         encoding: null,
         timeout: 3000,
-        body: req.body
+        body: req.body,
+        json: true
     };
     request(options, function (error, response, body) {
         console.info(error, response, body)
