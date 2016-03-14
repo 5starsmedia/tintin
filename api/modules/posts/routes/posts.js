@@ -47,7 +47,7 @@ var express = require('express'),
 
 router.post('/mistake', function (req, res, next) {
 
-    var requestUrl = 'https://hooks.slack.com/services/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';
+    var requestUrl = 'https://hooks.slack.com/services/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';
     var options = {
         method: 'POST',
         url: requestUrl,
