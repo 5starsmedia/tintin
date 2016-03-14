@@ -57,7 +57,7 @@ router.post('/mistake', function (req, res, next) {
         json: true
     };
     request(options, function (error, response, body) {
-        console.info(error, response, body)
+        res.json({ success: true });
     });
 });
 
