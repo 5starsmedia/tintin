@@ -44,6 +44,20 @@ var express = require('express'),
 });
  */
 
+router.post('/mistake', function (req, res, next) {
+
+    var requestUrl = 'https://hooks.slack.com/services/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';
+    var options = {
+        method: 'POST',
+        url: requestUrl,
+        encoding: null,
+        timeout: 3000
+    };
+    request(options, function (error, response, body) {
+        console.info(error, response, body)
+    });
+});
+
 router.get('/csv', function (req, res, next) {
     async.auto({
         'posts': function (next) {
