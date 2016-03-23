@@ -60,6 +60,12 @@ handlebars.registerHelper('frontendHelper', function (frontend) {
     output.push("  redirect scheme https if { hdr(Host) -i 5starsmedia.com.ua } !{ ssl_fc }");
   }
 
+  /*output.push("  acl user-agent-bot hdr_sub(User-Agent) -i baiduspider twitterbot facebookexternalhit rogerbot linkedinbot embedly showyoubot outbrain pinterest slackbot vkShare W3C_Validator");
+  output.push("  acl url-asset path_end js css xml less png jpg jpeg gif pdf doc txt ico rss zip mp3 rar exe wmv doc avi ppt mpg mpeg tif wav mov psd ai xls mp4 m4a swf dat dmg iso flv m4v torrent ttf woff");
+  output.push("  acl url-escaped-fragment url_sub _escaped_fragment_");
+  output.push("  use_backend prerender if user-agent-bot !url-asset");
+  output.push("  use_backend prerender if url-escaped-fragment !url-asset");*/
+
   if (hasRules) {
     frontend.rules.forEach(function (rule) {
       var rand = Math.random().toString(36).substring(13);
@@ -177,6 +183,34 @@ _.forEach(domains, function(item) {
   };
 });
 
+
+//docker run -d -p 1337:3000 --name "Prerender5" --restart always earlyclaim/docker-prerender-with-redis
+//docker run -d -p 1338:3000 --name "Prerender6" --restart always earlyclaim/docker-prerender-with-redis
+/*
+backends['prerender'] = {
+  key: 'prerender',
+  mode: 'http',
+  balance: 'roundrobin',
+  members: [{
+    host: '88.198.122.150',
+    port: 1333
+  }, {
+    host: '88.198.122.150',
+    port: 1334
+  }, {
+    host: '88.198.122.150',
+    port: 1335
+  }, {
+    host: '88.198.122.150',
+    port: 1336
+  }, {
+    host: '88.198.122.150',
+    port: 1337
+  }, {
+    host: '88.198.122.150',
+    port: 1338
+  }]
+};*/
 
 frontends['main'] = {
   bind: '0.0.0.0:80',
