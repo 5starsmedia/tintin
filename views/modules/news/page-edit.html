@@ -8,7 +8,7 @@
 
     <st-header title="{{post._id ? 'Editing of article' : 'New article'}}">
 
-      <a ng-href="/preview/posts/{{post._id}}" ng-if="post._id"
+      <a ng-href="/preview/{{postType}}/{{post._id}}" ng-if="post._id"
          class="pull-right m-r-md btn btn-default btn-outline" tooltip-placement="left"
          tooltip="{{'Open on site'|translate}}" target="_blank">
         <span class="fa fa-external-link"></span>
