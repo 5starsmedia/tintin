@@ -18,6 +18,9 @@ exports.controller = function (app, sendOpts, model, next) {
     }],
     post: ['notification', function (next, data) {
       app.models.posts.findById(data.notification.resourceId, next);
+    }],
+    site: ['post', function (next, data) {
+      app.models.sites.findById(data.post.site._id, next);
     }]
   }, function (err, data) {
     if (err) { return next(err); }
@@ -26,6 +29,13 @@ exports.controller = function (app, sendOpts, model, next) {
     model.notification = data.notification;
     model.post = data.post;
     model.url = app.services.url.urlFor('posts', data.post);
+
+    var url = data.site.isHttps ? 'https' : 'http';
+    url += '://' + data.site.domain;
+    if (data.site.port && data.site.port != 80) {
+      url += ':' + data.site.port;
+    }
+    model.siteUrl = url;
 
     sendOpts.subject = 'New comment on your post "' + data.post.title + '"';
     next(null, model);
