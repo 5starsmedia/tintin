@@ -48,6 +48,7 @@ var schema = new mongoose.Schema({
     yandexMetrika: String,
     homepageTitle: String,
     moeVideoPin: String,
+    moeVideoPinOnlyDesktop: Boolean,
     structureLevel: {type: Number, required: true, default: 2},
 
     commenterAvatar: {

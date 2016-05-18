@@ -44,7 +44,13 @@
 
 <st-form-element label="{{'MoeVideo Pin'|translate}}" field="moeVideoPin">
 
-    <input class="form-control" name="moeVideoPin" type="text" ng-model="site.settings.moeVideoPin"/>
+    <div class="input-group">
+        <input class="form-control" name="moeVideoPin" type="text" ng-model="site.settings.moeVideoPin"/>
+          <span class="input-group-addon">
+            <input type="checkbox" ng-model="site.settings.moeVideoPinOnlyDesktop" />
+              Only Desktop
+          </span>
+    </div>
 
 </st-form-element>
 
