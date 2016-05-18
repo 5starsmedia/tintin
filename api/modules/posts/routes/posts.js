@@ -80,11 +80,12 @@ router.get('/csv', function (req, res, next) {
             'posts-' + req.site.domain + '.csv'
         );
 
-        var str = 'Title,Url,Category,Views,Meta title\n';
+        var str = 'Title,Url,Category,Publication Date,Views,Meta title\n';
         var posts = _.sortBy(data.posts, 'title');
         _.each(posts, function (post) {
             str += '"' + post.title + '",' +
                 req.site.url + req.app.services.url.urlFor('posts', post) + ',' +
+                moment(post.publishedDate).format('DD.MM.YYYY HH:mm') + ',' +
                 (post.category.title || '') + ',' +
                 post.viewsCount + ',' +
                 '"' + post.meta.title + '"\n';
