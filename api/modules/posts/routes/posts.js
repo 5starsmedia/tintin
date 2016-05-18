@@ -85,8 +85,8 @@ router.get('/csv', function (req, res, next) {
         _.each(posts, function (post) {
             str += '"' + post.title + '",' +
                 req.site.url + req.app.services.url.urlFor('posts', post) + ',' +
-                moment(post.publishedDate).format('DD.MM.YYYY HH:mm') + ',' +
                 (post.category.title || '') + ',' +
+                moment(post.publishedDate).format('DD.MM.YYYY HH:mm') + ',' +
                 post.viewsCount + ',' +
                 '"' + post.meta.title + '"\n';
         });
