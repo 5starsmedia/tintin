@@ -27,6 +27,14 @@
 
             </div>
 
+            <st-form-element label="{{'Fixed'|translate}}" field="fixed">
+
+                <label>
+                    <input type="checkbox" ng-model="place.fixed"> {{place.title}}
+                </label>
+
+            </st-form-element>
+
             <button type="submit" class="btn btn-primary" ng-disabled="loading" ng-class="{'m-progress': loading}">
                 <span ng-if="!code._id">{{'Create'|translate}}</span>
                 <span ng-if="code._id">{{'Save'|translate}}</span>

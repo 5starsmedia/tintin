@@ -6,6 +6,7 @@ var schema = new mongoose.Schema({
   title: {type: String, required: true},
   htmlCode: String,
 
+  fixed: Boolean,
   places: [{
     id: String,
     title: String
