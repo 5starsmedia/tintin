@@ -195,25 +195,49 @@ function processPost(model, fieldsObj, req, res, next) {
     if (modelState.hasErrors) {
       res.status(422).json(modelState);
     } else {
-      req.app.services.hooks.hookAll(req, 'post', req.params.resource, body, function (err) {
-        if (err) {
-          return next(err);
-        }
-        body._id = mongoose.Types.ObjectId();
-        if (model.schema.paths['site._id']) {
-          body.site = {
-            _id: req.site._id,
-            domain: req.site.domain
-          };
-        }
-        body = _.pick(body, function(item) {
-          return item !== null;
-        });
-        var item = new model(body);
-        item.save(function (err, obj) {
-          if (err) {
-            return next(err);
+
+
+      async.auto({
+        hooks: function(next) {
+          req.app.services.hooks.hookAll(req, 'post', req.params.resource, body, next);
+        },
+        checkUrl: ['hooks', function(next, data) {
+          if (model.schema.paths['alias']) {
+            model.findOne({ alias: body.alias }, function (err, item) {
+              if (err) { return next(err); }
+
+              console.info(item, body.alias)
+              if (item && item._id != body._id) {
+                return next(new req.app.errors.ValidationError('Not unique value', 'alias'))
+              }
+              next();
+            });
+          } else {
+            next();
           }
+        }],
+        save: ['checkUrl', function(next, data) {
+          body._id = mongoose.Types.ObjectId();
+          if (model.schema.paths['site._id']) {
+            body.site = {
+              _id: req.site._id,
+              domain: req.site.domain
+            };
+          }
+          body = _.pick(body, function(item) {
+            return item !== null;
+          });
+          var item = new model(body);
+          item.save(function(err, data) {
+            if (err) {
+              return next(err);
+            }
+            next(null, data);
+          });
+        }],
+        services: ['save', function(next, data) {
+          var obj = data.save;
+
           req.log.info({
             refs: [
               {resourceId: obj._id, title: obj.title, collectionName: req.params.resource}
@@ -223,15 +247,17 @@ function processPost(model, fieldsObj, req, res, next) {
           req.log.info({_id: obj._id}, 'db.' + req.params.resource + '.insert');
 
           req.app.services.mq.push(req.app, 'events', {
-              name: 'db.' + req.params.resource + '.insert',
-              _id: obj._id
-            },
-            function (err) {
-              if (err) { return next(err); }
+            name: 'db.' + req.params.resource + '.insert',
+            _id: obj._id
+          }, next);
+        }]
+      }, function(err, data) {
+        if (err) {
+          return next(err);
+        }
+        var obj = data.save;
 
-              res.status(201).json({_id: obj._id, alias: obj.alias});
-            });
-        });
+        res.status(201).json({_id: obj._id, alias: obj.alias});
       });
     }
   });
@@ -279,7 +305,7 @@ function processPut(model, fieldsObj, req, res, next) {
     resource: function (next) {
       model.findById(req.params._id, zipFields, next);
     },
-    update: ['resource', function (next, data) {
+    update: ['checkUrl', 'resource', function (next, data) {
       var bodyFields = acl.util.json.getFields(req.body);
       var updateFields = _.without(_.intersection(fieldsObj.fields, bodyFields), '__v');
 
@@ -306,6 +332,20 @@ function processPut(model, fieldsObj, req, res, next) {
           });
         }
       });
+    }],
+    checkUrl: ['resource', function(next, data) {
+      if (model.schema.paths['alias']) {
+        model.findOne({ alias: req.body.alias, _id: { $ne: req.body._id } }, function (err, item) {
+          if (err) { return next(err); }
+
+          if (item) {
+            return next(new req.app.errors.ValidationError('Not unique value', 'alias'))
+          }
+          next();
+        });
+      } else {
+        next();
+      }
     }],
     /*updateAlias: ['update', 'resource', function (next, data) {
       if (model.schema.paths['title'] && model.schema.paths['alias']) {

@@ -41,12 +41,13 @@
 
                 </st-form-element>
 
-                <st-form-element label="{{'Alias'|translate}}" field="alias" ng-if="post.postType != 'news'">
+                <div ng-show="post.postType != 'news'">
+                <st-form-element label="{{'Alias'|translate}}" field="alias">
 
                   <st-url-input ng-model="post.alias" name="alias" prefix="/{category}/"></st-url-input>
 
                 </st-form-element>
-
+                </div>
                 <st-form-element label="{{'Body'|translate}}" field="body">
 
                                 <textarea id="body" class="form-control" name="body" ckeditor="editorOptions"

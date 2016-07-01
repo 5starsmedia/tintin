@@ -17,7 +17,7 @@ export default
 
         scope.fieldErrors = function (field) {
           let formState = getFormState();
-          if (formState[field]) {
+          if (formState[field] && formState[field].$invalid) {
             return formState[field].$error;
           }
           return _.filter(getModelState().fieldErrors, {field: field});
@@ -25,7 +25,7 @@ export default
         scope.hasErrors = function (field) {
           var modelState = getModelState(),
             formState = getFormState();
-          if (formState[field]) {
+          if (formState[field] && formState[field].$invalid) {
             return formState[field].$invalid;
           }
           return modelState && modelState.hasErrors && modelState.fieldErrors && modelState.fieldErrors.length > 0 &&
