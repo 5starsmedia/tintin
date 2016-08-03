@@ -60,6 +60,7 @@ var schema = new mongoose.Schema({
 
   isTop: Boolean,
   isHighlight: Boolean,
+  isHideAdvertise: Boolean,
   isEditorChoose: Boolean,
   hasPhotoreport: Boolean,
   isInterview: Boolean,

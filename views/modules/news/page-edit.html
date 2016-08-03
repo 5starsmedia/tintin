@@ -240,6 +240,13 @@
               </label>
             </div>
 
+            <div class="form-group">
+              <label>
+                <input icheck type="checkbox" ng-model="post.isHideAdvertise"/>
+                {{'Hide advertise'|translate}}
+              </label>
+            </div>
+
             <div ng-if="post.postType == 'news'">
               <div class="form-group">
                 <label>
