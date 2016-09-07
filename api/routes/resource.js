@@ -203,7 +203,7 @@ function processPost(model, fieldsObj, req, res, next) {
         },
         checkUrl: ['hooks', function(next, data) {
           if (model.schema.paths['alias']) {
-            model.findOne({ alias: body.alias }, function (err, item) {
+            model.findOne({ alias: body.alias, 'site._id': req.site._id }, function (err, item) {
               if (err) { return next(err); }
 
               console.info(item, body.alias)
