@@ -203,7 +203,6 @@ function processPost(model, fieldsObj, req, res, next) {
         },
         checkUrl: ['hooks', function(next, data) {
           if (model.schema.paths['alias']) {
-            console.info({ alias: body.alias, 'site._id': req.site._id })
             model.findOne({ alias: body.alias, 'site._id': req.site._id }, function (err, item) {
               if (err) { return next(err); }
 
@@ -336,7 +335,7 @@ function processPut(model, fieldsObj, req, res, next) {
     }],
     checkUrl: ['resource', function(next, data) {
       if (model.schema.paths['alias']) {
-        model.findOne({ alias: req.body.alias, _id: { $ne: req.body._id } }, function (err, item) {
+        model.findOne({ alias: req.body.alias, _id: { $ne: req.body._id }, 'site._id': req.site._id }, function (err, item) {
           if (err) { return next(err); }
 
           if (item) {
