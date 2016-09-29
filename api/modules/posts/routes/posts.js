@@ -658,6 +658,7 @@ router.get('/:id/suggest', function (req, res, next) {
                         _id: {$ne: data.item._id},
                         'site._id': req.site._id,
                         published: true,
+                        postType: 'post',
                         removed: {$exists: false},
                         keywords: {$elemMatch: {word: {$in: keys}}}
                     }
