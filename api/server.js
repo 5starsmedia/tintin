@@ -250,7 +250,7 @@ app.server.get('/*', function(req, res, callback) {
 
   var urlFrom = req.site.url + req.url,
       urlTo = urlFrom.replace(/\/$/, "");
-  app.models.redirects.findOne({ urlFrom: urlFrom, 'site._id': req.site._id }, function(err, data) {
+  app.models.redirects.findOne({ urlFrom: urlFrom, 'site._id': req.site._id, removed: { exists: false } }, function(err, data) {
     if (err) { return callback(err); }
     if (data) {
       urlTo = data.urlTo
