@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash'),
+  moment = require('moment'),
   slug = require('limax');
 
 function UrlSvc(app) {
@@ -19,6 +20,9 @@ UrlSvc.prototype.urlFor = function (collectionName, params) {
   switch (collectionName) {
     case 'posts':
       var url = '/';
+      if (params.postType == 'news') {
+        return url + 'news/' + moment(params.createDate).format('YYYY/MM/DD/') + params.alias;
+      }
       if (params.category.parentAlias) {
         url += params.category.parentAlias + '/';
       }
