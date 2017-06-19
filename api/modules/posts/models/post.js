@@ -136,6 +136,13 @@ var schema = new mongoose.Schema({
       ordinal: Number
     }
   ],
+  files2: [
+    {
+      _id: mongoose.Schema.Types.ObjectId,
+      title: String,
+      ordinal: Number
+    }
+  ],
   site: {
     _id: mongoose.Schema.Types.ObjectId,
     domain: String

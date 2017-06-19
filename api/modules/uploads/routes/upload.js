@@ -100,6 +100,13 @@ var toGridFSqueue = async.queue(function toGridFS(task, cb) {
   var resizeCondition = function (dim) {
     return dim.width > 1000 || dim.height > 1000;
   };
+  var isImage = true;
+  var imageS = { width: 0, height: 0 };
+  try {
+    imageS = imageSize(data.originalBuffer);
+  } catch (e) {
+    isImage = false;
+  }
   async.auto({
     'chunks': function (next) {
       req.app.models.fileChunks.find({'file._id': file._id}, {}, {sort: {'chunkNumber': 1}}, next);
@@ -107,11 +114,8 @@ var toGridFSqueue = async.queue(function toGridFS(task, cb) {
     'originalBuffer': ['chunks', function (next, data) {
       next(null, Buffer.concat(_.pluck(data.chunks, 'data')));
     }],
-    'originalDimensions': ['originalBuffer', function (next, data) {
-      next(null, imageSize(data.originalBuffer));
-    }],
-    'resultBuffer': ['originalBuffer', 'originalDimensions', function (next, data) {
-      if (resizeCondition(data.originalDimensions)) {
+    'resultBuffer': ['originalBuffer', function (next, data) {
+      if (isImage && resizeCondition(imageS)) {
         tmp.file({postfix: '.jpg'}, function (err, sourcePath, fd, removeSourceTmpFn) {
           if (err) { return next(err); }
           tmp.file({postfix: '.jpg'}, function (err, destinationPath, fd, removeDestinationTmpFn) {
@@ -133,12 +137,12 @@ var toGridFSqueue = async.queue(function toGridFS(task, cb) {
         next(null, data.originalBuffer);
       }
     }],
-    'resultDimensions': ['resultBuffer', 'originalDimensions', function (next, data) {
-      if (resizeCondition(data.originalDimensions)) {
+    'resultDimensions': ['resultBuffer', function (next, data) {
+      if (isImage && resizeCondition(imageS)) {
         var dim = imageSize(data.resultBuffer);
         next(null, dim);
       } else {
-        next(null, data.originalDimensions);
+        next(null, imageS);
       }
     }],
     toGridFS: ['resultBuffer', 'resultDimensions', function (next, data) {

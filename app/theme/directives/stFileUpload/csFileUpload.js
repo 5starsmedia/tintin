@@ -13,6 +13,7 @@ export default
       replace: true,
       transclude: true,
       scope: {
+        'isFile': '@',
         'resourceId': '@',
         'collectionName': '@',
         'onFileSelect': '&',
@@ -64,7 +65,7 @@ export default
 
           var allowedExtensions = {png: 1, gif: 1, jpg: 1, jpeg: 1};
           var ext = flowFile.getExtension().toLowerCase();
-          if (!allowedExtensions[ext]) {
+          if (!$scope.isFile && !allowedExtensions[ext]) {
             var msgExt = 'Unsupported file extension ' + ext + ' (allowed png, gif, jpg, jpeg)';
             $log.error(msgExt);
             //interactionSvc.warnAlert('Error', msgExt);

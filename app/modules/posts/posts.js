@@ -3,11 +3,13 @@ import categories from './categories/categories';
 import dashboard from './dashboard/dashboard';
 
 import editorSelectImages from './ckeditor_plugins/selectImage/plugin.js';
+import editorSelectFiles from './ckeditor_plugins/selectImage/plugin2.js';
 
 var appName = 'module.posts';
 
 var module = angular.module(appName, [
   editorSelectImages,
+  editorSelectFiles,
   posts,
   categories,
   dashboard

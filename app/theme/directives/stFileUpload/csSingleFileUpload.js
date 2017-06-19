@@ -74,7 +74,7 @@ export default
         $scope.fileSuccess = function (event, flow, file) {
           flow.removeFile(file);
           $scope.loading = false;
-          let file = JSON.parse(_.last(file.chunks).xhr.response);
+          file = JSON.parse(_.last(file.chunks).xhr.response);
           $scope.file = {
             _id: file['file._id'],
             title: file['file.title']

@@ -252,6 +252,15 @@
 
             </div>
           </st-panel>
+          <st-panel title="{{'Attached files'|translate}}">
+
+            <div editor-select-files="post.files2">
+              <div>
+                <cs-file-upload is-file="true" resource-id="{{post._id}}" collection-name="posts" files="post.files2"></cs-file-upload>
+              </div>
+
+            </div>
+          </st-panel>
 
         </div>
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">

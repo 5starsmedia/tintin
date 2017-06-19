@@ -18,9 +18,14 @@
              flow-drag-enter="style={'background-color': 'rgba(0, 174, 239, 0.05)'}"
              flow-drag-leave="style={}"
              ng-style="style">
-            <div class="fu-uploader__title hidden-mobile">{{'Drag photo here'|translate}}</div>
+            <div class="fu-uploader__title hidden-mobile">
+              <span ng-if="!isFile">{{'Drag photo here'|translate}}</span>
+              <span ng-if="isFile">{{'Drag file here'|translate}}</span>
+            </div>
             <div class="fu-uploader__text hidden-mobile">{{'or, if you prefer...'|translate}}</div>
-            <div class="fu-uploader__button">{{'Select photo from your'|translate}}
+            <div class="fu-uploader__button">
+              <span ng-if="!isFile">{{'Select photo from your'|translate}}</span>
+              <span ng-if="isFile">{{'Select file from your'|translate}}</span>
                 <span class="hidden-mobile">{{'computer'|translate}}</span>
                 <span class="hidden-desktop">{{'device'|translate}}</span>
             </div>
@@ -37,24 +42,41 @@
             </div>
         </div>
 
+      <div ng-if="!isFile">
         <ul class="fu-list row" ng-sortable="sortableConfig">
-            <li class="fu-item col-sm-3 col-xs-6" ng-repeat="file in files"
-                ng-class="{'fu-item_selected':coverFile._id === file._id}">
-                <img ng-if="!hasFileSelect" class="fu-item__image"
-                     ng-src="/api/files/{{file._id}}?width=100&height=100"/>
-                <img ng-if="hasFileSelect" class="fu-item__image fu-item__image_select" title="Insert image"
-                     ng-src="/api/files/{{file._id}}?width=100&height=100"
-                     ng-click="onFileSelect({$file:file})"/>
+          <li class="fu-item col-sm-3 col-xs-6" ng-repeat="file in files"
+              ng-class="{'fu-item_selected':coverFile._id === file._id}">
+            <img ng-if="!hasFileSelect" class="fu-item__image"
+                 ng-src="/api/files/{{file._id}}?width=100&height=100"/>
+            <img ng-if="hasFileSelect" class="fu-item__image fu-item__image_select" title="Insert image"
+                 ng-src="/api/files/{{file._id}}?width=100&height=100"
+                 ng-click="onFileSelect({$file:file})"/>
 
-                <div class="fu-item__actions">
-                    <a title="Remove file" class="fa fa-trash fu-item__delete" ng-click="fileRemove($event, file._id)"></a>
+            <div class="fu-item__actions">
+              <a title="Remove file" class="fa fa-trash fu-item__delete" ng-click="fileRemove($event, file._id)"></a>
                     <span class="fu-item__select fa fa-save" ng-show="hasFileSelect"
                           ng-click="onFileSelect({$file:file})"></span>
-                    <a title="Set as cover" class="fu-item__set-cover"
-                       ng-show="hasCoverSelect && coverFile._id !== file._id" ng-click="setAsCover($event, file)">
-                      {{'Set as cover'|translate}}</a>
-                </div>
-            </li>
+              <a title="Set as cover" class="fu-item__set-cover"
+                 ng-show="hasCoverSelect && coverFile._id !== file._id" ng-click="setAsCover($event, file)">
+                {{'Set as cover'|translate}}</a>
+            </div>
+          </li>
         </ul>
+      </div>
+      <div ng-if="isFile">
+
+        <br/>
+        <ol>
+          <li ng-repeat="file in files"
+              ng-class="{'fu-item_selected':coverFile._id === file._id}">
+            {{file.title}}
+
+              <a title="Remove file" class="color-danger" ng-click="fileRemove($event, file._id)">
+                &times;
+              </a>
+          </li>
+        </ol>
+
+      </div>
     </div>
 </div>
