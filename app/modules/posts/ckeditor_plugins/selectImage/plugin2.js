@@ -19,25 +19,17 @@ CKEDITOR.on('dialogDefinition', function(ev) {
         children: [{
           type: "html",
           html: '<div id="myDiv"></div>',
-
-          commit: function(data) {
-
-            console.info(editorFiles)
-            //data.button = this.getValue()
-            console.log("commit", data.button, data);
-          },
           setup: function(data) {
             var html = '<ol style="padding-left: 20px">';
             editorFiles.forEach(function(item) {
-              console.info(item);
-              html += '<li><a href="/files/' + item._id + '" data-id="' + item._id + '">' + item.title + '</a></li>'
+              html += '<li><a href="/api/files/' + item._id + '" data-id="' + item._id + '">' + item.title + '</a></li>'
             });
             html += '</ol>';
             $('#myDiv').html(html);
 
             $('#myDiv a').click(function() {
               var dialog = ev.data.definition.dialog;
-              dialog.setValueOf('info','url', '/files/' + $(this).data('id'));  // Populates the URL field in the Links dialogue.
+              dialog.setValueOf('info','url', '/api/files/' + $(this).data('id'));  // Populates the URL field in the Links dialogue.
               dialog.setValueOf('info','protocol','');  // This sets the Link's Protocol to Other which loads the file from the same folder the link is on
               return false;
             });
